@@ -1,56 +1,75 @@
 import React, { useState } from 'react'
-import back from './Images/back.jpg'
-import { Box, Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography } from '@material-ui/core';
-// import { Button } from '@mui/material';
+import {  Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
 import {  Visibility, VisibilityOff } from '@mui/icons-material';
-import { borderRadius } from '@mui/system';
-// import { TextField } from '@mui/material';
-// import './Login.css';
 
-const layout = makeStyles({
-  box: {
-    backgroundImage: `url(${back})`,
-    backgroundSize:"cover",
-    width: "100%",
-    height: "auto",
-    paddingTop: "10rem",
-  },
+const layout = makeStyles(theme =>
+ ({
+
   const: {
-    display: "flex",
-    width: "50%",
-    fontFamily: "Yrsa",
-    alignItems: "center",
-    margin: "auto 50px",
-    float:"right",
+    display: "block",
+    fontFamily: "Yrsa", 
     borderRadius: "10px",
+    boxShadow:"3px 3px 6px",
+     [theme.breakpoints.up('xs')]:{
+      // backgroundColor: 'purple',
+      margin: "230px auto",
+      width: "80vw",
+      height:"35vh",
+    },
+    [theme.breakpoints.up('sm')]:{
+       backgroundColor: 'red',
+      margin: "380px auto",
+      width: "80vw",
+      height:"25vh",
+      padding:"10px"
+    },
+    [theme.breakpoints.up('md')]:{
+       backgroundColor: 'green',
+       margin: "450px auto",
+       width: "60vw",
+       height:"20%",
+       padding:"10px"
+     
+    },
+    [theme.breakpoints.up('lg')]:{
+      backgroundColor: 'yellow',
+      width: "30vw",
+      height:"35vh",
+      margin: "180px auto",
+    },
+    [theme.breakpoints.up('xl')]:{
+      backgroundColor: 'blue',
+     
+    },
   },
   input: {
-    width: "80%",
     margin: "5px auto",
     padding: "5px auto",
     fontFamily: "Yrsa",
     fontSize:"100px"
   },
-  const1: {
-    margin: "10px auto",
-  },
   btn: {
-    // color:"crimson",
+   
     margin: "10px auto",
-    width: "80%",
-    fontFamily: "yrsa",
+    fontFamily: "Yrsa",
     backgroundColor: "green",
-    borderRadius:"10px"
+    borderRadius:"100px",
+    "&:hover":{
+      backgroundColor:"blue"
+    }
   },
   head: {
     fontFamily: "Yrsa",
-    margin: "10px auto"
+     margin: "auto",
   }
 })
+)
 
 
 const Login = () => {
   const classes = layout();
+  const theme = useTheme();
+  const showText = useMediaQuery(theme.breakpoints.up('xs'))
   const [type, setType] = useState("password")
   const [visible, setVisible] = useState(false)
   const icon = (visible ? <Visibility  /> : <VisibilityOff />)
@@ -66,11 +85,12 @@ const Login = () => {
   }
   return (
     <>
-      <div className={classes.box}>
-        <Container maxWidth="sm" className={classes.const} >
-          <Box className={classes.const1}>
-            <Typography variant="h2"  className={classes.head} >Login</Typography>
+     
+      {showText &&  <Container className={classes.const} >
+         
+            <Typography variant="h2"  className={classes.head} align="center" >Login</Typography>
             <TextField
+            fullWidth
               className={classes.input}
               id="Email"
               size='small'
@@ -81,12 +101,13 @@ const Login = () => {
             />
             <TextField
               className={classes.input}
+              fullWidth
               id="password"
               size='small'
               label="Password"
               type={type}
               placeholder='Enter Your Password'
-              variant='filled'
+              variant='outlined'
              
               InputProps={{
                 endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
@@ -94,13 +115,13 @@ const Login = () => {
                 </IconButton> </InputAdornment>)
               }}
             />
-            <Button variant="contained" className={classes.btn}>
+            <Button variant="contained" className={classes.btn} fullWidth>
               Sign In
             </Button>
-          </Box>
          
-        </Container>
-      </div>
+         
+        </Container>}
+      
     </>
   )
 }
