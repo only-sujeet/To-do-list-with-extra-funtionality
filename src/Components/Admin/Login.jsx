@@ -17,14 +17,14 @@ const layout = makeStyles(theme =>
       height:"35vh",
     },
     [theme.breakpoints.up('sm')]:{
-       backgroundColor: 'red',
+        // backgroundColor: 'red',
       margin: "380px auto",
       width: "80vw",
       height:"25vh",
       padding:"10px"
     },
     [theme.breakpoints.up('md')]:{
-       backgroundColor: 'green',
+      //  backgroundColor: 'green',
        margin: "450px auto",
        width: "60vw",
        height:"20%",
@@ -32,13 +32,13 @@ const layout = makeStyles(theme =>
      
     },
     [theme.breakpoints.up('lg')]:{
-      backgroundColor: 'yellow',
+      //  backgroundColor: 'yellow',
       width: "30vw",
       height:"35vh",
       margin: "180px auto",
     },
     [theme.breakpoints.up('xl')]:{
-      backgroundColor: 'blue',
+      // backgroundColor: 'blue',
      
     },
   },
