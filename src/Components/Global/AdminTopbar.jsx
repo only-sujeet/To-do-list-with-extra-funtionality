@@ -18,6 +18,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        fontFamily:"Yrsa"
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -58,7 +59,7 @@ const Item = ({ icon, title, to }) => {
                             {icon}
                         </ListItemIcon>
                         <ListItemText>
-                            <Typography variant="h6" color="initial"  > <Link to={to} style={{ textDecoration: "none", }}  >{title}</Link></Typography>
+                            <Typography variant="h6" color="initial"  > <Link to={to} style={{ textDecoration: "none",fontFamily:"Yrsa" }}  >{title}</Link></Typography>
                             <Link to={to} /></ListItemText>
                     </ListItemButton>
                 </ListItem>
@@ -78,7 +79,7 @@ const AdminTopbar = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={classes.appBar} style={{fontFamily:"Yrsa"}} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
