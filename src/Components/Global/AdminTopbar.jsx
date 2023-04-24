@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Close, Inbox, Menu } from '@mui/icons-material';
+import {  Close, Menu, PeopleAltTwoTone } from '@mui/icons-material';
 import { ListItemButton, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom'
 
@@ -79,7 +79,7 @@ const AdminTopbar = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar} style={{fontFamily:"Yrsa"}} >
+            <AppBar position="fixed" className={classes.appBar}  style={{fontFamily:"Yrsa"}} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -91,7 +91,7 @@ const AdminTopbar = () => {
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Responsive drawer
+                        INK
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -115,9 +115,9 @@ const AdminTopbar = () => {
                             <Close />
                         </IconButton>
                         <Item
-                            title="Index"
-                            to="/login"
-                            icon={<Inbox />}
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
                         />
                     </Drawer>
                 </Hidden>
@@ -131,9 +131,9 @@ const AdminTopbar = () => {
                     >
                         <div className={classes.toolbar} />
                         <Item
-                            title="Index"
-                            to="/login"
-                            icon={<Inbox />}
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
                         />
                     </Drawer>
                 </Hidden>

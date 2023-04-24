@@ -51,8 +51,8 @@ const layout = makeStyles(theme =>
     fontSize: "100px"
   },
   btn: {
-fontSize:"15px",
-fontWeight:"15px",
+    fontSize: "15px",
+    fontWeight: "15px",
     margin: "10px auto",
     fontFamily: "Yrsa",
     backgroundColor: "green",
@@ -96,7 +96,7 @@ const Login = () => {
     initialValues: initialvalue,
     validationSchema: login,
     onSubmit: (values) => {
-        console.log(values)
+      console.log(values)
     }
   })
 
@@ -140,7 +140,7 @@ const Login = () => {
                 </IconButton> </InputAdornment>)
               }}
             />
-             {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
             <Button variant="contained" type='submit' className={classes.btn} fullWidth>
               Sign In
             </Button>
