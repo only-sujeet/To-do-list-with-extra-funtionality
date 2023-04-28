@@ -1,10 +1,12 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
-const ConnectDB = () => {
-        const mongoUrl = "mongodb://127.0.0.1:27017/projectv"
-
-        mongoose.connect(mongoUrl).then(() => { console.log("database is connected") })
-        .catch((error) => { console.log(error.message) })
+const connectDB = () => {
+        mongoose.connect('mongodb://localhost:27017/project_V',
+                {
+                        useNewUrlParser: true,
+                },
+                console.log('Database is connected..')
+        );
 }
 
-module.exports = ConnectDB
+module.exports = connectDB
