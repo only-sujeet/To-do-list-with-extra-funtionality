@@ -1,66 +1,69 @@
 import React, { useState } from 'react'
-import {  Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
-import {  Visibility, VisibilityOff } from '@mui/icons-material';
+import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useFormik } from 'formik';
+import { login } from '../Validation/Admin';
 
 const layout = makeStyles(theme =>
- ({
+({
 
   const: {
     display: "block",
-    fontFamily: "Yrsa", 
+    fontFamily: "Yrsa",
     borderRadius: "10px",
-    boxShadow:"3px 3px 6px",
-     [theme.breakpoints.up('xs')]:{
+    boxShadow: "3px 3px 6px",
+    [theme.breakpoints.up('xs')]: {
       // backgroundColor: 'purple',
       margin: "230px auto",
       width: "80vw",
-      height:"35vh",
+      height: "39vh",
     },
-    [theme.breakpoints.up('sm')]:{
-        // backgroundColor: 'red',
+    [theme.breakpoints.up('sm')]: {
+      // backgroundColor: 'red',
       margin: "380px auto",
       width: "80vw",
-      height:"25vh",
-      padding:"10px"
+      height: "29vh",
+      padding: "10px"
     },
-    [theme.breakpoints.up('md')]:{
+    [theme.breakpoints.up('md')]: {
       //  backgroundColor: 'green',
-       margin: "450px auto",
-       width: "60vw",
-       height:"20%",
-       padding:"10px"
-     
+      margin: "450px auto",
+      width: "60vw",
+      height: "24vh",
+      padding: "10px"
+
     },
-    [theme.breakpoints.up('lg')]:{
+    [theme.breakpoints.up('lg')]: {
       //  backgroundColor: 'yellow',
       width: "30vw",
-      height:"35vh",
+      height: "39vh",
       margin: "180px auto",
     },
-    [theme.breakpoints.up('xl')]:{
+    [theme.breakpoints.up('xl')]: {
       // backgroundColor: 'blue',
-     
+
     },
   },
   input: {
     margin: "5px auto",
     padding: "5px auto",
     fontFamily: "Yrsa",
-    fontSize:"100px"
+    fontSize: "100px"
   },
   btn: {
-   
+    fontSize: "15px",
+    fontWeight: "15px",
     margin: "10px auto",
     fontFamily: "Yrsa",
     backgroundColor: "green",
-    borderRadius:"100px",
-    "&:hover":{
-      backgroundColor:"blue"
+    borderRadius: "100px",
+    "&:hover": {
+      backgroundColor: "blue"
     }
   },
   head: {
     fontFamily: "Yrsa",
-     margin: "auto",
+    margin: "auto",
   }
 })
 )
@@ -72,7 +75,7 @@ const Login = () => {
   const showText = useMediaQuery(theme.breakpoints.up('xs'))
   const [type, setType] = useState("password")
   const [visible, setVisible] = useState(false)
-  const icon = (visible ? <Visibility  /> : <VisibilityOff />)
+  const icon = (visible ? <Visibility /> : <VisibilityOff />)
   const showClick = () => {
     if (visible === false) {
       setVisible(true)
@@ -83,22 +86,41 @@ const Login = () => {
       setType("password")
     }
   }
+
+  const initialvalue = {
+    email: "",
+    password: ""
+  }
+
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialvalue,
+    validationSchema: login,
+    onSubmit: (values) => {
+      console.log(values)
+    }
+  })
+
   return (
     <>
-     
-      {showText &&  <Container className={classes.const} >
-         
-            <Typography variant="h2"  className={classes.head} align="center" >Login</Typography>
+
+      {showText &&
+        <Container className={classes.const} >
+          <form onSubmit={handleSubmit}>
+            <Typography variant="h2" className={classes.head} align="center" >Login</Typography>
             <TextField
-            fullWidth
+              fullWidth
               className={classes.input}
-              id="Email"
               size='small'
               label="Email"
               type='email'
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
               placeholder='Enter Your Email'
               variant='outlined'
             />
+            {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
             <TextField
               className={classes.input}
               fullWidth
@@ -106,22 +128,26 @@ const Login = () => {
               size='small'
               label="Password"
               type={type}
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
               placeholder='Enter Your Password'
               variant='outlined'
-             
+              name='password'
               InputProps={{
                 endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
                   {icon}
                 </IconButton> </InputAdornment>)
               }}
             />
-            <Button variant="contained" className={classes.btn} fullWidth>
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+            <Button variant="contained" type='submit' className={classes.btn} fullWidth>
               Sign In
             </Button>
-         
-         
+
+          </form>
         </Container>}
-      
+
     </>
   )
 }

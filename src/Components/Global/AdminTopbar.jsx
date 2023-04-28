@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Close, Inbox, Menu } from '@mui/icons-material';
+import {  Close, Menu, PeopleAltTwoTone } from '@mui/icons-material';
 import { ListItemButton, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom'
 
@@ -18,6 +18,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        fontFamily:"Yrsa"
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -58,7 +59,7 @@ const Item = ({ icon, title, to }) => {
                             {icon}
                         </ListItemIcon>
                         <ListItemText>
-                            <Typography variant="h6" color="initial"  > <Link to={to} style={{ textDecoration: "none", }}  >{title}</Link></Typography>
+                            <Typography variant="h6" color="initial"  > <Link to={to} style={{ textDecoration: "none",fontFamily:"Yrsa" }}  >{title}</Link></Typography>
                             <Link to={to} /></ListItemText>
                     </ListItemButton>
                 </ListItem>
@@ -78,7 +79,7 @@ const AdminTopbar = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={classes.appBar}  style={{fontFamily:"Yrsa"}} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -90,7 +91,7 @@ const AdminTopbar = () => {
                         <Menu />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Responsive drawer
+                        INK
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -114,9 +115,9 @@ const AdminTopbar = () => {
                             <Close />
                         </IconButton>
                         <Item
-                            title="Index"
-                            to="/login"
-                            icon={<Inbox />}
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
                         />
                     </Drawer>
                 </Hidden>
@@ -130,9 +131,9 @@ const AdminTopbar = () => {
                     >
                         <div className={classes.toolbar} />
                         <Item
-                            title="Index"
-                            to="/login"
-                            icon={<Inbox />}
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
                         />
                     </Drawer>
                 </Hidden>
