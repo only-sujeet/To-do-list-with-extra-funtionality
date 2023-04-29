@@ -95,8 +95,9 @@ const Login = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
-    onSubmit: (values) => {
+    onSubmit: (values, {resetForm}) => {
       console.log(values)
+      resetForm({values:""})
     }
   })
 

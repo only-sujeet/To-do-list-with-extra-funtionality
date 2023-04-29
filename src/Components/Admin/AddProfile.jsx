@@ -5,6 +5,7 @@ import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
 import Addcompanyd from './Addcompanyd'
 import AddDepartment from './AddDepartment'
+import AddPeople from './AddPeople'
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -32,7 +33,7 @@ const AddProfile = () => {
                         <Box display='flex'>
                             <Addcompanyd />
                             <AddDepartment />
-
+                            <AddPeople />
                         </Box>
 
                     </Box>
