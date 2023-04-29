@@ -1,9 +1,10 @@
 const mongoose = require("mongoose")
-
-const loginSchema = mongoose.Schema({
+const bcrypt  = require('bcrypt')
+const adminSchema = mongoose.Schema({
     name:{
         type: String,
-        required : [true, "Name is required"]
+        required : [true, "Name is required"],
+      
     },
     email :{
         type: String,
@@ -15,5 +16,15 @@ const loginSchema = mongoose.Schema({
     }
 })
 
-const Alogin =  mongoose.model("AdminLogin", loginSchema)
-module.exports = Alogin
+
+adminSchema.pre('save', async function(next){
+    if(this.isModified('password')){
+        this.password = await bcrypt.hash(this.password , 10)
+    }
+    next();
+
+    
+})
+
+const Admin =  mongoose.model("Admin", adminSchema)
+module.exports = Admin
