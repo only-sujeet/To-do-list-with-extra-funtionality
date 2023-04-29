@@ -1,20 +1,21 @@
- const express = require("express")
- const app = express();
- require('dotenv').config({ path : 'Config/config.env'})
- const bodyparser = require("body-parser");
+const express = require("express")
+const app = express();
+require('dotenv').config({ path: 'Config/config.env' })
+const bodyparser = require("body-parser");
 const connectDB = require("./Config/database");
-
+const cookieParser = require('cookie-parser')
 
 // database
 connectDB()
 
 //use middlewares
-app.use( bodyparser.urlencoded({ extended: true}))
+app.use(bodyparser.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(express.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // use routes
 app.use('/api/admin/', require('./Routes/Admin'))
 
 
- module.exports = app
+module.exports = app
