@@ -4,6 +4,7 @@ require('dotenv').config({ path: 'Config/config.env' })
 const bodyparser = require("body-parser");
 const connectDB = require("./Config/database");
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 // database
 connectDB()
@@ -13,6 +14,7 @@ app.use(bodyparser.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(cors())
 
 // use routes
 app.use('/api/admin/', require('./Routes/Admin'))

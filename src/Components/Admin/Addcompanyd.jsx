@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Tooltip } from '@mui/material';
 import { BusinessTwoTone } from '@mui/icons-material';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { addcom } from '../Validation/Admin';
+import { addCompany } from '../../api/Admin';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCompany } from '../../Redux/Action/Admin';
 const Addcompanyd = () => {
     const [open, setOpen] = React.useState(false);
 
@@ -15,6 +18,7 @@ const Addcompanyd = () => {
         setOpen(false);
     };
 
+    const dispatch = useDispatch()
 
     const row = [
         { name: "ink" },
@@ -22,19 +26,27 @@ const Addcompanyd = () => {
         { name: "ink" },
         { name: "ink" },
     ]
+
+    const { loading, company } = useSelector(state => state.admin)
+
     const initialvalue = {
         company: ""
     }
+    console.log(company)
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addcom,
-        onSubmit: (values , {resetForm}) => { 
-            console.log(values)
-        resetForm({values:""})
+        onSubmit: async (values, { resetForm }) => {
+            const { data } = await addCompany(values)
+            console.log(data)
+            resetForm({ values: "" })
         }
 
     })
 
+    React.useEffect(() => {
+        dispatch(getCompany())
+    }, []);
     return (
         <div>
             <Tooltip title="Add Company">
@@ -45,7 +57,7 @@ const Addcompanyd = () => {
 
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
-                PaperProps={{ sx: { width: { lg: "40%", sm: "100%", md: "60%", xs:"80%" }, position: "fixed", m: 0, top: 60, } }} >
+                PaperProps={{ sx: { width: { lg: "40%", sm: "100%", md: "60%", xs: "80%" }, position: "fixed", m: 0, top: 60, } }} >
                 <DialogTitle>Add Company</DialogTitle>
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit}>
@@ -64,7 +76,7 @@ const Addcompanyd = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             />
-                            {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography>: null}
+                            {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
                             <Tooltip title="Add Company">
                                 <Button variant="contained" color='primary' type='submit' >
                                     Add
@@ -77,14 +89,16 @@ const Addcompanyd = () => {
                                             <TableCell>Company Name</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    <TableBody>
-                                        {row.map((row) => (
-                                            <TableRow key={row.name}>
-                                                <TableCell>{row.name}</TableCell>
-                                            </TableRow>
-                                        ))}
+                                    {loading ? <CircularProgress /> :
+                                        <TableBody>
+                                            {company?.map((data) => (
+                                                <TableRow key={data._id}>
+                                                    <TableCell>{data.company}</TableCell>
+                                                </TableRow>
+                                            ))}
 
-                                    </TableBody>
+                                        </TableBody>
+                                    }
                                 </Table>
                             </TableContainer>
                         </Stack>

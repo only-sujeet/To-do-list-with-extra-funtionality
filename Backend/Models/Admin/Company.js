@@ -1,14 +1,12 @@
 const { default: mongoose } = require("mongoose");
 
 const companySchema = mongoose.Schema({
-    name: String,
-    Department: [{
-        DeptName: String,
-        addaat: {
-            type: Date,
-            default: Date.now
-        }
-    }],
+    company: {
+        type:String
+    },
+
+    department: [
+    ],
     addat: {
         type: Date,
         default: Date.now

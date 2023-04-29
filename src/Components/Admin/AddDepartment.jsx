@@ -4,10 +4,12 @@ import { AddCircleOutlineRounded, BusinessTwoTone } from '@mui/icons-material';
 import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
+import { useSelector } from 'react-redux';
 
 const AddDepartment = () => {
     const [open, setOpen] = React.useState(false);
-
+    const { loading, company } = useSelector(state => state.admin)
+    const [dept, setDept] = React.useState([]);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -15,13 +17,20 @@ const AddDepartment = () => {
     const handleClose = () => {
         setOpen(false);
     };
+    React.useEffect(() => {
+        setDept(company)
+    }, [company])
 
 
-    const rowd = [
-        { name: "ink", deparment: "abc" },
-        { name: "ink", deparment: "abc" },
-        { name: "ink", deparment: "abc" },
-        { name: "ink", deparment: "abc" },
+    const cp = [
+        {
+            name: "sanjeev",
+            d:[
+                "sanjeev",
+                "sujeet"
+            ]
+
+        }
     ]
 
     const initialvalues = {
@@ -44,7 +53,6 @@ const AddDepartment = () => {
                 <IconButton aria-label="add Company" onClick={handleClickOpen}>
                     <AddCircleOutlineRounded color='warning' />
                 </IconButton>
-
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "100%", md: "60%", xs: "80%" }, position: "fixed", m: 0, top: 60, } }} >
@@ -65,13 +73,13 @@ const AddDepartment = () => {
                                 value={values.company}
                                 onBlur={handleBlur}
                             >
-                                <MenuItem value='ink1'>Ink1</MenuItem>
-                                <MenuItem value='ink2'>Ink2</MenuItem>
-                                <MenuItem value='ink3'>Ink3</MenuItem>
-                                <MenuItem value='ink4'>Ink4</MenuItem>
-                                <MenuItem value='ink5'>Ink5</MenuItem>
+                                {!loading ? company?.map((data) => (
+
+                                    <MenuItem value={data.company}>{data.company}</MenuItem>
+                                )) : undefined
+                                }
                             </TextField>
-                            {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography>: null}
+                            {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
                             <TextField
 
                                 fullWidth
@@ -86,7 +94,7 @@ const AddDepartment = () => {
                                 onChange={handleChange}
 
                             />
-                             {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography>: null}
+                            {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                             <Tooltip title="Add Department">
                                 <Button variant="contained" color='primary' type='submit' >
                                     Add
@@ -102,12 +110,12 @@ const AddDepartment = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {rowd.map((row) => (
-                                            <TableRow key={row.name}>
-                                                <TableCell>{row.name}</TableCell>
-                                                <TableCell>{row.deparment}</TableCell>
+                                        {!loading ? company?.map((data) => (
+                                            <TableRow key={data._id}>
+                                                <TableCell>{data.company}</TableCell>
                                             </TableRow>
-                                        ))}
+                                        ))
+                                            : undefined}
 
                                     </TableBody>
                                 </Table>
