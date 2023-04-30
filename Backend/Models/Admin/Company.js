@@ -5,7 +5,7 @@ const companySchema = mongoose.Schema({
         type:String
     },
 
-    department: [
+    field: [
     ],
     addat: {
         type: Date,

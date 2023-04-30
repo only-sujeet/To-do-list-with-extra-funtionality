@@ -35,18 +35,18 @@ exports.GetCompany = async (req, res) => {
 }
 
 
-exports.addDepartment = async (req, res) => {
+exports.addField = async (req, res) => {
     try {
 
-        const { company, department } = req.body
+        const { company, field } = req.body
         let comp = await Company.findOne({ company })
-        const dept = await Company.findOne({ department })
-        if (dept) {
+        const fie = await Company.findOne({ field })
+        if (fie) {
             return res
                 .status(400)
                 .json({ sucsess: false, message: "Department name already exists... " })
         }
-        comp.department.push(department)
+        comp.field.push(field)
         await comp.save();
         res.send(comp)
     } catch (error) {
@@ -58,14 +58,14 @@ exports.addDepartment = async (req, res) => {
 exports.getDepartment = async (req, res) => {
     try {
 
-        // const { company, department } = req.body
+        // const { company, field } = req.body
         let comp = await Company.findById(req.params.id)
         if (!comp) {
             return res
                 .status(400)
                 .json({ sucsess: false, message: "Company Not Found.. " })
         }
-        res.send(comp.department)
+        res.send(comp.field)
 
     } catch (error) {
         res.status(500).json({ sucsess: false, message: error })

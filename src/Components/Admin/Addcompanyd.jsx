@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Tooltip } from '@mui/material';
-import { BusinessTwoTone } from '@mui/icons-material';
+import { BusinessTwoTone, DeleteOutlineTwoTone, DeleteTwoTone } from '@mui/icons-material';
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { addcom } from '../Validation/Admin';
@@ -82,6 +82,7 @@ const Addcompanyd = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Company Name</TableCell>
+                                            <TableCell>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     {/* {loading ? <CircularProgress /> : */}
@@ -90,11 +91,16 @@ const Addcompanyd = () => {
                                         
                                             {company <=0 ? <TableRow>
                                                 <TableCell>
-                                                    <Typography variant="h5" color="primary">No Company Added</Typography>
+                                                    <Typography variant="body1" color="primary"  align='center' >No Company Added</Typography>
                                                 </TableCell>
                                             </TableRow>  :   company?.map((data) => (
                                                 <TableRow key={data._id}>
                                                     <TableCell>{data.company}</TableCell>
+                                                    <TableCell>
+                                                        <IconButton aria-label="delete" >
+                                                          <DeleteTwoTone color='error' fontSize='medium'/>
+                                                        </IconButton>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
 

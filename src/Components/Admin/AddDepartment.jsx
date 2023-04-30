@@ -5,6 +5,7 @@ import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { useSelector } from 'react-redux';
+import { addDepartment } from '../../api/Admin';
 
 const AddDepartment = () => {
     const [open, setOpen] = React.useState(false);
@@ -41,8 +42,9 @@ const AddDepartment = () => {
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: adddep,
-        onSubmit: (values, { resetForm }) => {
-            console.log(values)
+        onSubmit: async (values, { resetForm }) => {
+            // console.log(values)
+            const {data } = await addDepartment(values)
             resetForm({ values: "" })
         }
     })
@@ -101,7 +103,29 @@ const AddDepartment = () => {
                                 </Button>
                             </Tooltip>
 
-                            <TableContainer component={Paper}>
+                           
+                        </Stack>
+                    </form>
+                    <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+                         <TextField
+                                select
+                                fullWidth
+                                label="Select Company"
+                                size='small'
+                                name='company'
+                                type='text'
+                                variant='standard'
+                                onChange={handleChange}
+                                value={values.company}
+                                onBlur={handleBlur}
+                            >
+                                {!loading ? company?.map((data) => (
+
+                                    <MenuItem value={data.company}>{data.company}</MenuItem>
+                                )) : undefined
+                                }
+                            </TextField>
+                    <TableContainer component={Paper}>
                                 <Table aria-label='a dense table' size='small'>
                                     <TableHead>
                                         <TableRow>
@@ -120,8 +144,7 @@ const AddDepartment = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Stack>
-                    </form>
+                    </Stack>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

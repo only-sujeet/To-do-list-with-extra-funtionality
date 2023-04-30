@@ -3,9 +3,12 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, I
 import {  PeopleTwoTone } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
+import { useState } from 'react';
 
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
+    const [file, setFile] = useState();
+    const [image, setImage] = useState()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -15,7 +18,18 @@ const AddPeople = () => {
         setOpen(false);
     };
 
-
+const handleImage = (e) => { 
+    const file = e.target.files[0];
+    setFile(file)
+    console.log("file 1", file)
+    const reader = new FileReader()
+    reader.onload = () =>{
+        if(reader.readyState === 2){
+            setImage(reader.result)
+        }
+    }
+    reader.readAsDataURL(file)
+ }
 
     const initialvalue = {
         company: "",
@@ -34,9 +48,26 @@ const AddPeople = () => {
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
-        onSubmit: (values, { resetForm }) => {
-            console.log(values)
-            resetForm({ values: "" })
+        onSubmit:  async (values, { resetForm }) => {
+            try {
+                if (file) {
+                    const formdata = new FormData()
+                    formdata.append('file', file)
+                    formdata.append('data', JSON.stringify(values))
+                    console.log(file)
+                    console.log(values)
+                    resetForm({ values: "" })
+                }
+                else{
+
+                    alert("Please Select File")
+                }
+                
+            } catch (error) {
+                console.log(error.message)
+            }
+            // console.log(values)
+            // resetForm({ values: "" })
         }
 
     })
@@ -53,7 +84,7 @@ const AddPeople = () => {
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h6" color="initial">Add People</Typography></DialogTitle>
                 <DialogContent>
-                    <form action="" onSubmit={handleSubmit}>
+                    <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl fullWidth
@@ -63,6 +94,7 @@ const AddPeople = () => {
                                         color='secondary'
                                         label="Company"
                                         id="Company"
+                                        name='company'
                                         value={values.company}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -81,6 +113,7 @@ const AddPeople = () => {
                                         color='secondary'
                                         id='Field'
                                         label="Field"
+                                        name='field'
                                         value={values.field}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -91,6 +124,25 @@ const AddPeople = () => {
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography>: null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                
+                            <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id=""
+                                     label="Upload Photo"
+                                    name=''
+                                    type="file"
+                                    InputLabelProps={{ shrink: true, }}
+                                    // value={values.firstName}
+                                    onChange={handleImage}
+                                    // onBlur={handleBlur}
+                                />
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                            <img style={{ width: "10rem" }} src={image}  alt="" />
                             </Grid>
                             <Grid item lg={4} sm={12} xs={12} md={4}>
                                 <TextField
@@ -130,7 +182,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="lastName"
                                     label="Last Name"
-                                    name='LastName'
+                                    name='lastName'
                                     type="text"
                                     value={values.lastName}
                                     onChange={handleChange}
@@ -159,7 +211,7 @@ const AddPeople = () => {
                                 <TextField
                                     fullWidth
                                     variant='standard'
-                                    color='success'
+                                    color='secondary'
                                     id="dob"
                                     label="Date of Birth"
                                     name='dob'
@@ -168,7 +220,7 @@ const AddPeople = () => {
                                     value={values.dob}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    focused
+                                    
                                 />
                                  {errors.dob && touched.dob ? <Typography variant="caption" color="error">{errors.dob}</Typography>: null}
                             </Grid>
