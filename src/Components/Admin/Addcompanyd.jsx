@@ -32,7 +32,8 @@ const Addcompanyd = () => {
         validationSchema: addcom,
         onSubmit: async (values, { resetForm }) => {
             const { data } = await addCompany(values)
-            console.log(data)
+            dispatch(getCompany())
+      
             resetForm({ values: "" })
         }
 

@@ -46,8 +46,6 @@ exports.addDepartment = async (req, res) => {
                 .status(400)
                 .json({ sucsess: false, message: "Department name already exists... " })
         }
-
-        console.log(department)
         comp.department.push(department)
         await comp.save();
         res.send(comp)
@@ -55,3 +53,22 @@ exports.addDepartment = async (req, res) => {
         res.status(500).json({ sucsess: false, message: error.message })
     }
 }
+
+
+exports.getDepartment = async (req, res) => {
+    try {
+
+        // const { company, department } = req.body
+        let comp = await Company.findById(req.params.id)
+        if (!comp) {
+            return res
+                .status(400)
+                .json({ sucsess: false, message: "Company Not Found.. " })
+        }
+        res.send(comp.department)
+
+    } catch (error) {
+        res.status(500).json({ sucsess: false, message: error })
+    }
+}
+
