@@ -20,19 +20,13 @@ const Addcompanyd = () => {
 
     const dispatch = useDispatch()
 
-    const row = [
-        { name: "ink" },
-        { name: "ink" },
-        { name: "ink" },
-        { name: "ink" },
-    ]
-
+ 
     const { loading, company } = useSelector(state => state.admin)
 
     const initialvalue = {
         company: ""
     }
-    console.log(company)
+    // console.log(company)
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addcom,
@@ -89,16 +83,22 @@ const Addcompanyd = () => {
                                             <TableCell>Company Name</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    {loading ? <CircularProgress /> :
+                                    {/* {loading ? <CircularProgress /> : */}
+                                        
                                         <TableBody>
-                                            {company?.map((data) => (
+                                        
+                                            {company <=0 ? <TableRow>
+                                                <TableCell>
+                                                    <Typography variant="h5" color="primary">No Company Added</Typography>
+                                                </TableCell>
+                                            </TableRow>  :   company?.map((data) => (
                                                 <TableRow key={data._id}>
                                                     <TableCell>{data.company}</TableCell>
                                                 </TableRow>
                                             ))}
 
                                         </TableBody>
-                                    }
+                                    {/* } */}
                                 </Table>
                             </TableContainer>
                         </Stack>
