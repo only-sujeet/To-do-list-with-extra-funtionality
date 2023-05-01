@@ -60,7 +60,7 @@ exports.addField = async (req, res) => {
 }
 
 
-exports.getDepartment = async (req, res) => {
+exports.getField = async (req, res) => { 
     try {
 
          const { company } = req.body
@@ -77,7 +77,6 @@ exports.getDepartment = async (req, res) => {
         res.status(500).json({ sucsess: false, message: error })
     }
 }
-
 
 exports.getFieldP = async (req,res) => {
     try {

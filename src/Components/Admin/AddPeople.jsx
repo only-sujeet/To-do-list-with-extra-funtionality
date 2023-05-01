@@ -12,11 +12,11 @@ const AddPeople = () => {
     const [file, setFile] = useState();
     const [image, setImage] = useState()
     const [dept, setDept] = useState([]);
-    const [comp, setcomp] = useState();
+    const { company } = useSelector(state => state.admin)
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const { company } = useSelector(state => state.admin)
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -33,18 +33,9 @@ const AddPeople = () => {
         }
         reader.readAsDataURL(file)
     }
-    const handeleFiled = async (e) => {
-        const company = e.target.value;
-        setcomp( company )
 
-        const { data } = await getField(company)
-        setDept(data)
-    }
-    console.log(comp)
-
-    // console.log(comp)
     const initialvalue = {
-        company: `comp.company`,
+        company: "",
         field: "",
         firstName: "",
         middleName: "",
@@ -57,10 +48,9 @@ const AddPeople = () => {
         address1: "",
         address2: "",
     }
-    var { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
-        // initialValues: initialvalue,
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues: initialvalue,
         validationSchema: addprofile,
-
         onSubmit: async (values, { resetForm }) => {
             try {
                 console.log(values)
@@ -80,13 +70,17 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-
+            // console.log(values)
             // resetForm({ values: "" })
         }
 
-
     })
 
+    const handleCompany = async (e) => {
+        handleChange(e)
+        const { data } = await getField(e.target.value);
+        setDept(data)
+    }
     return (
         <div>
             <Tooltip title="Add People">
@@ -111,18 +105,20 @@ const AddPeople = () => {
                                         label="Company"
                                         id="Company"
                                         name='company'
-                                        value={comp}
-                                        onChange={handeleFiled}
-
+                                        value={values.company}
+                                        onChange={handleCompany}
+                                        onBlur={handleBlur}
                                     >
-
+                                        {/* <MenuItem value="ink1">Ink1</MenuItem>
+                                        <MenuItem value="ink2">Ink2</MenuItem>
+                                        <MenuItem value="ink3">Ink3</MenuItem> */}
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                                {!comp ? <Typography variant="caption" color="error">Please First select Company</Typography> : null}
+                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
@@ -136,12 +132,9 @@ const AddPeople = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-
-                                        {dept && dept.map((data) => (
-
+                                        {dept && dept?.map((data) => (
                                             <MenuItem value={data}>{data}</MenuItem>
-                                        ))
-                                        }
+                                        ))}
 
                                     </Select>
                                 </FormControl>
@@ -324,7 +317,7 @@ const AddPeople = () => {
                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button disabled={!comp} variant="contained" color='primary' type='submit' >
+                                <Button variant="contained" color='primary' type='submit' >
                                     Add
                                 </Button>
                             </Grid>
