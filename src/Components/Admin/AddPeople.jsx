@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import {  PeopleTwoTone } from '@mui/icons-material';
+import { PeopleTwoTone } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-
+    const { company } = useSelector(state => state.admin)
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -18,18 +19,18 @@ const AddPeople = () => {
         setOpen(false);
     };
 
-const handleImage = (e) => { 
-    const file = e.target.files[0];
-    setFile(file)
-    console.log("file 1", file)
-    const reader = new FileReader()
-    reader.onload = () =>{
-        if(reader.readyState === 2){
-            setImage(reader.result)
+    const handleImage = (e) => {
+        const file = e.target.files[0];
+        setFile(file)
+        console.log("file 1", file)
+        const reader = new FileReader()
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setImage(reader.result)
+            }
         }
+        reader.readAsDataURL(file)
     }
-    reader.readAsDataURL(file)
- }
 
     const initialvalue = {
         company: "",
@@ -48,7 +49,7 @@ const handleImage = (e) => {
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
-        onSubmit:  async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm }) => {
             try {
                 if (file) {
                     const formdata = new FormData()
@@ -58,11 +59,11 @@ const handleImage = (e) => {
                     console.log(values)
                     resetForm({ values: "" })
                 }
-                else{
+                else {
 
                     alert("Please Select File")
                 }
-                
+
             } catch (error) {
                 console.log(error.message)
             }
@@ -99,12 +100,16 @@ const handleImage = (e) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        <MenuItem value="ink1">Ink1</MenuItem>
+                                        {/* <MenuItem value="ink1">Ink1</MenuItem>
                                         <MenuItem value="ink2">Ink2</MenuItem>
-                                        <MenuItem value="ink3">Ink3</MenuItem>
+                                        <MenuItem value="ink3">Ink3</MenuItem> */}
+                                        {company?.map((data) => (
+
+                                            <MenuItem value={data.company}>{data.company}</MenuItem>
+                                        )) }
                                     </Select>
                                 </FormControl>
-                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography>: null}
+                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
@@ -123,26 +128,26 @@ const handleImage = (e) => {
                                         <MenuItem value="ink3">Ink3</MenuItem>
                                     </Select>
                                 </FormControl>
-                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography>: null}
+                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
-                                
-                            <TextField
+
+                                <TextField
                                     fullWidth
                                     variant='standard'
                                     color='secondary'
                                     id=""
-                                     label="Upload Photo"
+                                    label="Upload Photo"
                                     name=''
                                     type="file"
                                     InputLabelProps={{ shrink: true, }}
                                     // value={values.firstName}
                                     onChange={handleImage}
-                                    // onBlur={handleBlur}
+                                // onBlur={handleBlur}
                                 />
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
-                            <img style={{ width: "10rem" }} src={image}  alt="" />
+                                <img style={{ width: "10rem" }} src={image} alt="" />
                             </Grid>
                             <Grid item lg={4} sm={12} xs={12} md={4}>
                                 <TextField
@@ -157,7 +162,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.firstName && touched.firstName ? <Typography variant="caption" color="error">{errors.firstName}</Typography>: null}
+                                {errors.firstName && touched.firstName ? <Typography variant="caption" color="error">{errors.firstName}</Typography> : null}
                             </Grid>
                             <Grid item lg={4} sm={12} xs={12} md={4}>
                                 <TextField
@@ -173,7 +178,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.middleName && touched.middleName ? <Typography variant="caption" color="error">{errors.middleName}</Typography>: null}
+                                {errors.middleName && touched.middleName ? <Typography variant="caption" color="error">{errors.middleName}</Typography> : null}
                             </Grid>
                             <Grid item lg={4} sm={12} xs={12} md={4}>
                                 <TextField
@@ -188,7 +193,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.lastName && touched.lastName ? <Typography variant="caption" color="error">{errors.lastName}</Typography>: null}
+                                {errors.lastName && touched.lastName ? <Typography variant="caption" color="error">{errors.lastName}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -205,7 +210,7 @@ const handleImage = (e) => {
                                     onBlur={handleBlur}
 
                                 />
-                                 {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography>: null}
+                                {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
@@ -220,9 +225,9 @@ const handleImage = (e) => {
                                     value={values.dob}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    
+
                                 />
-                                 {errors.dob && touched.dob ? <Typography variant="caption" color="error">{errors.dob}</Typography>: null}
+                                {errors.dob && touched.dob ? <Typography variant="caption" color="error">{errors.dob}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
@@ -237,7 +242,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.age && touched.age ? <Typography variant="caption" color="error">{errors.age}</Typography>: null}
+                                {errors.age && touched.age ? <Typography variant="caption" color="error">{errors.age}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
@@ -252,7 +257,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.mobileno && touched.mobileno ? <Typography variant="caption" color="error">{errors.mobileno}</Typography>: null}
+                                {errors.mobileno && touched.mobileno ? <Typography variant="caption" color="error">{errors.mobileno}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
@@ -267,7 +272,7 @@ const handleImage = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.altmobileno && touched.altmobileno ? <Typography variant="caption" color="error">{errors.altmobileno}</Typography>: null}
+                                {errors.altmobileno && touched.altmobileno ? <Typography variant="caption" color="error">{errors.altmobileno}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -283,7 +288,7 @@ const handleImage = (e) => {
                                     onBlur={handleBlur}
 
                                 />
-                                 {errors.address1 && touched.address1 ? <Typography variant="caption" color="error">{errors.address1}</Typography>: null}
+                                {errors.address1 && touched.address1 ? <Typography variant="caption" color="error">{errors.address1}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -299,10 +304,10 @@ const handleImage = (e) => {
                                     onBlur={handleBlur}
 
                                 />
-                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography>: null}
+                                {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                            <Button variant="contained" color='primary' type='submit' >
+                                <Button variant="contained" color='primary' type='submit' >
                                     Add
                                 </Button>
                             </Grid>
