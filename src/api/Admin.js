@@ -1,5 +1,6 @@
 import axios from "axios"
 
+const url = "http://localhost:5000/api/admin"
 
 export const addCompany = async (values) => {
     try {
@@ -24,6 +25,18 @@ export const addDepartment = async (values) => {
 export const getField = async (values) => {
     try {
         const data = await axios.post('http://localhost:5000/api/admin/getDept',{company:values})
+        return data
+    } catch (error) {
+        return error
+    }
+}
+export const addPeople = async (values) => {
+    try {
+        const data = await axios.post(`${url}/addPeople`,values, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         return data
     } catch (error) {
         return error

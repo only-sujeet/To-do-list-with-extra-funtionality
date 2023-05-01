@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getField } from '../../api/Admin';
+import { addPeople, getField } from '../../api/Admin';
 
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
@@ -50,16 +50,15 @@ const AddPeople = () => {
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
-        validationSchema: addprofile,
+        // validationSchema: addprofile,
         onSubmit: async (values, { resetForm }) => {
             try {
-                console.log(values)
+               
                 if (file) {
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
-                    console.log(file)
-                    console.log(values)
+                    addPeople(formdata)
                     resetForm({ values: "" })
                 }
                 else {
