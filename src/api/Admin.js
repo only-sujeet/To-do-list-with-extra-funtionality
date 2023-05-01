@@ -19,4 +19,14 @@ export const addDepartment = async (values) => {
     } catch (error) {
         return error
     }
+} 
+
+export const getField = async (values) => {
+    try {
+        const data = await axios.post('http://localhost:5000/api/admin/getDept',{company:values})
+        return data
+    } catch (error) {
+        return error
+    }
 }
+

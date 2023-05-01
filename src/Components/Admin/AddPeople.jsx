@@ -5,16 +5,18 @@ import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getField } from '../../api/Admin';
 
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-    const { company } = useSelector(state => state.admin)
+    const [dept, setDept] = useState([]);
+    const [comp, setcomp] = useState();
     const handleClickOpen = () => {
         setOpen(true);
     };
-
+    const { company } = useSelector(state => state.admin)
     const handleClose = () => {
         setOpen(false);
     };
@@ -31,9 +33,18 @@ const AddPeople = () => {
         }
         reader.readAsDataURL(file)
     }
+    const handeleFiled = async (e) => {
+        const company = e.target.value;
+        setcomp( company )
 
+        const { data } = await getField(company)
+        setDept(data)
+    }
+    console.log(comp)
+
+    // console.log(comp)
     const initialvalue = {
-        company: "",
+        company: `comp.company`,
         field: "",
         firstName: "",
         middleName: "",
@@ -46,11 +57,13 @@ const AddPeople = () => {
         address1: "",
         address2: "",
     }
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
-        initialValues: initialvalue,
+    var { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+        // initialValues: initialvalue,
         validationSchema: addprofile,
+
         onSubmit: async (values, { resetForm }) => {
             try {
+                console.log(values)
                 if (file) {
                     const formdata = new FormData()
                     formdata.append('file', file)
@@ -67,11 +80,13 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-            // console.log(values)
+
             // resetForm({ values: "" })
         }
 
+
     })
+
     return (
         <div>
             <Tooltip title="Add People">
@@ -96,20 +111,18 @@ const AddPeople = () => {
                                         label="Company"
                                         id="Company"
                                         name='company'
-                                        value={values.company}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
+                                        value={comp}
+                                        onChange={handeleFiled}
+
                                     >
-                                        {/* <MenuItem value="ink1">Ink1</MenuItem>
-                                        <MenuItem value="ink2">Ink2</MenuItem>
-                                        <MenuItem value="ink3">Ink3</MenuItem> */}
+
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>
-                                        )) }
+                                        ))}
                                     </Select>
                                 </FormControl>
-                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
+                                {!comp ? <Typography variant="caption" color="error">Please First select Company</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
@@ -123,9 +136,13 @@ const AddPeople = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        <MenuItem value="ink1">Ink1</MenuItem>
-                                        <MenuItem value="ink2">Ink2</MenuItem>
-                                        <MenuItem value="ink3">Ink3</MenuItem>
+
+                                        {dept && dept.map((data) => (
+
+                                            <MenuItem value={data}>{data}</MenuItem>
+                                        ))
+                                        }
+
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
@@ -307,7 +324,7 @@ const AddPeople = () => {
                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button variant="contained" color='primary' type='submit' >
+                                <Button disabled={!comp} variant="contained" color='primary' type='submit' >
                                     Add
                                 </Button>
                             </Grid>

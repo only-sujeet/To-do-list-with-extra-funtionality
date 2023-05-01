@@ -39,12 +39,17 @@ exports.addField = async (req, res) => {
     try {
 
         const { company, field } = req.body
+
         let comp = await Company.findOne({ company })
         const fie = await Company.findOne({ field })
-        if (fie) {
+        if (!comp) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "Department name already exists... " })
+                .json({ sucsess: false, message: "Company not found... " })
+        } if (fie) {
+            return res
+                .status(400)
+                .json({ sucsess: false, message: "Field name is already exists... " })
         }
         comp.field.push(field)
         await comp.save();
@@ -55,11 +60,12 @@ exports.addField = async (req, res) => {
 }
 
 
-exports.getDepartment = async (req, res) => {
+exports.getDepartment = async (req, res) => { 
     try {
 
-        // const { company, field } = req.body
-        let comp = await Company.findById(req.params.id)
+         const { company } = req.body
+         console.log(company)
+        let comp = await Company.findOne({company})
         if (!comp) {
             return res
                 .status(400)
@@ -71,4 +77,5 @@ exports.getDepartment = async (req, res) => {
         res.status(500).json({ sucsess: false, message: error })
     }
 }
+
 

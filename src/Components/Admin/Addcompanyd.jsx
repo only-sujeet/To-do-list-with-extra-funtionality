@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Tooltip } from '@mui/material';
-import { BusinessTwoTone, DeleteOutlineTwoTone, DeleteTwoTone } from '@mui/icons-material';
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
+import { BusinessTwoTone, DeleteTwoTone } from '@mui/icons-material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { addcom } from '../Validation/Admin';
 import { addCompany } from '../../api/Admin';
@@ -20,8 +20,8 @@ const Addcompanyd = () => {
 
     const dispatch = useDispatch()
 
- 
-    const { loading, company } = useSelector(state => state.admin)
+
+    const { company } = useSelector(state => state.admin)
 
     const initialvalue = {
         company: ""
@@ -31,9 +31,9 @@ const Addcompanyd = () => {
         initialValues: initialvalue,
         validationSchema: addcom,
         onSubmit: async (values, { resetForm }) => {
-            const { data } = await addCompany(values)
+            addCompany(values)
             dispatch(getCompany())
-      
+
             resetForm({ values: "" })
         }
 
@@ -41,7 +41,7 @@ const Addcompanyd = () => {
 
     React.useEffect(() => {
         dispatch(getCompany())
-    }, []);
+    }, [dispatch]);
     return (
         <div>
             <Tooltip title="Add Company">
@@ -86,25 +86,25 @@ const Addcompanyd = () => {
                                         </TableRow>
                                     </TableHead>
                                     {/* {loading ? <CircularProgress /> : */}
-                                        
-                                        <TableBody>
-                                        
-                                            {company <=0 ? <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="body1" color="primary"  align='center' >No Company Added</Typography>
-                                                </TableCell>
-                                            </TableRow>  :   company?.map((data) => (
-                                                <TableRow key={data._id}>
-                                                    <TableCell>{data.company}</TableCell>
-                                                    <TableCell>
-                                                        <IconButton aria-label="delete" >
-                                                          <DeleteTwoTone color='error' fontSize='medium'/>
-                                                        </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
 
-                                        </TableBody>
+                                    <TableBody>
+
+                                        {company <= 0 ? <TableRow>
+                                            <TableCell>
+                                                <Typography variant="body1" color="primary" align='center' >No Company Added</Typography>
+                                            </TableCell>
+                                        </TableRow> : company?.map((data) => (
+                                            <TableRow key={data._id}>
+                                                <TableCell>{data.company}</TableCell>
+                                                <TableCell>
+                                                    <IconButton aria-label="delete" >
+                                                        <DeleteTwoTone color='error' fontSize='medium' />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+
+                                    </TableBody>
                                     {/* } */}
                                 </Table>
                             </TableContainer>

@@ -14,7 +14,6 @@ export const adddep = yup.object({
 })
 
 export const addprofile = yup.object({
-    company: yup.string().required("Please Select Company"),
     field: yup.string().required("Please Select Field"),
     firstName: yup.string().required("Please Enter Your First Name").min(5),
     middleName: yup.string().required("Please Enter Your Middle Name").min(5),

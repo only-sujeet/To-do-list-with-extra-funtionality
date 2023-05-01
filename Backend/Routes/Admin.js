@@ -10,6 +10,6 @@ router.route("/login").post(adminLogin)
 router.route("/addCompany").post(addCompany)
 router.route("/getCompany").post( GetCompany)
 router.route("/addField").post( addField)
-router.route("/getDept/:id").post( getDepartment)
+router.route("/getDept").post( getDepartment)
 
 module.exports = router
