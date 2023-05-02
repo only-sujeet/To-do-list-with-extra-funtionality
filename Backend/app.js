@@ -19,5 +19,7 @@ app.use(cors())
 // use routes
 app.use('/api/admin/', require('./Routes/Admin'))
 
+// for display image
+app.use('/Image', express.static("Image"))
 
 module.exports = app

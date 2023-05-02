@@ -4,8 +4,9 @@ import { PeopleTwoTone } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPeople, getField } from '../../api/Admin';
+import { getPeople } from '../../Redux/Action/Admin';
 
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
@@ -13,18 +14,20 @@ const AddPeople = () => {
     const [image, setImage] = useState()
     const [dept, setDept] = useState([]);
     const { company } = useSelector(state => state.admin)
+    const dispatch = useDispatch()
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        dispatch(getPeople())
     };
 
     const handleImage = (e) => {
         const file = e.target.files[0];
         setFile(file)
-        console.log("file 1", file)
+        // console.log("file 1", file)
         const reader = new FileReader()
         reader.onload = () => {
             if (reader.readyState === 2) {
@@ -50,7 +53,7 @@ const AddPeople = () => {
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
-        // validationSchema: addprofile,
+        validationSchema: addprofile,
         onSubmit: async (values, { resetForm }) => {
             try {
                
@@ -60,6 +63,8 @@ const AddPeople = () => {
                     formdata.append('data', JSON.stringify(values))
                     addPeople(formdata)
                     resetForm({ values: "" })
+                    setFile(null)
+                    setImage(null)
                 }
                 else {
 

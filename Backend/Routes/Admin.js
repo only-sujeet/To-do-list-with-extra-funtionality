@@ -1,7 +1,7 @@
 const express = require('express')
 const { adminRegister, adminLogin } = require('../controllers/Admin')
 const { addCompany, GetCompany,  addField, getField } = require('../controllers/Company')
-const { addPeople, getPeople } = require('../Controllers/People')
+const { addPeople, getPeople, deletePeople } = require('../Controllers/People')
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
 const multer = require('multer')
@@ -31,5 +31,6 @@ router.route("/addField").post( addField)
 router.route("/getDept").post( getField)
 router.route("/addPeople").post( upload.single('file'), addPeople)
 router.route("/getPeople").get( getPeople)
+router.route("/deletePeople/:_id").delete( deletePeople)
 
 module.exports = router

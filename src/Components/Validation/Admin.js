@@ -21,8 +21,8 @@ export const addprofile = yup.object({
     email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
     dob: yup.date().required("Please Select Date of Birth"),
     age:yup.number().required("Please Enter Age"),
-    mobileno:yup.number().required("Please Enter Mobile No."),
-    altmobileno:yup.number().required("Please Enter Alternate Mobile No."),
+    mobileno:yup.number().min(1000000000,['Mobile No is not valid']).max(9999999999,['Mobile Nois not valid']).required("Please Enter Mobile No."),
+    altmobileno:yup.number().min(1000000000,['Alternate Mobile No. is not valid']).max(9999999999,['Alternate Mobile No. is not valid']).required("Please Enter Alternate Mobile No."),
     address1:yup.string().required("Please Enter Address"),
     address2:yup.string().required("Please Enter Alternate Address"),
 

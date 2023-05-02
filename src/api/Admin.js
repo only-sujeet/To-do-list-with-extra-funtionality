@@ -43,3 +43,11 @@ export const addPeople = async (values) => {
     }
 }
 
+export const deletePeople = async (id) =>{
+    try {
+        await axios.delete(`${url}/deletePeople/${id}`)
+
+   } catch (error) {
+    return error
+   }
+}
