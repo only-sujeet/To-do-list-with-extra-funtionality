@@ -73,18 +73,12 @@ const AddProfile = () => {
                                             <Typography variant="h5" fontWeight="bold" >Company : {data.company}</Typography>
                                             <Typography variant="h5" fontWeight="bold" >Department : {data.field}</Typography>
                                         </CardContent>
-                                        <CardActions>
-                                            
+                                        <CardActions>    
                                             <NewPeopledet Image={data.Image} com={data.company} dept={data.field} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} />
-                                            <Tooltip title="Assign Work">
-                                                <Button variant="text" color="info">
-                                                    Assign
+                                            <Tooltip title="Delete Profile" color='error' >
+                                                <Button aria-label="delete" onClick={() => deletepeople(data._id)}>
+                                                  Delete
                                                 </Button>
-                                            </Tooltip>
-                                            <Tooltip title="Delete Profile">
-                                                <IconButton aria-label="delete" onClick={() => deletepeople(data._id)}>
-                                                  <DeleteForeverTwoTone/>
-                                                </IconButton>
                                             </Tooltip>
                                         </CardActions>
                                     </Card>

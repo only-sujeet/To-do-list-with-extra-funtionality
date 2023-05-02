@@ -2,6 +2,14 @@ import axios from "axios"
 
 const url = "http://localhost:5000/api/admin"
 
+export const adminLogin = async (values) => { 
+    try {
+        const data = await axios.post(`${url}/login`, values)
+        return data 
+    } catch (error) {
+        return error
+    }
+ }
 export const addCompany = async (values) => {
     try {
 

@@ -3,6 +3,8 @@ import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, T
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { login } from '../Validation/Admin';
+import { adminLogin } from '../../api/Admin';
+import { useNavigate } from 'react-router-dom';
 
 const layout = makeStyles(theme =>
 ({
@@ -16,13 +18,13 @@ const layout = makeStyles(theme =>
       // backgroundColor: 'purple',
       margin: "230px auto",
       width: "80vw",
-      height: "39vh",
+      height: "45vh",
     },
     [theme.breakpoints.up('sm')]: {
       // backgroundColor: 'red',
       margin: "380px auto",
       width: "80vw",
-      height: "29vh",
+      height: "30vh",
       padding: "10px"
     },
     [theme.breakpoints.up('md')]: {
@@ -86,7 +88,7 @@ const Login = () => {
       setType("password")
     }
   }
-
+const navigate = useNavigate()
   const initialvalue = {
     email: "",
     password: ""
@@ -97,7 +99,10 @@ const Login = () => {
     validationSchema: login,
     onSubmit: (values, {resetForm}) => {
       console.log(values)
+      adminLogin(values)
+
       resetForm({values:""})
+      navigate('/aprofile')
     }
   })
 

@@ -8,7 +8,7 @@ exports.addCompany = async (req, res) => {
         if (comp) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "admin already exists....." })
+                .json({ sucsess: false, message: "Company already exists....." })
         }
         comp = await Company.create({ company })
         res.send(comp)
@@ -24,7 +24,7 @@ exports.GetCompany = async (req, res) => {
         if (comp < 0) {
             return res
                 .status(404)
-                .json({ sucsess: false, message: "company not found.." })
+                .json({ sucsess: false, message: "Company not found.." })
         }
 
         res.send(comp)

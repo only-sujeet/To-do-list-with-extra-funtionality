@@ -20,7 +20,7 @@ font-family: Yrsa , serif;
   /* font-weight: 900; */
 }
 ::-webkit-scrollbar{
-  width: 10px;
+  width: 5px;
   border-radius: 15px;
 }
 
