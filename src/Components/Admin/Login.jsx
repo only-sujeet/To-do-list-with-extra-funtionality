@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 import { login } from '../Validation/Admin';
 import { adminLogin } from '../../api/Admin';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const layout = makeStyles(theme =>
 ({
@@ -88,7 +90,7 @@ const Login = () => {
       setType("password")
     }
   }
-const navigate = useNavigate()
+  const navigate = useNavigate()
   const initialvalue = {
     email: "",
     password: ""
@@ -97,11 +99,18 @@ const navigate = useNavigate()
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
-    onSubmit: (values, {resetForm}) => {
-      console.log(values)
-      adminLogin(values)
+    onSubmit: async (values, { resetForm }) => {
+      //  console.log(values)
+      const res = await adminLogin(values)
 
-      resetForm({values:""})
+      if (res.success === true) {
+        toast.success(res.message)
+        resetForm({ values: "" })
+        
+      }
+      if (res.success === false) {
+        toast.error(res.message)
+      }
       navigate('/aprofile')
     }
   })
@@ -124,7 +133,7 @@ const navigate = useNavigate()
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder='Enter Your Email'
-              variant='outlined'
+              variant='standard'
             />
             {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
             <TextField
@@ -138,7 +147,7 @@ const navigate = useNavigate()
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder='Enter Your Password'
-              variant='outlined'
+              variant='standard'
               name='password'
               InputProps={{
                 endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
@@ -152,8 +161,19 @@ const navigate = useNavigate()
             </Button>
 
           </form>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeButton={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored" />
         </Container>}
-
     </>
   )
 }

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPeople, getField } from '../../api/Admin';
 import { getPeople } from '../../Redux/Action/Admin';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
@@ -56,15 +58,24 @@ const AddPeople = () => {
         validationSchema: addprofile,
         onSubmit: async (values, { resetForm }) => {
             try {
-               
+
                 if (file) {
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
-                    addPeople(formdata)
-                    resetForm({ values: "" })
-                    setFile(null)
-                    setImage(null)
+                    const res = await addPeople(formdata)
+                    if (res.success === true) {
+                         toast.success(res.message)
+                        console.log(res.message)
+                        resetForm({ values: "" })
+                        setFile(null)
+                        setImage(null)
+                    }
+                    if (res.success === false) {
+                        toast.error(res.message)
+                    }
+                    // resetForm({ values: "" })
+
                 }
                 else {
 
@@ -333,6 +344,18 @@ const AddPeople = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }

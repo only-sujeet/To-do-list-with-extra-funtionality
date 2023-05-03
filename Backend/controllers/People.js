@@ -15,7 +15,7 @@ exports.addPeople = async (req, res) => {
         // console.log("hello")
         res.status(200).json({
             success: true,
-            message: "Successfully Added Profile",
+            message: "Successfully Added Profile.....",
             // peo:peo
             Image: Image,
             object: company
@@ -53,12 +53,12 @@ exports.deletePeople = async (req, res) => {
     try {
         const request = await People.findById(req.params._id)
         if (!request) {
-            return res.status(400).json({ message: "People Not Found" })
+            return res.status(400).json({ message: "People Not Found...." })
         }
         const reject = await People.deleteOne({ _id: req.params._id })
         res.status(200).json({
             success: true,
-            message: "Successfully Deleted People"
+            message: "Successfully Deleted Profile...."
         })
     } catch (error) {
         res.status(500).json({
@@ -83,7 +83,7 @@ exports.blockPeople = async (req, res) => {
         res.status(200).
             json({
                 success: true,
-                message: "Successfully Blocked",
+                message: "Successfully Blocked...",
                 people:people
             })
     } catch (error) {

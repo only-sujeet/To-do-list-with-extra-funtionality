@@ -1,10 +1,14 @@
 import * as React from 'react';
-import {  Button, Dialog, DialogActions, DialogContent, DialogTitle,  Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
 import dateFormat from 'dateformat';
-import { AddHomeTwoTone,  AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
+import { AddHomeTwoTone, AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
 import { deletePeople } from '../../api/Admin';
 import { useDispatch } from 'react-redux';
 import { getPeople } from '../../Redux/Action/Admin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, dob, mobileno, altmobileno, Image, address1, address2, id }) => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
@@ -18,7 +22,13 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
     };
 
     const deletepeople = async (ids) => {
-        await deletePeople(ids)
+        const res = await deletePeople(ids)
+        if (res.success === true) {
+            toast.success(res.message)
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
         setOpen(false);
         dispatch(getPeople())
 
@@ -224,6 +234,18 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }

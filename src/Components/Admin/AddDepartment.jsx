@@ -6,6 +6,8 @@ import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { useSelector } from 'react-redux';
 import { addDepartment } from '../../api/Admin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddDepartment = () => {
     const [open, setOpen] = React.useState(false);
@@ -33,9 +35,15 @@ const AddDepartment = () => {
         initialValues: initialvalues,
         validationSchema: adddep,
         onSubmit: async (values, { resetForm }) => {
-            // console.log(values)
-            const {data } = await addDepartment(values)
-            resetForm({ values: "" })
+            const res = await addDepartment(values)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })   
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
+            
         }
     })
     return (
@@ -141,6 +149,18 @@ const AddDepartment = () => {
 
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }

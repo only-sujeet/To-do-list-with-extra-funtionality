@@ -8,13 +8,13 @@ exports.addCompany = async (req, res) => {
         if (comp) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "Company already exists....." })
+                .json({ success: false, message: "Company already exists....." })
         }
         comp = await Company.create({ company })
-        res.send(comp)
+        res.status(200).json({success: true, message: "Successfully Added...."} )
 
     } catch (error) {
-        res.status(500).json({ sucsess: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 exports.GetCompany = async (req, res) => {
@@ -24,16 +24,34 @@ exports.GetCompany = async (req, res) => {
         if (comp < 0) {
             return res
                 .status(404)
-                .json({ sucsess: false, message: "Company not found.." })
+                .json({ success: false, message: "Company not found.." })
         }
 
         res.send(comp)
 
     } catch (error) {
-        res.status(500).json({ sucsess: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
+exports.deleteCompany = async (req,res) =>{
+    try {
+        const request = await Company.findById(req.params._id)
+        if (!request) {
+            return res.status(400).json({success:false, message: "Company Not Found...." })
+        }
+        const reject = await Company.deleteOne({ _id: req.params._id })
+        res.status(200).json({
+            success: true,
+            message: "Successfully Deleted Company...."
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
 
 exports.addField = async (req, res) => {
     try {
@@ -45,17 +63,17 @@ exports.addField = async (req, res) => {
         if (!comp) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "Company not found... " })
+                .json({ success: false, message: "Company not found... " })
         } if (fie) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "Field name is already exists... " })
+                .json({ success: false, message: "Field name is already exists... " })
         }
         comp.field.push(field)
         await comp.save();
-        res.send(comp)
+        res.status(200).json({success: true, message: "Successfully Added...."} )
     } catch (error) {
-        res.status(500).json({ sucsess: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -69,12 +87,12 @@ exports.getField = async (req, res) => {
         if (!comp) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "Company Not Found.. " })
+                .json({ success: false, message: "Company Not Found.. " })
         }
         res.send(comp.field)
 
     } catch (error) {
-        res.status(500).json({ sucsess: false, message: error })
+        res.status(500).json({ success: false, message: error })
     }
 }
 

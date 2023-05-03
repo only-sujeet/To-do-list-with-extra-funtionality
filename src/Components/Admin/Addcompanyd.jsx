@@ -4,9 +4,12 @@ import { BusinessTwoTone, DeleteTwoTone } from '@mui/icons-material';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { addcom } from '../Validation/Admin';
-import { addCompany } from '../../api/Admin';
+import { addCompany, deleteCompany } from '../../api/Admin';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCompany } from '../../Redux/Action/Admin';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Addcompanyd = () => {
     const [open, setOpen] = React.useState(false);
 
@@ -31,10 +34,17 @@ const Addcompanyd = () => {
         initialValues: initialvalue,
         validationSchema: addcom,
         onSubmit: async (values, { resetForm }) => {
-            addCompany(values)
-            dispatch(getCompany())
+            const res = await addCompany(values)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })
+                dispatch(getCompany())
 
-            resetForm({ values: "" })
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
+
         }
 
     })
@@ -42,6 +52,17 @@ const Addcompanyd = () => {
     React.useEffect(() => {
         dispatch(getCompany())
     }, [dispatch]);
+
+    const deletecompany = async (id) => {
+        const res = await deleteCompany(id)
+        if (res.success === true) {
+            toast.success(res.message)
+            dispatch(getCompany())
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
+    }
     return (
         <div>
             <Tooltip title="Add Company">
@@ -97,7 +118,7 @@ const Addcompanyd = () => {
                                             <TableRow key={data._id}>
                                                 <TableCell>{data.company}</TableCell>
                                                 <TableCell>
-                                                    <IconButton aria-label="delete" >
+                                                    <IconButton aria-label="delete" onClick={() => deletecompany(data._id)} >
                                                         <DeleteTwoTone color='error' fontSize='medium' />
                                                     </IconButton>
                                                 </TableCell>
@@ -116,6 +137,18 @@ const Addcompanyd = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }
