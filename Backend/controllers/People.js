@@ -31,7 +31,7 @@ exports.addPeople = async (req, res) => {
 // for get people
 exports.getPeople = async (req, res) => {
     try {
-        const request = await People.find()
+        const request = await People.find({ status: undefined })
         if (!request) {
             return res.status(404).json({ success: false, message: "People Not found" })
         }
@@ -66,4 +66,49 @@ exports.deletePeople = async (req, res) => {
             message: error.message,
         })
     }
-} 
+}
+
+// for block people
+exports.blockPeople = async (req, res) => {
+    try {
+        const people = await People.findById(req.params.id)
+        if (!people) {
+            res.status(401).json({
+                success: false,
+                message: "People Not Found"
+            })
+        }
+        people.status = "block"
+        await people.save();
+        res.status(200).
+            json({
+                success: true,
+                message: "Successfully Blocked",
+                people:people
+            })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
+
+// for get block people
+exports.getBlockPeople = async (req, res) => {
+    try {
+        const request = await People.find({ status: "block" })
+        if (!request) {
+            return res.status(404).json({ success: false, message: "People Not found" })
+        }
+        else {
+            res.status(200).json(request)
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}

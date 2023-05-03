@@ -53,6 +53,9 @@ const peopleSchema = mongoose.Schema({
     Image : {
         type:String,
     },
+    status :{
+        type:String,
+    }
 })
 const People = mongoose.model("People", peopleSchema)
 module.exports = People

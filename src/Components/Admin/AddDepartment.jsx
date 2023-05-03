@@ -23,17 +23,7 @@ const AddDepartment = () => {
     }, [company])
 
 
-    const cp = [
-        {
-            name: "sanjeev",
-            d:[
-                "sanjeev",
-                "sujeet"
-            ]
-
-        }
-    ]
-
+  
     const initialvalues = {
         company: "",
         field: ""

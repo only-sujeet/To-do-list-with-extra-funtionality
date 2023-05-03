@@ -2,14 +2,14 @@ import axios from "axios"
 
 const url = "http://localhost:5000/api/admin"
 
-export const adminLogin = async (values) => { 
+export const adminLogin = async (values) => {
     try {
         const data = await axios.post(`${url}/login`, values)
-        return data 
+        return data
     } catch (error) {
         return error
     }
- }
+}
 export const addCompany = async (values) => {
     try {
 
@@ -28,11 +28,11 @@ export const addDepartment = async (values) => {
     } catch (error) {
         return error
     }
-} 
+}
 
 export const getField = async (values) => {
     try {
-        const data = await axios.post('http://localhost:5000/api/admin/getDept',{company:values})
+        const data = await axios.post('http://localhost:5000/api/admin/getDept', { company: values })
         return data
     } catch (error) {
         return error
@@ -40,7 +40,7 @@ export const getField = async (values) => {
 }
 export const addPeople = async (values) => {
     try {
-        const data = await axios.post(`${url}/addPeople`,values, {
+        const data = await axios.post(`${url}/addPeople`, values, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -51,11 +51,19 @@ export const addPeople = async (values) => {
     }
 }
 
-export const deletePeople = async (id) =>{
+export const deletePeople = async (id) => {
     try {
         await axios.delete(`${url}/deletePeople/${id}`)
 
-   } catch (error) {
-    return error
-   }
+    } catch (error) {
+        return error
+    }
+}
+export const blockPeople = async (id) => {
+    try {
+        await axios.post(`${url}/blockPeople/${id}`)
+
+    } catch (error) {
+        return error
+    }
 }

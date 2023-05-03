@@ -6,7 +6,6 @@ import Dashboard from './Components/Admin/Dashboard';
 import AddProfile from './Components/Admin/AddProfile';
 import { ThemeProvider } from '@emotion/react';
 import theme from './Components/Custom/TypographyTheme';
-import { CssBaseline } from '@mui/material';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {

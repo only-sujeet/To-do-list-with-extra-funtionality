@@ -21,8 +21,9 @@ const theme = createMuiTheme({
             fontSize: 20,
         },
         h5: {
-            fontFamily: ["Yrsa", "serif"].join(","),
+            fontFamily: ["Josefin Sans", "serif"].join(","),
             fontSize: 16,
+            fontWeight:"-moz-initial"
         },
         h6: {
             fontFamily: ["Yrsa", "serif"].join(","),
