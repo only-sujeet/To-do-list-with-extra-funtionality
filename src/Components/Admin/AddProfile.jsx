@@ -1,9 +1,9 @@
 import { makeStyles, } from '@material-ui/core'
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, Stack,   } from '@mui/material'
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip,    } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { blockPeople, deletePeople } from '../../api/Admin'
+import { blockPeople,  } from '../../api/Admin'
 import { getPeople } from '../../Redux/Action/Admin'
 import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
@@ -36,10 +36,7 @@ const AddProfile = () => {
     }, [dispatch])
     console.log(people)
 
-    const deletepeople = async (id) => { 
-        await deletePeople(id)
-        dispatch(getPeople())
-     }
+    
 
      const blockpeople = async (id) => { 
         await blockPeople(id)

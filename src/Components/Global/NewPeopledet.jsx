@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
+import {  Button, Dialog, DialogActions, DialogContent, DialogTitle,  Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
 import dateFormat from 'dateformat';
-import { AddHomeTwoTone, AddRoadTwoTone, AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
+import { AddHomeTwoTone,  AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
 import { deletePeople } from '../../api/Admin';
 import { useDispatch } from 'react-redux';
 import { getPeople } from '../../Redux/Action/Admin';
