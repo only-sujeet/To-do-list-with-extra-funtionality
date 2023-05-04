@@ -5,6 +5,7 @@ const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlock
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
 const multer = require('multer')
+const { addTask, getTask } = require('../Controllers/Task')
 
 // for multer storage
 const storage = multer.diskStorage({
@@ -36,5 +37,7 @@ router.route("/deletePeople/:_id").delete( deletePeople)
 router.route("/blockPeople/:id").post( blockPeople)
 router.route("/unBlockPeople/:id").post( unBlockPeople)
 router.route("/getBlockPeople").get( getBlockPeople)
+router.route("/addTask").post(addTask)
+router.route("/getTask").get(getTask)
 
 module.exports = router

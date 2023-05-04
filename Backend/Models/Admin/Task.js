@@ -20,14 +20,12 @@ const taskSchema = mongoose.Schema({
     },
     startDate : {
         type:Date,
-        required: true,
     },
     endDate : {
         type:Date,
-        required: true,
     },
     taskDependency : {
-        type:Date,
+        type:String,
         required: true,
     },
     QTY : {
@@ -37,6 +35,10 @@ const taskSchema = mongoose.Schema({
     amount : {
         type:Number,
         required: true,
+    },
+    status:{
+        type:String,
+        required:true
     }
 })
 const Task = mongoose.model("Task", taskSchema)
