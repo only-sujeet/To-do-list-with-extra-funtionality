@@ -27,6 +27,16 @@ export const adminReducer = createReducer(initialState, {
         state.loading = true;
         state.getPeopleError = action.payload
     },
-
-
+    // for Block People
+    getBlkPeopleRequest: (state,) => {
+        state.loading = true;
+    },
+    getBlkPeopleSuccess: (state, action) => {
+        state.loading = false;
+        state.blkpeople = action.payload
+    },
+    getBlkPeopleFailuer: (state, action) => {
+        state.loading = true;
+        state.getblkPeopleError = action.payload
+    },
 })

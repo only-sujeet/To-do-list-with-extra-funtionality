@@ -62,12 +62,11 @@ const AddProfile = () => {
                             <AddDepartment />
                             <AddPeople />
                         </Box>
-
                     </Box>
                     {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
                         <Grid container spacing={2}>
                             {
-                                people?.map((data) => (
+                               people <=0 ? <Typography variant="h3" color="initial" align='center' >No Profile Added</Typography>  : people?.map((data) => (
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
                                         <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >

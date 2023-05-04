@@ -112,3 +112,29 @@ exports.getBlockPeople = async (req, res) => {
         })
     }
 }
+
+// for unblock people
+exports.unBlockPeople = async (req,res) => { 
+    try {
+        const people = await People.findById(req.params.id)
+        if (!people) {
+            res.status(401).json({
+                success: false,
+                message: "People Not Found"
+            })
+        }
+        people.status = undefined
+        await people.save();
+        res.status(200).
+            json({
+                success: true,
+                message: "Successfully Unblocked...",
+                people:people
+            })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+ }

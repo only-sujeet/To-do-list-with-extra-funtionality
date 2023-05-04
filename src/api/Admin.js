@@ -99,3 +99,14 @@ export const blockPeople = async (id) => {
         }
     }
 }
+export const unBlockPeople = async (id) => {
+    try {
+        const { data } = await axios.post(`${url}/unBlockPeople/${id}`)
+        return data
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}

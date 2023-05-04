@@ -124,9 +124,7 @@ const AddPeople = () => {
                                         onChange={handleCompany}
                                         onBlur={handleBlur}
                                     >
-                                        {/* <MenuItem value="ink1">Ink1</MenuItem>
-                                        <MenuItem value="ink2">Ink2</MenuItem>
-                                        <MenuItem value="ink3">Ink3</MenuItem> */}
+                                       
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>

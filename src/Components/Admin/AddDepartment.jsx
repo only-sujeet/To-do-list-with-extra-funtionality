@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Tooltip } from '@mui/material';
-import { AddCircleOutlineRounded,  } from '@mui/icons-material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Tooltip, Select } from '@mui/material';
+import { AddCircleOutlineRounded, } from '@mui/icons-material';
 import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { useSelector } from 'react-redux';
-import { addDepartment } from '../../api/Admin';
+import { addDepartment, getField } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,6 +13,9 @@ const AddDepartment = () => {
     const [open, setOpen] = React.useState(false);
     const { loading, company } = useSelector(state => state.admin)
     const [dept, setDept] = React.useState([]);
+    const [tdept, setTDept] = React.useState([]);
+    
+    const [com, setCom] = React.useState();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -24,8 +27,14 @@ const AddDepartment = () => {
         setDept(company)
     }, [company])
 
+    const handleCompany = async (e) => {
+        setCom(e.target.value)
+        console.log(e.target.value)
+         const { data } = await getField(e.target.value);
+         setTDept(data)
+        // setDept(data)
+    }
 
-  
     const initialvalues = {
         company: "",
         field: ""
@@ -38,12 +47,12 @@ const AddDepartment = () => {
             const res = await addDepartment(values)
             if (res.success === true) {
                 toast.success(res.message)
-                resetForm({ values: "" })   
+                resetForm({ values: "" })
             }
             if (res.success === false) {
                 toast.error(res.message)
             }
-            
+
         }
     })
     return (
@@ -101,47 +110,46 @@ const AddDepartment = () => {
                                 </Button>
                             </Tooltip>
 
-                           
+
                         </Stack>
                     </form>
                     <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
-                         <TextField
-                                select
-                                fullWidth
-                                label="Select Company"
-                                size='small'
-                                name='company'
-                                type='text'
-                                variant='standard'
-                                onChange={handleChange}
-                                value={values.company}
-                                onBlur={handleBlur}
-                            >
-                                {!loading ? company?.map((data) => (
+                        <Select
+                             
+                            fullWidth
+                            label="Select Company"
+                            size='small'
+                          
+                            variant='standard'
+                            onChange={handleCompany}
+                            value={com}
 
-                                    <MenuItem value={data.company}>{data.company}</MenuItem>
-                                )) : undefined
-                                }
-                            </TextField>
-                    <TableContainer component={Paper}>
-                                <Table aria-label='a dense table' size='small'>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Company Name</TableCell>
-                                            <TableCell>Department Name</TableCell>
+                        >
+                            {!loading ? company?.map((data) => (
+
+                                <MenuItem value={data.company}>{data.company}</MenuItem>
+                            )) : undefined
+                            }
+                        </Select>
+                        <TableContainer component={Paper}>
+                            <Table aria-label='a dense table' size='small'>
+                                <TableHead>
+                                    <TableRow>
+                                        {/* <TableCell>Company Name</TableCell> */}
+                                        <TableCell>Department Name</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {!loading ? tdept?.map((data) => (
+                                        <TableRow key={data._id}>
+                                            <TableCell>{data.field}</TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {!loading ? company?.map((data) => (
-                                            <TableRow key={data._id}>
-                                                <TableCell>{data.company}</TableCell>
-                                            </TableRow>
-                                        ))
-                                            : undefined}
+                                    ))
+                                        : undefined}
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Stack>
                 </DialogContent>
                 <DialogActions>

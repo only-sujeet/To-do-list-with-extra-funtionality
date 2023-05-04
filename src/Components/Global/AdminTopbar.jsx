@@ -10,15 +10,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import {  Close, Menu, PeopleAltTwoTone } from '@mui/icons-material';
-import { ListItemButton, ListItemIcon } from '@mui/material';
+import { Close, ExpandMore, Menu, PeopleAltTwoTone } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, ListItemButton, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        fontFamily:"Yrsa"
+        fontFamily: "Yrsa"
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -37,34 +37,44 @@ const useStyles = makeStyles(theme => ({
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        width: drawerWidth
+        width: drawerWidth,
+
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
     },
     closeMenuButton: {
         marginRight: 'auto',
         marginLeft: 0,
     },
+    expanded: {
+        margin: '0px',
+    },
+    test: {
+        '&$expanded': {
+            margin: '0px',
+        },
+    }
 }));
 
 const Item = ({ icon, title, to }) => {
     return (
-        <div>
-            <List>
-                <ListItem disablePadding>
+        <>
+            <List style={{ margin: '0px', padding: '0px' }} >
+                <ListItem>
                     <ListItemButton>
                         <ListItemIcon>
                             {icon}
                         </ListItemIcon>
                         <ListItemText>
-                            <Typography variant="h6" color="initial"  > <Link to={to} style={{ textDecoration: "none",fontFamily:"Yrsa" }}  >{title}</Link></Typography>
-                            <Link to={to} /></ListItemText>
+                            <Typography component='p'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  >{title}</Link></Typography>
+                            <Link to={to} />
+                        </ListItemText>
                     </ListItemButton>
                 </ListItem>
             </List>
-        </div>
+        </>
     )
 }
 
@@ -75,11 +85,11 @@ const AdminTopbar = () => {
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen)
     }
-   
+
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}  style={{fontFamily:"Yrsa"}} >
+            <AppBar position="fixed" className={classes.appBar} style={{ fontFamily: "Yrsa" }} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -114,11 +124,27 @@ const AdminTopbar = () => {
                         <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
                             <Close />
                         </IconButton>
-                        <Item
-                            title="Add Profile"
-                            to="/aprofile"
-                            icon={<PeopleAltTwoTone />}
-                        />
+                        <Accordion disableGutters>
+                            <AccordionSummary
+                                expandIcon={<ExpandMore />}
+
+                            >
+                                <Typography>Profile</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Item
+                                    title="Add Profile"
+                                    to="/aprofile"
+                                    icon={<PeopleAltTwoTone />}
+                                />
+                                <Item
+                                    title="Block Profile"
+                                    to="/block_profile"
+                                    icon={<PeopleAltTwoTone />}
+                                />
+                            </AccordionDetails>
+                        </Accordion>
+
                     </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css">
@@ -130,11 +156,28 @@ const AdminTopbar = () => {
                         }}
                     >
                         <div className={classes.toolbar} />
-                        <Item
-                            title="Add Profile"
-                            to="/aprofile"
-                            icon={<PeopleAltTwoTone />}
-                        />
+                        <Accordion elevation={0} disableGutters>
+                            <AccordionSummary
+                                expandIcon={<ExpandMore />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                                sx={{ margin: '0px' }}
+                            >
+                                <Typography>Profile</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails >
+                                <Item
+                                    title="Add Profile"
+                                    to="/aprofile"
+                                    icon={<PeopleAltTwoTone />}
+                                />
+                                <Item
+                                    title="Block Profile"
+                                    to="/block_profile"
+                                    icon={<PeopleAltTwoTone />}
+                                />
+                            </AccordionDetails>
+                        </Accordion>
                     </Drawer>
                 </Hidden>
             </nav>
