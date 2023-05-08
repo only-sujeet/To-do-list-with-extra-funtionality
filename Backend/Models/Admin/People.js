@@ -1,60 +1,73 @@
-const  mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 
 const peopleSchema = mongoose.Schema({
-    company:{
+    company: {
         type: String,
         required: true,
     },
-    field : {
-        type:String,
+    field: {
+        type: String,
         required: true,
     },
-    firstName : {
-        type:String,
+    field: {
+        type: String,
         required: true,
     },
-    middleName : {
-        type:String,
+    subField: {
+        type: String,
         required: true,
     },
-    lastName : {
-        type:String,
+    firstName: {
+        type: String,
         required: true,
     },
-    email : {
-        type:String,
+    middleName: {
+        type: String,
         required: true,
     },
-    dob : {
-        type:Date,
+    lastName: {
+        type: String,
         required: true,
     },
-    age : {
-        type:Number,
+    email: {
+        type: String,
         required: true,
     },
-    mobileno : {
-        type:Number,
+    dob: {
+        type: Date,
         required: true,
     },
-    altmobileno : {
-        type:Number,
+    age: {
+        type: Number,
         required: true,
     },
-    address1 : {
-        type:String,
+    mobileno: {
+        type: Number,
         required: true,
     },
-    address2 : {
-        type:String,
+    altmobileno: {
+        type: Number,
         required: true,
     },
-    Image : {
-        type:String,
+    address1: {
+        type: String,
+        required: true,
     },
-    status :{
-        type:String,
+    address2: {
+        type: String,
+        required: true,
+    },
+    Image: {
+        type: String,
+    },
+    position: {
+        type: String,
+        required: true
+    },
+
+    status: {
+        type: String,
     }
 })
 const People = mongoose.model("People", peopleSchema)
