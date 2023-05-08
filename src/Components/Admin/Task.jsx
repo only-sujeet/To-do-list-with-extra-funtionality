@@ -23,9 +23,9 @@ const Task = () => {
             <div className={classes.content}>
                 <div className={classes.toolbar} />
                 <Box m="15px">
-                <Box display='flex' justifyContent='space-between' alignItems="center"  >
-                <Header title="Task" subtitle="Welcome to Task page" />
-                </Box>
+                    <Box display='flex' justifyContent='space-between' alignItems="center"  >
+                        <Header title="Task" subtitle="Welcome to Task page" />
+                    </Box>
                 </Box>
             </div>
         </>

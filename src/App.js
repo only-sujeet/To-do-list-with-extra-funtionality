@@ -8,6 +8,7 @@ import { ThemeProvider } from '@emotion/react';
 import theme from './Components/Custom/TypographyTheme';
 import BlockProfile from './Components/Admin/BlockProfile';
 import Task from './Components/Admin/Task';
+import Manage from './Components/Admin/Manage';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Route path='/aprofile' element={<AddProfile/>}  />
       <Route path="/block_profile" element={<BlockProfile/>}  />
       <Route path="/task" element={<Task/>}  />
+      <Route path="/manage" element={<Manage/>}  />
     </Routes>
     </div>
     </ThemeProvider>
