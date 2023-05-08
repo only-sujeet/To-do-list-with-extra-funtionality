@@ -103,7 +103,7 @@ const Addcompanyd = () => {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Company Name</TableCell>
-                                            <TableCell>Action</TableCell>
+                                           
                                         </TableRow>
                                     </TableHead>
                                     {/* {loading ? <CircularProgress /> : */}
@@ -117,11 +117,11 @@ const Addcompanyd = () => {
                                         </TableRow> : company?.map((data) => (
                                             <TableRow key={data._id}>
                                                 <TableCell>{data.company}</TableCell>
-                                                <TableCell>
+                                                {/* <TableCell>
                                                     <IconButton aria-label="delete" onClick={() => deletecompany(data._id)} >
                                                         <DeleteTwoTone color='error' fontSize='medium' />
                                                     </IconButton>
-                                                </TableCell>
+                                                </TableCell> */}
                                             </TableRow>
                                         ))}
 

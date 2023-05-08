@@ -1,9 +1,11 @@
 const Company = require("../Models/Admin/Company")
+const Department = require("../Models/Admin/dept")
 
 exports.addCompany = async (req, res) => {
 
     try {
         const { company } = req.body
+
         let comp = await Company.findOne({ company })
         if (comp) {
             return res
@@ -11,7 +13,7 @@ exports.addCompany = async (req, res) => {
                 .json({ success: false, message: "Company already exists....." })
         }
         comp = await Company.create({ company })
-        res.status(200).json({success: true, message: "Successfully Added...."} )
+        res.status(200).json({ success: true, message: "Successfully Added...." })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -34,11 +36,11 @@ exports.GetCompany = async (req, res) => {
     }
 }
 
-exports.deleteCompany = async (req,res) =>{
+exports.deleteCompany = async (req, res) => {
     try {
         const request = await Company.findById(req.params._id)
         if (!request) {
-            return res.status(400).json({success:false, message: "Company Not Found...." })
+            return res.status(400).json({ success: false, message: "Company Not Found...." })
         }
         const reject = await Company.deleteOne({ _id: req.params._id })
         res.status(200).json({
@@ -57,9 +59,10 @@ exports.addField = async (req, res) => {
     try {
 
         const { company, field } = req.body
+        const comp = await Company.findOne({ company })
+        const fie = await Department.findOne({ field })
 
-        let comp = await Company.findOne({ company })
-        const fie = await Company.findOne({ field })
+        console.log(fie)
         if (!comp) {
             return res
                 .status(400)
@@ -69,21 +72,23 @@ exports.addField = async (req, res) => {
                 .status(400)
                 .json({ success: false, message: "Field name is already exists... " })
         }
-        comp.field.push(field)
-        await comp.save();
-        res.status(200).json({success: true, message: "Successfully Added...."} )
+        const dept = await Department.create(req.body)
+        dept.save();
+        comp.field.push(dept._id)
+        comp.save();
+        res.status(200).json({ success: true, message: "Successfully Added...." })
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
 }
 
 
-exports.getField = async (req, res) => { 
+exports.getField = async (req, res) => {
     try {
 
-         const { company } = req.body
-         console.log(company)
-        let comp = await Company.findOne({company})
+        const { company } = req.body
+        console.log(company)
+        let comp = await Company.findOne({ company }).populate("field")
         if (!comp) {
             return res
                 .status(400)
@@ -95,11 +100,35 @@ exports.getField = async (req, res) => {
         res.status(500).json({ success: false, message: error })
     }
 }
-
-exports.getFieldP = async (req,res) => {
+exports.addSubField = async (req, res) => {
     try {
-        
+        const { company, field, subField } = req.body
+        const dept = await Department.findOne({ company, field })
+        if (!dept) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Department not found... " })
+        }
+        if (dept.subField.includes(subField)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "subField Already Exists.." })
+        }
+        dept.subField.push(subField)
+        await dept.save();
+        res.status(200).json({ success: true, message: "Successfully Added...." })
+
+
+
     } catch (error) {
-        res.status(500).json({ Success : false, message:error })
+        res.status(500).json({ success: false, message: error })
+    }
+}
+
+exports.getFieldP = async (req, res) => {
+    try {
+
+    } catch (error) {
+        res.status(500).json({ Success: false, message: error })
     }
 }

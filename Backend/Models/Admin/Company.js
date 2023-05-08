@@ -1,11 +1,15 @@
 const { default: mongoose } = require("mongoose");
 
+
 const companySchema = mongoose.Schema({
     company: {
-        type:String
+        type: String
     },
-
     field: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Department"
+        }
     ],
     addat: {
         type: Date,
@@ -13,4 +17,4 @@ const companySchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Company" ,companySchema)
+module.exports = mongoose.model("Company", companySchema)

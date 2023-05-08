@@ -32,9 +32,10 @@ const AddDepartment = () => {
         console.log(e.target.value)
          const { data } = await getField(e.target.value);
          setTDept(data)
-        // setDept(data)
+        
     }
 
+    console.log(tdept)
     const initialvalues = {
         company: "",
         field: ""
@@ -141,8 +142,8 @@ const AddDepartment = () => {
                                 </TableHead>
                                 <TableBody>
                                     {!loading ? tdept?.map((data) => (
-                                        <TableRow key={data._id}>
-                                            <TableCell>{data.field}</TableCell>
+                                        <TableRow key={data}>
+                                            <TableCell>{data}</TableCell>
                                         </TableRow>
                                     ))
                                         : undefined}
