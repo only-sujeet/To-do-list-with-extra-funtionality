@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Close, ExpandMore, Menu, PeopleAltTwoTone } from '@mui/icons-material';
+import { AddchartTwoTone, Close, ExpandMore, Menu, PeopleAltTwoTone } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, ListItemButton, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom'
 
@@ -144,7 +144,11 @@ const AdminTopbar = () => {
                                 />
                             </AccordionDetails>
                         </Accordion>
-
+                        <Item
+                            icon={<AddchartTwoTone />}
+                            title="Manage"
+                            to='/manage'
+                        />
                     </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css">
@@ -178,6 +182,11 @@ const AdminTopbar = () => {
                                 />
                             </AccordionDetails>
                         </Accordion>
+                        <Item
+                            icon={<AddchartTwoTone />}
+                            title="Manage"
+                            to='/manage'
+                        />
                     </Drawer>
                 </Hidden>
             </nav>
