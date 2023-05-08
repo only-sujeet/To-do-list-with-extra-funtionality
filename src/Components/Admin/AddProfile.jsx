@@ -8,8 +8,8 @@ import { getPeople } from '../../Redux/Action/Admin'
 import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
 import NewPeopledet from '../Global/NewPeopledet'
-import Addcompanyd from './Addcompanyd'
-import AddDepartment from './AddDepartment'
+// import Addcompanyd from './Addcompanyd'
+// import AddDepartment from './AddDepartment'
 import AddPeople from './AddPeople'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,8 +58,8 @@ const AddProfile = () => {
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Add Profile" subtitle="Welcome to Add Profile page" />
                         <Box display='flex'>
-                            <Addcompanyd />
-                            <AddDepartment />
+                            {/* <Addcompanyd />
+                            <AddDepartment /> */}
                             <AddPeople />
                         </Box>
                     </Box>

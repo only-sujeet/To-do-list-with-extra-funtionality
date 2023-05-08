@@ -10,9 +10,14 @@ export const addcom = yup.object({
 
 export const adddep = yup.object({
     company: yup.string().required("Please Select Company"),
-    field: yup.string().required("Please Enter Field")
+    field: yup.string().required("Please Enter Department")
 })
 
+export const addSubDept = yup.object({
+    company: yup.string().required("Please Select Company"),
+    field: yup.string().required("Please Select Department"),
+    subField : yup.string().required("Please Enter Sub-Department"),
+})
 export const addprofile = yup.object({
     field: yup.string().required("Please Select Field"),
     firstName: yup.string().required("Please Enter Your First Name").min(5),
