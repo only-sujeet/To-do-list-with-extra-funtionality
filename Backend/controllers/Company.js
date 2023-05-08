@@ -117,9 +117,50 @@ exports.addSubField = async (req, res) => {
         dept.subField.push(subField)
         await dept.save();
         res.status(200).json({ success: true, message: "Successfully Added...." })
+    } catch (error) {
+        res.status(500).json({ success: false, message: error })
+    }
+}
+exports.getSubField = async (req, res) => {
+    try {
 
 
+        const { company, field } = req.body
+        const dept = await Department.findOne({ company, field })
+        if (!dept) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Department not found... " })
+        }
 
+         res.status(200).json(dept.subField)
+    } catch (error) {
+        res.status(500).json({ success: false, message: error })
+    }
+}
+exports.delSubField = async (req, res) => {
+    try {
+
+
+        const { company, field, subField } = req.body
+        const dept = await Department.findOne({ company, field })
+        if (!dept) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Department not found... " })
+        }
+
+
+        if (dept.subField.includes(subField)) {
+            const index = dept.subField.indexOf(subField)
+            dept.subField.splice(index, 1)
+            await dept.save();
+            return res
+                .status(400)
+                .json({ dept , success: false, message: "subField Deleted.. " })
+
+        }else
+         res.status(200).json({ success: false, message: "subField not found...." })
     } catch (error) {
         res.status(500).json({ success: false, message: error })
     }
