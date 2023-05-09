@@ -64,7 +64,7 @@ export const getField = async (values) => {
 }
 export const addSubField = async (values) => {
     try {
-        alert("hello")
+       
         const { data } = axios.post('http://localhost:5000/api/admin/addSubField', values)
         return data
     } catch (error) {

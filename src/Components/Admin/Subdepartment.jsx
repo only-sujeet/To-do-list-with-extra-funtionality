@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { addSubDept } from '../Validation/Admin'
 import { useSelector } from 'react-redux'
 import { addSubField, getField, getSubField } from '../../api/Admin'
+import { Refresh } from '@mui/icons-material'
 
 const Subdepartment = () => {
 
@@ -19,8 +20,13 @@ const Subdepartment = () => {
         validationSchema: addSubDept,
         onSubmit: async (values, { resetForm }) => {
             const { data } = await addSubField(values)
-            console.log(values)
+            if (data.success === true) {
+                resetForm({ values: "" })
+                getSubField(values)
+            }
+            if (data.success === false) {
 
+            }
         }
     })
     const handleTwoFunc = async (e) => {
@@ -36,7 +42,6 @@ const Subdepartment = () => {
     }
     const getSubFieldDetails = async (e) => {
         const data = await getSubField({ company: values.company, field: e.target.value })
-        console.log(data)
         setSubDept(data)
 
     }
@@ -114,7 +119,7 @@ const Subdepartment = () => {
                         <Table aria-label='a dense table' size='small'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Department of Sub Department</TableCell>
+                                    <TableCell align='center'   ><b>Department of Sub Departments</b>  </TableCell>
 
                                 </TableRow>
                             </TableHead>
