@@ -18,6 +18,7 @@ export const getCompany = (values) => async (dispatch) => {
         })
     }
 }
+
 export const getPeople = () => async (dispatch) => {
     try {
         dispatch({

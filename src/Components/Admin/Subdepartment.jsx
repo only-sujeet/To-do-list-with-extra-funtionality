@@ -1,32 +1,47 @@
 import { Button, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { addSubDept } from '../Validation/Admin'
+import { useSelector } from 'react-redux'
+import { addSubField, getField, getSubField } from '../../api/Admin'
 
 const Subdepartment = () => {
 
+    const [dept, setDept] = useState();
+    const [subDept, setSubDept] = useState();
+    const [details, setdetails] = useState();
     const initialvalues = {
-        company: "",
-        field: "",
-        subField: ""
-    }
 
+    }
+    const { loading, company } = useSelector(state => state.admin)
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
         onSubmit: async (values, { resetForm }) => {
-            // const res = await addDepartment(values)
-            // if (res.success === true) {
-            //     toast.success(res.message)
-            //     resetForm({ values: "" })
-            // }
-            // if (res.success === false) {
-            //     toast.error(res.message)
-            // }
+            const { data } = await addSubField(values)
             console.log(values)
 
         }
     })
+    const handleTwoFunc = async (e) => {
+        handleChange(e)
+        const { data } = await getField(e.target.value);
+        setDept(data)
+    }
+
+
+    const handleTwoFunc2 = async (e) => {
+        handleChange(e)
+        const getSubFieldDetails = (e) => {
+            const { name, value } = e.target
+            setdetails({
+                ...details,
+                [name]: value
+            })
+        }
+    }
+
+    console.log(details)
     return (
         <div>
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
@@ -41,40 +56,38 @@ const Subdepartment = () => {
                         name='company'
                         type='text'
                         variant='standard'
-                        onChange={handleChange}
+                        onChange={handleTwoFunc}
                         value={values.company}
                         onBlur={handleBlur}
                     >
-                        {/* {!loading ? company?.map((data) => (
+                        {!loading ? company?.map((data) => (
 
                             <MenuItem value={data.company}>{data.company}</MenuItem>
                         )) : undefined
-                        } */}
-                        <MenuItem value="abe">Abc</MenuItem>
-                        <MenuItem value="cde">cde</MenuItem>
-                        <MenuItem value="efg">efg</MenuItem>
+                        }
                     </TextField>
                     {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
                     <TextField
                         select
                         fullWidth
-                        label="Select Department"
+                        label="Select Company"
                         size='small'
-                        name='field'
+                        name='filed'
                         type='text'
                         variant='standard'
-                        onChange={handleChange}
-                        value={values.field}
+                        onChange={handleTwoFunc2}
+                        value={values.company}
                         onBlur={handleBlur}
                     >
-                        {/* {!loading ? company?.map((data) => (
+                        {
+                            values.company ?
+                                !loading ? dept?.map((data) => (
+                                    <MenuItem value={data.field}>{data.field}</MenuItem>
 
-                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                        )) : undefined
-                        } */}
-                        <MenuItem value="abe">Abc</MenuItem>
-                        <MenuItem value="cde">cde</MenuItem>
-                        <MenuItem value="efg">efg</MenuItem>
+                                ))
+                                    : undefined
+                                : <MenuItem >Please First Select Company</MenuItem>
+                        }
                     </TextField>
                     {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                     <TextField
@@ -105,7 +118,7 @@ const Subdepartment = () => {
 
                                 </TableRow>
                             </TableHead>
-                           
+
                             <TableBody>
 
                                 {/* {company <= 0 ? <TableRow>
@@ -113,14 +126,14 @@ const Subdepartment = () => {
                                         <Typography variant="body1" color="primary" align='center' >No Company Added</Typography>
                                     </TableCell>
                                 </TableRow> : company?.map((data) => ( */}
-                                    <TableRow key="id">
-                                        <TableCell>hello</TableCell>
-                                        {/* <TableCell>
+                                <TableRow key="id">
+                                    <TableCell>hello</TableCell>
+                                    {/* <TableCell>
                                                     <IconButton aria-label="delete" onClick={() => deletecompany(data._id)} >
                                                         <DeleteTwoTone color='error' fontSize='medium' />
                                                     </IconButton>
                                                 </TableCell> */}
-                                    </TableRow>
+                                </TableRow>
                                 {/* ))} */}
 
                             </TableBody>

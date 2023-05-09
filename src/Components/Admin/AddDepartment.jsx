@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextField, Stack, Tooltip, Select, InputLabel,Typography } from '@mui/material';
-import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,  FormControl, FormLabel, FormHelperText, } from '@material-ui/core';
+import { Button, TextField, Stack, Tooltip, Select, InputLabel, Typography } from '@mui/material';
+import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, FormControl, FormLabel, FormHelperText, } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ const AddDepartment = () => {
         setTDept(data)
 
     }
+
 
     console.log(tdept)
     const initialvalues = {
@@ -107,12 +108,12 @@ const AddDepartment = () => {
             </form>
             <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
                 <FormControl fullWidth variant='filled'  >
-                    <InputLabel  color='secondary' >Select Company</InputLabel>
+                    <InputLabel color='secondary' >Select Company</InputLabel>
                     <Select
-                       color='secondary'
-                       label="Company"
-                       id="Company"
-                       size='small'
+                        color='secondary'
+                        label="Company"
+                        id="Company"
+                        size='small'
                         onChange={handleCompany}
                         value={com}
 
@@ -132,12 +133,18 @@ const AddDepartment = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {!loading ? tdept?.map((data) => (
-                                <TableRow key={data}>
-                                    <TableCell>{data}</TableCell>
-                                </TableRow>
-                            ))
-                                : undefined}
+
+                            {
+                                tdept >= 0 ? <Typography align='center' color="initial">Department Not Found</Typography>
+                                    :
+                                    !loading ? tdept?.map((data) => (
+
+                                        <TableRow key={data._id}>
+                                            <TableCell>{data.field}</TableCell>
+                                        </TableRow>
+                                    ))
+                                        : undefined
+                            }
 
                         </TableBody>
                     </Table>

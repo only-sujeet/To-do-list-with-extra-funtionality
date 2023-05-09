@@ -54,9 +54,7 @@ const Manage = () => {
                     </Box>
                     <Box m="40px auto" width={{ lg: "40%", sm: "100%", md: "60%", xs: "80%"   }}>
                         {
-                            status === 1 && <Addcompanyd />
-                          
-                               
+                            status === 1 && <Addcompanyd />    
                             
                         }
                         {

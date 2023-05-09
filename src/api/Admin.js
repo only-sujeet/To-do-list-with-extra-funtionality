@@ -52,9 +52,29 @@ export const addDepartment = async (values) => {
     }
 }
 
+
+
 export const getField = async (values) => {
     try {
         const data = await axios.post('http://localhost:5000/api/admin/getDept', { company: values })
+        return data
+    } catch (error) {
+        return error
+    }
+}
+export const addSubField = async (values) => {
+    try {
+        alert("hello")
+        const { data } = axios.post('http://localhost:5000/api/admin/addSubField', values)
+        return data
+    } catch (error) {
+        return error
+    }
+}
+export const getSubField = async (values) => {
+    try {
+        alert("hello")
+        const { data } = axios.post('http://localhost:5000/api/admin/getSubField', values)
         return data
     } catch (error) {
         return error
@@ -67,7 +87,7 @@ export const addPeople = async (values) => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-         return data
+        return data
         // console.log(data)
     } catch (error) {
         if (error.response) {
