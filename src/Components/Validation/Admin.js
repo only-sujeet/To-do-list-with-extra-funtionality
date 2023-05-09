@@ -19,7 +19,9 @@ export const addSubDept = yup.object({
     subField : yup.string().required("Please Enter Sub-Department"),
 })
 export const addprofile = yup.object({
-    field: yup.string().required("Please Select Field"),
+    field: yup.string().required("Please Select Department"),
+    subField: yup.string().required("Please Select Sub-Department"),
+    position: yup.string().required("Please Enter Position"),
     firstName: yup.string().required("Please Enter Your First Name").min(5),
     middleName: yup.string().required("Please Enter Your Middle Name").min(5),
     lastName: yup.string().required("Please Enter Your Last Name").min(5),

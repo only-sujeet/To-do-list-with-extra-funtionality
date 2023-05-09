@@ -9,8 +9,8 @@ exports.addPeople = async (req, res) => {
         const data = req.body.data
         const object = JSON.parse(data)
 
-        const { company, field, subField, firstName, middleName, lastName, email, dob, age, mobileno, altmobileno, address1, address2 } = object
-        const peo = new People({ company,subField , field, firstName, middleName, lastName, email, dob, age, mobileno, altmobileno, address1, address2, Image })
+        const { company, field, subField, firstName, middleName, lastName, email, dob, age, mobileno, altmobileno, address1, address2,position } = object
+        const peo = new People({ company,subField , field, firstName, middleName, lastName, email, dob, age, mobileno, altmobileno, address1, address2, Image ,position})
         await peo.save();
         // console.log("hello")
         res.status(200).json({

@@ -42,6 +42,7 @@ const AddPeople = () => {
     const initialvalue = {
         company: "",
         field: "",
+        subField:"",
         firstName: "",
         middleName: "",
         lastName: "",
@@ -52,6 +53,7 @@ const AddPeople = () => {
         altmobileno: "",
         address1: "",
         address2: "",
+        position:""
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
@@ -63,17 +65,18 @@ const AddPeople = () => {
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
-                    const res = await addPeople(formdata)
-                    if (res.success === true) {
-                         toast.success(res.message)
-                        console.log(res.message)
-                        resetForm({ values: "" })
-                        setFile(null)
-                        setImage(null)
-                    }
-                    if (res.success === false) {
-                        toast.error(res.message)
-                    }
+                    console.log(formdata)
+                    // const res = await addPeople(formdata)
+                    // if (res.success === true) {
+                    //      toast.success(res.message)
+                    //     console.log(res.message)
+                    //     resetForm({ values: "" })
+                    //     setFile(null)
+                    //     setImage(null)
+                    // }
+                    // if (res.success === false) {
+                    //     toast.error(res.message)
+                    // }
                     // resetForm({ values: "" })
 
                 }
@@ -135,11 +138,11 @@ const AddPeople = () => {
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
-                                    <InputLabel color='secondary'>Field</InputLabel>
+                                    <InputLabel color='secondary'>Department</InputLabel>
                                     <Select
                                         color='secondary'
                                         id='Field'
-                                        label="Field"
+                                        label="Depatment"
                                         name='field'
                                         value={values.field}
                                         onChange={handleChange}
@@ -152,6 +155,41 @@ const AddPeople = () => {
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <FormControl variant='filled' fullWidth>
+                                    <InputLabel color='secondary'>Sub-Department</InputLabel>
+                                    <Select
+                                        color='secondary'
+                                        id='subField'
+                                        label="Sub-Depatment"
+                                        name='subField'
+                                        value={values.subField}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        {dept && dept?.map((data) => (
+                                            <MenuItem value={data}>{data}</MenuItem>
+                                        ))}
+
+                                    </Select>
+                                </FormControl>
+                                {errors.subField && touched.subField ? <Typography variant="caption" color="error">{errors.subField}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="position"
+                                    label="Position"
+                                    name='position'
+                                    type="text"
+                                    value={values.position}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.position && touched.position ? <Typography variant="caption" color="error">{errors.position}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
 
