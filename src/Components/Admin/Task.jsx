@@ -3,6 +3,7 @@ import { makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
 import { Box } from '@mui/material';
 import Header from '../Global/Header';
+import AddTask from './AddTask';
 
 
 const usestyles = makeStyles(theme => ({
@@ -25,6 +26,7 @@ const Task = () => {
                 <Box m="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Task" subtitle="Welcome to Task page" />
+                        <AddTask/>
                     </Box>
                 </Box>
             </div>

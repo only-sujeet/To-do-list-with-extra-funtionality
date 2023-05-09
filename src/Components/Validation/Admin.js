@@ -34,3 +34,13 @@ export const addprofile = yup.object({
     address2:yup.string().required("Please Enter Alternate Address"),
 
 })
+export const addTask = yup.object({
+    name: yup.string().required("Please Enter Task Name"),
+    description: yup.string().required("Please Enter Description"),
+    field:  yup.string().required("Please Select Department"),
+    agency: yup.string().required("Please Select Company"),
+    taskDependency:yup.string().required("Please Enter Task Dependency"),
+    QTY: yup.number().required("Please Enter Quantity"),
+    amount:yup.number().required("Please Enter Ammount"),
+
+})

@@ -5,6 +5,10 @@ import { addSubDept } from '../Validation/Admin'
 import { useSelector } from 'react-redux'
 import { addSubField, getField, getSubField } from '../../api/Admin'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Refresh } from '@mui/icons-material'
+
 const Subdepartment = () => {
 
     const [dept, setDept] = useState();
@@ -18,13 +22,14 @@ const Subdepartment = () => {
         initialValues: initialvalues,
         validationSchema: addSubDept,
         onSubmit: async (values, { resetForm }) => {
-            const { data } = await addSubField(values)
+            const data = await addSubField(values)
             if (data.success === true) {
+                toast.success(data.message)
                 resetForm({ values: "" })
                 getSubField(values)
             }
             if (data.success === false) {
-
+                toast.error(data.message)
             }
         }
     })
@@ -139,7 +144,18 @@ const Subdepartment = () => {
 
                 </Stack>
             </form>
-
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }
