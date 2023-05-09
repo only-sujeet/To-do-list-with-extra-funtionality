@@ -129,3 +129,17 @@ export const unBlockPeople = async (id) => {
         }
     }
 }
+
+export const addtask = async (values) => { 
+    try {
+        
+        const { data } = await axios.post('http://localhost:5000/api/admin/addTask', values)
+
+        return data
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+ }

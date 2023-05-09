@@ -54,4 +54,21 @@ export const getBlockPeople = () => async (dispatch) => {
         })
     }
 }
+export const getTask = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getTaskRequest"
+        })
+        const { data } = await axios.get('http://localhost:5000/api/admin/getTask')
+
+        dispatch({
+            type: "getTaskSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "getTaskFailuer"
+        })
+    }
+}
 
