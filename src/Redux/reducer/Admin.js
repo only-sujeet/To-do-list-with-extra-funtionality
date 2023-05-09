@@ -39,4 +39,19 @@ export const adminReducer = createReducer(initialState, {
         state.loading = true;
         state.getblkPeopleError = action.payload
     },
+
+    // for task
+
+    getTaskRequest: (state,) => {
+        state.loading = true;
+    },
+    getTaskSuccess: (state, action) => {
+        state.loading = false;
+        state.task = action.payload
+    },
+    getTaskFailuer: (state, action) => {
+        state.loading = true;
+        state.taskerror = action.payload
+    },
+
 })

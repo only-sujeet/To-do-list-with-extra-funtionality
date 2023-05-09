@@ -1,32 +1,70 @@
-import { AddTaskTwoTone,  } from '@mui/icons-material'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { AddTaskTwoTone, } from '@mui/icons-material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material'
 import { useFormik } from 'formik';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addtask, getField } from '../../api/Admin';
+import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTask } from '../Validation/Admin';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddTask = () => {
+    const dispatch = useDispatch()
+    const { company } = useSelector(state => state.admin)
     const [open, setOpen] = React.useState(false);
+    const [dept, setDept] = useState([]);
+
     const handleClose = () => {
         setOpen(false);
-        // dispatch(getPeople())
+        dispatch(getTask())
     };
     const handleClickOpen = () => {
         setOpen(true);
     };
+
+    useEffect(() => {
+        dispatch(getCompany())
+    }, [dispatch])
+
+
     const initialvalue = {
-        name:"",
-        description:"",
-        field:"",
-        agency:"",
-        taskDependency:"",
-        QTY:"",
-        amount:"",
+        name: "",
+        description: "",
+        field: "",
+        agency: "",
+        taskDependency: "",
+        QTY: "",
+        amount: "",
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
-        initialValues:initialvalue,
+        initialValues: initialvalue,
         validationSchema: addTask,
+        onSubmit: async (values, { resetForm }) => {
+            const res = await addtask(values)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })
+                //dispatch(getCompany())
+
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
+        }
 
     })
+    const handleTwoFunc = async (e) => {
+        handleChange(e)
+        const { data } = await getField(e.target.value);
+        setDept(data)
+    }
+    const handleTwoFunc2 = async (e) => {
+        handleChange(e)
+
+    }
+
     return (
         <div>
             <Tooltip title="Add Task">
@@ -53,7 +91,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
+                                {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -68,7 +106,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.description && touched.description ? <Typography variant="caption" color="error">{errors.description}</Typography> : null}
+                                {errors.description && touched.description ? <Typography variant="caption" color="error">{errors.description}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl fullWidth
@@ -80,17 +118,41 @@ const AddTask = () => {
                                         id="agency"
                                         name='agency'
                                         value={values.agency}
-                                        onChange={handleCompany}
+                                        // onChange={handleCompany}
+                                        onChange={handleTwoFunc}
                                         onBlur={handleBlur}
                                     >
-                                       
+
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
+                                {errors.agency && touched.agency ? <Typography variant="caption" color="error">{errors.agency}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <FormControl variant='filled' fullWidth>
+                                    <InputLabel color='secondary'>Department</InputLabel>
+                                    <Select
+                                        color='secondary'
+                                        id='field'
+                                        label="Depatment"
+                                        name='field'
+                                        value={values.field}
+                                        onChange={handleTwoFunc2}
+                                        onBlur={handleBlur}
+                                    >
+                                        {values.agency ?
+                                            dept && dept?.map((data) => (
+                                                <MenuItem value={data.field}>{data.field}</MenuItem>
+                                            ))
+                                            : <MenuItem >Please First Select Company</MenuItem>}
+
+
+                                    </Select>
+                                </FormControl>
+                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -105,7 +167,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
+                                {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -120,7 +182,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.QTY && touched.QTY ? <Typography variant="caption" color="error">{errors.QTY}</Typography> : null}
+                                {errors.QTY && touched.QTY ? <Typography variant="caption" color="error">{errors.QTY}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -135,7 +197,12 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.amount && touched.amount ? <Typography variant="caption" color="error">{errors.amount}</Typography> : null}
+                                {errors.amount && touched.amount ? <Typography variant="caption" color="error">{errors.amount}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <Button variant="contained" color='primary' type='submit' >
+                                    Add
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>
@@ -145,6 +212,18 @@ const AddTask = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }
