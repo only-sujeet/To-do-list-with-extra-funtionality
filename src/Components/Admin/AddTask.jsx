@@ -1,29 +1,38 @@
-import { AddTaskTwoTone,  } from '@mui/icons-material'
+import { AddTaskTwoTone, } from '@mui/icons-material'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { useFormik } from 'formik';
 import React from 'react'
 import { addTask } from '../Validation/Admin';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getCompany } from '../../Redux/Action/Admin';
 
 const AddTask = () => {
     const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
+    const { company, loading } = useSelector(state => state.admin)
+    const dispatch = useDispatch();
+    const handleClose = () => { 
         setOpen(false);
         // dispatch(getPeople())
     };
     const handleClickOpen = () => {
         setOpen(true);
     };
+    useEffect(() => {
+        dispatch(getCompany())
+    }, [dispatch]);
+
     const initialvalue = {
-        name:"",
-        description:"",
-        field:"",
-        agency:"",
-        taskDependency:"",
-        QTY:"",
-        amount:"",
+        name: "",
+        description: "",
+        field: "",
+        agency: "",
+        taskDependency: "",
+        QTY: "",
+        amount: "",
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
-        initialValues:initialvalue,
+        initialValues: initialvalue,
         validationSchema: addTask,
 
     })
@@ -53,7 +62,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
+                                {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -68,7 +77,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.description && touched.description ? <Typography variant="caption" color="error">{errors.description}</Typography> : null}
+                                {errors.description && touched.description ? <Typography variant="caption" color="error">{errors.description}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl fullWidth
@@ -80,10 +89,10 @@ const AddTask = () => {
                                         id="agency"
                                         name='agency'
                                         value={values.agency}
-                                        onChange={handleCompany}
+                                        onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                       
+
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>
@@ -105,7 +114,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
+                                {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -120,7 +129,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.QTY && touched.QTY ? <Typography variant="caption" color="error">{errors.QTY}</Typography> : null}
+                                {errors.QTY && touched.QTY ? <Typography variant="caption" color="error">{errors.QTY}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
@@ -135,7 +144,7 @@ const AddTask = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                 {errors.amount && touched.amount ? <Typography variant="caption" color="error">{errors.amount}</Typography> : null}
+                                {errors.amount && touched.amount ? <Typography variant="caption" color="error">{errors.amount}</Typography> : null}
                             </Grid>
                         </Grid>
                     </form>
