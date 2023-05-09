@@ -106,12 +106,12 @@ const Login = () => {
       if (res.success === true) {
         toast.success(res.message)
         resetForm({ values: "" })
+        navigate('/aprofile')
         
       }
       if (res.success === false) {
         toast.error(res.message)
       }
-      navigate('/aprofile')
     }
   })
 

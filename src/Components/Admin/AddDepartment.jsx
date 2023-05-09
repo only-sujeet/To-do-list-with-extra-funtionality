@@ -59,7 +59,7 @@ const AddDepartment = () => {
     return (
         <div>
 
-            <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Sub-Department</Typography>
+            <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Department</Typography>
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 

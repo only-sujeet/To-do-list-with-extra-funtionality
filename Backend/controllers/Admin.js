@@ -32,7 +32,7 @@ exports.adminLogin = async (req, res) => {
         if (!admin) {
             return res
                 .status(400)
-                .json({ success: false, message: "Invalid adminname & Password" })
+                .json({ success: false, message: "!! Invalid Email" })
         }
 
         const isMatch = await admin.matchPassword(password)
@@ -40,7 +40,7 @@ exports.adminLogin = async (req, res) => {
         if (!isMatch) {
             return res
                 .status(400)
-                .json({ success: false, message: "Invalid adminname & Password" })
+                .json({ success: false, message: "!! Invalid Password" })
 
         }
         const option = {
