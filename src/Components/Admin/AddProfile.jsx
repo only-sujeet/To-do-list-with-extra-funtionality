@@ -11,7 +11,7 @@ import NewPeopledet from '../Global/NewPeopledet'
 // import Addcompanyd from './Addcompanyd'
 // import AddDepartment from './AddDepartment'
 import AddPeople from './AddPeople'
-import { ToastContainer,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const usestyles = makeStyles(theme => ({
@@ -42,12 +42,12 @@ const AddProfile = () => {
     const blockpeople = async (id) => {
         const res = await blockPeople(id)
         if (res.success === true) {
-            toast.success(res.message)
             dispatch(getPeople())
-          }
-          if (res.success === false) {
+            toast.success(res.message)
+        }
+        if (res.success === false) {
             toast.error(res.message)
-          }
+        }
     }
     return (
         <>
@@ -65,8 +65,8 @@ const AddProfile = () => {
                     </Box>
                     {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
                         <Grid container spacing={2}>
-                            {
-                               people <=0 ? <Typography variant="h3" color="initial" align='center' >No Profile Added</Typography>  : people?.map((data) => (
+                            {!loading &&
+                                people <= 0 ? <Typography variant="h3" color="initial" align='center' >No Profile Added</Typography> : people?.map((data) => (
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
                                         <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >
