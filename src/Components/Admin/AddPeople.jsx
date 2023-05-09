@@ -74,18 +74,18 @@ const AddPeople = () => {
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
                     console.log(formdata)
-                    // const res = await addPeople(formdata)
-                    // if (res.success === true) {
-                    //      toast.success(res.message)
-                    //     console.log(res.message)
-                    //     resetForm({ values: "" })
-                    //     setFile(null)
-                    //     setImage(null)
-                    // }
-                    // if (res.success === false) {
-                    //     toast.error(res.message)
-                    // }
-                    // resetForm({ values: "" })
+                    const res = await addPeople(formdata)
+                    if (res.success === true) {
+                         toast.success(res.message)
+                        console.log(res.message)
+                        resetForm({ values: "" })
+                        setFile(null)
+                        setImage(null)
+                    }
+                    if (res.success === false) {
+                        toast.error(res.message)
+                    }
+                    resetForm({ values: "" })
 
                 }
                 else {
