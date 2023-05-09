@@ -44,7 +44,7 @@ const AddPeople = () => {
 
     useEffect(() => {
         dispatch(getCompany())
-    }, [])
+    }, [dispatch])
 
     const initialvalue = {
         company: "",
@@ -192,11 +192,14 @@ const AddPeople = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        {values.company && values.field ?
+                                        {values.company && values.field
+                                            ?
                                             subDept && subDept?.map((data) => (
                                                 <MenuItem value={data}>{data}</MenuItem>
                                             ))
-                                            : <MenuItem >Please First Select Company & Department</MenuItem>}}
+                                            : <MenuItem >Please First Select Company & Department</MenuItem>
+                                        }
+
 
                                     </Select>
                                 </FormControl>
