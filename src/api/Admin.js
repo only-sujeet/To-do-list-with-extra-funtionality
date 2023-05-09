@@ -73,8 +73,7 @@ export const addSubField = async (values) => {
 }
 export const getSubField = async (values) => {
     try {
-        alert("hello")
-        const { data } = axios.post('http://localhost:5000/api/admin/getSubField', values)
+        const { data } = await axios.post('http://localhost:5000/api/admin/getSubField', values)
         return data
     } catch (error) {
         return error

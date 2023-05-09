@@ -29,19 +29,19 @@ const Subdepartment = () => {
         setDept(data)
     }
 
-
     const handleTwoFunc2 = async (e) => {
         handleChange(e)
-        const getSubFieldDetails = (e) => {
-            const { name, value } = e.target
-            setdetails({
-                ...details,
-                [name]: value
-            })
-        }
+        getSubFieldDetails(e)
+
+    }
+    const getSubFieldDetails = async (e) => {
+        const data = await getSubField({ company: values.company, field: e.target.value })
+        console.log(data)
+        setSubDept(data)
+
     }
 
-    console.log(details)
+    console.log(subDept)
     return (
         <div>
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
@@ -72,7 +72,7 @@ const Subdepartment = () => {
                         fullWidth
                         label="Select Company"
                         size='small'
-                        name='filed'
+                        name='field'
                         type='text'
                         variant='standard'
                         onChange={handleTwoFunc2}
@@ -114,30 +114,23 @@ const Subdepartment = () => {
                         <Table aria-label='a dense table' size='small'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Company Name</TableCell>
+                                    <TableCell>Department of Sub Department</TableCell>
 
                                 </TableRow>
                             </TableHead>
 
                             <TableBody>
+                                {
+                                    subDept && subDept?.map((data) => (
 
-                                {/* {company <= 0 ? <TableRow>
-                                    <TableCell>
-                                        <Typography variant="body1" color="primary" align='center' >No Company Added</Typography>
-                                    </TableCell>
-                                </TableRow> : company?.map((data) => ( */}
-                                <TableRow key="id">
-                                    <TableCell>hello</TableCell>
-                                    {/* <TableCell>
-                                                    <IconButton aria-label="delete" onClick={() => deletecompany(data._id)} >
-                                                        <DeleteTwoTone color='error' fontSize='medium' />
-                                                    </IconButton>
-                                                </TableCell> */}
-                                </TableRow>
-                                {/* ))} */}
+                                        <TableRow key={data}>
+                                            <TableCell>{data}</TableCell>
+                                        </TableRow>
+                                    ))
+                                }
 
                             </TableBody>
-                            {/* } */}
+
                         </Table>
                     </TableContainer>
 
