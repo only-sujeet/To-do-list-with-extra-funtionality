@@ -5,17 +5,20 @@ import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPeople, getField } from '../../api/Admin';
-import { getPeople } from '../../Redux/Action/Admin';
+import { addPeople, getField, getSubField } from '../../api/Admin';
+import { getCompany, getPeople } from '../../Redux/Action/Admin';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
+    const [subDept, setSubDept] = useState();
     const [file, setFile] = useState();
     const [image, setImage] = useState()
     const [dept, setDept] = useState([]);
     const { company } = useSelector(state => state.admin)
+
     const dispatch = useDispatch()
     const handleClickOpen = () => {
         setOpen(true);
@@ -39,10 +42,14 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
+    useEffect(() => {
+        dispatch(getCompany())
+    }, [])
+
     const initialvalue = {
         company: "",
         field: "",
-        subField:"",
+        subField: "",
         firstName: "",
         middleName: "",
         lastName: "",
@@ -53,7 +60,7 @@ const AddPeople = () => {
         altmobileno: "",
         address1: "",
         address2: "",
-        position:""
+        position: ""
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
@@ -62,6 +69,7 @@ const AddPeople = () => {
             try {
 
                 if (file) {
+                    console.log(values)
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
@@ -92,13 +100,26 @@ const AddPeople = () => {
             // resetForm({ values: "" })
         }
 
+
+
     })
 
-    const handleCompany = async (e) => {
+    const handleTwoFunc = async (e) => {
         handleChange(e)
         const { data } = await getField(e.target.value);
         setDept(data)
     }
+
+    const handleTwoFunc2 = async (e) => {
+        handleChange(e)
+        getSubFieldDetails(e)
+
+    }
+    const getSubFieldDetails = async (e) => {
+        const data = await getSubField({ company: values.company, field: e.target.value })
+        setSubDept(data)
+    }
+
     return (
         <div>
             <Tooltip title="Add People">
@@ -124,10 +145,10 @@ const AddPeople = () => {
                                         id="Company"
                                         name='company'
                                         value={values.company}
-                                        onChange={handleCompany}
+                                        onChange={handleTwoFunc}
                                         onBlur={handleBlur}
                                     >
-                                       
+
                                         {company?.map((data) => (
 
                                             <MenuItem value={data.company}>{data.company}</MenuItem>
@@ -145,12 +166,15 @@ const AddPeople = () => {
                                         label="Depatment"
                                         name='field'
                                         value={values.field}
-                                        onChange={handleChange}
+                                        onChange={handleTwoFunc2}
                                         onBlur={handleBlur}
                                     >
-                                        {dept && dept?.map((data) => (
-                                            <MenuItem value={data}>{data}</MenuItem>
-                                        ))}
+                                        {values.company ?
+                                            dept && dept?.map((data) => (
+                                                <MenuItem value={data.field}>{data.field}</MenuItem>
+                                            ))
+                                            : <MenuItem >Please First Select Company</MenuItem>}
+
 
                                     </Select>
                                 </FormControl>
@@ -168,9 +192,11 @@ const AddPeople = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        {dept && dept?.map((data) => (
-                                            <MenuItem value={data}>{data}</MenuItem>
-                                        ))}
+                                        {values.company && values.field ?
+                                            subDept && subDept?.map((data) => (
+                                                <MenuItem value={data}>{data}</MenuItem>
+                                            ))
+                                            : <MenuItem >Please First Select Company & Department</MenuItem>}}
 
                                     </Select>
                                 </FormControl>

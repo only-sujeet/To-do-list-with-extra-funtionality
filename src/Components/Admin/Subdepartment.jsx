@@ -4,15 +4,14 @@ import React, { useState } from 'react'
 import { addSubDept } from '../Validation/Admin'
 import { useSelector } from 'react-redux'
 import { addSubField, getField, getSubField } from '../../api/Admin'
-import { Refresh } from '@mui/icons-material'
 
 const Subdepartment = () => {
 
     const [dept, setDept] = useState();
     const [subDept, setSubDept] = useState();
-    const [details, setdetails] = useState();
+    
     const initialvalues = {
-
+    
     }
     const { loading, company } = useSelector(state => state.admin)
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -43,7 +42,6 @@ const Subdepartment = () => {
     const getSubFieldDetails = async (e) => {
         const data = await getSubField({ company: values.company, field: e.target.value })
         setSubDept(data)
-
     }
 
     console.log(subDept)
