@@ -54,30 +54,32 @@ const BlockProfile = () => {
                 {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
                     <Grid container spacing={2}>
                         {
-                            blkpeople <= 0 ? <Typography variant="h3" color="initial" align='center' >No Profile Added</Typography> : blkpeople?.map((data) => (
-                                <Grid item lg={3} sm={6} xs={12} md={6}>
+                            blkpeople <= 0 ?
+                            <Typography variant="h2" color="initial" m='20px auto'  >No Profile Blocked</Typography>: blkpeople?.map((data) => (
 
-                                    <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >
-                                        <CardMedia
+                                    <Grid item lg={3} sm={6} xs={12} md={6}>
 
-                                            style={{ cursor: "pointer", height: "180px", }}
-                                            image={`http://localhost:5000/Image/${data.Image}`}
-                                        />
-                                        <CardContent sx={{ maxHeight: 100 }}>
-                                            <Typography variant="h5" textTransform='capitalize'   >{data.firstName} {data.middleName} {data.lastName}</Typography>
-                                            <Typography variant="h5"  >Company : {data.company}</Typography>
-                                            <Typography variant="h5" >Department : {data.field}</Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <NewPeopledet Image={data.Image} com={data.company} dept={data.field} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
+                                        <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >
+                                            <CardMedia
 
-                                            <Button variant="text" color="success" onClick={() => unblock(data._id)}>
-                                                Unblock
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            ))
+                                                style={{ cursor: "pointer", height: "180px", }}
+                                                image={`http://localhost:5000/Image/${data.Image}`}
+                                            />
+                                            <CardContent sx={{ maxHeight: 100 }}>
+                                                <Typography variant="h5" textTransform='capitalize'   >{data.firstName} {data.middleName} {data.lastName}</Typography>
+                                                <Typography variant="h5"  >Company : {data.company}</Typography>
+                                                <Typography variant="h5" >Department : {data.field}</Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <NewPeopledet Image={data.Image} com={data.company} dept={data.field} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
+
+                                                <Button variant="text" color="success" onClick={() => unblock(data._id)}>
+                                                    Unblock
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                ))
                         }
 
 
