@@ -7,9 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addtask, getField } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTask } from '../Validation/Admin';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getCompany } from '../../Redux/Action/Admin';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,7 +46,8 @@ const AddTask = () => {
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: "" })
-                //dispatch(getCompany())
+                dispatch(getTask())
+                setOpen(false);
 
             }
             if (res.success === false) {
