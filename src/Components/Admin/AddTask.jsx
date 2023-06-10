@@ -7,6 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addtask, getField } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTask } from '../Validation/Admin';
+<<<<<<< HEAD
+=======
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useEffect } from 'react';
+// import { getCompany } from '../../Redux/Action/Admin';
+>>>>>>> c0a9a94f321fa22cb478fa836ef8abe57118ddd4
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

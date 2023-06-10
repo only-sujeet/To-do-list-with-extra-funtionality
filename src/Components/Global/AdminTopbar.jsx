@@ -10,8 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { AddchartTwoTone, AddTaskTwoTone, Close, ExpandMore, Menu, PeopleAltTwoTone } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, ListItemButton, ListItemIcon } from '@mui/material';
+import { AddchartTwoTone, AddTaskTwoTone, Close,  Menu, PeopleAltTwoTone } from '@mui/icons-material';
+import {  Divider, ListItemButton, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+        
 
     },
     content: {
@@ -62,13 +63,13 @@ const Item = ({ icon, title, to }) => {
     return (
         <>
             <List style={{ margin: '0px', padding: '0px' }} >
-                <ListItem>
+                <ListItem style={{ margin:"0px", padding:"1px"}} >
                     <ListItemButton>
-                        <ListItemIcon>
+                        <ListItemIcon  style={{marginLeft:"2px", marginRight:"0px", padding:"0px"}} >
                             {icon}
                         </ListItemIcon>
                         <ListItemText>
-                            <Typography component='p'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  >{title}</Link></Typography>
+                            <Typography  variant='body1'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  >{title}</Link></Typography>
                             <Link to={to} />
                         </ListItemText>
                     </ListItemButton>
@@ -108,7 +109,7 @@ const AdminTopbar = () => {
 
             <nav className={classes.drawer}>
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                <Hidden smUp implementation="css">
+                <Hidden smUp implementation="css"   >
                     <Drawer
                         variant="temporary"
                         anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -124,7 +125,7 @@ const AdminTopbar = () => {
                         <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
                             <Close />
                         </IconButton>
-                        <Accordion disableGutters>
+                        {/* <Accordion disableGutters>
                             <AccordionSummary
                                 expandIcon={<ExpandMore />}
 
@@ -143,7 +144,21 @@ const AdminTopbar = () => {
                                     icon={<PeopleAltTwoTone />}
                                 />
                             </AccordionDetails>
-                        </Accordion>
+                        </Accordion> */}
+                        <Divider textAlign='center'><Typography variant='overline'>Profile</Typography>
+                        </Divider>
+                        <Item
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
+                        />
+                        <Item
+                            title="Block Profile"
+                            to="/block_profile"
+                            icon={<PeopleAltTwoTone />}
+                        />
+                        <Divider variant='middle' />
+
                         <Item
                             icon={<AddchartTwoTone />}
                             title="Manage"
@@ -165,7 +180,24 @@ const AdminTopbar = () => {
                         }}
                     >
                         <div className={classes.toolbar} />
-                        <Accordion elevation={0} disableGutters>
+
+                        <Divider textAlign='center'> <Typography variant='overline'>Profile</Typography>
+                        </Divider>
+                        <Item
+                            title="Add Profile"
+                            to="/aprofile"
+                            icon={<PeopleAltTwoTone />}
+                        />
+                        <Item
+                            title="Block Profile"
+                            to="/block_profile"
+                            icon={<PeopleAltTwoTone />}
+                        />
+                        <Divider variant='middle' />
+
+                        
+
+                        {/* <Accordion elevation={0} disableGutters>
                             <AccordionSummary
                                 expandIcon={<ExpandMore />}
                                 aria-controls="panel1a-content"
@@ -186,7 +218,7 @@ const AdminTopbar = () => {
                                     icon={<PeopleAltTwoTone />}
                                 />
                             </AccordionDetails>
-                        </Accordion>
+                        </Accordion> */}
                         <Item
                             icon={<AddchartTwoTone />}
                             title="Manage"

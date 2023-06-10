@@ -36,6 +36,10 @@ const theme = createMuiTheme({
         body1:{
             fontFamily: ["Yrsa", "serif"].join(","),
             fontWeight:"bolder"
+        },
+        overline:{
+            fontFamily: ["Yrsa", "serif"].join(","),
+            fontWeight:"bolder"
         }
     }
 
