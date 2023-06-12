@@ -9,6 +9,7 @@ import theme from './Components/Custom/TypographyTheme';
 import BlockProfile from './Components/Admin/BlockProfile';
 import Task from './Components/Admin/Task';
 import Manage from './Components/Admin/Manage';
+import Register from './Components/Admin/Register';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/block_profile" element={<BlockProfile/>}  />
       <Route path="/task" element={<Task/>}  />
       <Route path="/manage" element={<Manage/>}  />
+      <Route path="/register" element={<Register/>}  />
     </Routes>
     </div>
     </ThemeProvider>
