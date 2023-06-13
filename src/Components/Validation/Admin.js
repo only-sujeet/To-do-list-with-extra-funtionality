@@ -4,6 +4,11 @@ export const login = yup.object({
     email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
     password: yup.string().min(6).required("Please Enter Your Password")
 })
+export const register = yup.object({
+    email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
+    password: yup.string().min(6).required("Please Enter Your Password"),
+    company: yup.string().required("Please Enter Company Name"),
+})
 export const addcom = yup.object({
     company: yup.string().required("Please Enter Company Name"),
 })
