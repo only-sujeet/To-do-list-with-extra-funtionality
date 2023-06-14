@@ -37,7 +37,7 @@ const AddDepartment = () => {
 
     console.log(tdept)
     const initialvalues = {
-        company: "",
+        // company: "",
         field: ""
     }
 
@@ -45,15 +45,15 @@ const AddDepartment = () => {
         initialValues: initialvalues,
         validationSchema: adddep,
         onSubmit: async (values, { resetForm }) => {
-            const res = await addDepartment(values)
-            if (res.success === true) {
-                toast.success(res.message)
-                resetForm({ values: "" })
-            }
-            if (res.success === false) {
-                toast.error(res.message)
-            }
-
+            // const res = await addDepartment(values)
+            // if (res.success === true) {
+            //     toast.success(res.message)
+            //     resetForm({ values: "" })
+            // }
+            // if (res.success === false) {
+            //     toast.error(res.message)
+            // }
+            console.log(values)
         }
     })
     return (
@@ -63,7 +63,7 @@ const AddDepartment = () => {
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                    <TextField
+                    {/* <TextField
                         select
                         fullWidth
                         label="Select Company"
@@ -81,7 +81,7 @@ const AddDepartment = () => {
                         )) : undefined
                         }
                     </TextField>
-                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
+                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
                     <TextField
 
                         fullWidth

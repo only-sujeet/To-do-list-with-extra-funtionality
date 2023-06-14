@@ -1,4 +1,5 @@
 import *   as  yup from 'yup'
+import { parse, isDate } from "date-fns"
 
 export const login = yup.object({
     email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
@@ -14,7 +15,7 @@ export const addcom = yup.object({
 })
 
 export const adddep = yup.object({
-    company: yup.string().required("Please Select Company"),
+    // company: yup.string().required("Please Select Company"),
     field: yup.string().required("Please Enter Department")
 })
 
@@ -26,7 +27,7 @@ export const addSubDept = yup.object({
 export const addprofile = yup.object({
     field: yup.string().required("Please Select Department"),
     subField: yup.string().required("Please Select Sub-Department"),
-    position: yup.string().required("Please Enter Position"),
+    // position: yup.string().required("Please Enter Position"),
     firstName: yup.string().required("Please Enter Your First Name").min(5),
     middleName: yup.string().required("Please Enter Your Middle Name").min(5),
     lastName: yup.string().required("Please Enter Your Last Name").min(5),
@@ -37,15 +38,41 @@ export const addprofile = yup.object({
     altmobileno:yup.number().min(1000000000,['Alternate Mobile No. is not valid']).max(9999999999,['Alternate Mobile No. is not valid']).required("Please Enter Alternate Mobile No."),
     address1:yup.string().required("Please Enter Address"),
     address2:yup.string().required("Please Enter Alternate Address"),
-
+    adharno:yup.number().min(100000000000,['Adhar Card No is not valid']).max(999999999999,['Adhar Card No is not valid']).required("Please Enter Adhar Card No."),
+    panno:yup.string().min(10,['Pan No is not valid']).max(10,['Pan No is not valid']).required("Please Enter Pan No").matches(/^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}?$/,"Please Enter Proper Pan No. "),
 })
-export const addTask = yup.object({
+// export const addTask = yup.object({
+//     name: yup.string().required("Please Enter Task Name"),
+//     description: yup.string().required("Please Enter Description"),
+//     field:  yup.string().required("Please Select Department"),
+//     agency: yup.string().required("Please Select Company"),
+//     taskDependency:yup.string().required("Please Enter Task Dependency"),
+//     QTY: yup.number().required("Please Enter Quantity"),
+//     amount:yup.number().required("Please Enter Ammount"),
+
+// })
+
+function parseDateString(value, originalValue) {
+    const parsedDate = isDate(originalValue)
+      ? originalValue
+      : parse(originalValue, "yyyy-MM-dd", new Date());
+  
+    return parsedDate;
+  }
+
+export const addTasks = yup.object({
     name: yup.string().required("Please Enter Task Name"),
-    description: yup.string().required("Please Enter Description"),
+    rate: yup.number().required("Please Enter Ammount"),
+    unit: yup.string().required("Please Enter Unit"),
     field:  yup.string().required("Please Select Department"),
-    agency: yup.string().required("Please Select Company"),
+    instruction: yup.string().required("Please Enter Instruction"),
+    // agency: yup.string().required("Please Select Company"),
     taskDependency:yup.string().required("Please Enter Task Dependency"),
-    QTY: yup.number().required("Please Enter Quantity"),
-    amount:yup.number().required("Please Enter Ammount"),
+    startDate: yup.date().transform(parseDateString).required("Please Select Start Date").min(new Date(),'Please choose future date'),
+    endDate : yup.date().transform(parseDateString).required("Please Select Ending Date") .min(yup.ref("startDate"),"End date has to be more than start date"),
+    // yup.date().required("Please Select Start Date").min(startdates,"sdfs").min(new Date(),'Please choose future date'),
+    // endDate : yup.date().min(enddates,"Minimum date must be 2 days from Start Date").required("Please Select Ending Date") .min(yup.ref("startDate"),"End date has to be more than start date"),
+    // QTY: yup.number().required("Please Enter Quantity"),
+    // amount:yup.number().required("Please Enter Ammount"),
 
 })

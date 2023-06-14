@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addtask, getField } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
-import { addTask } from '../Validation/Admin';
+import { addTask, addTasks } from '../Validation/Admin';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useEffect } from 'react';
 // import { getCompany } from '../../Redux/Action/Admin';
@@ -37,27 +37,30 @@ const AddTask = () => {
 
     const initialvalue = {
         name: "",
-        description: "",
+        rate: "",
+        unit: "",
         field: "",
-        agency: "",
+        instruction: "",
         taskDependency: "",
-        QTY: "",
-        amount: "",
+        startDate: "",
+        endDate: ""
+
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
-        validationSchema: addTask,
+        validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
-            const res = await addtask(values)
-            if (res.success === true) {
-                toast.success(res.message)
-                resetForm({ values: "" })
-                //dispatch(getCompany())
+            // const res = await addtask(values)
+            // if (res.success === true) {
+            //     toast.success(res.message)
+            //     resetForm({ values: "" })
+            //     //dispatch(getCompany())
 
-            }
-            if (res.success === false) {
-                toast.error(res.message)
-            }
+            // }
+            // if (res.success === false) {
+            //     toast.error(res.message)
+            // }
+            console.log(values)
         }
 
     })
@@ -104,17 +107,32 @@ const AddTask = () => {
                                     fullWidth
                                     variant='standard'
                                     color='secondary'
-                                    id="description"
-                                    label="Description"
-                                    name='description'
-                                    type="text"
-                                    value={values.description}
+                                    id="rate"
+                                    label="Rate"
+                                    name='rate'
+                                    type="number"
+                                    value={values.rate}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.description && touched.description ? <Typography variant="caption" color="error">{errors.description}</Typography> : null}
+                                {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="unit"
+                                    label="Unit"
+                                    name='unit'
+                                    type="text"
+                                    value={values.unit}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
+                            </Grid>
+                            {/* <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl fullWidth
                                     variant='filled'>
                                     <InputLabel color='secondary'>Agency</InputLabel>
@@ -136,7 +154,7 @@ const AddTask = () => {
                                     </Select>
                                 </FormControl>
                                 {errors.agency && touched.agency ? <Typography variant="caption" color="error">{errors.agency}</Typography> : null}
-                            </Grid>
+                            </Grid> */}
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
                                     <InputLabel color='secondary'>Department</InputLabel>
@@ -149,13 +167,14 @@ const AddTask = () => {
                                         onChange={handleTwoFunc2}
                                         onBlur={handleBlur}
                                     >
-                                        {values.agency ?
+                                        {/* {values.agency ?
                                             dept && dept?.map((data) => (
                                                 <MenuItem value={data.field}>{data.field}</MenuItem>
                                             ))
-                                            : <MenuItem >Please First Select Company</MenuItem>}
+                                            : <MenuItem >Please First Select Company</MenuItem>} */}
 
-
+                                        <MenuItem value="hello">hello</MenuItem>
+                                        <MenuItem value="ji">ji</MenuItem>
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
@@ -178,33 +197,68 @@ const AddTask = () => {
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
                                     fullWidth
-                                    variant='standard'
+                                    multiline
+                                    rows="3"
+                                    variant='filled'
                                     color='secondary'
-                                    id="QTY"
-                                    label="Quantity"
-                                    name='QTY'
-                                    type="number"
-                                    value={values.QTY}
+                                    id="instruction"
+                                    label="Instruction"
+                                    name='instruction'
+                                    type="text"
+                                    value={values.instruction}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.QTY && touched.QTY ? <Typography variant="caption" color="error">{errors.QTY}</Typography> : null}
+                                {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
                             </Grid>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     variant='standard'
                                     color='secondary'
-                                    id="amount"
-                                    label="amount"
-                                    name='amount'
-                                    type="number"
-                                    value={values.amount}
+                                    id="startDate"
+                                    label="Start Date"
+                                    name='startDate'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.startDate}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.amount && touched.amount ? <Typography variant="caption" color="error">{errors.amount}</Typography> : null}
+                                {errors.startDate && touched.startDate ? <Typography variant="caption" color="error">{errors.startDate}</Typography> : null}
                             </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="endDate"
+                                    label="End Date"
+                                    name='endDate'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.endDate}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
+                            </Grid>
+                            {/* <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="taskDependency"
+                                    label="Task Dependency"
+                                    name='taskDependency'
+                                    type="text"
+                                    value={values.taskDependency}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
+                            </Grid> */}
+
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <Button variant="contained" color='primary' type='submit' >
                                     Add

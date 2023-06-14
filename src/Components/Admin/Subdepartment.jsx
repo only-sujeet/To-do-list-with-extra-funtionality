@@ -56,7 +56,7 @@ const Subdepartment = () => {
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                    <TextField
+                    {/* <TextField
                         select
                         fullWidth
                         label="Select Company"
@@ -74,11 +74,11 @@ const Subdepartment = () => {
                         )) : undefined
                         }
                     </TextField>
-                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
+                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
                     <TextField
                         select
                         fullWidth
-                        label="Select Company"
+                        label="Select Department"
                         size='small'
                         name='field'
                         type='text'
@@ -99,7 +99,6 @@ const Subdepartment = () => {
                     </TextField>
                     {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                     <TextField
-
                         fullWidth
                         label="Add Sub-Department"
                         size='small'

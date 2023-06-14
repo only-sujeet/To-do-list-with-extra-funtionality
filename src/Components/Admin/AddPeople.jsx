@@ -60,7 +60,10 @@ const AddPeople = () => {
         altmobileno: "",
         address1: "",
         address2: "",
-        position: ""
+        // position: "",
+        adharno:"",
+        panno:""
+        
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
@@ -69,23 +72,24 @@ const AddPeople = () => {
             try {
 
                 if (file) {
-                    console.log(values)
+                    // console.log(values)
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
-                    console.log(formdata)
-                    const res = await addPeople(formdata)
-                    if (res.success === true) {
-                         toast.success(res.message)
-                        console.log(res.message)
-                        resetForm({ values: "" })
-                        setFile(null)
-                        setImage(null)
-                    }
-                    if (res.success === false) {
-                        toast.error(res.message)
-                    }
-                    resetForm({ values: "" })
+                    console.log(values)
+                    console.log(file)
+                    // const res = await addPeople(formdata)
+                    // if (res.success === true) {
+                    //     toast.success(res.message)
+                    //     console.log(res.message)
+                    //     resetForm({ values: "" })
+                    //     setFile(null)
+                    //     setImage(null)
+                    // }
+                    // if (res.success === false) {
+                    //     toast.error(res.message)
+                    // }
+                    // resetForm({ values: "" })
 
                 }
                 else {
@@ -135,8 +139,8 @@ const AddPeople = () => {
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <FormControl fullWidth
+                            {/* <Grid item lg={6} sm={12} xs={12} md={6}> */}
+                                {/* <FormControl fullWidth
                                     variant='filled'>
                                     <InputLabel color='secondary'>Company</InputLabel>
                                     <Select
@@ -155,8 +159,8 @@ const AddPeople = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
-                            </Grid>
+                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
+                            {/* </Grid> */}
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
                                     <InputLabel color='secondary'>Department</InputLabel>
@@ -169,13 +173,13 @@ const AddPeople = () => {
                                         onChange={handleTwoFunc2}
                                         onBlur={handleBlur}
                                     >
-                                        {values.company ?
+                                        {/* {values.company ?
                                             dept && dept?.map((data) => (
                                                 <MenuItem value={data.field}>{data.field}</MenuItem>
                                             ))
-                                            : <MenuItem >Please First Select Company</MenuItem>}
+                                            : <MenuItem >Please First Select Company</MenuItem>} */}
 
-
+                                        <MenuItem value="dept">dept</MenuItem>
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
@@ -192,20 +196,20 @@ const AddPeople = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        {values.company && values.field
+                                        {/* {values.company && values.field
                                             ?
                                             subDept && subDept?.map((data) => (
                                                 <MenuItem value={data}>{data}</MenuItem>
                                             ))
                                             : <MenuItem >Please First Select Company & Department</MenuItem>
-                                        }
+                                        } */}
 
-
+                                        <MenuItem value="sub-dept">sub-dept</MenuItem>
                                     </Select>
                                 </FormControl>
                                 {errors.subField && touched.subField ? <Typography variant="caption" color="error">{errors.subField}</Typography> : null}
                             </Grid>
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                            {/* <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     variant='standard'
@@ -219,7 +223,7 @@ const AddPeople = () => {
                                     onBlur={handleBlur}
                                 />
                                 {errors.position && touched.position ? <Typography variant="caption" color="error">{errors.position}</Typography> : null}
-                            </Grid>
+                            </Grid> */}
                             <Grid item lg={6} sm={12} xs={12} md={6}>
 
                                 <TextField
@@ -333,6 +337,36 @@ const AddPeople = () => {
                                     onBlur={handleBlur}
                                 />
                                 {errors.age && touched.age ? <Typography variant="caption" color="error">{errors.age}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    color='secondary'
+                                    variant='standard'
+                                    id="adharno"
+                                    label="Adhar Card No."
+                                    name='adharno'
+                                    type="number"
+                                    value={values.adharno}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.adharno && touched.adharno ? <Typography variant="caption" color="error">{errors.adharno}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    color='secondary'
+                                    variant='standard'
+                                    id="panno"
+                                    label="Pan Card No."
+                                    name='panno'
+                                    type="text"
+                                    value={values.panno}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.panno && touched.panno ? <Typography variant="caption" color="error">{errors.panno}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
