@@ -2,7 +2,7 @@ const Admin = require("../Models/Admin/Login");
 
 exports.adminRegister = async (req, res) => {
     try {
-        const { name, email, password, phone } = req.body
+        const { company, email, password } = req.body
         let admin = await Admin.findOne({ email });
         if (admin) {
             return res
@@ -10,7 +10,7 @@ exports.adminRegister = async (req, res) => {
                 .json({ sucsess: false, message: "admin already exists....." })
         }
 
-        admin = await Admin.create({ name, email, phone, password })
+        admin = await Admin.create({ company, email, password })
         admin.save();
 
         res.status(201).json({

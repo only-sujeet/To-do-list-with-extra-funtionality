@@ -2,18 +2,17 @@ import axios from "axios"
 
 const url = "http://localhost:5000/api/admin"
 
-export const adminLogin = async (values) => {
+export const adminRegister = async (values) => {
     try {
-        const { data } = await axios.post(`${url}/login`, values)
+        const { data } = await axios.post(`${url}/register`, values)
         return data
-        // console.log(data)
     } catch (error) {
         if (error.response) {
 
             return error.response.data
         }
     }
-}
+} 
 export const addCompany = async (values) => {
     try {
 
