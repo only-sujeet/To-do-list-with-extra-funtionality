@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const bcrypt  = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const adminSchema = mongoose.Schema({
-    name:{
+    company:{
         type: String,
         required : [true, "Name is required"],
       
@@ -11,10 +11,7 @@ const adminSchema = mongoose.Schema({
         type: String,
         required :[true, "Email is required"]
     },
-     phone :{
-        type: Number,
-        required :[true, "Phone number is required"]
-    },
+   
     password :{
         type : String,
         required : [true, "Password is required"]

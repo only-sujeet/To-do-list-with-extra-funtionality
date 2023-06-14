@@ -7,6 +7,7 @@ import { InputAdornment, Button, Box } from '@mui/material'
 import { BusinessTwoTone, EmailTwoTone, PasswordTwoTone } from '@mui/icons-material'
 import { useFormik } from 'formik'
 import { register } from '../Validation/Admin'
+import { adminRegister } from '../../api/Admin'
 
 
 
@@ -22,9 +23,10 @@ const Register = () => {
     initialValues: initialvalue,
     validationSchema: register,
     onSubmit: async (values, { resetForm }) => {
-      console.log(values)
+      const {data} = await adminRegister(values)
+      console.log(data)
     }
-
+ 
   })
   return (
 
