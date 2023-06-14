@@ -37,7 +37,7 @@ const Task = () => {
                         <AddTask />
                     </Box>
                     {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
-                        <TableContainer component={Paper} sx={{ width:{xs:"285px", lg:"1200px", sm:"450px", xl:"1200px", md:"1000px"}, backgroundColor:"lightskyblue"}} >
+                        <TableContainer component={Paper} sx={{ width: { xs: "285px", lg: "1200px", sm: "450px", xl: "1200px", md: "1000px" }, backgroundColor: "lightskyblue" }} >
                             <Table aria-label='a dense table' size='small'   >
                                 <TableHead  >
                                     <TableRow>
@@ -53,31 +53,30 @@ const Task = () => {
                                     </TableRow>
                                 </TableHead>
 
-                                <TableBody sx={{backgroundColor:"white"}}>
+                                <TableBody sx={{ backgroundColor: "white" }}>
 
-                                    {task <= 0 ? <TableRow>
-                                        <TableCell>
-                                            <Typography variant="body1" color="primary" align='center' >No Company Added</Typography>
-                                        </TableCell>
-                                    </TableRow> : task?.map((data) => (
-                                        <TableRow key={data._id}>
-                                            <TableCell>{data.name}</TableCell>
-                                            <TableCell>{data.description}</TableCell>
-                                            <TableCell>{data.agency}</TableCell>
-                                            <TableCell>{data.field}</TableCell>
-                                            <TableCell>{data.taskDependency}</TableCell>
-                                            <TableCell>{data.QTY}</TableCell>
-                                            <TableCell>{data.amount}</TableCell>
-                                            <TableCell>{data.status}</TableCell>
-                                           
-                                        </TableRow>
-                                    ))}
+                                    {task <= 0 ?
+
+                                        <Typography variant="body1" fullwidth color="primary" align='center' >No Task Added</Typography>
+                                        : task?.map((data) => (
+                                            <TableRow key={data._id}>
+                                                <TableCell>{data.name}</TableCell>
+                                                <TableCell>{data.description}</TableCell>
+                                                <TableCell>{data.agency}</TableCell>
+                                                <TableCell>{data.field}</TableCell>
+                                                <TableCell>{data.taskDependency}</TableCell>
+                                                <TableCell>{data.QTY}</TableCell>
+                                                <TableCell>{data.amount}</TableCell>
+                                                <TableCell>{data.status}</TableCell>
+
+                                            </TableRow>
+                                        ))}
 
                                 </TableBody>
                                 {/* } */}
                             </Table>
                         </TableContainer>
-}
+                    }
                 </Box>
             </div>
         </>

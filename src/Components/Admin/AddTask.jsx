@@ -10,6 +10,7 @@ import { addTask, addTasks } from '../Validation/Admin';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useEffect } from 'react';
 // import { getCompany } from '../../Redux/Action/Admin';
+import { addTask } from '../Validation/Admin';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,7 +56,7 @@ const AddTask = () => {
             //     toast.success(res.message)
             //     resetForm({ values: "" })
             //     //dispatch(getCompany())
-
+          
             // }
             // if (res.success === false) {
             //     toast.error(res.message)

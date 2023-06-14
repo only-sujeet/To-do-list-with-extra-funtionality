@@ -13,25 +13,32 @@ const Subdepartment = () => {
 
     const [dept, setDept] = useState();
     const [subDept, setSubDept] = useState();
-    
+
     const initialvalues = {
-    
+
     }
     const { loading, company } = useSelector(state => state.admin)
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
         onSubmit: async (values, { resetForm }) => {
+
+
+            // if (data.success === true) {
+            //     toast.success(data.message)
+            //     resetForm({ values: "" })
+            //     getSubField(values)
+            // }
+            // if (data.success === false) {
+            //     toast.error(data.message)
+            // }
             const data = await addSubField(values)
-            if (data.success === true) {
-                toast.success(data.message)
-                resetForm({ values: "" })
-                getSubField(values)
-            }
-            if (data.success === false) {
-                toast.error(data.message)
-            }
+            const data2 = await getSubField(values)
+            setSubDept(data2)
+            resetForm({ values: "" })
+            setDept(null)
         }
+
     })
     const handleTwoFunc = async (e) => {
         handleChange(e)
@@ -79,6 +86,7 @@ const Subdepartment = () => {
                         select
                         fullWidth
                         label="Select Department"
+                        // label="Select Field"
                         size='small'
                         name='field'
                         type='text'
