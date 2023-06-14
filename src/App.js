@@ -10,6 +10,7 @@ import BlockProfile from './Components/Admin/BlockProfile';
 import Task from './Components/Admin/Task';
 import Manage from './Components/Admin/Manage';
 import Register from './Components/Admin/Register';
+import Testing from './Components/Admin/Testing';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Route path="/task" element={<Task/>}  />
       <Route path="/manage" element={<Manage/>}  />
       <Route path="/register" element={<Register/>}  />
+      <Route path="/test" element={<Testing/>}  />
     </Routes>
     </div>
     </ThemeProvider>

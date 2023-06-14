@@ -1,4 +1,4 @@
-import { AddTaskTwoTone, } from '@mui/icons-material'
+import { AddTaskTwoTone, BlockTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material'
 import { useFormik } from 'formik';
 import React, { useEffect } from 'react'
@@ -22,7 +22,7 @@ const AddTask = () => {
     const { company } = useSelector(state => state.admin)
     const [open, setOpen] = React.useState(false);
     const [dept, setDept] = useState([]);
-
+    const [val, setVal] = useState([])
     const handleClose = () => {
         setOpen(false);
         dispatch(getTask())
@@ -34,6 +34,26 @@ const AddTask = () => {
     useEffect(() => {
         dispatch(getCompany())
     }, [dispatch])
+
+
+    const handleAdd = () => {
+        const abc = [...val, []]
+        setVal(abc)
+    }
+
+    const handleChanges = (onChangeValue, i) => {
+        const inputdata = [...val]
+        inputdata[i] = onChangeValue.target.value
+        setVal(inputdata)
+    }
+    // console.log(val, "data-")
+
+    const handleDelete = (i) => {
+        const delval = [...val]
+        delval.splice(i, 1)
+        setVal(delval)
+    }
+
 
 
     const initialvalue = {
@@ -56,12 +76,13 @@ const AddTask = () => {
             //     toast.success(res.message)
             //     resetForm({ values: "" })
             //     //dispatch(getCompany())
-          
+
             // }
             // if (res.success === false) {
             //     toast.error(res.message)
             // }
             console.log(values)
+            console.log(val, "data-")
         }
 
     })
@@ -260,6 +281,44 @@ const AddTask = () => {
                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid> */}
 
+                            <Grid item lg={8} sm={8} xs={8} md={8}>
+                                <Typography variant="h5" color="initial">Add Check List</Typography>
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={4} md={4}>
+                                <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}>
+                                    Add Column
+                                </Button>
+                            </Grid>
+                            {
+                                val.map((data, i) => {
+                                    return (
+                                        <Grid container spacing={2} sx={{m:"0px 20px"}}  >
+                                            <Grid item lg={10} sm={10} xs={10} md={10} >
+                                                <TextField
+                                                    size='small'
+                                                    sx={{ mb: "3px" }}
+                                                    fullWidth
+                                                    name='chk'
+                                                    label="Enter Check List Data"
+                                                    value={data}
+                                                    onChange={e => handleChanges(e, i)}
+
+                                                />
+                                            </Grid>
+                                            <Grid item lg={2} sm={2} xs={2} md={2}  >
+
+                                                <Button aria-label="icon" variant='contained'  onClick={() => handleDelete(i)}>
+                                                    <DeleteForeverTwoTone color='error' />
+                                                </Button>
+
+                                            </Grid>
+                                        </Grid>
+
+
+
+                                    )
+                                })
+                            }
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <Button variant="contained" color='primary' type='submit' >
                                     Add
