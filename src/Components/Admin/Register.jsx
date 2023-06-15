@@ -8,7 +8,7 @@ import { BusinessTwoTone, EmailTwoTone, PasswordTwoTone } from '@mui/icons-mater
 import { useFormik } from 'formik'
 import { register } from '../Validation/Admin'
 import { adminRegister } from '../../api/Admin'
-
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Register = () => {
@@ -23,10 +23,17 @@ const Register = () => {
     initialValues: initialvalue,
     validationSchema: register,
     onSubmit: async (values, { resetForm }) => {
-      const {data} = await adminRegister(values)
-      console.log(data)
+      const  res  = await adminRegister(values)
+      if (res.success === true) {
+            toast.success(res.message)
+            resetForm({ values: "" })
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
+      // console.log(data)
     }
- 
+
   })
   return (
 
@@ -50,7 +57,7 @@ const Register = () => {
           InputProps={{
             startAdornment: (<InputAdornment position="start"> <EmailTwoTone color='secondary' /></InputAdornment>)
           }}
-          sx={{marginBottom:"10px"}}
+          sx={{ marginBottom: "10px" }}
         />
         {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
         <TextField
@@ -69,9 +76,9 @@ const Register = () => {
           InputProps={{
             startAdornment: (<InputAdornment position="start"> <PasswordTwoTone color='secondary' /></InputAdornment>)
           }}
-          sx={{marginBottom:"10px"}}
+          sx={{ marginBottom: "10px" }}
         />
-        <Typography variant="caption" color="error"> {errors.password && touched.password ? errors.password  : null}</Typography>
+        <Typography variant="caption" color="error"> {errors.password && touched.password ? errors.password : null}</Typography>
         <TextField
           fullWidth
           id="company"
@@ -88,7 +95,7 @@ const Register = () => {
           InputProps={{
             startAdornment: (<InputAdornment position="start"> <BusinessTwoTone color='secondary' /></InputAdornment>)
           }}
-          sx={{marginBottom:"10px"}}
+          sx={{ marginBottom: "10px" }}
         />
         {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
 
@@ -98,6 +105,18 @@ const Register = () => {
           </Button>
         </Box>
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </Container>
 
   )

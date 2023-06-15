@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { PeopleTwoTone } from '@mui/icons-material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem, InputAdornment } from '@mui/material';
+import { PeopleTwoTone, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
@@ -18,6 +18,22 @@ const AddPeople = () => {
     const [image, setImage] = useState()
     const [dept, setDept] = useState([]);
     const { company } = useSelector(state => state.admin)
+
+    const [type, setType] = useState("password")
+    const [visible, setVisible] = useState(false)
+    const icon = (visible ? <Visibility /> : <VisibilityOff />)
+    const showClick = () => {
+      if (visible === false) {
+        setVisible(true)
+        setType("text")
+      }
+      else {
+        setVisible(false)
+        setType("password")
+      }
+    }
+
+
 
     const dispatch = useDispatch()
     const handleClickOpen = () => {
@@ -61,9 +77,10 @@ const AddPeople = () => {
         address1: "",
         address2: "",
         // position: "",
-        adharno:"",
-        panno:""
-        
+        adharno: "",
+        panno: "",
+        password:"",
+
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
@@ -140,7 +157,7 @@ const AddPeople = () => {
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
                             {/* <Grid item lg={6} sm={12} xs={12} md={6}> */}
-                                {/* <FormControl fullWidth
+                            {/* <FormControl fullWidth
                                     variant='filled'>
                                     <InputLabel color='secondary'>Company</InputLabel>
                                     <Select
@@ -305,6 +322,28 @@ const AddPeople = () => {
 
                                 />
                                 {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
+                            </Grid>
+                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <TextField
+                                    
+                                    fullWidth
+                                    id="password"
+                                    
+                                    label="Password"
+                                    type={type}
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeholder='Enter Your Password'
+                                    variant='standard'
+                                    name='password'
+                                    InputProps={{
+                                        endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
+                                            {icon}
+                                        </IconButton> </InputAdornment>)
+                                    }}
+                                />
+                                {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField

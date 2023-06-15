@@ -7,14 +7,15 @@ exports.adminRegister = async (req, res) => {
         if (admin) {
             return res
                 .status(400)
-                .json({ sucsess: false, message: "admin already exists....." })
+                .json({ success: false, message: "admin already exists....." })
         }
 
         admin = await Admin.create({ company, email, password })
         admin.save();
 
         res.status(201).json({
-            sucsess: true,
+            success: true,
+            message:"Successfully Registered",
             admin
         })
     } catch (error) {
