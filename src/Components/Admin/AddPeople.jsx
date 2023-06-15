@@ -252,9 +252,9 @@ const AddPeople = () => {
                                     name=''
                                     type="file"
                                     InputLabelProps={{ shrink: true, }}
-                                    // value={values.firstName}
+                                    
                                     onChange={handleImage}
-                                // onBlur={handleBlur}
+                               
                                 />
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
@@ -268,6 +268,7 @@ const AddPeople = () => {
                                     id="fname"
                                     label="First Name"
                                     name='firstName'
+                                    placeholder='Enter  First Name'
                                     type="text"
                                     value={values.firstName}
                                     onChange={handleChange}
@@ -283,6 +284,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="middleName"
                                     label="Middle Name"
+                                    placeholder='Enter  Middle Name'
                                     name='middleName'
                                     type="text"
                                     value={values.middleName}
@@ -298,6 +300,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="lastName"
                                     label="Last Name"
+                                    placeholder='Enter Last Name'
                                     name='lastName'
                                     type="text"
                                     value={values.lastName}
@@ -316,6 +319,7 @@ const AddPeople = () => {
                                     name='email'
                                     type="email"
                                     helperText="Example : abc@gmail.com"
+                                    placeholder='Enter Email'
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -352,6 +356,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="dob"
                                     label="Date of Birth"
+                                    placeholder='Enter Date of Birth'
                                     name='dob'
                                     type="date"
                                     InputLabelProps={{ shrink: true, }}
@@ -369,6 +374,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="age"
                                     label="Age"
+                                    placeholder='Enter Age'
                                     name='age'
                                     type="number"
                                     value={values.age}
