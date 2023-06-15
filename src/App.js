@@ -11,6 +11,9 @@ import Task from './Components/Admin/Task';
 import Manage from './Components/Admin/Manage';
 import Register from './Components/Admin/Register';
 import Testing from './Components/Admin/Testing';
+import EmpLogin from './Components/Employee/EmpLogin';
+import EmpHeader from './Components/Employee/EmpHeader';
+import EmpTask from './Components/Employee/EmpTask';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -28,6 +31,9 @@ function App() {
       <Route path="/manage" element={<Manage/>}  />
       <Route path="/register" element={<Register/>}  />
       <Route path="/test" element={<Testing/>}  />
+      <Route path="/emplogin" element={<EmpLogin/>}  />
+      <Route path="/header" element={<EmpHeader/>}  />
+      <Route path="/emptask" element={<EmpTask/>}  />
     </Routes>
     </div>
     </ThemeProvider>
