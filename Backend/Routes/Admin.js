@@ -5,7 +5,8 @@ const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlock
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
 const multer = require('multer')
-const { addTask, getTask } = require('../Controllers/Task')
+const { addTask, getTask } = require('../controllers/Task')
+
 
 // for multer storage
 const storage = multer.diskStorage({

@@ -1,5 +1,5 @@
-import React from 'react'
-import { makeStyles, } from '@material-ui/core'
+import React, { useMemo } from 'react'
+import { Button, List, makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import Header from '../Global/Header';
@@ -7,6 +7,8 @@ import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { useState } from 'react';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -25,8 +27,32 @@ const Task = () => {
     useEffect(() => {
         dispatch(getTask())
     }, [dispatch])
-    console.log(task)
+
+    const [pageSize, setPageSize] = useState(5);
+
+    const columns = useMemo(task => [
+        { field: "name", headerName: "Task Name", width: 150 },
+        { field: "rate", headerName: "Rate", width: 120 },
+        { field: "unit", headerName: "Unit", width: 120 },
+        { field: "taskDependency", headerName: "Dependency", width: 200 },
+        { field: "instruction", headerName: "Instruction", width: 150 },
+        { field: "startDate", headerName: "Start At", width: 200 },
+        { field: "endDate", headerName: "End At", width: 150 },
+        { field: "status", headerName: "Status", width: 150 },
+        { field: "_id", headerName: "ID", width: 150 },
+
+        {
+            headerName: "Action",
+            width: 150,
+            renderCell: (params) => <Button variant='contained' color='primary' onClick={() => alert(params.row.name)}>Assign</Button>,
+            sortable: false,
+            filterable: false
+        },
+    ], [])
+
+
     return (
+
         <>
             <AdminTopbar />
             <div className={classes.content}>
@@ -36,49 +62,22 @@ const Task = () => {
                         <Header title="Task" subtitle="Welcome to Task page" />
                         <AddTask />
                     </Box>
-                    {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
-                        <TableContainer component={Paper} sx={{ width: { xs: "285px", lg: "1200px", sm: "450px", xl: "1200px", md: "1000px" }, backgroundColor: "lightskyblue" }} >
-                            <Table aria-label='a dense table' size='small'   >
-                                <TableHead  >
-                                    <TableRow>
-                                        <TableCell>Task Name</TableCell>
-                                        <TableCell>Task Descrition</TableCell>
-                                        <TableCell>Agency</TableCell>
-                                        <TableCell>Department</TableCell>
-                                        <TableCell>Task Dependency</TableCell>
-                                        <TableCell>Qty</TableCell>
-                                        <TableCell>Ammount</TableCell>
-                                        <TableCell>Status</TableCell>
+                    {task ?
 
-                                    </TableRow>
-                                </TableHead>
+                        < DataGrid
+                            rows={task}
+                            key={row => row._id}
+                            sx={{ fontSize: "1rem", fontFamily: "sans-serif", width: "100%" }}
+                            columns={columns}
+                            getRowId={row => row._id}
+                        >
 
-                                <TableBody sx={{ backgroundColor: "white" }}>
+                        </DataGrid>
+                        : undefined
 
-                                    {task <= 0 ?
-
-                                        <Typography variant="body1" fullwidth color="primary" align='center' >No Task Added</Typography>
-                                        : task?.map((data) => (
-                                            <TableRow key={data._id}>
-                                                <TableCell>{data.name}</TableCell>
-                                                <TableCell>{data.description}</TableCell>
-                                                <TableCell>{data.agency}</TableCell>
-                                                <TableCell>{data.field}</TableCell>
-                                                <TableCell>{data.taskDependency}</TableCell>
-                                                <TableCell>{data.QTY}</TableCell>
-                                                <TableCell>{data.amount}</TableCell>
-                                                <TableCell>{data.status}</TableCell>
-
-                                            </TableRow>
-                                        ))}
-
-                                </TableBody>
-                                {/* } */}
-                            </Table>
-                        </TableContainer>
                     }
                 </Box>
-            </div>
+            </div >
         </>
     )
 }

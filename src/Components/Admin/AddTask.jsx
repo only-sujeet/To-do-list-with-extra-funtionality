@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addtask, getField } from '../../api/Admin';
+import { addtask, createTask, getField } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTask, addTasks } from '../Validation/Admin';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -71,6 +71,7 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
+            const { data } = await createTask(values, val)
             // const res = await addtask(values)
             // if (res.success === true) {
             //     toast.success(res.message)
@@ -292,7 +293,7 @@ const AddTask = () => {
                             {
                                 val.map((data, i) => {
                                     return (
-                                        <Grid container spacing={2} sx={{m:"0px 20px"}}  >
+                                        <Grid container spacing={2} sx={{ m: "0px 20px" }}  >
                                             <Grid item lg={10} sm={10} xs={10} md={10} >
                                                 <TextField
                                                     size='small'
@@ -307,7 +308,7 @@ const AddTask = () => {
                                             </Grid>
                                             <Grid item lg={2} sm={2} xs={2} md={2}  >
 
-                                                <Button aria-label="icon" variant='contained'  onClick={() => handleDelete(i)}>
+                                                <Button aria-label="icon" variant='contained' onClick={() => handleDelete(i)}>
                                                     <DeleteForeverTwoTone color='error' />
                                                 </Button>
 

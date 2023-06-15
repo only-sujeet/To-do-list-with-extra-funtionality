@@ -12,7 +12,18 @@ export const adminRegister = async (values) => {
             return error.response.data
         }
     }
-} 
+}
+export const adminLogin = async (values) => {
+    try {
+        const { data } = await axios.post(`/api/admin/login`, values)
+        return data
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
 export const addCompany = async (values) => {
     try {
 
@@ -63,7 +74,7 @@ export const getField = async (values) => {
 }
 export const addSubField = async (values) => {
     try {
-       
+
         const { data } = axios.post('http://localhost:5000/api/admin/addSubField', values)
         return data
     } catch (error) {
@@ -129,11 +140,10 @@ export const unBlockPeople = async (id) => {
     }
 }
 
-export const addtask = async (values) => { 
+export const createTask = async (values, val) => {
     try {
-        
-        const { data } = await axios.post('http://localhost:5000/api/admin/addTask', values)
 
+        const { data } = await axios.post('http://localhost:5000/api/admin/addTask', { values, val })
         return data
     } catch (error) {
         if (error.response) {
@@ -141,4 +151,4 @@ export const addtask = async (values) => {
             return error.response.data
         }
     }
- }
+}

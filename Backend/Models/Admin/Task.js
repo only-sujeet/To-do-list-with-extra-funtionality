@@ -1,45 +1,45 @@
-const  mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 
 const taskSchema = mongoose.Schema({
-    name:{
+    name: {
         type: String,
-        required: true,
+        required: [true, "Please enter Task name"]
     },
-    description : {
-        type:String,
-        required: true,
+    rate: {
+        type: String,
+        required: [true, "Please enter rate"]
     },
-    field : {
-        type:String,
-        required: true,
+    unit: {
+        type: String,
+        required: [true, "Please enter unit"]
     },
-    agency : {
-        type:String,
-        required: true,
+    field: {
+        type: String,
+        required: [true, "Please enter department"]
     },
-    startDate : {
-        type:Date,
+    taskDependency: {
+        type: String,
+        required: [true, "Please enter dependency"]
     },
-    endDate : {
-        type:Date,
+    instruction: {
+        type: String,
+        required: [true, "Please enter your instruction"]
     },
-    taskDependency : {
-        type:String,
-        required: true,
+    startDate: {
+        type: Date,
+        required: [true, "Please enter staring date"]
     },
-    QTY : {
-        type:Number,
-        required: true,
+    endDate: {
+        type: String,
+        required: [true, "Please enter ending date"]
     },
-    amount : {
-        type:Number,
-        required: true,
-    },
-    status:{
-        type:String,
-        required:true
+    checkList: [],
+    status: {
+        type: String,
+        required: true
     }
+
 })
 const Task = mongoose.model("Task", taskSchema)
 module.exports = Task

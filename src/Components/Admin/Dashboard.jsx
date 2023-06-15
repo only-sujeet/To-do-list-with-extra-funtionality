@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
 import AdminTopbar from '../Global/AdminTopbar'
+import AdminRoute from '../../Protected Route/AdminRoute'
 
 const usestyles = makeStyles(theme => ({
   content: {
@@ -24,4 +25,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard 

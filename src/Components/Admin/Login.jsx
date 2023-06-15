@@ -100,18 +100,18 @@ const Login = () => {
     initialValues: initialvalue,
     validationSchema: login,
     onSubmit: async (values, { resetForm }) => {
-      //  console.log(values)
-      // const res = await adminLogin(values)
+       console.log(values)
+      const res = await adminLogin(values)
 
-    //   if (res.success === true) {
-    //     toast.success(res.message)
-    //     resetForm({ values: "" })
-    //     navigate('/aprofile')
+      if (res.success === true) {
+        toast.success(res.message)
+        resetForm({ values: "" })
+        navigate('/dashboard')
         
-    //   }
-    //   if (res.success === false) {
-    //     toast.error(res.message)
-    //   }
+      }
+      if (res.success === false) {
+        toast.error(res.message)
+      }
      }
   })
 
