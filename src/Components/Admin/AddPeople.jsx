@@ -12,11 +12,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 const AddPeople = () => {
+
+
     React.useEffect(() => {
         getDepartment();
     }, []);
 
     const [dept, setDept] = React.useState();
+    const [subDept, setSubDept] = React.useState();
+
 
     const getDepartment = async () => {
         const { data } = await getDept()
@@ -25,8 +29,25 @@ const AddPeople = () => {
 
 
 
+    const handleGetSubDept = async (e) => {
+        handleChange(e)
+        const data = await getSubDept({ department: e.target.value })
+        data && setSubDept(data)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     const [open, setOpen] = React.useState(false);
-    const [subDept, setSubDept] = useState();
     const [file, setFile] = useState();
     const [image, setImage] = useState()
 
@@ -74,23 +95,6 @@ const AddPeople = () => {
 
 
     const initialvalue = {
-        company: "",
-        field: "",
-        subField: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        email: "",
-        dob: "",
-        age: "",
-        mobileno: "",
-        altmobileno: "",
-        address1: "",
-        address2: "",
-        // position: "",
-        adharno: "",
-        panno: "",
-        password: "",
 
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -104,21 +108,17 @@ const AddPeople = () => {
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
-                    console.log(values)
-                    console.log(file)
-                    // const res = await addPeople(formdata)
-                    // if (res.success === true) {
-                    //     toast.success(res.message)
-                    //     console.log(res.message)
-                    //     resetForm({ values: "" })
-                    //     setFile(null)
-                    //     setImage(null)
-                    // }
-                    // if (res.success === false) {
-                    //     toast.error(res.message)
-                    // }
-                    // resetForm({ values: "" })
-
+                    const res = await addPeople(formdata)
+                    if (res.success === true) {
+                        toast.success(res.message)
+                        console.log(res.message)
+                        resetForm({ values: "" })
+                        setOpen(false)
+                    }
+                    if (res.success === false) {
+                        toast.error(res.message)
+                    }
+                    resetForm({ values: "" })
                 }
                 else {
 
@@ -151,7 +151,7 @@ const AddPeople = () => {
         const data = await getSubDept({ company: values.company, field: e.target.value })
         setSubDept(data)
     }
-
+    console.log(errors)
     return (
         <div>
             <Tooltip title="Add People">
@@ -196,16 +196,16 @@ const AddPeople = () => {
                                         color='secondary'
                                         id='Field'
                                         label="Depatment"
-                                        name='field'
-                                        value={values.field}
-                                        onChange={handleTwoFunc2}
+                                        name='department'
+                                        value={values.department}
+                                        onChange={handleGetSubDept}
                                         onBlur={handleBlur}
                                     >
 
                                         {
-                                        dept && dept?.map((data) => (
-                                            <MenuItem value={data.department}>{data.department}</MenuItem>
-                                        ))
+                                            dept && dept?.map((data) => (
+                                                <MenuItem value={data.department}>{data.department}</MenuItem>
+                                            ))
                                         }
 
 
@@ -220,23 +220,22 @@ const AddPeople = () => {
                                         color='secondary'
                                         id='subField'
                                         label="Sub-Depatment"
-                                        name='subField'
-                                        value={values.subField}
+                                        name='subDept'
+                                        value={values.subDept}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     >
-                                        {/* {values.company && values.field
+                                        {values.department
                                             ?
                                             subDept && subDept?.map((data) => (
                                                 <MenuItem value={data}>{data}</MenuItem>
                                             ))
-                                            : <MenuItem >Please First Select Company & Department</MenuItem>
-                                        } */}
+                                            : <MenuItem >Please First Select Department</MenuItem>
+                                        }
 
-                                        <MenuItem value="sub-dept">sub-dept</MenuItem>
                                     </Select>
                                 </FormControl>
-                                {errors.subField && touched.subField ? <Typography variant="caption" color="error">{errors.subField}</Typography> : null}
+                                {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
                             </Grid>
                             {/* <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField

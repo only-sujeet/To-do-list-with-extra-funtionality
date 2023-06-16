@@ -7,7 +7,7 @@ export const login = yup.object({
 })
 export const register = yup.object({
     email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
-    password: yup.string().min(8, "Password is too short - should be 8 chars minimum.").required("Please Enter Your Password").max(10,"Password is too Large - should be 10 chars maximum."),
+    password: yup.string().min(8, "Password is too short - should be 8 chars minimum.").required("Please Enter Your Password").max(10, "Password is too Large - should be 10 chars maximum."),
     company: yup.string().required("Please Enter Company Name"),
 })
 export const addcom = yup.object({
@@ -15,18 +15,18 @@ export const addcom = yup.object({
 })
 
 export const adddep = yup.object({
-   
+
     department: yup.string().required("Please Enter Department")
 })
 
 export const addSubDept = yup.object({
-   
+
     department: yup.string().required("Please Select Department"),
     subDept: yup.string().required("Please Enter Sub-Department"),
 })
 export const addprofile = yup.object({
-    field: yup.string().required("Please Select Department"),
-    subField: yup.string().required("Please Select Sub-Department"),
+    department: yup.string().required("Please Select Department"),
+    subDept: yup.string().required("Please Select Sub-Department"),
     // position: yup.string().required("Please Enter Position"),
     firstName: yup.string().required("Please Enter Your First Name").min(5),
     middleName: yup.string().required("Please Enter Your Middle Name").min(5),
@@ -40,7 +40,7 @@ export const addprofile = yup.object({
     address2: yup.string().required("Please Enter Alternate Address"),
     adharno: yup.number().min(100000000000, ['Adhar Card No is not valid']).max(999999999999, ['Adhar Card No is not valid']).required("Please Enter Adhar Card No."),
     panno: yup.string().min(10, ['Pan No is not valid']).max(10, ['Pan No is not valid']).required("Please Enter Pan No").matches(/^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}?$/, "Please Enter Proper Pan No. "),
-    password: yup.string().min(8, "Password is too short - should be 8 chars minimum.").required("Please Enter Your Password").max(10,"Password is too Large - should be 10 chars maximum."),
+    password: yup.string().min(8, "Password is too short - should be 8 chars minimum.").required("Please Enter Your Password").max(10, "Password is too Large - should be 10 chars maximum."),
 })
 // export const addTask = yup.object({
 //     name: yup.string().required("Please Enter Task Name"),

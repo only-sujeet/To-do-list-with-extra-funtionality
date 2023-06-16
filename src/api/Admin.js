@@ -102,7 +102,7 @@ export const getSubDept = async (values) => {
 }
 export const addPeople = async (values) => {
     try {
-        const { data } = await axios.post(`${url}/addPeople`, values, {
+        const { data } = await axios.post(`/api/admin/addPeople`, values, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
