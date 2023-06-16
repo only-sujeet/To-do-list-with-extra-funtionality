@@ -45,7 +45,7 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} field={params.row.field} />,
+            renderCell: (params) => <Assign  name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} field={params.row.field} />,
             sortable: false,
             filterable: false
         },
