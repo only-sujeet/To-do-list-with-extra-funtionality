@@ -44,7 +44,7 @@ export const getPeople = () => async (dispatch) => {
         dispatch({
             type: "getPeopleRequest"
         })
-        const { data } = await axios.get('http://localhost:5000/api/admin/getPeople')
+        const { data } = await axios.get('api/admin/getPeople')
 
         dispatch({
             type: "getPeopleSuccess",

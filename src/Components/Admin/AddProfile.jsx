@@ -78,10 +78,10 @@ const AddProfile = () => {
                                             <CardContent sx={{ maxHeight: 100 }}>
                                                 <Typography variant="h5" textTransform='capitalize'   >{data.firstName} {data.middleName} {data.lastName}</Typography>
                                                 <Typography variant="h5"  >Company : {data.company}</Typography>
-                                                <Typography variant="h5" >Department : {data.field}</Typography>
+                                                <Typography variant="h5" >Department : {data.department}</Typography>
                                             </CardContent>
                                             <CardActions>
-                                                <NewPeopledet Image={data.Image} com={data.company} dept={data.field} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
+                                                <NewPeopledet Image={data.Image} com={data.company} dept={data.department} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
 
                                                 <Tooltip title="Block Profile" >
                                                     <Button aria-label="block" color='warning' onClick={() => blockpeople(data._id)}>
