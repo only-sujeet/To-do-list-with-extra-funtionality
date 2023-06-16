@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { Container,  makeStyles, } from '@material-ui/core'
+import { Container, makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -28,12 +28,13 @@ const Task = () => {
         dispatch(getTask())
     }, [dispatch])
 
- 
+
 
     const columns = useMemo(task => [
         { field: "name", headerName: "Task Name", width: 120 },
         { field: "rate", headerName: "Rate", width: 100 },
         { field: "unit", headerName: "Unit", width: 100 },
+        { field: "field", headerName: "Department", width: 100 },
         { field: "taskDependency", headerName: "Dependency", width: 150 },
         { field: "instruction", headerName: "Instruction", width: 120 },
         { field: "startDate", headerName: "Start At", width: 150 },
@@ -44,13 +45,27 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
+            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} field={params.row.field} />,
             sortable: false,
             filterable: false
         },
     ], [])
 
-
+    const options = {
+        search: true,
+        download: true,
+        print: true,
+        viewColumns: true,
+        filter: true,
+        filterType: "dropdown",
+        // responsive,
+        // tableBodyHeight,
+        // tableBodyMaxHeight,
+        // onTableChange: (action, state) => {
+        //     console.log(action);
+        //     console.dir(state);
+        // }
+    };
     return (
 
         <>
@@ -62,29 +77,31 @@ const Task = () => {
                         <Header title="Task" subtitle="Welcome to Task page" />
                         <AddTask />
                     </Box>
-                </Box>
-                <Container style={{width:{lg:"100%", md:"80%", sm:"40%", xs:"20%"}}}>
+
+                    {/* <Container style={{width: { lg: "100%", md: "40%", sm: "40%", xs: "20%" } }}> */}
                     {/* <Grid container spacing={1} maxWidth="250">
                     <Grid item lg={10}> */}
 
+                    <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+                        {task ?
+                            < DataGrid
+                                rows={task}
+                                key={row => row._id}
+                                sx={{ fontSize: "1rem", fontFamily: "sans-serif", width: { lg: "100%", md: "80%", sm: "40%", xs: "20%" } ,overflow:"auto" }}
+                                columns={columns}
+                                getRowId={row => row._id}
+                                options={options}
+                            >
 
-                    {task ?
-                        < DataGrid
-                            rows={task}
-                            key={row => row._id}
-                            sx={{ fontSize: "1rem", fontFamily: "sans-serif",  }}
-                            columns={columns}
-                            getRowId={row => row._id}
+                            </DataGrid>
+                            : undefined
 
-                        >
-
-                        </DataGrid>
-                        : undefined
-
-                    }
-                </Container>
-                {/* </Grid>
+                        }
+                    </Stack>
+                    {/* </Container> */}
+                    {/* </Grid>
                 </Grid> */}
+                </Box>
             </div >
         </>
     )
