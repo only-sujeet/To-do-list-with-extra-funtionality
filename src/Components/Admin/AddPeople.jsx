@@ -5,32 +5,45 @@ import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPeople,  getDept,  getSubDept } from '../../api/Admin';
+import { addPeople, getDept, getSubDept } from '../../api/Admin';
 import { getCompany, getPeople } from '../../Redux/Action/Admin';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 const AddPeople = () => {
+    React.useEffect(() => {
+        getDepartment();
+    }, []);
+
+    const [dept, setDept] = React.useState();
+
+    const getDepartment = async () => {
+        const { data } = await getDept()
+        data && setDept(data)
+    }
+
+
+
     const [open, setOpen] = React.useState(false);
     const [subDept, setSubDept] = useState();
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-    const [dept, setDept] = useState([]);
+
     const { company } = useSelector(state => state.admin)
 
     const [type, setType] = useState("password")
     const [visible, setVisible] = useState(false)
     const icon = (visible ? <Visibility /> : <VisibilityOff />)
     const showClick = () => {
-      if (visible === false) {
-        setVisible(true)
-        setType("text")
-      }
-      else {
-        setVisible(false)
-        setType("password")
-      }
+        if (visible === false) {
+            setVisible(true)
+            setType("text")
+        }
+        else {
+            setVisible(false)
+            setType("password")
+        }
     }
 
 
@@ -58,9 +71,7 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
-    useEffect(() => {
-        dispatch(getCompany())
-    }, [dispatch])
+
 
     const initialvalue = {
         company: "",
@@ -79,7 +90,7 @@ const AddPeople = () => {
         // position: "",
         adharno: "",
         panno: "",
-        password:"",
+        password: "",
 
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -190,13 +201,14 @@ const AddPeople = () => {
                                         onChange={handleTwoFunc2}
                                         onBlur={handleBlur}
                                     >
-                                        {/* {values.company ?
-                                            dept && dept?.map((data) => (
-                                                <MenuItem value={data.field}>{data.field}</MenuItem>
-                                            ))
-                                            : <MenuItem >Please First Select Company</MenuItem>} */}
 
-                                        <MenuItem value="dept">dept</MenuItem>
+                                        {
+                                        dept && dept?.map((data) => (
+                                            <MenuItem value={data.department}>{data.department}</MenuItem>
+                                        ))
+                                        }
+
+
                                     </Select>
                                 </FormControl>
                                 {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
@@ -252,9 +264,9 @@ const AddPeople = () => {
                                     name=''
                                     type="file"
                                     InputLabelProps={{ shrink: true, }}
-                                    
+
                                     onChange={handleImage}
-                               
+
                                 />
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
@@ -329,10 +341,10 @@ const AddPeople = () => {
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
-                                    
+
                                     fullWidth
                                     id="password"
-                                    
+
                                     label="Password"
                                     type={type}
                                     value={values.password}

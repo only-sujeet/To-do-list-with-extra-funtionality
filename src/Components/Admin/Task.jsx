@@ -1,8 +1,5 @@
 import React, { useMemo } from 'react'
-import { Button, Container, List, makeStyles, } from '@material-ui/core'
-import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Grid } from '@mui/material';
-import { Button,  makeStyles, } from '@material-ui/core'
+import { Container,  makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
 import { Box } from '@mui/material';
 import Header from '../Global/Header';
@@ -10,11 +7,8 @@ import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import Assign from './Assign';
-import { DataGrid} from '@mui/x-data-grid';
-
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -50,7 +44,7 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} EndDate={params.row.EndDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
+            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
             sortable: false,
             filterable: false
         },
