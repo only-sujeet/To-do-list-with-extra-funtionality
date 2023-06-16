@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import dateFormat from 'dateformat';
-const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id }) => {
+const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, field}) => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
 
@@ -144,11 +144,11 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                     </Grid>
                                     <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <FormControl variant='filled' fullWidth>
-                                            <InputLabel color='secondary'>Department</InputLabel>
+                                            <InputLabel color='secondary'>Employee</InputLabel>
                                             <Select
                                                 color='secondary'
                                                 id='Field'
-                                                label="Depatment"
+                                                label="Employee"
                                                 name='field'
                                                 // value={values.field}
                                                 // onChange={handleTwoFunc2}
