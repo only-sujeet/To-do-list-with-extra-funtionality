@@ -3,17 +3,15 @@ const { default: mongoose } = require("mongoose");
 
 const companySchema = mongoose.Schema({
     company: {
-        type: String
+        type: String,
+        required:[true,"Please enter company"]
     },
-    field: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Department"
-        }
+    department: [
+
     ],
-    addat: {
-        type: Date,
-        default: Date.now
+    admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Admin"
     }
 })
 

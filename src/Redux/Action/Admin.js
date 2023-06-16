@@ -1,6 +1,26 @@
 import axios from "axios"
 
 
+export const getAdminProfile = (values) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "adminProfileRequest"
+        })
+        const { data } = await axios.get('api/admin/myProfile')
+
+        dispatch({
+            type: "adminProfileSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "adminProfileFailuer"
+        })
+    }
+}
+
+
+
 export const getCompany = (values) => async (dispatch) => {
     try {
         dispatch({

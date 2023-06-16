@@ -1,6 +1,6 @@
 const express = require('express')
-const { adminRegister, adminLogin } = require('../controllers/Admin')
-const { addCompany, GetCompany,  addField, getField, deleteCompany, addSubField, getSubField, delSubField } = require('../controllers/Company')
+const { adminRegister, adminLogin, myProfile } = require('../controllers/Admin')
+const { addCompany, GetCompany,   getField, deleteCompany, addSubField, getSubField, delSubField, addDept } = require('../controllers/Company')
 const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlockPeople } = require('../Controllers/People')
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
@@ -30,7 +30,7 @@ router.route("/login").post(adminLogin)
 router.route("/addCompany").post(addCompany)
 router.route("/getCompany").post( GetCompany)
 router.route("/deleteCompany/:_id").delete( deleteCompany)
-router.route("/addField").post( addField)
+router.route("/addField").post(isAuthenticatedAdmin, addDept)
 router.route("/getDept").post( getField)
 router.route("/addSubField").post( addSubField)
 router.route("/getSubField").post(getSubField )
@@ -44,4 +44,7 @@ router.route("/getBlockPeople").get( getBlockPeople)
 router.route("/addTask").post(addTask)
 router.route("/getTask").get(getTask)
 
-module.exports = router
+
+router.route("/myProfile").get(isAuthenticatedAdmin,myProfile)
+
+module.exports = router 

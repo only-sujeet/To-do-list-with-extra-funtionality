@@ -15,8 +15,8 @@ export const addcom = yup.object({
 })
 
 export const adddep = yup.object({
-    // company: yup.string().required("Please Select Company"),
-    field: yup.string().required("Please Enter Department")
+   
+    department: yup.string().required("Please Enter Department")
 })
 
 export const addSubDept = yup.object({

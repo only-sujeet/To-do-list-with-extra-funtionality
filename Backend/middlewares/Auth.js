@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 
 exports.isAuthenticatedAdmin = async (req, res, next) => {
     try {
-        const { adminToken } = req.cookies;
-        if (!adminToken) {
+
+        const { Token } = req.cookies;
+        if (!Token) {
             return res
                 .status(401)
                 .res({ success: false, message: " Please login first.." })
         }
 
-        const decode = jwt.verify(adminToken, process.env.SECRET_KEY)
+        const decode = jwt.verify(Token, process.env.SECRET_KEY)
         req.admin = await Admin.findById(decode._id)
         next();
     } catch (error) {

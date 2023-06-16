@@ -26,33 +26,24 @@ const AddDepartment = () => {
         setDept(company)
     }, [company])
 
-    const handleCompany = async (e) => {
-        setCom(e.target.value)
-        console.log(e.target.value)
-        const { data } = await getField(e.target.value);
-        setTDept(data)
-
-    }
 
 
-    console.log(tdept)
     const initialvalues = {
-        // company: "",
-        field: ""
+
     }
 
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: adddep,
         onSubmit: async (values, { resetForm }) => {
-            // const res = await addDepartment(values)
-            // if (res.success === true) {
-            //     toast.success(res.message)
-            //     resetForm({ values: "" })
-            // }
-            // if (res.success === false) {
-            //     toast.error(res.message)
-            // }
+            const res = await addDepartment(values)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
             console.log(values)
         }
     })
@@ -63,35 +54,16 @@ const AddDepartment = () => {
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                    {/* <TextField
-                        select
-                        fullWidth
-                        label="Select Company"
-                        size='small'
-                        name='company'
-                        type='text'
-                        variant='standard'
-                        onChange={handleChange}
-                        value={values.company}
-                        onBlur={handleBlur}
-                    >
-                        {!loading ? company?.map((data) => (
-
-                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                        )) : undefined
-                        }
-                    </TextField>
-                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
                     <TextField
 
                         fullWidth
-                        label="Add Field"
+                        label="Add Department"
                         size='small'
-                        name='field'
+                        name='department'
                         type='text'
                         variant='outlined'
-                        placeholder='Enter Field Name'
-                        value={values.field}
+                        placeholder='Enter Department Name'
+                        value={values.department}
                         onBlur={handleBlur}
                         onChange={handleChange}
 
@@ -107,29 +79,12 @@ const AddDepartment = () => {
                 </Stack>
             </form>
             <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
-                <FormControl fullWidth variant='filled'  >
-                    <InputLabel color='secondary' >Select Company</InputLabel>
-                    <Select
-                        color='secondary'
-                        label="Company"
-                        id="Company"
-                        size='small'
-                        onChange={handleCompany}
-                        value={com}
 
-                    >
-                        {!loading ? company?.map((data) => (
-
-                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                        )) : undefined}
-                    </Select>
-                </FormControl>
                 <TableContainer component={Paper}>
                     <Table aria-label='a dense table' size='small'>
                         <TableHead>
                             <TableRow>
-                                {/* <TableCell>Company Name</TableCell> */}
-                                <TableCell>Department Name</TableCell>
+                                <TableCell align='center' >Your Department Name's</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

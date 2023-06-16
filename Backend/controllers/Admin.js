@@ -1,23 +1,25 @@
+const Company = require("../Models/Admin/Company");
 const Admin = require("../Models/Admin/Login");
 
 exports.adminRegister = async (req, res) => {
     try {
         const { company, email, password } = req.body
-        let admin = await Admin.findOne({ email });
+        const admin = await Admin.findOne({ email });
+        const newCompany = await Admin.findOne({ company });
+
         if (admin) {
-            return res
-                .status(400)
-                .json({ success: false, message: "admin already exists....." })
+            return res.status(400).json({ success: false, message: "admin already exists....." })
         }
 
-        admin = await Admin.create({ company, email, password })
-        admin.save();
+        if (newCompany) {
+            return res.status(400).json({ success: false, message: "Company name already exists....." })
+        }
 
-        res.status(201).json({
-            success: true,
-            message:"Successfully Registered",
-            admin
-        })
+        const newAdmin = await Admin.create({ email, password , company })
+        newAdmin.save();
+        
+        res.status(201).json({ success: true, message: "Successfully Registered", admin })
+
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
@@ -31,17 +33,13 @@ exports.adminLogin = async (req, res) => {
         let admin = await Admin.findOne({ email }).select("+password");
 
         if (!admin) {
-            return res
-                .status(400)
-                .json({ success: false, message: "!! Invalid Email" })
+            return res.status(400).json({ success: false, message: "!! Invalid Email" })
         }
 
         const isMatch = await admin.matchPassword(password)
 
         if (!isMatch) {
-            return res
-                .status(400)
-                .json({ success: false, message: "!! Invalid Password" })
+            return res.status(400).json({ success: false, message: "!! Invalid Password" })
 
         }
         const option = {
@@ -49,17 +47,21 @@ exports.adminLogin = async (req, res) => {
             httpOnly: true
         }
         const token = await admin.generateToken()
-        res.status(200).cookie("adminToken", token, option).json({ success: true, message: "Login Success", token })
-
+        res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
 
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 
 
 }
 
+exports.myProfile = async (req, res) => {
+    try {
+         const admin = await Admin.findById(req.admin._id).populate("department")
+        res.send(admin)
+    } catch (error) { 
+        res.status(500).json({ success: false, message: error });
+    }
+};

@@ -52,7 +52,7 @@ export const deleteCompany = async (id) => {
 
 export const addDepartment = async (values) => {
     try {
-        const { data } = await axios.post('http://localhost:5000/api/admin/addField', values)
+        const { data } = await axios.post('/api/admin/addField', values)
         return data
     } catch (error) {
         if (error.response) {

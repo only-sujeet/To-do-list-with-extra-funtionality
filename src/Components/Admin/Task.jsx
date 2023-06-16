@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react'
-import { Button, List, makeStyles, } from '@material-ui/core'
+import { Button,  makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
+import { DataGrid} from '@mui/x-data-grid';
+
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -23,12 +23,12 @@ const usestyles = makeStyles(theme => ({
 const Task = () => {
     const classes = usestyles();
     const dispatch = useDispatch()
-    const { task, loading } = useSelector(state => state.admin)
+    const { task } = useSelector(state => state.admin)
     useEffect(() => {
         dispatch(getTask())
     }, [dispatch])
 
-    const [pageSize, setPageSize] = useState(5);
+ 
 
     const columns = useMemo(task => [
         { field: "name", headerName: "Task Name", width: 150 },
