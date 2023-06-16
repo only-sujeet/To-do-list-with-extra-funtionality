@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, Box, CardContent, TextField, InputAdornment } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, Box, CardContent, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { AddHomeTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate ,id}) => {
+import dateFormat from 'dateformat';
+const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id }) => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
 
@@ -41,19 +41,19 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                 <DialogTitle align='center'><Typography variant="h3" color="-moz-initial"><Typography variant="h2" fontWeight="bold" color="initial">Assign</Typography></Typography></DialogTitle>
                 <DialogContent>
 
-                    <Card sx={{ display: "flex", width: "80%", margin: "20px auto" }}>
+                    <Card sx={{ display: "flex", width: "60%", margin: "20px auto" }}>
                         <Box sx={{
                             display: "flex", flexDirection:
                                 { lg: "column", sm: "row", xs: "row", md: "column" }
                         }}>
                             <CardContent sx={{ flex: "1 0 auto" }}>
                                 <Grid container spacing={2}>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
 
                                         <TextField
                                             fullWidth
                                             variant='filled'
-                                            label="Name"
+                                            label="Task Name"
                                             value={name}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
@@ -63,7 +63,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
                                         />
                                     </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
@@ -76,7 +76,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
@@ -89,7 +89,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
@@ -102,7 +102,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
@@ -115,12 +115,12 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
                                             label="Start Date"
-                                            value={startDate}
+                                            value={dateFormat(startDate, "mmmm dS, yyyy")}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
                                             InputProps={{
@@ -128,12 +128,13 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
                                         <TextField
                                             fullWidth
                                             variant='filled'
                                             label="End Date"
-                                            value={endDate}
+                                            // value={endDate}
+                                            value={dateFormat(endDate, "mmmm dS, yyyy")}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
                                             InputProps={{
@@ -141,9 +142,31 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
-                                  
+                                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                                        <FormControl variant='filled' fullWidth>
+                                            <InputLabel color='secondary'>Department</InputLabel>
+                                            <Select
+                                                color='secondary'
+                                                id='Field'
+                                                label="Depatment"
+                                                name='field'
+                                                // value={values.field}
+                                                // onChange={handleTwoFunc2}
+                                                // onBlur={handleBlur}
+                                            >
 
-                                   
+                                                {/* {
+                                                    dept && dept?.map((data) => (
+                                                        <MenuItem value={data.department}>{data.department}</MenuItem>
+                                                    ))
+                                                } */}
+                                                <MenuItem value="vishal">vishal</MenuItem>
+                                                <MenuItem value="sujeet">sujeet</MenuItem>
+
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+
                                 </Grid>
                             </CardContent>
 

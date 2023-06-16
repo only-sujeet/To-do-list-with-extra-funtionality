@@ -31,7 +31,7 @@ const taskSchema = mongoose.Schema({
         required: [true, "Please enter staring date"]
     },
     endDate: {
-        type: String,
+        type: Date,
         required: [true, "Please enter ending date"]
     },
     checkList: [],

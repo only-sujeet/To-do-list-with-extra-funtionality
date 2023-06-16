@@ -61,9 +61,7 @@ exports.addDept = async (req, res) => {
         let dept = await Department.findOne({ department })
 
         if (dept) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Department already Exists..." })
+            return res.status(400).json({ success: false, message: "Department already Exists..." })
         }
         dept = await Department.create({ department, company: admin.company })
 

@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { addDepartment, getDept, getField } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DataGrid } from '@mui/x-data-grid';
+import { useMemo } from 'react';
 
 const AddDepartment = () => {
 
@@ -20,7 +22,11 @@ const AddDepartment = () => {
         const { data } = await getDept()
         data && setDept(data)
     }
-   
+
+    const columns = useMemo(dept => [
+        { field: "department", headerName: "Task Name", width: 150 },
+    ], [])
+
     const initialvalues = {}
 
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -72,7 +78,7 @@ const AddDepartment = () => {
             </form>
             <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                <TableContainer component={Paper}>
+                {/* <TableContainer component={Paper}>
                     <Table aria-label='a dense table' size='small'>
                         <TableHead>
                             <TableRow>
@@ -91,7 +97,15 @@ const AddDepartment = () => {
 
                         </TableBody>
                     </Table>
-                </TableContainer>
+                </TableContainer> */}
+                {dept ? <DataGrid
+                    rows={dept}
+                    key={row => row._id}
+                    sx={{ fontSize: "1rem", fontFamily: "Josefin Sans", backgroundColor:"skyblue" }}
+                    columns={columns}
+                    getRowId={row => row._id}
+
+                ></DataGrid> : undefined}
             </Stack>
 
             <ToastContainer

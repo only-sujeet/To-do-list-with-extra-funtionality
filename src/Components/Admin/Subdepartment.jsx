@@ -2,10 +2,12 @@ import { Button, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableConta
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { addSubDept } from '../Validation/Admin'
-import { addSubDepartment, getDept,getSubDept,  } from '../../api/Admin'
+import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useMemo } from 'react'
+import { DataGrid } from '@mui/x-data-grid'
 
 const Subdepartment = () => {
 
@@ -38,7 +40,7 @@ const Subdepartment = () => {
             if (data.success === true) {
                 toast.success(data.message)
                 getd(data.department)
-                dataetForm({ values:null })
+                dataetForm({ values: null })
             }
             if (data.success === false) {
                 toast.error(data.message)
@@ -50,6 +52,10 @@ const Subdepartment = () => {
         const data = await getSubDept({ department: value })
         data && setSubDept(data)
     }
+
+    const columns = useMemo(subDept => [
+        { field: "data", headerName: "Sub Department", width: 150 },
+    ], [])
 
     return (
         <div>
@@ -97,9 +103,9 @@ const Subdepartment = () => {
                     </Tooltip>
                     <TableContainer component={Paper}>
                         <Table aria-label='a dense table' size='small'>
-                            <TableHead>
+                            <TableHead sx={{ backgroundColor:"lightskyblue" }} >
                                 <TableRow>
-                                    <TableCell align='center'   ><b> Sub-Departments</b>  </TableCell>
+                                    <TableCell align='center' ><b> Sub-Departments</b>  </TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -117,6 +123,14 @@ const Subdepartment = () => {
 
                         </Table>
                     </TableContainer>
+                    {/* {subDept ? <DataGrid
+                        rows={subDept}
+                        key={row => row.data}
+                        sx={{ fontSize: "1rem", fontFamily: "sans-serif", backgroundColor: "skyblue" }}
+                        columns={columns}
+                        getRowId={row => row.data}
+
+                    ></DataGrid> : undefined} */}
 
                 </Stack>
             </form>
