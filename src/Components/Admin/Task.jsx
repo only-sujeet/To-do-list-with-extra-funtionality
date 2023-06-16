@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react'
-import {  Container,  makeStyles, } from '@material-ui/core'
+import { Container,  makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
-import { DataGrid, } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Assign from './Assign';
-
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -45,7 +44,7 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} EndDate={params.row.EndDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
+            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
             sortable: false,
             filterable: false
         },

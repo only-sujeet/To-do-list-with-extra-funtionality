@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
-import dateFormat from 'dateformat';
-import { AddHomeTwoTone, AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
-import { deletePeople } from '../../api/Admin';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, Box, CardContent, TextField, InputAdornment } from '@mui/material';
+import { AddHomeTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { getPeople } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, EndDate ,id}) => {
+const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate ,id}) => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
 
@@ -136,7 +133,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, EndD
                                             fullWidth
                                             variant='filled'
                                             label="End Date"
-                                            value={EndDate}
+                                            value={endDate}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
                                             InputProps={{
