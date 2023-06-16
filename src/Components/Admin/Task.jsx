@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { Button, List, makeStyles, } from '@material-ui/core'
+import { Button, Container, List, makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Grid } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
+import Assign from './Assign';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -31,20 +32,20 @@ const Task = () => {
     const [pageSize, setPageSize] = useState(5);
 
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 150 },
-        { field: "rate", headerName: "Rate", width: 120 },
-        { field: "unit", headerName: "Unit", width: 120 },
-        { field: "taskDependency", headerName: "Dependency", width: 200 },
-        { field: "instruction", headerName: "Instruction", width: 150 },
-        { field: "startDate", headerName: "Start At", width: 200 },
-        { field: "endDate", headerName: "End At", width: 150 },
-        { field: "status", headerName: "Status", width: 150 },
-        { field: "_id", headerName: "ID", width: 150 },
+        { field: "name", headerName: "Task Name", width: 120 },
+        { field: "rate", headerName: "Rate", width: 100 },
+        { field: "unit", headerName: "Unit", width: 100 },
+        { field: "taskDependency", headerName: "Dependency", width: 150 },
+        { field: "instruction", headerName: "Instruction", width: 120 },
+        { field: "startDate", headerName: "Start At", width: 150 },
+        { field: "endDate", headerName: "End At", width: 120 },
+        { field: "status", headerName: "Status", width: 120 },
+        // { field: "_id", headerName: "ID", width: 150 },
 
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Button variant='contained' color='primary' onClick={() => alert(params.row.name)}>Assign</Button>,
+            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} EndDate={params.row.EndDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate}  />,
             sortable: false,
             filterable: false
         },
@@ -62,21 +63,29 @@ const Task = () => {
                         <Header title="Task" subtitle="Welcome to Task page" />
                         <AddTask />
                     </Box>
-                    {task ?
+                </Box>
+                <Container style={{width:{lg:"100%", md:"80%", sm:"40%", xs:"20%"}}}>
+                    {/* <Grid container spacing={1} maxWidth="250">
+                    <Grid item lg={10}> */}
 
+
+                    {task ?
                         < DataGrid
                             rows={task}
                             key={row => row._id}
-                            sx={{ fontSize: "1rem", fontFamily: "sans-serif", width: "100%" }}
+                            sx={{ fontSize: "1rem", fontFamily: "sans-serif",  }}
                             columns={columns}
                             getRowId={row => row._id}
+
                         >
 
                         </DataGrid>
                         : undefined
 
                     }
-                </Box>
+                </Container>
+                {/* </Grid>
+                </Grid> */}
             </div >
         </>
     )
