@@ -3,15 +3,17 @@ const { default: mongoose } = require("mongoose");
 
 const companySchema = mongoose.Schema({
     company: {
-        type: String
+        type: String,
+        required:[true]
     },
 
-    field:{
-        type: String
+    department:{
+        type: String,
+        required:[true]
     },
-    subField:[
+    subDept:[
 
-    ]
+    ] 
 })
 
 module.exports = mongoose.model("Department", companySchema)

@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken')
 const adminSchema = mongoose.Schema({
     company:{
         type: String,
-        required : [true, "Name is required"],
-      
+        required :[true, "Company is required"]
     },
+
     email :{
         type: String,
         required :[true, "Email is required"]
@@ -15,7 +15,15 @@ const adminSchema = mongoose.Schema({
     password :{
         type : String,
         required : [true, "Password is required"]
-    }
+    },
+    department:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Department"
+        }
+    ]
+    
+
 })
 
 

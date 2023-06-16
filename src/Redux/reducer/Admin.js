@@ -54,4 +54,17 @@ export const adminReducer = createReducer(initialState, {
         state.taskerror = action.payload
     },
 
+    adminProfileRequest: (state,) => {
+        state.loading = true;
+    },
+    adminProfileSuccess: (state, action) => {
+        state.loading = false;
+        state.dept = action.payload
+    },
+    adminProfileFailuer: (state, action) => {
+        state.loading = true;
+        state.taskerror = action.payload
+    },
+    
+    
 })

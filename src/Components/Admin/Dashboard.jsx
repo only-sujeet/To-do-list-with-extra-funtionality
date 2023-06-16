@@ -2,6 +2,11 @@ import { makeStyles } from '@material-ui/core'
 import React from 'react'
 import AdminTopbar from '../Global/AdminTopbar'
 import AdminRoute from '../../Protected Route/AdminRoute'
+import { getAdminProfile } from '../../Redux/Action/Admin'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+
+
 
 const usestyles = makeStyles(theme => ({
   content: {
@@ -14,6 +19,12 @@ const usestyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const classes = usestyles();
+  
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getAdminProfile())
+  }, [dispatch]);
   return (
     <>
       <AdminTopbar />
@@ -25,4 +36,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard 
+export default Dashboard
