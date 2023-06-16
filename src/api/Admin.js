@@ -58,32 +58,43 @@ export const addDepartment = async (values) => {
         if (error.response) {
 
             return error.response.data
-        }
+        } 
     }
 }
 
 
 
-export const getField = async (values) => {
+export const getDept = async (values) => {
     try {
-        const data = await axios.post('http://localhost:5000/api/admin/getDept', { company: values })
+        const data = await axios.get('api/admin/getDept', { company: values })
         return data
     } catch (error) {
         return error
     }
 }
-export const addSubField = async (values) => {
-    try {
 
-        const { data } = axios.post('http://localhost:5000/api/admin/addSubField', values)
+
+
+export const addSubDepartment = async (values) => {
+    try {
+        const data = await axios.post('api/admin/addSubDept', values)
         return data
     } catch (error) {
         return error
     }
 }
-export const getSubField = async (values) => {
+
+
+
+
+
+
+
+
+
+export const getSubDept = async (values) => {
     try {
-        const { data } = await axios.post('http://localhost:5000/api/admin/getSubField', values)
+        const { data } = await axios.post('/api/admin/getSubDept', values)
         return data
     } catch (error) {
         return error

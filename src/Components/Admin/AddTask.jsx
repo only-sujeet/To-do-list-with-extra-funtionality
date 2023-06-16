@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addtask, createTask, getField } from '../../api/Admin';
+import { addtask, createTask, getDept } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTask, addTasks } from '../Validation/Admin';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -89,7 +89,7 @@ const AddTask = () => {
     })
     const handleTwoFunc = async (e) => {
         handleChange(e)
-        const { data } = await getField(e.target.value);
+        const { data } = await getDept(e.target.value);
         setDept(data)
     }
     const handleTwoFunc2 = async (e) => {

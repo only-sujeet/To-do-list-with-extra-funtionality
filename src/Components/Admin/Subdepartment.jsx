@@ -1,116 +1,88 @@
 import { Button, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { addSubDept } from '../Validation/Admin'
 import { useSelector } from 'react-redux'
-import { addSubField, getField, getSubField } from '../../api/Admin'
+import { addSubDepartment, addSubField, getDept, getField, getSubDept, getSubField } from '../../api/Admin'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Refresh } from '@mui/icons-material'
+import { Refdatah } from '@mui/icons-material'
 
 const Subdepartment = () => {
 
-    const [dept, setDept] = useState();
-    const [subDept, setSubDept] = useState();
+    useEffect(() => {
+        getDepartment();
+    }, []);
 
+    const [dept, setDept] = React.useState();
+    const [subDept, setSubDept] = React.useState();
+
+    const getDepartment = async () => {
+        const { data } = await getDept()
+        data && setDept(data)
+    }
     const initialvalues = {
 
     }
-    const { loading, company } = useSelector(state => state.admin)
+    const handleGetSubDept = async (e) => {
+        handleChange(e)
+        const data = await getSubDept({ department: e.target.value })
+        data && setSubDept(data)
+    }
+
+
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
-        onSubmit: async (values, { resetForm }) => {
-
-
-            // if (data.success === true) {
-            //     toast.success(data.message)
-            //     resetForm({ values: "" })
-            //     getSubField(values)
-            // }
-            // if (data.success === false) {
-            //     toast.error(data.message)
-            // }
-            const data = await addSubField(values)
-            const data2 = await getSubField(values)
-            setSubDept(data2)
-            resetForm({ values: "" })
-            setDept(null)
+        onSubmit: async (values, { dataetForm }) => {
+            const { data } = await addSubDepartment(values)
+            if (data.success === true) {
+                toast.success(data.message)
+                getd(data.department)
+                dataetForm({ values:null })
+            }
+            if (data.success === false) {
+                toast.error(data.message)
+            }
         }
-
     })
-    const handleTwoFunc = async (e) => {
-        handleChange(e)
-        const { data } = await getField(e.target.value);
-        setDept(data)
+
+    const getd = async (value) => {
+        const data = await getSubDept({ department: value })
+        data && setSubDept(data)
     }
 
-    const handleTwoFunc2 = async (e) => {
-        handleChange(e)
-        getSubFieldDetails(e)
-
-    }
-    const getSubFieldDetails = async (e) => {
-        const data = await getSubField({ company: values.company, field: e.target.value })
-        setSubDept(data)
-    }
-
-    console.log(subDept)
     return (
         <div>
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                    {/* <TextField
-                        select
-                        fullWidth
-                        label="Select Company"
-                        size='small'
-                        name='company'
-                        type='text'
-                        variant='standard'
-                        onChange={handleTwoFunc}
-                        value={values.company}
-                        onBlur={handleBlur}
-                    >
-                        {!loading ? company?.map((data) => (
-
-                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                        )) : undefined
-                        }
-                    </TextField>
-                    {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
                     <TextField
                         select
                         fullWidth
                         label="Select Department"
-                        // label="Select Field"
                         size='small'
-                        name='field'
+                        name='department'
                         type='text'
                         variant='standard'
-                        onChange={handleTwoFunc2}
+                        onChange={handleGetSubDept}
                         value={values.company}
                         onBlur={handleBlur}
                     >
                         {
-                            values.company ?
-                                !loading ? dept?.map((data) => (
-                                    <MenuItem value={data.field}>{data.field}</MenuItem>
-
-                                ))
-                                    : undefined
-                                : <MenuItem >Please First Select Company</MenuItem>
+                            dept && dept?.map((data) => (
+                                <MenuItem value={data.department}>{data.department}</MenuItem>
+                            ))
                         }
                     </TextField>
-                    {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                    {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                     <TextField
                         fullWidth
                         label="Add Sub-Department"
                         size='small'
-                        name='subField'
+                        name='subDept'
                         type='text'
                         variant='outlined'
                         placeholder='Enter Sub Department Name'
@@ -119,7 +91,7 @@ const Subdepartment = () => {
                         onChange={handleChange}
 
                     />
-                    {errors.subField && touched.subField ? <Typography variant="caption" color="error">{errors.subField}</Typography> : null}
+                    {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.SubDept}</Typography> : null}
                     <Tooltip title="Add Sub-Department">
                         <Button variant="contained" color='primary' type='submit' >
                             Add
@@ -129,7 +101,7 @@ const Subdepartment = () => {
                         <Table aria-label='a dense table' size='small'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align='center'   ><b>Department of Sub Departments</b>  </TableCell>
+                                    <TableCell align='center'   ><b> Sub-Departments</b>  </TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -137,7 +109,6 @@ const Subdepartment = () => {
                             <TableBody>
                                 {
                                     subDept && subDept?.map((data) => (
-
                                         <TableRow key={data}>
                                             <TableCell>{data}</TableCell>
                                         </TableRow>
@@ -154,7 +125,7 @@ const Subdepartment = () => {
             <ToastContainer
                 position="top-center"
                 autoClose={3000}
-                hideProgressBar={true}
+                hideProgdatasBar={true}
                 newestOnTop={false}
                 closeButton={false}
                 closeOnClick

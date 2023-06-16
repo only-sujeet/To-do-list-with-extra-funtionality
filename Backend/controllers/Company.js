@@ -1,4 +1,5 @@
 const Company = require("../Models/Admin/Company");
+const Admin = require("../Models/Admin/Login");
 const Department = require("../Models/Admin/dept");
 
 exports.addCompany = async (req, res) => {
@@ -59,10 +60,10 @@ exports.addDept = async (req, res) => {
         const admin = req.admin
         let dept = await Department.findOne({ department })
 
-        if(dept){
+        if (dept) {
             return res
-            .status(400)
-            .json({success:false , message:"Department already Exists..." })
+                .status(400)
+                .json({ success: false, message: "Department already Exists..." })
         }
         dept = await Department.create({ department, company: admin.company })
 
@@ -76,54 +77,39 @@ exports.addDept = async (req, res) => {
     }
 };
 
-exports.getField = async (req, res) => {
+exports.getDept = async (req, res) => {
     try {
-        const { company } = req.body;
-        console.log(company);
-        let comp = await Company.findOne({ company }).populate("field");
-        if (!comp) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Company Not Found.. " });
-        }
-        res.send(comp.field);
+        const dept = await Admin.findById(req.admin._id).populate("department")
+        res.send(dept.department)
     } catch (error) {
         res.status(500).json({ success: false, message: error });
     }
 };
 
-exports.addSubField = async (req, res) => {
+exports.addSubDept = async (req, res) => {
     try {
-        const { company, field, subField } = req.body;
-        const dept = await Department.findOne({ company, field });
-        if (!dept) {
+        const { department, subDept } = req.body
+        const dept = await Department.findOne({ company: req.admin.company, department })
+        if (dept.subDept.includes(subDept)) {
             return res
                 .status(400)
-                .json({ success: false, message: "Department not found... " });
+                .json({ success: false, message: "Sub-Department already Exists..." })
         }
-        if (dept.subField.includes(subField)) {
-            return res
-                .status(400)
-                .json({ success: false, message: "subField Already Exists.." });
-        }
-        dept.subField.push(subField);
+        dept.subDept.push(subDept)
         await dept.save();
-        res.status(200).json({ success: true, message: "Successfully Added...." });
+        res
+            .status(200)
+            .json({ success: true, message: "Sub-Department Added.." , department})
+
     } catch (error) {
         res.status(500).json({ success: false, message: error });
     }
 };
-exports.getSubField = async (req, res) => {
+exports.getSubDept = async (req, res) => {
     try {
-        const { company, field } = req.body;
-        const dept = await Department.findOne({ company, field });
-        if (!dept) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Department not found... " });
-        }
-
-        res.status(200).json(dept.subField);
+        const { department } = req.body
+        const dept = await Department.findOne({ company: req.admin.company, department })
+        res.send(dept.subDept)
     } catch (error) {
         res.status(500).json({ success: false, message: error });
     }

@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPeople, getField, getSubField } from '../../api/Admin';
+import { addPeople,  getDept,  getSubDept } from '../../api/Admin';
 import { getCompany, getPeople } from '../../Redux/Action/Admin';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -127,7 +127,7 @@ const AddPeople = () => {
 
     const handleTwoFunc = async (e) => {
         handleChange(e)
-        const { data } = await getField(e.target.value);
+        const { data } = await getDept(e.target.value);
         setDept(data)
     }
 
@@ -137,7 +137,7 @@ const AddPeople = () => {
 
     }
     const getSubFieldDetails = async (e) => {
-        const data = await getSubField({ company: values.company, field: e.target.value })
+        const data = await getSubDept({ company: values.company, field: e.target.value })
         setSubDept(data)
     }
 

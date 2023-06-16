@@ -1,13 +1,16 @@
 import React from 'react'
 import { makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup,  Typography,  } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography, } from '@mui/material';
 import Header from '../Global/Header';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import Addcompanyd from './Addcompanyd';
 import AddDepartment from './AddDepartment';
 import Subdepartment from './Subdepartment';
+import { getAdminProfile } from '../../Redux/Action/Admin';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -21,16 +24,23 @@ const usestyles = makeStyles(theme => ({
 
 
 const Manage = () => {
+
+   
+
+    const dispatch = useDispatch()
     const classes = usestyles();
     const [status, setStatus] = useState(2)
     const handler = (status) => {
         setStatus(status)
     }
 
+    
     // for company
-   
+    useEffect(() => {
+        dispatch(getAdminProfile())
+    }, [dispatch]);
 
-   
+
     return (
 
         <>
@@ -52,21 +62,21 @@ const Manage = () => {
                         </FormControl>
 
                     </Box>
-                    <Box m="40px auto" width={{ lg: "40%", sm: "100%", md: "60%", xs: "80%"   }}>
+                    <Box m="40px auto" width={{ lg: "40%", sm: "100%", md: "60%", xs: "80%" }}>
                         {/* {
                             status === 1 && <Addcompanyd />    
                             
                         } */}
                         {
-                            status === 2 && <AddDepartment/>
+                            status === 2 && <AddDepartment />
                         }
                         {
-                            status === 3 && <Subdepartment/>
+                            status === 3 && <Subdepartment />
                         }
                     </Box>
 
                 </Box>
-                
+
             </div>
         </>
     )

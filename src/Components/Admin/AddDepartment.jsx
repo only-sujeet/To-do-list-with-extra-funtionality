@@ -4,33 +4,24 @@ import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { useSelector } from 'react-redux';
-import { addDepartment, getField } from '../../api/Admin';
+import { addDepartment, getDept, getField } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddDepartment = () => {
-    const [open, setOpen] = React.useState(false);
-    const { loading, company } = useSelector(state => state.admin)
-    const [dept, setDept] = React.useState([]);
-    const [tdept, setTDept] = React.useState([]);
 
-    const [com, setCom] = React.useState();
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
     React.useEffect(() => {
-        setDept(company)
-    }, [company])
+        getDepartment();
+    }, []);
 
+    const [dept, setDept] = React.useState();
 
-
-    const initialvalues = {
-
+    const getDepartment = async () => {
+        const { data } = await getDept()
+        data && setDept(data)
     }
+   
+    const initialvalues = {}
 
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
@@ -40,6 +31,7 @@ const AddDepartment = () => {
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: "" })
+                getDepartment();
             }
             if (res.success === false) {
                 toast.error(res.message)
@@ -90,15 +82,11 @@ const AddDepartment = () => {
                         <TableBody>
 
                             {
-                                tdept >= 0 ? <Typography align='center' color="initial">Department Not Found</Typography>
-                                    :
-                                    !loading ? tdept?.map((data) => (
-
-                                        <TableRow key={data._id}>
-                                            <TableCell>{data.field}</TableCell>
-                                        </TableRow>
-                                    ))
-                                        : undefined
+                                dept && dept.map((data) => (
+                                    <TableRow>
+                                        <TableCell>{data.department}</TableCell>
+                                    </TableRow>
+                                ))
                             }
 
                         </TableBody>

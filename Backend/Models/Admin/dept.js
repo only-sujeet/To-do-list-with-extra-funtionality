@@ -11,7 +11,7 @@ const companySchema = mongoose.Schema({
         type: String,
         required:[true]
     },
-    subDepartmetn:[
+    subDept:[
 
     ] 
 })
