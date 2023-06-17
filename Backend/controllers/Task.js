@@ -14,7 +14,7 @@ exports.addTask = async (req, res) => {
             success: true, message: "Successfully Created Task",
             task
         })
-        
+
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
@@ -42,8 +42,8 @@ exports.getTask = async (req, res) => {
 
 exports.getEmpByDept = async (req, res) => {
     try {
-       const {department} =  req.body
-        const emp = await  People.find({company:req.admin.company , department})
+        const { department } = req.body
+        const emp = await People.find({ company: req.admin.company, department })
         res.send(emp)
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -51,3 +51,23 @@ exports.getEmpByDept = async (req, res) => {
 }
 
 
+exports.assignTask = async (req, res) => {
+    try {
+        const { empId, taskId } = req.body
+        const emp = await People.findById(empId)
+        const task = await Task.findById(taskId)
+
+        task.status = "assign"
+        await task.save();
+
+        emp.tasks.push(task._id)
+        emp.save();
+
+        res.status(200).json({
+            success: true, message: "Task Assigned..."
+        })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}

@@ -7,8 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import dateFormat from 'dateformat';
 import { getEmpByDept } from '../../api/Admin';
 import { useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+
 const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
+    const [open, setOpen] = React.useState(false);
 
 
     const [emp, setEmp] = React.useState();
@@ -17,11 +20,24 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
         //const { data } = await getEmpByDept(dept)
         const { data } = await axios.post('/api/admin/getEmpByDept', { department: dept })
         data && setEmp(data)
+    }
+    const [empId, setEmpId] = React.useState();
+    const handleEmp = (e) => {
+        setEmpId(e.target.value)
+    }
+    const assign = async (empId, taskId) => {
+        const res = await axios.post('/api/admin/assignTask', { empId, taskId })
+        if (res.success === true) {
+            toast.success(res.message)
+            setOpen(false)
+            
 
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
     }
 
-    console.log(emp)
-    const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
 
     const handleClickOpen = () => {
@@ -166,21 +182,20 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                                 color='secondary'
                                                 id='Field'
                                                 label="Employee"
-                                                name='field'
-                                            // value={values.field}
-                                            // onChange={handleTwoFunc2}
-                                            // onBlur={handleBlur}
-                                            >
+                                                name='employee'
+                                                onChange={handleEmp}
 
+                                            >
                                                 {
                                                     emp && emp?.map((data) => (
-                                                        <MenuItem value={data.firstName}>{data.firstName}</MenuItem>
+                                                        <MenuItem value={data._id}>{data.firstName} {data.middleName} {data.lastName}</MenuItem>
                                                     ))
                                                 }
-
-
                                             </Select>
                                         </FormControl> : undefined}
+
+                                        {empId ? <Button fullWidth sx={{ mt: "1rem" }} onClick={() => assign(empId, id)} variant='contained' color="primary">Assign Task</Button> : undefined}
+
                                     </Grid>
 
                                 </Grid>

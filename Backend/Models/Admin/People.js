@@ -73,6 +73,10 @@ const peopleSchema = mongoose.Schema({
     status: {
         type: String,
     },
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Task"
+    }]
 
 })
 const People = mongoose.model("People", peopleSchema)
