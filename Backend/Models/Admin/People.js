@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const jwt = require('jsonwebtoken')
 
 const peopleSchema = mongoose.Schema({
     firstName: {
@@ -75,5 +75,10 @@ const peopleSchema = mongoose.Schema({
     },
 
 })
+
+peopleSchema.methods.generateToken = async function () {
+    return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
+}
+
 const People = mongoose.model("People", peopleSchema)
 module.exports = People
