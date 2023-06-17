@@ -82,19 +82,19 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
-            const { data } = await createTask(values, val)
+            const res = await createTask(values, val)
             // const res = await addtask(values)
-            // if (res.success === true) {
-            //     toast.success(res.message)
-            //     resetForm({ values: "" })
-            //     //dispatch(getCompany())
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })
+                dispatch(getTask())
 
-            // }
-            // if (res.success === false) {
-            //     toast.error(res.message)
-            // }
-            console.log(values)
-            console.log(val, "data-")
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
+            // console.log(values)
+            // console.log(val, "data-")
         }
 
     })

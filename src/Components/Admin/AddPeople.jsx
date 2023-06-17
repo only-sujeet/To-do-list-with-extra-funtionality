@@ -111,9 +111,10 @@ const AddPeople = () => {
                     const res = await addPeople(formdata)
                     if (res.success === true) {
                         toast.success(res.message)
-                        console.log(res.message)
+                        // console.log(res.message)
                         resetForm({ values: "" })
                         setOpen(false)
+                        dispatch(getPeople())
                     }
                     if (res.success === false) {
                         toast.error(res.message)

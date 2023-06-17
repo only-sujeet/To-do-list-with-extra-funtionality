@@ -6,6 +6,11 @@ import { elogin } from '../Validation/Employee'
 import { useFormik } from 'formik'
 import { useState } from 'react'
 import image from '../Images/login4.png'
+import { Elogin } from '../../api/Employye'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 const EmpLogin = () => {
   const [type, setType] = useState("password")
@@ -21,7 +26,7 @@ const EmpLogin = () => {
       setType("password")
     }
   }
-
+  const navigate = useNavigate()
   const initialvalue = {
     email: "",
     password: "",
@@ -31,9 +36,19 @@ const EmpLogin = () => {
     initialValues: initialvalue,
     validationSchema: elogin,
     onSubmit: async (values, { resetForm }) => {
+      const res = await Elogin(values)
+      if (res.success === true) {
+        toast.success(res.message)
+        resetForm({ values: "" })
+        navigate('/etask')
+        
+      }
+      if (res.success === false) {
+        toast.error(res.message)
+      }
       // const { data } = await adminRegister(values)
       // console.log(data)
-      console.log(values)
+      // console.log(values)
     }
 
   })
@@ -93,6 +108,18 @@ const EmpLogin = () => {
           </Button>
         </Box>
       </form>
+      <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeButton={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored" />
     </Container >
   )
 }

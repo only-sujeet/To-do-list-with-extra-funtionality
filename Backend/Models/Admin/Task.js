@@ -38,7 +38,11 @@ const taskSchema = mongoose.Schema({
     status: {
         type: String,
         required: true
-    }
+    },
+    company: {
+        type: String,
+        required: true
+    },
 
 })
 const Task = mongoose.model("Task", taskSchema)
