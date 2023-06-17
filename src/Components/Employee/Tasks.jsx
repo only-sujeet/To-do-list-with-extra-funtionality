@@ -51,15 +51,14 @@ const Tasks = () => {
             <EmpHeader />
             <Box sx={{ mt: "70px", ml: "10px" }}>
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+                <Stack display="grid" width="100" height="50vh" marginX="1rem">
                     {task ?
                         <DataGrid
                             rows={task}
                             key={row => row._id}
                             sx={{
                                 fontSize: "1rem", fontFamily: "sans-serif",
-                                width: { lg: "100%", md: "80%", sm: "40%", xs: "23%" },
-                                overflow: "auto"
+                               
                             }}
                             columns={columns}
                             getRowId={row => row._id}

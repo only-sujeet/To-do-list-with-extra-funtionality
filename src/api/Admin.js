@@ -154,7 +154,7 @@ export const unBlockPeople = async (id) => {
 export const createTask = async (values, val) => {
     try {
 
-        const { data } = await axios.post('     xc/api/admin/addTask', { values, val })
+        const { data } = await axios.post('/api/admin/addTask', { values, val })
         return data
     } catch (error) {
         if (error.response) {

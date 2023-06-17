@@ -79,7 +79,7 @@ export const getTask = () => async (dispatch) => {
         dispatch({
             type: "getTaskRequest"
         })
-        const { data } = await axios.get('http://localhost:5000/api/admin/getTask')
+        const { data } = await axios.get('/api/admin/getTask')
 
         dispatch({
             type: "getTaskSuccess",

@@ -6,7 +6,6 @@ const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
 const multer = require('multer')
 const { addTask, getTask, getEmpByDept, assignTask } = require('../controllers/Task')
-const { addTask, getTask, getEmpByDept } = require('../controllers/Task')
 const { EmpLogin } = require('../controllers/Employee')
 
 

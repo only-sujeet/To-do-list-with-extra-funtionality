@@ -45,7 +45,7 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign  name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />,
+            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />,
             sortable: false,
             filterable: false
         },
@@ -83,11 +83,20 @@ const Task = () => {
                     <Grid item lg={10}> */}
 
                     <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+
+                    </Stack>
+                    <div style={{
+                        display: "grid",
+                        width: "100%",
+                        height:"50vh"
+                        
+                    }}>
+                        
                         {task ?
                             < DataGrid
                                 rows={task}
+                                
                                 key={row => row._id}
-                                sx={{ fontSize: "1rem", fontFamily: "sans-serif", width: { lg: "100%", md: "80%", sm: "40%", xs: "20%" } ,overflow:"auto" }}
                                 columns={columns}
                                 getRowId={row => row._id}
                                 options={options}
@@ -97,7 +106,7 @@ const Task = () => {
                             : undefined
 
                         }
-                    </Stack>
+                    </div>
                     {/* </Container> */}
                     {/* </Grid>
                 </Grid> */}
