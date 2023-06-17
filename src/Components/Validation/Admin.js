@@ -65,7 +65,7 @@ export const addTasks = yup.object({
     name: yup.string().required("Please Enter Task Name"),
     rate: yup.number().required("Please Enter Ammount"),
     unit: yup.string().required("Please Enter Unit"),
-    field: yup.string().required("Please Select Department"),
+    department: yup.string().required("Please Select Department"),
     instruction: yup.string().required("Please Enter Instruction"),
     // agency: yup.string().required("Please Select Company"),
     taskDependency: yup.string().required("Please Enter Task Dependency"),

@@ -34,7 +34,7 @@ const Task = () => {
         { field: "name", headerName: "Task Name", width: 120 },
         { field: "rate", headerName: "Rate", width: 100 },
         { field: "unit", headerName: "Unit", width: 100 },
-        { field: "field", headerName: "Department", width: 100 },
+        { field: "department", headerName: "Department", width: 100 },
         { field: "taskDependency", headerName: "Dependency", width: 150 },
         { field: "instruction", headerName: "Instruction", width: 120 },
         { field: "startDate", headerName: "Start At", width: 150 },
@@ -45,7 +45,7 @@ const Task = () => {
         {
             headerName: "Action",
             width: 150,
-            renderCell: (params) => <Assign  name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} field={params.row.field} />,
+            renderCell: (params) => <Assign  name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />,
             sortable: false,
             filterable: false
         },

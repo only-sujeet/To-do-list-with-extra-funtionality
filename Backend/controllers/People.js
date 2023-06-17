@@ -12,16 +12,16 @@ exports.addPeople = async (req, res) => {
 
         const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${peo.password} \n\n\n Thank You`
 
-        await sendEmail({
-            email: peo.email,
-            subject: req.admin.company,
-            message
-        });
         res.status(200).json({
             success: true,
             message: "Profile Created...",
         });
 
+        await sendEmail({
+            email: peo.email,
+            subject: req.admin.company,
+            message
+        });
     } catch (error) {
         res.status(500).json({
             success: false,

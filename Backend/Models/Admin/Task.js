@@ -14,7 +14,7 @@ const taskSchema = mongoose.Schema({
         type: String,
         required: [true, "Please enter unit"]
     },
-    field: {
+    department: {
         type: String,
         required: [true, "Please enter department"]
     },

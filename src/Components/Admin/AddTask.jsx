@@ -18,10 +18,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const AddTask = () => {
+
+    React.useEffect(() => {
+        getDepartment();
+    }, []);
+
+    const [dept, setDept] = React.useState();
+
+    const getDepartment = async () => {
+        const { data } = await getDept()
+        data && setDept(data)
+    }
+
     const dispatch = useDispatch()
     const { company } = useSelector(state => state.admin)
     const [open, setOpen] = React.useState(false);
-    const [dept, setDept] = useState([]);
     const [val, setVal] = useState([])
     const handleClose = () => {
         setOpen(false);
@@ -60,7 +71,7 @@ const AddTask = () => {
         name: "",
         rate: "",
         unit: "",
-        field: "",
+        department: "",
         instruction: "",
         taskDependency: "",
         startDate: "",
@@ -183,24 +194,23 @@ const AddTask = () => {
                                     <InputLabel color='secondary'>Department</InputLabel>
                                     <Select
                                         color='secondary'
-                                        id='field'
+                                        id='department'
                                         label="Depatment"
-                                        name='field'
-                                        value={values.field}
+                                        name='department'
+                                        value={values.department}
                                         onChange={handleTwoFunc2}
                                         onBlur={handleBlur}
                                     >
-                                        {/* {values.agency ?
+                                        {
                                             dept && dept?.map((data) => (
-                                                <MenuItem value={data.field}>{data.field}</MenuItem>
+                                                <MenuItem value={data.department}>{data.department}</MenuItem>
                                             ))
-                                            : <MenuItem >Please First Select Company</MenuItem>} */}
+                                        }
 
-                                        <MenuItem value="hello">hello</MenuItem>
-                                        <MenuItem value="ji">ji</MenuItem>
+
                                     </Select>
                                 </FormControl>
-                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                                {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField

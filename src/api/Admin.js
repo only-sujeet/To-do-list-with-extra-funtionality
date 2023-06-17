@@ -58,7 +58,7 @@ export const addDepartment = async (values) => {
         if (error.response) {
 
             return error.response.data
-        } 
+        }
     }
 }
 
@@ -163,3 +163,18 @@ export const createTask = async (values, val) => {
         }
     }
 }
+
+export const getEmpByDept = async (values) => {
+    try {
+
+        const { data } = await axios.post('/api/admin/getEmpByDept', { department: values })
+        return data
+        
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+

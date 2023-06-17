@@ -5,7 +5,22 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import dateFormat from 'dateformat';
-const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, field}) => {
+import { getEmpByDept } from '../../api/Admin';
+import { useEffect } from 'react';
+import axios from 'axios';
+const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
+
+
+    const [emp, setEmp] = React.useState();
+
+    const getEmp = async (dept) => {
+        //const { data } = await getEmpByDept(dept)
+        const { data } = await axios.post('/api/admin/getEmpByDept', { department: dept })
+        data && setEmp(data)
+
+    }
+
+    console.log(emp)
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
 
@@ -142,29 +157,30 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             }}
                                         />
                                     </Grid>
+
                                     <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <FormControl variant='filled' fullWidth>
+                                        {emp ? undefined : <Button fullWidth variant='contained' onClick={() => getEmp(department)} color="primary">Here Click Show Employee According To Task Department</Button>}
+                                        {emp ? <FormControl variant='filled' fullWidth>
                                             <InputLabel color='secondary'>Employee</InputLabel>
                                             <Select
                                                 color='secondary'
                                                 id='Field'
                                                 label="Employee"
                                                 name='field'
-                                                // value={values.field}
-                                                // onChange={handleTwoFunc2}
-                                                // onBlur={handleBlur}
+                                            // value={values.field}
+                                            // onChange={handleTwoFunc2}
+                                            // onBlur={handleBlur}
                                             >
 
-                                                {/* {
-                                                    dept && dept?.map((data) => (
-                                                        <MenuItem value={data.department}>{data.department}</MenuItem>
+                                                {
+                                                    emp && emp?.map((data) => (
+                                                        <MenuItem value={data.firstName}>{data.firstName}</MenuItem>
                                                     ))
-                                                } */}
-                                                <MenuItem value="vishal">vishal</MenuItem>
-                                                <MenuItem value="sujeet">sujeet</MenuItem>
+                                                }
+
 
                                             </Select>
-                                        </FormControl>
+                                        </FormControl> : undefined}
                                     </Grid>
 
                                 </Grid>
