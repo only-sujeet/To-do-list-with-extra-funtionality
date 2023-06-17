@@ -27,7 +27,7 @@ const Tasks = () => {
         { field: "department", headerName: "Department", width: 160 },
         { field: "taskDependency", headerName: "Dependency", width: 150 },
         { field: "instruction", headerName: "Instruction", width: 250 },
-        { field: "startDate", type:"date", headerName: "Start At", width: 150 },
+        { field: "startDate", headerName: "Start At", width: 150 },
         { field: "endDate", headerName: "End At", width: 150 },
         { field: "status", headerName: "Status", width: 150 },
         // { field: "_id", headerName: "ID", width: 150 },
@@ -49,9 +49,9 @@ const Tasks = () => {
     return (
         <div>
             <EmpHeader />
-            <Box sx={{ mt: "70px", ml: "10px" }}>
-                <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack display="grid" alignSelf="center" width="97vw" height="60vh" marginX="1rem">
+            <Box sx={{mt:"5rem" ,ml:"1rem" ,}} >
+                <Header  title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
+                <Stack display="grid" alignSelf="center" width={["90vw","97.5vw"]} height="60vh" marginRight="1rem">
                     {task ?
                         <DataGrid
                             rows={task}
