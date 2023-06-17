@@ -8,7 +8,7 @@ exports.addTask = async (req, res) => {
         const { name, rate, unit, department, instruction, taskDependency, startDate, endDate } = req.body.values
 
 
-        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, status: "Created", checkList: req.body.val })
+        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, status: "Created", checkList: req.body.val,company: req.admin.company, })
         await task.save();
         res.status(200).json({
             success: true, message: "Successfully Created Task",
@@ -22,7 +22,7 @@ exports.addTask = async (req, res) => {
 
 exports.getTask = async (req, res) => {
     try {
-        const task = await Task.find({})
+        const task = await Task.find({company: req.admin.company })
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",
