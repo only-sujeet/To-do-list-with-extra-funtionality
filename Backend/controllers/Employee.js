@@ -1,4 +1,5 @@
 const People = require("../Models/Admin/People");
+const Task = require("../Models/Admin/Task");
 
 exports.EmpLogin = async (req, res) => {
     try {
@@ -54,3 +55,24 @@ exports.getAssignedTask = async (req, res) => {
     }
 };
 
+
+exports.AcceptTask = async (req, res) => {
+    try {
+       
+        const emp = await People.findById(req.emp._id)
+        const task = await Task.findById(req.params.id) 
+
+        task.status = "assign"
+        await task.save();
+
+        emp.tasks.push(task._id)
+        emp.save();
+
+        res.status(200).json({
+            success: true, message: "Task Assigned..."
+        })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}

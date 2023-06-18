@@ -57,7 +57,7 @@ exports.assignTask = async (req, res) => {
     try {
         const { empId, taskId } = req.body
         const emp = await People.findById(empId)
-        const task = await Task.findById(taskId)
+        const task = await Task.findById(taskId) 
 
         task.status = "assign"
         await task.save();

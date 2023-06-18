@@ -8,17 +8,33 @@ import { useMemo } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import { CheckCircleOutlineTwoTone } from '@mui/icons-material'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Tasks = () => {
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
+
     useEffect(() => {
         dispatch(getTask())
     }, [dispatch])
 
 
+    const acceptTask = async (id) => {
+        const { data } = await axios.get(`/api/emp/acceptTask/${id}`)
+        if (data.success === true) {
+            toast.success(data.message)
+            dispatch(getTask())
+        }
+        if (data.success === false) {
+            toast.error(data.message)
+        }
+    }
+
+
+
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
+        { field: "name", headerName: "Task Name", width: 150, headerClassName: "header" },
         { field: "rate", headerName: "Rate", width: 100, headerClassName: "header" },
         { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
         { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
@@ -28,11 +44,11 @@ const Tasks = () => {
         { field: "endDate", headerName: "End At", width: 150, headerClassName: "header" },
         { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
         {
-            headerName: "Action",headerClassName: "header",
+            headerName: "Action", headerClassName: "header",
             width: 150,
             renderCell: (params) => <Tooltip title="Accept">
 
-                <IconButton aria-label="check">
+                <IconButton aria-label="check" onClick={() => acceptTask(params.row._id)}>
                     <CheckCircleOutlineTwoTone color='success' />
                 </IconButton>
             </Tooltip>,
@@ -69,6 +85,18 @@ const Tasks = () => {
                     }
                 </Stack>
             </Box>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgdatasBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }

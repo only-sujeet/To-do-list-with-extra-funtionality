@@ -26,13 +26,10 @@ export const adminLogin = async (values) => {
 }
 export const addCompany = async (values) => {
     try {
-
         const { data } = await axios.post('http://localhost:5000/api/admin/addCompany', values)
-
         return data
     } catch (error) {
         if (error.response) {
-
             return error.response.data
         }
     }
@@ -44,7 +41,6 @@ export const deleteCompany = async (id) => {
         return data
     } catch (error) {
         if (error.response) {
-
             return error.response.data
         }
     }
@@ -56,7 +52,6 @@ export const addDepartment = async (values) => {
         return data
     } catch (error) {
         if (error.response) {
-
             return error.response.data
         }
     }

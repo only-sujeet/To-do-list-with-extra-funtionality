@@ -54,6 +54,8 @@ exports.deleteCompany = async (req, res) => {
     }
 };
 
+
+
 exports.addDept = async (req, res) => {
     try {
         const { department } = req.body
@@ -84,6 +86,31 @@ exports.getDept = async (req, res) => {
     }
 };
 
+exports.DeleteDept = async (req, res) => {
+    try {
+        const dept = await Department.findById("648bd82bfbd18a0066865ad4")
+
+        const admin = await Admin.findById(req.admin._id)
+        if (admin.department.includes(dept._id)) {
+            const index = admin.department.indexOf(dept._id);
+            console.log(index)
+            admin.department.splice(index, 1);
+            await admin.save();
+            await dept.remove();
+
+            return res
+                .status(400)
+                .json({ success: false, message: "Department Deleted.. " });
+        } else
+            res
+                .status(200)
+                .json({ success: false, message: "subField not found...." });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 exports.addSubDept = async (req, res) => {
     try {
         const { department, subDept } = req.body
@@ -97,7 +124,7 @@ exports.addSubDept = async (req, res) => {
         await dept.save();
         res
             .status(200)
-            .json({ success: true, message: "Sub-Department Added.." , department})
+            .json({ success: true, message: "Sub-Department Added..", department })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error });
