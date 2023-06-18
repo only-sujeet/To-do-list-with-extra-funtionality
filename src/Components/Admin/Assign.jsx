@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import dateFormat from 'dateformat';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { AssignTask } from '../../api/Admin';
 
 const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
 
@@ -14,7 +15,6 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
     const [empId, setEmpId] = React.useState();
 
     const getEmp = async (dept) => {
-        //const { data } = await getEmpByDept(dept)
         const { data } = await axios.post('/api/admin/getEmpByDept', { department: dept })
         data && setEmp(data)
     }
@@ -25,8 +25,8 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const assign = async (empId, taskId) => {
 
-        const res = await axios.post('/api/admin/assignTask', { empId, taskId })
-
+        // const res = await axios.post('/api/admin/assignTask', { empId, taskId })
+        const res = await AssignTask(empId, taskId)
         if (res.success === true) {
             toast.success(res.message)
             setOpen(false)
@@ -44,18 +44,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
         setOpen(false);
     };
 
-    const deletepeople = async (ids) => {
-        // const res = await deletePeople(ids)
-        // if (res.success === true) {
-        //     toast.success(res.message)
-        // }
-        // if (res.success === false) {
-        //     toast.error(res.message)
-        // }
-        // setOpen(false);
-        // dispatch(getPeople())
-
-    }
+   
     return (
         <div>
             <Tooltip title="Details">
@@ -201,11 +190,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     </Card>
                 </DialogContent>
                 <DialogActions>
-                    <Tooltip title="Delete Profile" color='error' variant='contained' >
-                        <Button aria-label="delete" onClick={() => deletepeople(id)}>
-                            Delete
-                        </Button>
-                    </Tooltip>
+                    
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
