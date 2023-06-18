@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { getTask } from '../../Redux/Action/Admin';
 import { useDispatch } from 'react-redux';
+import { AssignTask } from '../../api/Admin';
 
 const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
 
@@ -17,7 +18,6 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const dispatch = useDispatch();
     const getEmp = async (dept) => {
-        //const { data } = await getEmpByDept(dept)
         const { data } = await axios.post('/api/admin/getEmpByDept', { department: dept })
         data && setEmp(data)
     }
@@ -28,15 +28,15 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const assign = async (empId, taskId) => {
 
-        const { data } = await axios.post('/api/admin/assignTask', { empId, taskId })
-
-        if (data.success === true) {
-            toast.success(data.message)
+        // const res = await axios.post('/api/admin/assignTask', { empId, taskId })
+        const res = await AssignTask(empId, taskId)
+        if (res.success === true) {
+            toast.success(res.message)
             setOpen(false)
             dispatch(getTask())
         }
-        if (data.success === false) {
-            toast.error(data.message)
+        if (res.success === false) {
+            toast.error(res.message)
         }
     }
 
@@ -47,6 +47,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
     const handleClose = () => {
         setOpen(false);
     };
+
 
 
     return (
@@ -194,6 +195,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     </Card>
                 </DialogContent>
                 <DialogActions>
+
 
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid } from '@mui/x-data-grid';
 import Assign from './Assign';
+import dayjs from 'dayjs';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -34,11 +35,11 @@ const Task = () => {
         { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
         { field: "rate", headerName: "Rate", width: 100, headerClassName: "header", },
         { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
-        { field: "department", headerName: "Department", width: 100, headerClassName: "header" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
+        { field: "department", headerName: "Department", width: 130, headerClassName: "header" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", },
         { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header" },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header" },
-        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header" },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header" ,valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),},
+        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header",valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "status", headerName: "Status", width: 120, headerClassName: "header" },
         {
             headerName: "Action", headerClassName: "header",

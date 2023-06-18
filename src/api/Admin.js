@@ -172,4 +172,19 @@ export const getEmpByDept = async (values) => {
         }
     }
 }
+export const AssignTask = async ( empId, taskId) => {
+    try {
+
+        const { data } = await axios.post('/api/admin/assignTask',{ empId, taskId })
+        return data
+        
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+
+
 

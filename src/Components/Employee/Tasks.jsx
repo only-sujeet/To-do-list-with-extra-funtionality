@@ -10,6 +10,7 @@ import Header from '../Global/Header'
 import { CheckCircleOutlineTwoTone } from '@mui/icons-material'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import dayjs from 'dayjs'
 
 const Tasks = () => {
     const dispatch = useDispatch()
@@ -40,8 +41,8 @@ const Tasks = () => {
         { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
         { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
         { field: "instruction", headerName: "Instruction", width: 250, headerClassName: "header" },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header" },
-        { field: "endDate", headerName: "End At", width: 150, headerClassName: "header" },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header",valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "endDate", headerName: "End At", width: 150, headerClassName: "header" ,valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),},
         { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
         {
             headerName: "Action", headerClassName: "header",
@@ -62,7 +63,12 @@ const Tasks = () => {
             <EmpHeader />
             <Box sx={{ mt: "5rem", ml: "1rem", }} >
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack display="grid" alignSelf="center" width={["90vw", "97.5vw"]} height="60vh" marginRight="1rem">
+                <Stack style={{
+                        display: "grid",
+                        width: "100%",
+                        height: "50vh",
+
+                    }}>
                     {task ?
                         <DataGrid
                             rows={task}
