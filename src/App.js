@@ -15,6 +15,7 @@ import EmpLogin from './Components/Employee/EmpLogin';
 import EmpHeader from './Components/Employee/EmpHeader';
 import EmpTask from './Components/Employee/EmpTask';
 import Tasks from './Components/Employee/Tasks';
+import Submit from './Components/Employee/Submit';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
       <Route path="/header" element={<EmpHeader/>}  />
       <Route path="/emptask" element={<EmpTask/>}  />
       <Route path="/etask" element={<Tasks/>}  />
+      <Route path="/submit" element={<Submit/>}  />
     </Routes>
     </div>
     </ThemeProvider>
