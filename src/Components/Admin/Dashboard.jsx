@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
 import AdminTopbar from '../Global/AdminTopbar'
-import AdminRoute from '../../Protected Route/AdminRoute'
 import { getAdminProfile } from '../../Redux/Action/Admin'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -12,14 +11,13 @@ const usestyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-
   },
   toolbar: theme.mixins.toolbar,
 }))
 
 const Dashboard = () => {
   const classes = usestyles();
-  
+
   const dispatch = useDispatch()
 
   useEffect(() => {

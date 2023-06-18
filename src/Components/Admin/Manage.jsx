@@ -5,27 +5,22 @@ import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography, } fr
 import Header from '../Global/Header';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import Addcompanyd from './Addcompanyd';
 import AddDepartment from './AddDepartment';
 import Subdepartment from './Subdepartment';
 import { getAdminProfile } from '../../Redux/Action/Admin';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 const usestyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-
     },
     toolbar: theme.mixins.toolbar,
 }))
 
-
-
 const Manage = () => {
 
-   
 
     const dispatch = useDispatch()
     const classes = usestyles();
@@ -34,12 +29,10 @@ const Manage = () => {
         setStatus(status)
     }
 
-    
     // for company
     useEffect(() => {
         dispatch(getAdminProfile())
     }, [dispatch]);
-
 
     return (
 
@@ -55,7 +48,6 @@ const Manage = () => {
                         <FormControl>
                             <RadioGroup row aria-label="categories" defaultValue="department" name='categories group'>
 
-                                {/* <FormControlLabel value='company' label={<Typography variant="h4" color="initial">Company</Typography>} control={<Radio onClick={(e) => { handler(1) }} />}></FormControlLabel> */}
                                 <FormControlLabel value='department' label={<Typography variant="h4" color="initial">Department</Typography>} control={<Radio onClick={(e) => { handler(2) }} />}></FormControlLabel>
                                 <FormControlLabel value='sub-department' label={<Typography variant="h4" color="initial">Sub-Department</Typography>} control={<Radio onClick={(e) => { handler(3) }} />}></FormControlLabel>
                             </RadioGroup>
@@ -63,10 +55,7 @@ const Manage = () => {
 
                     </Box>
                     <Box m="40px auto" width={{ lg: "40%", sm: "100%", md: "60%", xs: "80%" }}>
-                        {/* {
-                            status === 1 && <Addcompanyd />    
-                            
-                        } */}
+                      
                         {
                             status === 2 && <AddDepartment />
                         }

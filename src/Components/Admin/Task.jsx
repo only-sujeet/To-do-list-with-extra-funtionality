@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { Container, makeStyles, } from '@material-ui/core'
+import {  makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -40,8 +40,6 @@ const Task = () => {
         { field: "startDate", headerName: "Start At", width: 150 },
         { field: "endDate", headerName: "End At", width: 120 },
         { field: "status", headerName: "Status", width: 120 },
-        // { field: "_id", headerName: "ID", width: 150 },
-
         {
             headerName: "Action",
             width: 150,
@@ -58,13 +56,6 @@ const Task = () => {
         viewColumns: true,
         filter: true,
         filterType: "dropdown",
-        // responsive,
-        // tableBodyHeight,
-        // tableBodyMaxHeight,
-        // onTableChange: (action, state) => {
-        //     console.log(action);
-        //     console.dir(state);
-        // }
     };
     return (
 
@@ -78,20 +69,11 @@ const Task = () => {
                         <AddTask />
                     </Box>
 
-                    {/* <Container style={{width: { lg: "100%", md: "40%", sm: "40%", xs: "20%" } }}> */}
-                    {/* <Grid container spacing={1} maxWidth="250">
-                    <Grid item lg={10}> */}
-
-                    <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
-
-                    </Stack>
                     <div style={{
                         display: "grid",
                         width: "100%",
-                        height:"50vh"
-                        
-                    }}>
-                        
+                        height:"50vh"   
+                    }}> 
                         {task ?
                             < DataGrid
                                 rows={task}
@@ -101,15 +83,10 @@ const Task = () => {
                                 getRowId={row => row._id}
                                 options={options}
                             >
-
                             </DataGrid>
                             : undefined
-
                         }
                     </div>
-                    {/* </Container> */}
-                    {/* </Grid>
-                </Grid> */}
                 </Box>
             </div >
         </>

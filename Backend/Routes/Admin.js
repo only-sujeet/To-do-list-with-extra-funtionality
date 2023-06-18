@@ -28,9 +28,6 @@ const upload = multer({ storage: storage })
 // Routes
 router.route("/register").post(adminRegister)
 router.route("/login").post(adminLogin)
-router.route("/addCompany").post(addCompany)
-router.route("/getCompany").post(GetCompany)
-router.route("/deleteCompany/:_id").delete(deleteCompany)
 router.route("/addField").post(isAuthenticatedAdmin, addDept)
 router.route("/getDept").get(isAuthenticatedAdmin, getDept)
 router.route("/addSubDept").post(isAuthenticatedAdmin, addSubDept)
@@ -45,7 +42,6 @@ router.route("/getBlockPeople").get(getBlockPeople)
 router.route("/addTask").post(isAuthenticatedAdmin, addTask)
 router.route("/getTask").get(isAuthenticatedAdmin,getTask)
 router.route("/elogin").post(EmpLogin)
-
 router.route("/getEmpByDept").post(isAuthenticatedAdmin, getEmpByDept)
 router.route("/assignTask").post(isAuthenticatedAdmin, assignTask)
 

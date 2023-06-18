@@ -9,9 +9,6 @@ import { DataGrid } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import { CheckCircleOutlineTwoTone } from '@mui/icons-material'
 
-
-
-
 const Tasks = () => {
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
@@ -30,8 +27,6 @@ const Tasks = () => {
         { field: "startDate", headerName: "Start At", width: 150 },
         { field: "endDate", headerName: "End At", width: 150 },
         { field: "status", headerName: "Status", width: 150 },
-        // { field: "_id", headerName: "ID", width: 150 },
-
         {
             headerName: "Action",
             width: 150,
@@ -58,11 +53,10 @@ const Tasks = () => {
                             key={row => row._id}
                             sx={{
                                 fontSize: "1rem", fontFamily: "sans-serif",
-                               
+ 
                             }}
                             columns={columns}
                             getRowId={row => row._id}
-
                         >
 
                         </DataGrid>

@@ -4,13 +4,11 @@ import { PeopleTwoTone, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addPeople, getDept, getSubDept } from '../../api/Admin';
-import { getCompany, getPeople } from '../../Redux/Action/Admin';
-
+import {  getPeople } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
 const AddPeople = () => {
 
 
@@ -18,6 +16,11 @@ const AddPeople = () => {
         getDepartment();
     }, []);
 
+    const [open, setOpen] = React.useState(false);
+    const [file, setFile] = useState();
+    const [image, setImage] = useState()
+    const [type, setType] = useState("password")
+    const [visible, setVisible] = useState(false)
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
 
@@ -28,33 +31,12 @@ const AddPeople = () => {
     }
 
 
-
     const handleGetSubDept = async (e) => {
         handleChange(e)
         const data = await getSubDept({ department: e.target.value })
         data && setSubDept(data)
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    const [open, setOpen] = React.useState(false);
-    const [file, setFile] = useState();
-    const [image, setImage] = useState()
-
-    const { company } = useSelector(state => state.admin)
-
-    const [type, setType] = useState("password")
-    const [visible, setVisible] = useState(false)
     const icon = (visible ? <Visibility /> : <VisibilityOff />)
     const showClick = () => {
         if (visible === false) {
@@ -73,7 +55,6 @@ const AddPeople = () => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
         dispatch(getPeople())
@@ -82,7 +63,6 @@ const AddPeople = () => {
     const handleImage = (e) => {
         const file = e.target.files[0];
         setFile(file)
-        // console.log("file 1", file)
         const reader = new FileReader()
         reader.onload = () => {
             if (reader.readyState === 2) {
@@ -92,26 +72,22 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
-
-
-    const initialvalue = {
-
-    }
+    const initialvalue = { }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
         onSubmit: async (values, { resetForm }) => {
-            try {
-
+            try{
                 if (file) {
-                    // console.log(values)
+
                     const formdata = new FormData()
                     formdata.append('file', file)
                     formdata.append('data', JSON.stringify(values))
+
                     const res = await addPeople(formdata)
+
                     if (res.success === true) {
                         toast.success(res.message)
-                        // console.log(res.message)
                         resetForm({ values: "" })
                         setOpen(false)
                         dispatch(getPeople())
@@ -129,29 +105,14 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-            // console.log(values)
-            // resetForm({ values: "" })
+            
         }
 
 
 
     })
 
-    const handleTwoFunc = async (e) => {
-        handleChange(e)
-        const { data } = await getDept(e.target.value);
-        setDept(data)
-    }
 
-    const handleTwoFunc2 = async (e) => {
-        handleChange(e)
-        getSubFieldDetails(e)
-
-    }
-    const getSubFieldDetails = async (e) => {
-        const data = await getSubDept({ company: values.company, field: e.target.value })
-        setSubDept(data)
-    }
     console.log(errors)
     return (
         <div>
@@ -168,28 +129,7 @@ const AddPeople = () => {
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
-                            {/* <Grid item lg={6} sm={12} xs={12} md={6}> */}
-                            {/* <FormControl fullWidth
-                                    variant='filled'>
-                                    <InputLabel color='secondary'>Company</InputLabel>
-                                    <Select
-                                        color='secondary'
-                                        label="Company"
-                                        id="Company"
-                                        name='company'
-                                        value={values.company}
-                                        onChange={handleTwoFunc}
-                                        onBlur={handleBlur}
-                                    >
-
-                                        {company?.map((data) => (
-
-                                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null} */}
-                            {/* </Grid> */}
+                           
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
                                     <InputLabel color='secondary'>Department</InputLabel>
@@ -238,21 +178,7 @@ const AddPeople = () => {
                                 </FormControl>
                                 {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
                             </Grid>
-                            {/* <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="position"
-                                    label="Position"
-                                    name='position'
-                                    type="text"
-                                    value={values.position}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.position && touched.position ? <Typography variant="caption" color="error">{errors.position}</Typography> : null}
-                            </Grid> */}
+                           
                             <Grid item lg={6} sm={12} xs={12} md={6}>
 
                                 <TextField

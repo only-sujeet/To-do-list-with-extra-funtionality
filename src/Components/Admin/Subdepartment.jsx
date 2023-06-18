@@ -6,8 +6,6 @@ import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useMemo } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
 
 const Subdepartment = () => {
 
@@ -53,9 +51,7 @@ const Subdepartment = () => {
         data && setSubDept(data)
     }
 
-    const columns = useMemo(subDept => [
-        { field: "data", headerName: "Sub Department", width: 150 },
-    ], [])
+ 
 
     return (
         <div>

@@ -1,17 +1,12 @@
-import { AddTaskTwoTone, BlockTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
+import { AddTaskTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material'
 import { useFormik } from 'formik';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addtask, createTask, getDept } from '../../api/Admin';
+import { useDispatch } from 'react-redux';
+import { createTask, getDept } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
-import { addTask, addTasks } from '../Validation/Admin';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useEffect } from 'react';
-// import { getCompany } from '../../Redux/Action/Admin';
-// import { addTask } from '../Validation/Admin';
-
+import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,6 +18,10 @@ const AddTask = () => {
         getDepartment();
     }, []);
 
+    const dispatch = useDispatch()
+
+    const [open, setOpen] = React.useState(false);
+    const [val, setVal] = useState([])
     const [dept, setDept] = React.useState();
 
     const getDepartment = async () => {
@@ -30,10 +29,6 @@ const AddTask = () => {
         data && setDept(data)
     }
 
-    const dispatch = useDispatch()
-    const { company } = useSelector(state => state.admin)
-    const [open, setOpen] = React.useState(false);
-    const [val, setVal] = useState([])
     const handleClose = () => {
         setOpen(false);
         dispatch(getTask())
@@ -57,7 +52,6 @@ const AddTask = () => {
         inputdata[i] = onChangeValue.target.value
         setVal(inputdata)
     }
-    // console.log(val, "data-")
 
     const handleDelete = (i) => {
         const delval = [...val]
@@ -76,36 +70,25 @@ const AddTask = () => {
         taskDependency: "",
         startDate: "",
         endDate: ""
-
     }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
             const res = await createTask(values, val)
-            // const res = await addtask(values)
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: "" })
                 dispatch(getTask())
-
             }
             if (res.success === false) {
                 toast.error(res.message)
             }
-            // console.log(values)
-            // console.log(val, "data-")
         }
-
     })
-    const handleTwoFunc = async (e) => {
-        handleChange(e)
-        const { data } = await getDept(e.target.value);
-        setDept(data)
-    }
+
     const handleTwoFunc2 = async (e) => {
         handleChange(e)
-
     }
 
     return (
@@ -166,29 +149,7 @@ const AddTask = () => {
                                 />
                                 {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
                             </Grid>
-                            {/* <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <FormControl fullWidth
-                                    variant='filled'>
-                                    <InputLabel color='secondary'>Agency</InputLabel>
-                                    <Select
-                                        color='secondary'
-                                        label="Agency"
-                                        id="agency"
-                                        name='agency'
-                                        value={values.agency}
-                                        // onChange={handleCompany}
-                                        onChange={handleTwoFunc}
-                                        onBlur={handleBlur}
-                                    >
 
-                                        {company?.map((data) => (
-
-                                            <MenuItem value={data.company}>{data.company}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                {errors.agency && touched.agency ? <Typography variant="caption" color="error">{errors.agency}</Typography> : null}
-                            </Grid> */}
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
                                     <InputLabel color='secondary'>Department</InputLabel>
@@ -206,7 +167,6 @@ const AddTask = () => {
                                                 <MenuItem value={data.department}>{data.department}</MenuItem>
                                             ))
                                         }
-
 
                                     </Select>
                                 </FormControl>
@@ -276,21 +236,6 @@ const AddTask = () => {
                                 />
                                 {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
                             </Grid>
-                            {/* <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="taskDependency"
-                                    label="Task Dependency"
-                                    name='taskDependency'
-                                    type="text"
-                                    value={values.taskDependency}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
-                            </Grid> */}
 
                             <Grid item lg={8} sm={8} xs={8} md={8}>
                                 <Typography variant="h5" color="initial">Add Check List</Typography>
@@ -324,9 +269,6 @@ const AddTask = () => {
 
                                             </Grid>
                                         </Grid>
-
-
-
                                     )
                                 })
                             }

@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Button, TextField, Stack, Tooltip, Select, InputLabel, Typography } from '@mui/material';
-import { MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, FormControl } from '@material-ui/core';
+import { Button, TextField, Stack, Tooltip, Typography, gridClasses } from '@mui/material';
+import { } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
-import { useSelector } from 'react-redux';
-import { addDepartment, getDept, getField } from '../../api/Admin';
+import { addDepartment, getDept } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DataGrid } from '@mui/x-data-grid';
 import { useMemo } from 'react';
+import { grey } from '@mui/material/colors';
+import { Delete, DeleteForeverOutlined, DeleteOutline } from '@mui/icons-material';
 
 const AddDepartment = () => {
 
@@ -23,9 +24,22 @@ const AddDepartment = () => {
         data && setDept(data)
     }
 
+
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Task Name", width: 150 },
+        { field: "department", headerName: "Task Name", flex: 1, headerClassName: 'super-app-theme--header' },
+        {
+            field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <Button  variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
+        },
     ], [])
+
+
+    const getRowSpacing = React.useCallback((params) => {
+        return {
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
+        };
+    }, []);
 
     const initialvalues = {}
 
@@ -46,7 +60,7 @@ const AddDepartment = () => {
         }
     })
     return (
-        <div>
+        <div style={{ paddingBottom: "3rem" }}>
 
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Department</Typography>
             <form action="" onSubmit={handleSubmit}>
@@ -76,41 +90,32 @@ const AddDepartment = () => {
 
                 </Stack>
             </form>
-            <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
-
-                {/* <TableContainer component={Paper}>
-                    <Table aria-label='a dense table' size='small'>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align='center' >Your Department Name's</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            {
-                                dept && dept.map((data) => (
-                                    <TableRow>
-                                        <TableCell>{data.department}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
-
-                        </TableBody>
-                    </Table>
-                </TableContainer> */}
+            <Stack sx={{
+                '& .super-app-theme--header': {
+                    backgroundColor: "#3366ff",
+                },
+                display: "grid",
+                height: "50vh",
+                marginBottom: "2rem",
+            }}
+            >
                 {dept ? <DataGrid
                     rows={dept}
                     key={row => row._id}
-                    sx={{ fontSize: "1rem", fontFamily: "Josefin Sans", backgroundColor:"skyblue" }}
                     columns={columns}
                     getRowId={row => row._id}
-
-                ></DataGrid> : undefined}
+                    getRowSpacing={getRowSpacing}
+                    style={{
+                        backgroundColor: "rgb(0,0,0,0.6)",
+                        color: "white",
+                        marginBottom: "1rem",
+                        fontSize: "1rem", fontFamily: "Josefin Sans",
+                    }}
+                /> : undefined}
             </Stack>
-
             <ToastContainer
                 position="top-center"
-                autoClose={3000}
+                autoClose={2000}
                 hideProgressBar={true}
                 newestOnTop={false}
                 closeButton={false}
