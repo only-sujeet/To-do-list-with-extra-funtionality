@@ -18,6 +18,7 @@ app.use(cors())
 
 // use routes
 app.use('/api/admin/', require('./Routes/Admin'))
+app.use('/api/emp/', require("./Routes/employee"))
 
 // for display image
 app.use('/Image', express.static("Image"))

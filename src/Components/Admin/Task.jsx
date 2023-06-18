@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import {  makeStyles, } from '@material-ui/core'
+import { colors, makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -31,18 +31,18 @@ const Task = () => {
 
 
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120 },
-        { field: "rate", headerName: "Rate", width: 100 },
-        { field: "unit", headerName: "Unit", width: 100 },
-        { field: "department", headerName: "Department", width: 100 },
-        { field: "taskDependency", headerName: "Dependency", width: 150 },
-        { field: "instruction", headerName: "Instruction", width: 120 },
-        { field: "startDate", headerName: "Start At", width: 150 },
-        { field: "endDate", headerName: "End At", width: 120 },
-        { field: "status", headerName: "Status", width: 120 },
+        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
+        { field: "rate", headerName: "Rate", width: 100, headerClassName: "header", },
+        { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
+        { field: "department", headerName: "Department", width: 100, headerClassName: "header" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
+        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header" },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header" },
+        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header" },
+        { field: "status", headerName: "Status", width: 120, headerClassName: "header" },
         {
-            headerName: "Action",
-            width: 150,
+            headerName: "Action", headerClassName: "header",
+            width: "135",
             renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />,
             sortable: false,
             filterable: false
@@ -69,24 +69,30 @@ const Task = () => {
                         <AddTask />
                     </Box>
 
-                    <div style={{
+                    <Stack style={{
                         display: "grid",
                         width: "100%",
-                        height:"50vh"   
-                    }}> 
+                        height: "50vh",
+
+                    }}>
                         {task ?
                             < DataGrid
                                 rows={task}
-                                
                                 key={row => row._id}
                                 columns={columns}
                                 getRowId={row => row._id}
                                 options={options}
+                                 sx={{
+                                    '& .header': {
+                                        backgroundColor: "#3366ff",
+                                    },
+                                    backgroundColor: "rgb(0,0,0,0.3)"
+                                }}
                             >
                             </DataGrid>
                             : undefined
                         }
-                    </div>
+                    </Stack>
                 </Box>
             </div >
         </>

@@ -10,7 +10,7 @@ exports.EmpLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: "!! Invalid Email" })
         }
 
-        const isMatch = await People.find({ password})
+        const isMatch = await People.find({ password })
         if (!isMatch) {
             return res.status(400).json({ success: false, message: "!! Invalid Password" })
 
@@ -32,10 +32,25 @@ exports.EmpLogin = async (req, res) => {
 
 exports.empProfile = async (req, res) => {
     try {
-         const emp = await People.findById(req.emp._id)
+        const emp = await People.findById(req.emp._id)
         res.send(emp)
 
-    } catch (error) { 
+    } catch (error) {
         res.status(500).json({ success: false, message: error });
     }
 };
+
+
+
+exports.getAssignedTask = async (req, res) => {
+    try {
+        const emp = await People.findById(req.emp._id).populate("tasks")
+        res.status(200).json({
+            success: true,
+            tasks: emp.tasks
+        })
+    } catch (error) {
+        res.status(500).json({ success: false, message: error });
+    }
+};
+

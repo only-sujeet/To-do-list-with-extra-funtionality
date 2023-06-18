@@ -11,3 +11,16 @@ export const Elogin = async (values) => {
         }
     }
 }
+
+export const getAssignedTask = async () => {
+    try {
+        const { data } = await axios.get(`/api/emp/getAssignedTask`)
+        return data
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+

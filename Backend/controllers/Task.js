@@ -22,7 +22,9 @@ exports.addTask = async (req, res) => {
 
 exports.getTask = async (req, res) => {
     try {
-        const task = await Task.find({company: req.admin.company , status:"Created"})
+        
+       
+        const task =     await Task.find({company:req.admin.company, status:"Created"})
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",

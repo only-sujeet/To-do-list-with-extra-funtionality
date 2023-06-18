@@ -14,7 +14,7 @@ import { Delete, DeleteForeverOutlined, DeleteOutline } from '@mui/icons-materia
 const AddDepartment = () => {
 
     React.useEffect(() => {
-        getDepartment();
+        getDepartment(); 
     }, []);
 
     const [dept, setDept] = React.useState();
