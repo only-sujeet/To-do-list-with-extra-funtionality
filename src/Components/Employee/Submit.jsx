@@ -21,24 +21,26 @@ const Submit = ({ id, checklist }) => {
 
 
     const validationSchema = Yup.object().shape({
-        files: Yup.mixed().required('File is required'),
+        file: Yup.mixed().required('File is required'),
         checkboxes: Yup.array().min(1, 'Please select at least one checkbox'),
 
     });
 
 
     const initialValues = {
-        files: null,
+        file: null,
         checkboxes: [],
     };
 
-    const handleSubmit = (valuse) => async () => {
+    const handleSubmit =  async (valuse)  => {
         console.log(valuse)
-        const res = await submitDoc(valuse);
+        console.log(valuse.file)
+        console.log(id)
+        const res = await submitDoc(id,valuse.file);
 
         if (res.success === true) {
             toast.success(res.message)
-            setOpen(false)
+            // setOpen(false)
         }
         if (res.success === false) {
             toast.error(res.message)
@@ -56,7 +58,7 @@ const Submit = ({ id, checklist }) => {
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
-                <DialogTitle> <Typography variant="h6" color="initial">Add People</Typography></DialogTitle>
+                <DialogTitle> <Typography variant="h6" color="initial">Submit</Typography></DialogTitle>
                 <DialogContent>
 
                     <Formik
@@ -67,8 +69,8 @@ const Submit = ({ id, checklist }) => {
                         {({ isSubmitting }) => (
                             <Form>
                                 {/* File Upload */}
-                                <Field type="file" name="files" />
-                                <ErrorMessage name="files" component="div" />
+                                <Field type="file" name="file" />
+                                <ErrorMessage name="file" component="div" />
                                 {/* Checkbox Array */}
                                 <FieldArray name="checkboxes">
 
@@ -94,7 +96,7 @@ const Submit = ({ id, checklist }) => {
                                 </FieldArray>
                                 <ErrorMessage name="checkboxes" component="div" />
                                 {/* Form Submission */}
-                                <Button type="submit" disabled={isSubmitting}>
+                                <Button type="submit" variant='contained' disabled={isSubmitting}>
                                     Submit
                                 </Button>
                             </Form>
