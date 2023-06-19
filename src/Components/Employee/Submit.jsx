@@ -19,13 +19,13 @@ const Submit = ({ id, checklist }) => {
     };
 
 
-
+const maximum = checklist.length
     const validationSchema = Yup.object().shape({
         file: Yup.mixed().required('File is required'),
-        checkboxes: Yup.array().min(1, 'Please select at least one checkbox'),
+        checkboxes: Yup.array().min(maximum, 'Please select All checkbox'),
 
     });
-
+console.log(maximum)
 
     const initialValues = {
         file: null,
