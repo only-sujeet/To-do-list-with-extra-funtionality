@@ -58,9 +58,9 @@ exports.getAssignedTask = async (req, res) => {
 
 exports.AcceptTask = async (req, res) => {
     try {
-       
+
         const emp = await People.findById(req.emp._id)
-        const task = await Task.findById(req.params.id) 
+        const task = await Task.findById(req.params.id)
 
         task.status = "assign"
         await task.save();
@@ -76,3 +76,33 @@ exports.AcceptTask = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+exports.submitDoc = async (req, res) => {
+    try {
+        const id = req.params.id
+        const files = req.files
+        console.log(id)
+        console.log(files)
+        //const task = await Task.findById("648f162e0b096bfbb858b008")
+        // const doc = (req.file) ? req.file.filename : null
+        // const emp = await People.findById(req.emp._id)
+        // if (emp.tasks.includes(task._id)) {
+        //     const index = emp.tasks.indexOf(task._id)
+        //     emp.tasks.splice(index, 1);
+        //     emp.save();
+        // }
+        // task.status = "submited"
+        // task.document = doc;
+        // await task.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Task Submited",
+
+        })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+

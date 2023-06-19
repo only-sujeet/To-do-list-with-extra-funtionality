@@ -99,7 +99,7 @@ const AddDepartment = () => {
             }}
             >
                 {dept ? <DataGrid
-                    rows={dept}
+                    rows={dept} 
                     key={row => row._id}
                     columns={columns}
                     getRowId={row => row._id}

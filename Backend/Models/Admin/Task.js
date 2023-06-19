@@ -43,6 +43,9 @@ const taskSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    document: {
+        type: String,
+    },
 
 })
 const Task = mongoose.model("Task", taskSchema)

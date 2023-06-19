@@ -12,9 +12,10 @@ export const Elogin = async (values) => {
     }
 }
 
-export const acceptTask = async () => {
+export const submitDoc = async (valuse) => {
     try {
-        const { data } = await axios.get(`/api/emp/acceptTask`)
+        const id = "12344"
+        const { data } = await axios.post(`/api/emp/submitDoc/${id}`, valuse)
         return data
     } catch (error) {
         if (error.response) {

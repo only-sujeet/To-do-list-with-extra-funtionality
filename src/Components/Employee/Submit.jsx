@@ -1,10 +1,15 @@
 
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Tooltip, Typography } from '@mui/material'
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
+import { async } from 'q';
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { submitDoc } from '../../api/Employye';
 
-const Submit = ({ checklist }) => {
+const Submit = ({ id, checklist }) => {
+
+    const tid = id
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -13,11 +18,11 @@ const Submit = ({ checklist }) => {
         setOpen(false);
     };
 
-    console.log(checklist)
+
 
     const validationSchema = Yup.object().shape({
         files: Yup.mixed().required('File is required'),
-        checkboxes:Yup.array().min(1, 'Please select at least one checkbox'),
+        checkboxes: Yup.array().min(1, 'Please select at least one checkbox'),
 
     });
 
@@ -27,10 +32,20 @@ const Submit = ({ checklist }) => {
         checkboxes: [],
     };
 
-    const handleSubmit = (values) => {
-        // Handle form submission
-        console.log(values);
+    const handleSubmit = (valuse) => async () => {
+        console.log(valuse)
+        const res = await submitDoc(valuse);
+
+        if (res.success === true) {
+            toast.success(res.message)
+            setOpen(false)
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
     };
+
+
     return (
         <div>
             <Tooltip title="Add People">
@@ -91,6 +106,18 @@ const Submit = ({ checklist }) => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored" />
         </div>
     )
 }

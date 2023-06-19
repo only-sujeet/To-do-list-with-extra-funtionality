@@ -1,6 +1,25 @@
 import axios from "axios"
 
 
+export const adminLogin = (values) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "adminLoginRequest"
+        })
+        const { data } = await axios.post('/api/admin/login', values)
+
+        dispatch({
+            type: "adminLoginSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "adminLoginFailuer",
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const getAdminProfile = (values) => async (dispatch) => {
     try {
         dispatch({

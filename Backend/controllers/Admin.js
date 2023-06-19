@@ -63,3 +63,16 @@ exports.myProfile = async (req, res) => {
         res.status(500).json({success: false, message: error});
     }
 };
+exports.adminLogout = async (req, res) => {
+    try {
+        res
+            .status(200)
+            .cookie("Token", null, { expires: new Date(Date.now()), httpOnly: true })
+            .json({ success: true, message: "Logout" })
+    } catch (error) {
+        res
+            .status(500)
+            .json({ success: false, Error: error.message })
+    }
+
+}

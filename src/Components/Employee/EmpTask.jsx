@@ -35,7 +35,7 @@ const EmpTask = () => {
     {
       headerName: "Action", headerClassName: "header",
       width: 150,
-      renderCell: (params) => <Submit checklist={params.row.checkList} />,
+      renderCell: (params) => <Submit checklist={params.row.checkList} id={params.row._id} />,
       sortable: false,
       filterable: false
     },

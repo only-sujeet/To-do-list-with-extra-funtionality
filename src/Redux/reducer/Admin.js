@@ -65,6 +65,19 @@ export const adminReducer = createReducer(initialState, {
         state.loading = true;
         state.taskerror = action.payload
     },
-    
-    
+
+
+    adminLoginRequest: (state,) => {
+        state.loading = true;
+    },
+    adminLoginSuccess: (state, action) => {
+        state.loading = false;
+        state.loginData = action.payload
+    },
+    adminLoginFailuer: (state, action) => {
+        state.loading = true;
+        state.loginError = action.payload
+    },
+
+
 })

@@ -1,5 +1,5 @@
 const express = require('express')
-const { adminRegister, adminLogin, myProfile } = require('../controllers/Admin')
+const { adminRegister, adminLogin, myProfile, adminLogout } = require('../controllers/Admin')
 const { addCompany, GetCompany, deleteCompany, delSubField, addDept, getDept, addSubDept, getSubDept, DeleteDept } = require('../controllers/Company')
 const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlockPeople } = require('../controllers/People')
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
@@ -9,7 +9,7 @@ const { addTask, getTask, getEmpByDept, assignTask } = require('../controllers/T
 const { EmpLogin } = require('../controllers/Employee')
 
 
-// for multer storage
+// for multer storage 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         if (file.fieldname === 'file') {
@@ -29,6 +29,7 @@ const upload = multer({ storage: storage })
 
 router.route("/register").post(adminRegister)
 router.route("/login").post(adminLogin)
+router.route("/logout").get(adminLogout)
 
 
 
