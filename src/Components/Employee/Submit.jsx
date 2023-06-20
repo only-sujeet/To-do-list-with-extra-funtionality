@@ -33,9 +33,8 @@ console.log(maximum)
     };
 
     const handleSubmit =  async (valuse)  => {
-        console.log(valuse)
+        
         console.log(valuse.file)
-        console.log(id)
         const res = await submitDoc(id,valuse.file);
 
         if (res.success === true) {

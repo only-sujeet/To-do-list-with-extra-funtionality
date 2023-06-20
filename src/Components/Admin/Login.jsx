@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
@@ -7,6 +7,8 @@ import { adminLogin } from '../../api/Admin';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { adminLog } from '../../Redux/Action/Admin';
 
 const layout = makeStyles(theme =>
 ({
@@ -90,29 +92,37 @@ const Login = () => {
       setType("password")
     }
   }
+
+  const { loginData } = useSelector(s => s.admin)
   const navigate = useNavigate()
+
+
+  loginData && navigate("/dashboard")
+
   const initialvalue = {
     email: "",
     password: ""
   }
 
+
+
+  const dispatch = useDispatch()
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
     onSubmit: async (values, { resetForm }) => {
-       console.log(values)
+      console.log(values)
       const res = await adminLogin(values)
-
+      dispatch(adminLog(values))
       if (res.success === true) {
         toast.success(res.message)
         resetForm({ values: "" })
-        navigate('/dashboard')
-        
       }
       if (res.success === false) {
         toast.error(res.message)
       }
-     }
+    }
   })
 
   return (

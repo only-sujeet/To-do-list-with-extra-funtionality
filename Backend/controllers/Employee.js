@@ -79,7 +79,7 @@ exports.AcceptTask = async (req, res) => {
 exports.submitDoc = async (req, res) => {
     try {
         const id = req.params.id
-        const files = (req.file) ? req.file.filename : null
+        const files = req.file
         console.log(id)
         console.log(files)
         //const task = await Task.findById("648f162e0b096bfbb858b008")

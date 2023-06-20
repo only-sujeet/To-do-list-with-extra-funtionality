@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-export const adminLogin = (values) => async (dispatch) => {
+export const adminLog = (values) => async (dispatch) => {
     try {
         dispatch({
             type: "adminLoginRequest"

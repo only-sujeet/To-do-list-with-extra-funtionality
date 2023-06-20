@@ -16,30 +16,43 @@ import EmpHeader from './Components/Employee/EmpHeader';
 import EmpTask from './Components/Employee/EmpTask';
 import Tasks from './Components/Employee/Tasks';
 import Submit from './Components/Employee/Submit';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import cookies from "js-cookie"
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
+
+  const { loginData } = useSelector(s => s.admin)
+
+  useEffect(() => {
+    { loginData && cookies.set('Token', loginData.token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) }) }
+  }, [loginData]);
+
   return (
+
+
+
     <ThemeProvider theme={theme}>
-{/* <CssBaseline/> */}
-    <div className="App">   
-    <Routes>
-      <Route path='/login' element={<Login/>}  />
-      {/* <Route path='/top' element={<AdminTopbar/>}  /> */}
-      <Route path='/dashboard' element={<Dashboard/>}  />
-      <Route path='/aprofile' element={<AddProfile/>}  />
-      <Route path="/block_profile" element={<BlockProfile/>}  />
-      <Route path="/task" element={<Task/>}  />
-      <Route path="/manage" element={<Manage/>}  />
-      <Route path="/register" element={<Register/>}  />
-      <Route path="/test" element={<Testing/>}  />
-      <Route path="/emplogin" element={<EmpLogin/>}  />
-      <Route path="/header" element={<EmpHeader/>}  />
-      <Route path="/emptask" element={<EmpTask/>}  />
-      <Route path="/etask" element={<Tasks/>}  />
-      <Route path="/submit" element={<Submit/>}  />
-    </Routes>
-    </div>
+      {/* <CssBaseline/> */}
+      <div className="App">
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          {/* <Route path='/top' element={<AdminTopbar/>}  /> */}
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/aprofile' element={<AddProfile />} />
+          <Route path="/block_profile" element={<BlockProfile />} />
+          <Route path="/task" element={<Task />} />
+          <Route path="/manage" element={<Manage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/test" element={<Testing />} />
+          <Route path="/emplogin" element={<EmpLogin />} />
+          <Route path="/header" element={<EmpHeader />} />
+          <Route path="/emptask" element={<EmpTask />} />
+          <Route path="/etask" element={<Tasks />} />
+          <Route path="/submit" element={<Submit />} />
+        </Routes>
+      </div>
     </ThemeProvider>
   );
 }

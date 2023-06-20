@@ -4,6 +4,7 @@ import AdminTopbar from '../Global/AdminTopbar'
 import { getAdminProfile } from '../../Redux/Action/Admin'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import AdminRoute from '../../Protected Route/AdminRoute'
 
 
 
@@ -34,4 +35,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default AdminRoute(Dashboard)
