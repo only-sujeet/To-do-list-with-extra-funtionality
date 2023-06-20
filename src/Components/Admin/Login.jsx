@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminLog } from '../../Redux/Action/Admin';
-
+import Cookies from "js-cookie"
 const layout = makeStyles(theme =>
 ({
 
@@ -75,7 +75,13 @@ const layout = makeStyles(theme =>
 )
 
 
+
 const Login = () => {
+
+  const navigate = useNavigate()
+  const isAuthenticated = Cookies.get('Token')
+  isAuthenticated && navigate("/dashboard")
+
   const classes = layout();
   const theme = useTheme();
   const showText = useMediaQuery(theme.breakpoints.up('xs'))
@@ -93,11 +99,10 @@ const Login = () => {
     }
   }
 
-  const { loginData } = useSelector(s => s.admin)
-  const navigate = useNavigate()
 
 
-  loginData && navigate("/dashboard")
+
+
 
   const initialvalue = {
     email: "",
@@ -114,9 +119,10 @@ const Login = () => {
     onSubmit: async (values, { resetForm }) => {
       console.log(values)
       const res = await adminLogin(values)
-      dispatch(adminLog(values))
+      await dispatch(adminLog(values))
       if (res.success === true) {
         toast.success(res.message)
+        navigate("/dashboard")
         resetForm({ values: "" })
       }
       if (res.success === false) {
