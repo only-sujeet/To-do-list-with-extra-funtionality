@@ -7,7 +7,9 @@ import { adminLogin } from '../../api/Admin';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { adminLog } from '../../Redux/Action/Admin';
+import Cookies from "js-cookie"
 const layout = makeStyles(theme =>
 ({
 
@@ -73,7 +75,13 @@ const layout = makeStyles(theme =>
 )
 
 
+
 const Login = () => {
+
+  const navigate = useNavigate()
+  const isAuthenticated = Cookies.get('Token')
+  isAuthenticated && navigate("/dashboard")
+
   const classes = layout();
   const theme = useTheme();
   const showText = useMediaQuery(theme.breakpoints.up('xs'))
@@ -90,29 +98,37 @@ const Login = () => {
       setType("password")
     }
   }
-  const navigate = useNavigate()
+
+
+
+
+
+
   const initialvalue = {
     email: "",
     password: ""
   }
 
+
+
+  const dispatch = useDispatch()
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
     onSubmit: async (values, { resetForm }) => {
-       console.log(values)
+      console.log(values)
       const res = await adminLogin(values)
-
+      await dispatch(adminLog(values))
       if (res.success === true) {
         toast.success(res.message)
+        navigate("/dashboard")
         resetForm({ values: "" })
-        navigate('/dashboard')
-        
       }
       if (res.success === false) {
         toast.error(res.message)
       }
-     }
+    }
   })
 
   return (

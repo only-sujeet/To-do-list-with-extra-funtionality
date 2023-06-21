@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 const AdminRoute = (Component) => {
     return class extends React.Component {
         render() {
-            const isAuthenticated = Cookies.get('adminToken')
+            const isAuthenticated = Cookies.get('Token')
             return isAuthenticated ? (
                 <Component {...this.props} />
             ) : (
