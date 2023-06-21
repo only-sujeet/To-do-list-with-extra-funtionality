@@ -1,5 +1,21 @@
 const People = require("../Models/Admin/People");
 const Task = require("../Models/Admin/Task");
+const { google } = require('googleapis');
+const fs = require("fs")
+const authenticateGoogle = () => {
+    const auth = new google.auth.GoogleAuth({
+        keyFile: `${__dirname}/service_account.json`,
+        scopes: "https://www.googleapis.com/auth/drive",
+    });
+    return auth;
+};
+
+const deleteFile = (filePath) => {
+    fs.unlink(filePath, () => {
+        console.log("file deleted");
+    });
+};
+
 
 exports.EmpLogin = async (req, res) => {
     try {
@@ -78,10 +94,6 @@ exports.AcceptTask = async (req, res) => {
 }
 exports.submitDoc = async (req, res) => {
     try {
-        const id = req.params.id
-        const files = req.file
-        console.log(id)
-        console.log(files)
         //const task = await Task.findById("648f162e0b096bfbb858b008")
         // const doc = (req.file) ? req.file.filename : null
         // const emp = await People.findById(req.emp._id)
@@ -93,12 +105,56 @@ exports.submitDoc = async (req, res) => {
         // task.status = "submited"
         // task.document = doc;
         // await task.save();
+        const file = req.file
+        if (!file) {
+            res.status(400).send("No file uploaded.");
+            return;
+        }
+        const auth = authenticateGoogle();
+        const fileMetadata = {
+            name: file.originalname,
+            parents: ["1Fpplz4lMg7BbcG7dZXh8whLCpOfqyavI"], // Change it according to your desired parent folder id
+        };
+        const media = {
+            mimeType: file.mimetype,
+            body: fs.createReadStream(file.path),
+        };
+        const driveService = google.drive({ version: "v3", auth });
 
-        res.status(200).json({
-            success: true,
-            message: "Task Submited",
+        try {
+            const response = await driveService.files.create({
+                requestBody: fileMetadata,
+                media: media,
+                fields: "id,webViewLink",
+            });
 
-        })
+            const task = await Task.findById(req.params.id)
+            task.fileName = file.originalname
+            task.driveLink = response.data.webViewLink
+            task.status = "submited"
+           const savefile =  await task.save();
+
+            // const files = new File({
+            //     name: file.originalname,
+            //     driveLink: response.data.webViewLink
+            // })
+
+            // const savefile = await files.save();
+
+            deleteFile(req.file.path);
+            res.status(200).json({
+                success: true,
+                message: "Task Submited",
+    
+            })
+
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            res.status(500).json({ error: 'Failed to upload file' });
+        }
+
+
+        
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
