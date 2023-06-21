@@ -1,73 +1,39 @@
-import Button from '@mui/material/Button'
-import { useState } from 'react'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import { BlockTwoTone } from '@mui/icons-material'
-import { Typography } from '@mui/material'
-
-
-
-
+import React, { useState } from 'react';
+import axios from 'axios';
+// 'http://localhost:5000/api/emp/upload'
 const Testing = () => {
-  const [val, setVal] = useState([])
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState(null);
 
-  const handleAdd = () => {
-    const abc = [...val, []]
-    setVal(abc)
-  }
 
-  const handleChanges = (onChangeValue, i) => {
-    const inputdata = [...val]
-    inputdata[i] = onChangeValue.target.value
-    setVal(inputdata)
-  }
-  console.log(val,"data-")
 
-  const handleDelete = (i) => { 
-    const delval = [...val]
-    delval.splice(i,1)
-    setVal(delval)
-   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("file", file.data);
+    const response = await fetch('http://localhost:5000/api/emp/upload', {
+      method: "POST",
+      body: formData,
+    });
+    const responseWithBody = await response.json();
+    if (response) setUrl(responseWithBody.publicUrl);
+  };
+  
+  const handleFileChange = (e) => {
+    const file = {
+      preview: URL.createObjectURL(e.target.files[0]),
+      data: e.target.files[0],
+    };
+    setFile(file);
+  };
+
+
   return (
-    <Grid container spacing={1}>
-      <Grid item lg={10} sm={8} xs={8} md={10}>
-        <Typography variant="h4" color="initial">Add Check List</Typography>
-      </Grid>
-      <Grid item lg={2} sm={4} xs={4} md={2}>
-        <Button variant="contained" color="info" onClick={() => handleAdd()}>
-          Add Column
-        </Button>
-      </Grid>
-      {
-        val.map((data, i) => {
-          return (
-            <Grid container spacing={1}>
-              <Grid item lg={10} sm={10} xs={10} md={10} >
-                <TextField
-                  fullWidth
-                  name='chk'
-                  label="Enter Check List Data"
-                  value={data}
-                  onChange={e => handleChanges(e, i)}
+    <form onSubmit={handleSubmit}>
+      <input type="file" name="file" onChange={handleFileChange}></input>
+      <button type="submit">Submit</button>
+    </form>
 
-                />
-              </Grid>
-              <Grid item lg={2} sm={2} xs={2} md={2}  >
-
-                <IconButton aria-label="icon" onClick={() => handleDelete(i)}>
-                  <BlockTwoTone color='error' />
-                </IconButton>
-
-              </Grid>
-            </Grid>
-
-
-
-          )
-        })
-      }
-    </Grid>
   )
 }
 
