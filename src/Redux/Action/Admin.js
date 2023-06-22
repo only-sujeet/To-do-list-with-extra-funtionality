@@ -6,7 +6,7 @@ export const adminLog = (values) => async (dispatch) => {
         dispatch({
             type: "adminLoginRequest"
         })
-        const { data } = await axios.post('/api/admin/login', values)
+        const { data } = await axios.post('http://localhost:5000/api/admin/login', values)
 
         dispatch({
             type: "adminLoginSuccess",

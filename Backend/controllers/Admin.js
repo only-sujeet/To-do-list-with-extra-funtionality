@@ -42,12 +42,12 @@ exports.adminLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: "!! Invalid Password" })
 
         }
-        const option = {
-            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-            httpOnly: true
-        }
+        // const option = {
+        //     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+        //     httpOnly: true
+        // }
         const token = await admin.generateToken()
-        res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
+        res.status(200).json({ success: true, message: "Login Success", token })
 
 
     } catch (error) {
