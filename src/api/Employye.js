@@ -12,9 +12,9 @@ export const Elogin = async (values) => {
     }
 }
 
-export const submitDoc = async (id,valuse) => { 
+export const submitDoc = async (id, valuse) => {
     try {
-        
+
         const { data } = await axios.post(`/api/emp/submitDoc/${id}`, valuse)
         return data
     } catch (error) {
@@ -24,4 +24,5 @@ export const submitDoc = async (id,valuse) => {
         }
     }
 }
+
 

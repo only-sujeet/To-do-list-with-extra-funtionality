@@ -6,11 +6,16 @@ import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { submitDoc } from '../../api/Employye';
+import axios from 'axios';
 
 const Submit = ({ id, checklist }) => {
 
     const tid = id
     const [open, setOpen] = React.useState(false);
+    const [url, setUrl] = React.useState("");
+    const [file, setFile] = React.useState(null);
+
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -18,24 +23,30 @@ const Submit = ({ id, checklist }) => {
         setOpen(false);
     };
 
+    const handleFileChange = (e) => {
+        const file = {
+            preview: URL.createObjectURL(e.target.files[0]),
+            data: e.target.files[0],
+        };
+        setFile(file);
+    };
 
-const maximum = checklist.length
+    const maximum = checklist.length
     const validationSchema = Yup.object().shape({
-        file: Yup.mixed().required('File is required'),
         checkboxes: Yup.array().min(maximum, 'Please select All checkbox'),
 
     });
-console.log(maximum)
+    console.log(maximum)
 
     const initialValues = {
-        file: null,
         checkboxes: [],
     };
 
-    const handleSubmit =  async (valuse)  => {
-        
-        console.log(valuse.file)
-        const res = await submitDoc(id,valuse.file);
+    const handleSubmit = async (values) => {
+        // e.preventDefault();
+        let formData = new FormData();
+        formData.append("file", file.data);
+        const res = await axios.post(`/api/emp/submitDoc/${id}`,formData)
 
         if (res.success === true) {
             toast.success(res.message)
@@ -59,7 +70,7 @@ console.log(maximum)
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h6" color="initial">Submit</Typography></DialogTitle>
                 <DialogContent>
-
+                    <input type="file" name="file" onChange={handleFileChange}></input>
                     <Formik
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
@@ -68,8 +79,7 @@ console.log(maximum)
                         {({ isSubmitting }) => (
                             <Form>
                                 {/* File Upload */}
-                                <Field type="file" name="file" />
-                                <ErrorMessage name="file" component="div" />
+
                                 {/* Checkbox Array */}
                                 <FieldArray name="checkboxes">
 

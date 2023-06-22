@@ -46,6 +46,8 @@ const taskSchema = mongoose.Schema({
     document: {
         type: String,
     },
+    fileName: String,
+    driveLink: String,
 
 })
 const Task = mongoose.model("Task", taskSchema)
