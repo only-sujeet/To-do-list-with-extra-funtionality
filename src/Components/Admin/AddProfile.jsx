@@ -1,5 +1,5 @@
 import { makeStyles, } from '@material-ui/core'
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, } from '@mui/material'
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -63,10 +63,20 @@ const AddProfile = () => {
                             <AddPeople />
                         </Box>
                     </Box>
+                    <form>
+                        <TextField
+                            id=""
+                            label=""
+                            type='search'
+
+
+                        />
+                    </form>
                     {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
                         <Grid container spacing={2}>
+
                             {!loading &&
-                                people <= 0 ?   <Typography variant="h2" color="initial" m='20px auto'  >No Profile Added</Typography>   : people?.map((data) => (
+                                people <= 0 ? <Typography variant="h2" color="initial" m='20px auto'  >No Profile Added</Typography> : people?.map((data) => (
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
                                         <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >

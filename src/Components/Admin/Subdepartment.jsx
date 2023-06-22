@@ -6,6 +6,10 @@ import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useMemo } from 'react'
+import { Delete, Edit } from '@mui/icons-material'
+import { DataGrid } from '@mui/x-data-grid'
+import { Box } from '@material-ui/core'
 
 const Subdepartment = () => {
 
@@ -29,6 +33,19 @@ const Subdepartment = () => {
         data && setSubDept(data)
     }
 
+    const columns = useMemo(dept => [
+        { field: "subDept", headerName: "Sub-Deptartment",width:150, headerClassName: 'super-app-theme--header' },
+        { field: "rate", headerName: "Rate", width:150, headerClassName: 'super-app-theme--header' },
+        { field: "unit", headerName: "Unit",width:150, headerClassName: 'super-app-theme--header' },
+        {
+            field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            renderCell: (params) =>
+                <Box display="flex" justifyContent="center">
+                    <Button  variant="contained" color='error'><Delete /></Button>
+                    <Button sx={{ml:"10px"}} variant="contained" color='success' ><Edit /></Button>
+                </Box>
+        },
+    ], [])
 
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
@@ -51,7 +68,7 @@ const Subdepartment = () => {
         data && setSubDept(data)
     }
 
- 
+
 
     return (
         <div>
@@ -97,7 +114,31 @@ const Subdepartment = () => {
                             Add
                         </Button>
                     </Tooltip>
-                    <TableContainer component={Paper}>
+                    <Stack sx={{
+                        '& .super-app-theme--header': {
+                            backgroundColor: "#3366ff",
+                        },
+                        display: "grid",
+                        height: "50vh",
+                        marginBottom: "2rem",
+                    }}
+                    >
+                        {subDept ? <DataGrid
+                            rows={subDept}
+                            key={row => row._id}
+                            columns={columns}
+                            getRowId={row => row._id}
+
+                            style={{
+                                backgroundColor: "rgb(0,0,0,0.6)",
+                                color: "white",
+                                marginBottom: "1rem",
+                                fontSize: "1rem", fontFamily: "Josefin Sans",
+                            }}
+                        /> : undefined}
+                    </Stack>
+
+                    {/* <TableContainer component={Paper}>
                         <Table aria-label='a dense table' size='small'>
                             <TableHead sx={{ backgroundColor:"lightskyblue" }} >
                                 <TableRow>
@@ -110,7 +151,7 @@ const Subdepartment = () => {
                                 {
                                     subDept && subDept?.map((data) => (
                                         <TableRow key={data}>
-                                            <TableCell>{data}</TableCell>
+                                            <TableCell>{data.}</TableCell>
                                         </TableRow>
                                     ))
                                 }
@@ -118,7 +159,7 @@ const Subdepartment = () => {
                             </TableBody>
 
                         </Table>
-                    </TableContainer>
+                    </TableContainer> */}
                     {/* {subDept ? <DataGrid
                         rows={subDept}
                         key={row => row.data}

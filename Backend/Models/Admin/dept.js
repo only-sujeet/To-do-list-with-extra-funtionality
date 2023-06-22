@@ -11,9 +11,21 @@ const companySchema = mongoose.Schema({
         type: String,
         required:[true]
     },
-    subDept:[
-
-    ] 
-})
-
+    subDepts:[
+        {
+            subDept:{
+                type:String,
+                required:true,
+            },
+            unit:{
+                type:String,
+                required:true,
+            },
+            rate:{
+                type:String,
+                required:true,
+            },
+        }
+    ]
+    })
 module.exports = mongoose.model("Department", companySchema)

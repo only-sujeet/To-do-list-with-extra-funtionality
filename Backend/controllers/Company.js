@@ -54,8 +54,6 @@ exports.deleteCompany = async (req, res) => {
     }
 };
 
-
-
 exports.addDept = async (req, res) => {
     try {
         const { department } = req.body
@@ -71,7 +69,7 @@ exports.addDept = async (req, res) => {
         await admin.save();
 
         res.status(200).json({ success: true, message: "Successfully Added...." });
-        console.log(admin)
+
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
@@ -93,7 +91,7 @@ exports.DeleteDept = async (req, res) => {
         const admin = await Admin.findById(req.admin._id)
         if (admin.department.includes(dept._id)) {
             const index = admin.department.indexOf(dept._id);
-            console.log(index)
+
             admin.department.splice(index, 1);
             await admin.save();
             await dept.remove();
@@ -113,57 +111,140 @@ exports.DeleteDept = async (req, res) => {
 
 exports.addSubDept = async (req, res) => {
     try {
-        const { department, subDept } = req.body
+
+        const { department, subDept, unit, rate } = req.body
         const dept = await Department.findOne({ company: req.admin.company, department })
-        if (dept.subDept.includes(subDept)) {
+        const data = {
+            subDept,
+            unit,
+            rate
+        }
+        let subDeptExits = false
+        dept.subDepts.forEach((item) => {
+            if (item.subDept.toString() === subDept.toString()) {
+                subDeptExits = true
+            }
+        });
+        if (subDeptExits) {
             return res
                 .status(400)
-                .json({ success: false, message: "Sub-Department already Exists..." })
+                .json({ success: false, message: "Sub-Department already exists.. " });
         }
-        dept.subDept.push(subDept)
+        dept.subDepts.push(data)
         await dept.save();
-        res
-            .status(200)
-            .json({ success: true, message: "Sub-Department Added..", department })
+
+        res.status(201)
+            .json({ success: false, message: "Sub-Department Added..." })
 
     } catch (error) {
-        res.status(500).json({ success: false, message: error });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
+
 exports.getSubDept = async (req, res) => {
     try {
         const { department } = req.body
         const dept = await Department.findOne({ company: req.admin.company, department })
-        res.send(dept.subDept)
+        res.send(dept.subDepts)
     } catch (error) {
         res.status(500).json({ success: false, message: error });
     }
 };
-exports.delSubField = async (req, res) => {
+
+exports.editSubDept = async (req, res) => {
     try {
-        const { company, field, subField } = req.body;
-        const dept = await Department.findOne({ company, field });
-        if (!dept) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Department not found... " });
+        const { department, subDept, unit, rate } = req.body
+        const dept = await Department.findOne({ company: req.admin.company, department })
+        const data = {
+            subDept,
+            unit,
+            rate
+        }
+        let subDeptexists = false
+        let indexNO = ""
+        dept.subDepts.forEach((item, index) => {
+            if (item._id.toString() === req.params.id.toString()) {
+                subDeptexists = true
+                indexNO = index
+            }
+        })
+        if (subDeptexists) {
+            dept.subDepts[indexNO].subDept = subDept
+            dept.subDepts[indexNO].unit = unit
+            dept.subDepts[indexNO].rate = rate
+
+            dept.save();
+            res.status(201)
+                .json({ success: false, message: "Sub-Department Updated..." })
+
+        } else {
+            res.status(201)
+                .json({ success: false, message: "Sub-Department Not Found" })
         }
 
-        if (dept.subField.includes(subField)) {
-            const index = dept.subField.indexOf(subField);
-            dept.subField.splice(index, 1);
-            await dept.save();
-            return res
-                .status(400)
-                .json({ dept, success: false, message: "subField Deleted.. " });
-        } else
-            res
-                .status(200)
-                .json({ success: false, message: "subField not found...." });
+
     } catch (error) {
-        res.status(500).json({ success: false, message: error });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
+
+exports.deleteSubDept = async (req, res) => {
+    try {
+        const { department } = req.body
+        const dept = await Department.findOne({ company: req.admin.company, department })
+
+        let subDeptexists = false
+        let indexNO = ""
+        dept.subDepts.forEach((item, index) => {
+            if (item._id.toString() === req.params.id.toString()) {
+                subDeptexists = true
+                indexNO = index
+            }
+        })
+        if (subDeptexists) {
+            dept.subDepts.splice(indexNO, 1)
+            dept.save();
+
+            res.status(201)
+                .json({ dept, success: false, message: "Sub-Department Deleted..." })
+
+        } else {
+            res.status(201)
+                .json({ success: false, message: "Sub-Department Not Found" })
+        }
+
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+
+// exports.delSubField = async (req, res) => {
+//     try {
+//         const { company, field, subField } = req.body;
+//         const dept = await Department.findOne({ company, field });
+//         if (!dept) {
+//             return res
+//                 .status(400)
+//                 .json({ success: false, message: "Department not found... " });
+//         }
+
+//         if (dept.subField.includes(subField)) {
+//             const index = dept.subField.indexOf(subField);
+//             dept.subField.splice(index, 1);
+//             await dept.save();
+//             return res
+//                 .status(400)
+//                 .json({ dept, success: false, message: "subField Deleted.. " });
+//         } else
+//             res
+//                 .status(200)
+//                 .json({ success: false, message: "subField not found...." });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error });
+//     }
+// };
 
 exports.getFieldP = async (req, res) => {
     try {
