@@ -6,7 +6,7 @@ import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPeople, getDept, getSubDept } from '../../api/Admin';
-import {  getPeople } from '../../Redux/Action/Admin';
+import { getPeople } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const AddPeople = () => {
@@ -72,12 +72,12 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
-    const initialvalue = { }
+    const initialvalue = {}
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
         onSubmit: async (values, { resetForm }) => {
-            try{
+            try {
                 if (file) {
 
                     const formdata = new FormData()
@@ -105,7 +105,7 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-            
+
         }
 
 
@@ -129,7 +129,7 @@ const AddPeople = () => {
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
-                           
+
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
                                     <InputLabel color='secondary'>Department</InputLabel>
@@ -169,7 +169,7 @@ const AddPeople = () => {
                                         {values.department
                                             ?
                                             subDept && subDept?.map((data) => (
-                                                <MenuItem value={data}>{data}</MenuItem>
+                                                <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
                                             ))
                                             : <MenuItem >Please First Select Department</MenuItem>
                                         }
@@ -178,7 +178,7 @@ const AddPeople = () => {
                                 </FormControl>
                                 {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
                             </Grid>
-                           
+
                             <Grid item lg={6} sm={12} xs={12} md={6}>
 
                                 <TextField
