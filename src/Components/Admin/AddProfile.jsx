@@ -1,4 +1,4 @@
-import { CircularProgress, makeStyles, } from '@material-ui/core'
+import {  makeStyles, } from '@material-ui/core'
 import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
@@ -8,12 +8,9 @@ import { getPeople } from '../../Redux/Action/Admin'
 import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
 import NewPeopledet from '../Global/NewPeopledet'
-// import Addcompanyd from './Addcompanyd'
-// import AddDepartment from './AddDepartment'
 import AddPeople from './AddPeople'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Loader from '../Global/Loader'
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -62,8 +59,7 @@ const AddProfile = () => {
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Add Profile" subtitle="Welcome to Add Profile page" />
                         <Box display='flex'>
-                            {/* <Addcompanyd />
-                            <AddDepartment /> */}
+                            
                             <AddPeople />
                         </Box>
                     </Box>

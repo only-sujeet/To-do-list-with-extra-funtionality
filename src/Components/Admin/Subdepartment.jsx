@@ -7,9 +7,9 @@ import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMemo } from 'react'
-import { Delete, DeleteForeverTwoTone, DeleteOutlineTwoTone, Edit, HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
+import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
 import { DataGrid } from '@mui/x-data-grid'
-import { Box, IconButton } from '@material-ui/core'
+import { Box,  } from '@material-ui/core'
 
 const Subdepartment = () => {
 
