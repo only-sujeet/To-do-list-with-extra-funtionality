@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createTask, getDept } from '../../api/Admin';
+import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
 import { getCompany, getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,6 +23,8 @@ const AddTask = () => {
     const [open, setOpen] = React.useState(false);
     const [val, setVal] = useState([])
     const [dept, setDept] = React.useState();
+    const [subDept, setSubDept] = React.useState();
+    const [subDeptDetails, setSubDeptDetails] = React.useState();
 
     const getDepartment = async () => {
         const { data } = await getDept()
@@ -75,22 +77,32 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
-            const res = await createTask(values, val)
-            if (res.success === true) {
-                toast.success(res.message)
-                resetForm({ values: "" })
-                dispatch(getTask())
-            }
-            if (res.success === false) {
-                toast.error(res.message)
-            }
+            // const res = await createTask(values, val)
+            // if (res.success === true) {
+            //     toast.success(res.message)
+            //     resetForm({ values: "" })
+            //     dispatch(getTask())
+            // }
+            // if (res.success === false) {
+            //     toast.error(res.message)
+            // }
+
         }
     })
 
     const handleTwoFunc2 = async (e) => {
         handleChange(e)
+        const data = await getSubDept({ department: e.target.value })
+        data && setSubDept(data)
+
+    }
+    const handleTwoFunc3 = async (e) => {
+        handleChange(e)
+        const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
+        data && setSubDeptDetails(data)
     }
 
+    console.log(subDeptDetails)
     return (
         <div>
             <Tooltip title="Add Task">
@@ -116,38 +128,9 @@ const AddTask = () => {
                                     value={values.name}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+
                                 />
                                 {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
-                            </Grid>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="rate"
-                                    label="Rate"
-                                    name='rate'
-                                    type="number"
-                                    value={values.rate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
-                            </Grid>
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="unit"
-                                    label="Unit"
-                                    name='unit'
-                                    type="text"
-                                    value={values.unit}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
                             </Grid>
 
                             <Grid item lg={6} sm={12} xs={12} md={6}>
@@ -172,21 +155,63 @@ const AddTask = () => {
                                 </FormControl>
                                 {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                             </Grid>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="taskDependency"
-                                    label="Task Dependency"
-                                    name='taskDependency'
-                                    type="text"
-                                    value={values.taskDependency}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <FormControl variant='filled' fullWidth>
+                                    <InputLabel color='secondary'>Department</InputLabel>
+                                    <Select
+                                        color='secondary'
+                                        id='taskDependency'
+                                        label="taskDependency"
+                                        name='taskDependency'
+                                        value={values.taskDependency}
+                                        onChange={handleTwoFunc3}
+                                        onBlur={handleBlur}
+                                    >
+                                        {
+                                            subDept && subDept?.map((data) => (
+                                                <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+                                            ))
+                                        }
+
+                                    </Select>
+                                </FormControl>
                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid>
+                            {
+                                subDeptDetails &&
+                                <>
+                                    <Grid item lg={3} sm={12} xs={12} md={12}>
+                                        <TextField
+                                            fullWidth
+                                            variant='standard'
+                                            color='secondary'
+                                            id="rate"
+                                            label="Rate"
+                                            name='rate'
+                                            type="number"
+                                            value={subDeptDetails && subDeptDetails.rate}
+                                            aria-readonly
+                                        />
+                                        {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
+                                    </Grid>
+                                    <Grid item lg={9} sm={12} xs={12} md={6}>
+                                        <TextField
+                                            fullWidth
+                                            variant='standard'
+                                            color='secondary'
+                                            id="unit"
+                                            label="Unit"
+                                            name='unit'
+                                            type="text"
+                                            value={subDeptDetails && subDeptDetails.unit}
+                                            aria-readonly
+
+                                        />
+                                        {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
+                                    </Grid>
+                                </>
+                            }
+
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
                                     fullWidth

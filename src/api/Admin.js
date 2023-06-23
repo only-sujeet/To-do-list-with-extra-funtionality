@@ -82,11 +82,6 @@ export const addSubDepartment = async (values) => {
 
 
 
-
-
-
-
-
 export const getSubDept = async (values) => {
     try {
         const { data } = await axios.post('/api/admin/getSubDept', values)
@@ -95,6 +90,19 @@ export const getSubDept = async (values) => {
         return error
     }
 }
+
+
+
+export const getSubDeptDetails = async (valuse) => {
+    try {
+        const { data } = await axios.post('/api/admin/getSubDeptDetail', valuse)
+        return data
+    } catch (error) {
+        return error
+    }
+}
+
+
 export const addPeople = async (values) => {
     try {
         const { data } = await axios.post(`/api/admin/addPeople`, values, {
@@ -164,7 +172,7 @@ export const getEmpByDept = async (values) => {
 
         const { data } = await axios.post('/api/admin/getEmpByDept', { department: values })
         return data
-        
+
     } catch (error) {
         if (error.response) {
 
@@ -172,12 +180,12 @@ export const getEmpByDept = async (values) => {
         }
     }
 }
-export const AssignTask = async ( empId, taskId) => {
+export const AssignTask = async (empId, taskId) => {
     try {
 
-        const { data } = await axios.post('/api/admin/assignTask',{ empId, taskId })
+        const { data } = await axios.post('/api/admin/assignTask', { empId, taskId })
         return data
-        
+
     } catch (error) {
         if (error.response) {
 

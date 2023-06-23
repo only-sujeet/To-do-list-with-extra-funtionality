@@ -1,6 +1,6 @@
 const express = require('express')
 const { adminRegister, adminLogin, myProfile, adminLogout } = require('../controllers/Admin')
-const { addCompany, GetCompany, deleteCompany, delSubField, addDept, getDept, addSubDept, getSubDept, DeleteDept, editSubDept, deleteSubDept } = require('../controllers/Company')
+const { addCompany, GetCompany, deleteCompany, delSubField, addDept, getDept, addSubDept, getSubDept, DeleteDept, editSubDept, deleteSubDept, getSubDeptDetail } = require('../controllers/Company')
 const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlockPeople } = require('../controllers/People')
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
@@ -41,6 +41,7 @@ router.route("/deleteDept").delete(isAuthenticatedAdmin, DeleteDept)
 
 router.route("/addSubDept").post(isAuthenticatedAdmin, addSubDept)
 router.route("/getSubDept").post(isAuthenticatedAdmin, getSubDept)
+router.route("/getSubDeptDetail").post(isAuthenticatedAdmin, getSubDeptDetail)
 router.route("/editSubDept/:id").put(isAuthenticatedAdmin, editSubDept).delete(isAuthenticatedAdmin, deleteSubDept)
 
 

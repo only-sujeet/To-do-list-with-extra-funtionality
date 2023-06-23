@@ -58,12 +58,14 @@ export const getCompany = (values) => async (dispatch) => {
     }
 }
 
-export const getPeople = () => async (dispatch) => {
+export const getPeople = (keyword) => async (dispatch) => {
     try {
         dispatch({
             type: "getPeopleRequest"
         })
-        const { data } = await axios.get('api/admin/getPeople')
+        const routeWithKey = `api/admin/getPeople?keyword=${keyword}`
+        const routeWithoutKey = `api/admin/getPeople`
+        const { data } = await axios.get(keyword ? routeWithKey : routeWithoutKey)
 
         dispatch({
             type: "getPeopleSuccess",

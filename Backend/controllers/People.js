@@ -1,5 +1,6 @@
 const People = require("../Models/Admin/People");
 const { sendEmail } = require("../middlewares/sendEmail");
+const ApiFeature = require("../utils/apiFeature");
 
 // For add People
 exports.addPeople = async (req, res) => {
@@ -33,7 +34,9 @@ exports.addPeople = async (req, res) => {
 // for get people
 exports.getPeople = async (req, res) => {
     try {
-        const request = await People.find({ status: undefined, company: req.admin.company });
+
+        const apiFeature = new ApiFeature(People.find(), req.query, req.admin.company ).search()
+        const request = await apiFeature.query
         if (!request) {
             return res
                 .status(404)
@@ -41,6 +44,8 @@ exports.getPeople = async (req, res) => {
         } else {
             res.status(200).json(request);
         }
+
+        
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -48,6 +53,9 @@ exports.getPeople = async (req, res) => {
         });
     }
 };
+
+
+
 
 //  for delete people
 exports.deletePeople = async (req, res) => {

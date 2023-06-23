@@ -1,4 +1,4 @@
-import { makeStyles, } from '@material-ui/core'
+import { CircularProgress, makeStyles, } from '@material-ui/core'
 import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
@@ -13,6 +13,7 @@ import NewPeopledet from '../Global/NewPeopledet'
 import AddPeople from './AddPeople'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../Global/Loader'
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -38,6 +39,9 @@ const AddProfile = () => {
     console.log(people)
 
 
+    const handleSearch = (e) => {
+        dispatch(getPeople(e.target.value))
+    }
 
     const blockpeople = async (id) => {
         const res = await blockPeople(id)
@@ -65,14 +69,17 @@ const AddProfile = () => {
                     </Box>
                     <form>
                         <TextField
+                            sx={{ my: "2rem" }}
+                            placeholder='Search Emloyees By Name & Department'
                             id=""
                             label=""
+                            fullWidth
+                            onChange={handleSearch}
+                            size='small'
                             type='search'
-
-
                         />
                     </form>
-                    {loading ? <Typography variant="h1" color="initial">Loading</Typography> :
+                    {loading ? <Typography variant="h1"m={"2rem"} align="center" color="initial">Loading...</Typography> :
                         <Grid container spacing={2}>
 
                             {!loading &&
