@@ -39,6 +39,8 @@ const AddTask = () => {
         setOpen(true);
     };
 
+   
+
     const handleAdd = () => {
         const abc = [...val, []]
         setVal(abc)
@@ -72,6 +74,8 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
+            console.log(values)
+            console.log(subDeptDetails)
             // const res = await createTask(values, val)
             // if (res.success === true) {
             //     toast.success(res.message)
@@ -99,6 +103,7 @@ const AddTask = () => {
     }
 
     console.log(values)
+    // console.log(subDeptDetails)
     return (
         <div>
             <Tooltip title="Add Task">
@@ -153,7 +158,7 @@ const AddTask = () => {
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
-                                    <InputLabel color='secondary'>Department</InputLabel>
+                                    <InputLabel color='secondary'>Task Dependency</InputLabel>
                                     <Select
                                         color='secondary'
                                         id='taskDependency'
@@ -185,7 +190,7 @@ const AddTask = () => {
                                             label="Rate"
                                             name='rate'
                                             type="number"
-                                            value={subDeptDetails && subDeptDetails.rate}
+                                            value={subDeptDetails && subDeptDetails.rate }
                                             aria-readonly
                                             onChange={handleChange}
                                         />
