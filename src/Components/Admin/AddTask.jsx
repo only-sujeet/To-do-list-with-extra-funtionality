@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
-import { getCompany, getTask } from '../../Redux/Action/Admin';
+import {  getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,11 +38,6 @@ const AddTask = () => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
-    useEffect(() => {
-        dispatch(getCompany())
-    }, [dispatch])
-
 
     const handleAdd = () => {
         const abc = [...val, []]
@@ -98,11 +93,12 @@ const AddTask = () => {
     }
     const handleTwoFunc3 = async (e) => {
         handleChange(e)
+        setSubDeptDetails(null)
         const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
         data && setSubDeptDetails(data)
     }
 
-    console.log(subDeptDetails)
+    console.log(values)
     return (
         <div>
             <Tooltip title="Add Task">
@@ -191,6 +187,7 @@ const AddTask = () => {
                                             type="number"
                                             value={subDeptDetails && subDeptDetails.rate}
                                             aria-readonly
+                                            onChange={handleChange}
                                         />
                                         {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
                                     </Grid>
