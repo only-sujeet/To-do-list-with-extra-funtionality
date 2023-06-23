@@ -58,7 +58,7 @@ exports.addDept = async (req, res) => {
     try {
         const { department } = req.body
         const admin = req.admin
-        let dept = await Department.findOne({ department })
+        let dept = await Department.findOne({ department, company: req.admin.company })
 
         if (dept) {
             return res.status(400).json({ success: false, message: "Department already Exists..." })
@@ -110,6 +110,7 @@ exports.DeleteDept = async (req, res) => {
 };
 
 exports.addSubDept = async (req, res) => {
+
     try {
 
         const { department, subDept, unit, rate } = req.body
@@ -148,6 +149,28 @@ exports.getSubDept = async (req, res) => {
         res.send(dept.subDepts)
     } catch (error) {
         res.status(500).json({ success: false, message: error });
+    }
+};
+
+exports.getSubDeptDetail = async (req, res) => {
+    try {
+        const { department, subDept } = req.body
+        if (!department || !subDept) {
+            return res
+                .status(400)
+                .json({ success: false, message: " Something went wrong " });
+        }
+
+        const dept = await Department.findOne({ company: req.admin.company, department })
+        let indexNO = ""
+        dept.subDepts.forEach((item, index) => {
+            if (item.subDept.toString() === req.body.subDept.toString()) {
+                indexNO = index
+            }
+        })
+        res.send(dept.subDepts[indexNO])
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 

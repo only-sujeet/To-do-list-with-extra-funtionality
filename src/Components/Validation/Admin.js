@@ -65,8 +65,6 @@ function parseDateString(value, originalValue) {
 
 export const addTasks = yup.object({
     name: yup.string().required("Please Enter Task Name"),
-    rate: yup.number().required("Please Enter Ammount"),
-    unit: yup.string().required("Please Enter Unit"),
     department: yup.string().required("Please Select Department"),
     instruction: yup.string().required("Please Enter Instruction"),
     // agency: yup.string().required("Please Select Company"),
