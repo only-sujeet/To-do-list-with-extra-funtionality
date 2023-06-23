@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
-import { getCompany, getTask } from '../../Redux/Action/Admin';
+import {  getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,10 +39,7 @@ const AddTask = () => {
         setOpen(true);
     };
 
-    useEffect(() => {
-        dispatch(getCompany())
-    }, [dispatch])
-
+   
 
     const handleAdd = () => {
         const abc = [...val, []]
@@ -77,6 +74,8 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
+            console.log(values)
+            console.log(subDeptDetails)
             // const res = await createTask(values, val)
             // if (res.success === true) {
             //     toast.success(res.message)
@@ -102,7 +101,7 @@ const AddTask = () => {
         data && setSubDeptDetails(data)
     }
 
-    console.log(subDeptDetails)
+    // console.log(subDeptDetails)
     return (
         <div>
             <Tooltip title="Add Task">
@@ -157,7 +156,7 @@ const AddTask = () => {
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
-                                    <InputLabel color='secondary'>Department</InputLabel>
+                                    <InputLabel color='secondary'>Task Dependency</InputLabel>
                                     <Select
                                         color='secondary'
                                         id='taskDependency'
@@ -189,7 +188,7 @@ const AddTask = () => {
                                             label="Rate"
                                             name='rate'
                                             type="number"
-                                            value={subDeptDetails && subDeptDetails.rate}
+                                            value={subDeptDetails && subDeptDetails.rate }
                                             aria-readonly
                                         />
                                         {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
