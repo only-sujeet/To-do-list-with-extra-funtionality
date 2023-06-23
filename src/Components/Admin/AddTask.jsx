@@ -97,10 +97,12 @@ const AddTask = () => {
     }
     const handleTwoFunc3 = async (e) => {
         handleChange(e)
+        setSubDeptDetails(null)
         const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
         data && setSubDeptDetails(data)
     }
 
+    console.log(values)
     // console.log(subDeptDetails)
     return (
         <div>
@@ -190,6 +192,7 @@ const AddTask = () => {
                                             type="number"
                                             value={subDeptDetails && subDeptDetails.rate }
                                             aria-readonly
+                                            onChange={handleChange}
                                         />
                                         {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
                                     </Grid>

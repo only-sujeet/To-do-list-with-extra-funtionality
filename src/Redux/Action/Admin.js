@@ -40,23 +40,6 @@ export const getAdminProfile = (values) => async (dispatch) => {
 
 
 
-export const getCompany = (values) => async (dispatch) => {
-    try {
-        dispatch({
-            type: "getCompanyRequest"
-        })
-        const { data } = await axios.post('http://localhost:5000/api/admin/getCompany')
-
-        dispatch({
-            type: "getCompanySuccess",
-            payload: data
-        })
-    } catch (error) {
-        dispatch({
-            type: "getCompanyFailuer"
-        })
-    }
-}
 
 export const getPeople = (keyword) => async (dispatch) => {
     try {
