@@ -91,7 +91,7 @@ const AddDepartment = () => {
             </form>
             <Stack sx={{
                 '& .super-app-theme--header': {
-                    backgroundColor: "#3366ff",
+                    backgroundColor: "#33aaff",
                 },
                 display: "grid",
                 height: "50vh",
@@ -105,8 +105,8 @@ const AddDepartment = () => {
                     getRowId={row => row._id}
                     getRowSpacing={getRowSpacing}
                     style={{
-                        backgroundColor: "rgb(0,0,0,0.6)",
-                        color: "white",
+                        // backgroundColor: "rgb(1,1,1,0.6)",
+                        // color: "white",
                         marginBottom: "1rem",
                         fontSize: "1rem", fontFamily: "Josefin Sans",
                     }}

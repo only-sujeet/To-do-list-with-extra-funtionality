@@ -9,7 +9,7 @@ import { useFormik } from 'formik'
 import { register } from '../Validation/Admin'
 import { adminRegister } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
 

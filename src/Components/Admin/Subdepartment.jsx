@@ -1,4 +1,4 @@
-import { Button, MenuItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
+import { Button, Chip, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { addSubDept } from '../Validation/Admin'
@@ -7,9 +7,9 @@ import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMemo } from 'react'
-import { Delete, Edit } from '@mui/icons-material'
+import { Delete, DeleteForeverTwoTone, DeleteOutlineTwoTone, Edit, HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
 import { DataGrid } from '@mui/x-data-grid'
-import { Box } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
 
 const Subdepartment = () => {
 
@@ -25,7 +25,10 @@ const Subdepartment = () => {
         data && setDept(data)
     }
     const initialvalues = {
-
+        department:"",
+        subDept:"",
+        rate:"",
+        unit:""
     }
     const handleGetSubDept = async (e) => {
         handleChange(e)
@@ -33,29 +36,37 @@ const Subdepartment = () => {
         data && setSubDept(data)
     }
 
+    const handledelete = () => { 
+        alert("hello")
+     }
+
     const columns = useMemo(dept => [
-        { field: "subDept", headerName: "Sub-Deptartment",width:150, headerClassName: 'super-app-theme--header' },
-        { field: "rate", headerName: "Rate", width:150, headerClassName: 'super-app-theme--header' },
-        { field: "unit", headerName: "Unit",width:150, headerClassName: 'super-app-theme--header' },
+        { field: "subDept", headerName: "Sub-Deptartment", width: 155, headerClassName: 'super-app-theme--header' },
+        { field: "rate", headerName: "Rate", width: 140, headerClassName: 'super-app-theme--header' },
+        { field: "unit", headerName: "Unit", width: 140, headerClassName: 'super-app-theme--header' },
         {
-            field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            field: "Action", headerName: "Action", width: 170, headerAlign: "center", headerClassName: 'super-app-theme--header',
             renderCell: (params) =>
-                <Box display="flex" justifyContent="center">
-                    <Button  variant="contained" color='error'><Delete /></Button>
-                    <Button sx={{ml:"10px"}} variant="contained" color='success' ><Edit /></Button>
+                <Box display="flex" justifyContent="center" alignItems="center">
+                   
+                    <Chip  icon={<HighlightOffRounded fontSize='small'/>} color='error' label="Delete"  size='medium'  onClick={handledelete}  />
+                   <Chip color='secondary' label="Edit" size='medium'icon={<ModeEditOutlineOutlined/>} />
+                    {/* <Button sx={{ ml: "10px" }} variant="contained" color='success' ><Edit /></Button> */}
                 </Box>
         },
     ], [])
 
+
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
-        onSubmit: async (values, { dataetForm }) => {
+        onSubmit: async (values, { resetForm }) => {
+            console.log(values)
             const { data } = await addSubDepartment(values)
             if (data.success === true) {
                 toast.success(data.message)
                 getd(data.department)
-                dataetForm({ values: null })
+                resetForm({ values: null })
             }
             if (data.success === false) {
                 toast.error(data.message)
@@ -103,12 +114,40 @@ const Subdepartment = () => {
                         type='text'
                         variant='outlined'
                         placeholder='Enter Sub Department Name'
-                        value={values.subField}
+                        value={values.subDept}
                         onBlur={handleBlur}
                         onChange={handleChange}
 
                     />
-                    {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.SubDept}</Typography> : null}
+                    {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
+                    <TextField
+                        fullWidth
+                        label="Add Rate"
+                        size='small'
+                        name='rate'
+                        type='number'
+                        variant='outlined'
+                        placeholder='Enter Rate'
+                        value={values.rate}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+
+                    />
+                    {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
+                    <TextField
+                        fullWidth
+                        label="Add Unit"
+                        size='small'
+                        name='unit'
+                        type='number'
+                        variant='outlined'
+                        placeholder='Enter Unit'
+                        value={values.unit}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+
+                    />
+                    {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
                     <Tooltip title="Add Sub-Department">
                         <Button variant="contained" color='primary' type='submit' >
                             Add
@@ -119,7 +158,7 @@ const Subdepartment = () => {
                             backgroundColor: "#3366ff",
                         },
                         display: "grid",
-                        height: "50vh",
+                        height: "40vh",
                         marginBottom: "2rem",
                     }}
                     >

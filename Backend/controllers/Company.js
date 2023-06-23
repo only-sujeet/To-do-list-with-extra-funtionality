@@ -134,7 +134,7 @@ exports.addSubDept = async (req, res) => {
         await dept.save();
 
         res.status(201)
-            .json({ success: false, message: "Sub-Department Added..." })
+            .json({ success: true, message: "Sub-Department Added..." })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

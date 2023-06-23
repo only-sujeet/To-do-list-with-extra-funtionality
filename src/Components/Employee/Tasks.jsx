@@ -10,6 +10,7 @@ import Header from '../Global/Header'
 import { CheckCircleOutlineTwoTone } from '@mui/icons-material'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs'
 
 const Tasks = () => {
