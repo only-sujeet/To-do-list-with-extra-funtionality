@@ -1,19 +1,16 @@
 
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Tooltip, Typography } from '@mui/material'
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
-import { async } from 'q';
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
-import { submitDoc } from '../../api/Employye';
 import axios from 'axios';
 
 const Submit = ({ id, checklist }) => {
 
-    const tid = id
+    
     const [open, setOpen] = React.useState(false);
-    const [url, setUrl] = React.useState("");
     const [file, setFile] = React.useState(null);
 
 

@@ -35,7 +35,6 @@ const Manage = () => {
     }, [dispatch]);
 
     return (
-
         <>
             <AdminTopbar />
             <div className={classes.content}>
