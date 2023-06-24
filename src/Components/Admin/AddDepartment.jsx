@@ -8,12 +8,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DataGrid } from '@mui/x-data-grid';
 import { useMemo } from 'react';
-import { Delete} from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 
 const AddDepartment = () => {
 
     React.useEffect(() => {
-        getDepartment(); 
+        getDepartment();
     }, []);
 
     const [dept, setDept] = React.useState();
@@ -28,7 +28,7 @@ const AddDepartment = () => {
         { field: "department", headerName: "Task Name", flex: 1, headerClassName: 'super-app-theme--header' },
         {
             field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
-            renderCell: (params) => <Button  variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
+            renderCell: (params) => <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
         },
     ], [])
 
@@ -94,21 +94,22 @@ const AddDepartment = () => {
                     backgroundColor: "#33aaff",
                 },
                 display: "grid",
-                height: "50vh",
+                height: "40vh",
                 marginBottom: "2rem",
             }}
             >
                 {dept ? <DataGrid
-                    rows={dept} 
+                    rows={dept}
                     key={row => row._id}
                     columns={columns}
                     getRowId={row => row._id}
                     getRowSpacing={getRowSpacing}
                     style={{
-                        // backgroundColor: "rgb(1,1,1,0.6)",
-                        // color: "white",
-                        marginBottom: "1rem",
+                        backgroundColor: "rgb(0,0,0,0.6)",
+                        color: "white",
                         fontSize: "1rem", fontFamily: "Josefin Sans",
+                        marginBottom: "1rem",
+                        
                     }}
                 /> : undefined}
             </Stack>

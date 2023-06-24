@@ -2,61 +2,63 @@ import { Button, Chip, MenuItem, Stack, TextField, Tooltip, Typography } from '@
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { addSubDept } from '../Validation/Admin'
-import { addSubDepartment, getDept, getSubDept, } from '../../api/Admin'
-
+import { addSubDepartment, delSubDept, editSubDept, getDept, getSubDept, getSubDeptInfo, } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMemo } from 'react'
-import { Delete, DeleteForeverTwoTone, DeleteOutlineTwoTone, Edit, HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
+import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
 import { DataGrid } from '@mui/x-data-grid'
-import { Box, IconButton } from '@material-ui/core'
+import { Box } from '@material-ui/core'
+import { useState } from 'react'
 
 const Subdepartment = () => {
+
 
     useEffect(() => {
         getDepartment();
     }, []);
 
-    const [dept, setDept] = React.useState();
-    const [subDept, setSubDept] = React.useState();
 
+    // all useState hooks 
+    const [data, setData] = useState({
+        unit: "",
+        rate: "",
+        subDept: ""
+    });
+    const [dept, setDept] = useState();
+
+    const [subDept, setSubDept] = useState();
+
+    const [loading, setloading] = useState(false);
+
+    const [open, setOpen] = useState(false)
+
+    const [editOpen, seteditOpen] = useState();
+
+
+
+    // get department function
     const getDepartment = async () => {
         const { data } = await getDept()
         data && setDept(data)
     }
-    const initialvalues = {
-        department:"",
-        subDept:"",
-        rate:"",
-        unit:""
-    }
+
+    // get sub-department function 
     const handleGetSubDept = async (e) => {
         handleChange(e)
         const data = await getSubDept({ department: e.target.value })
         data && setSubDept(data)
     }
 
-    const handledelete = () => { 
-        alert("hello")
-     }
+    // initialvalues  of sub-department
+    const initialvalues = {
+        department: "",
+        subDept: "",
+        rate: "",
+        unit: ""
+    }
 
-    const columns = useMemo(dept => [
-        { field: "subDept", headerName: "Sub-Deptartment", width: 155, headerClassName: 'super-app-theme--header' },
-        { field: "rate", headerName: "Rate", width: 140, headerClassName: 'super-app-theme--header' },
-        { field: "unit", headerName: "Unit", width: 140, headerClassName: 'super-app-theme--header' },
-        {
-            field: "Action", headerName: "Action", width: 170, headerAlign: "center", headerClassName: 'super-app-theme--header',
-            renderCell: (params) =>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                   
-                    <Chip  icon={<HighlightOffRounded fontSize='small'/>} color='error' label="Delete"  size='medium'  onClick={handledelete}  />
-                   <Chip color='secondary' label="Edit" size='medium'icon={<ModeEditOutlineOutlined/>} />
-                    {/* <Button sx={{ ml: "10px" }} variant="contained" color='success' ><Edit /></Button> */}
-                </Box>
-        },
-    ], [])
-
-
+    // Sub-Department Add Fucntion 
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
@@ -66,6 +68,7 @@ const Subdepartment = () => {
             if (data.success === true) {
                 toast.success(data.message)
                 getd(data.department)
+                setOpen(false)
                 resetForm({ values: null })
             }
             if (data.success === false) {
@@ -74,145 +77,254 @@ const Subdepartment = () => {
         }
     })
 
+    // Delete Function 
+    const handledelete = async (id, deptId) => {
+        setloading(true)
+        const data = await delSubDept(id, { deptId })
+        setloading(false)
+        if (data.success === true) {
+            toast.success(data.message)
+            getd(data.department)
+        }
+        if (data.success === false) {
+            toast.error(data.message)
+        }
+    }
+
+    // get sub-department 
     const getd = async (value) => {
         const data = await getSubDept({ department: value })
         data && setSubDept(data)
     }
 
+    // get sub-department single data
+    const getSubDeptDetails = async (subDept, deptId) => {
+        seteditOpen(true)
+        const data = await getSubDeptInfo({ subDept, deptId })
+        data && setData(data)
+    }
+    // Edit sub-department function
+    const handleEdit = (e) => {
+        const { name, value } = e.target
 
+        setData(
+            {
+                ...data,
+                [name]: value
+            }
+        )
+
+    }
+    const handleSubmitForm = async (e) => {
+        e.preventDefault();
+
+        const res = await editSubDept(data)
+        if (res.success === true) {
+            toast.success(res.message)
+            getd(res.dept.department)
+            seteditOpen(false)
+        }
+        if (data.success === false) {
+            toast.error(data.message)
+        }
+
+    }
+    console.log(data)
+    const columns = useMemo(dept => [
+        { field: "subDept", headerName: "Sub-Deptartment", width: 155, headerClassName: 'super-app-theme--header' },
+        { field: "rate", headerName: "Rate", width: 140, headerClassName: 'super-app-theme--header' },
+        { field: "unit", headerName: "Unit", width: 140, headerClassName: 'super-app-theme--header' },
+        {
+            field: "Action", headerName: "Action", width: 170, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            renderCell: (params) =>
+                <Box display="flex" justifyContent="center" alignItems="center">
+                    <Chip color='secondary' label="Edit" size='medium' onClick={() => getSubDeptDetails(params.row.subDept, params.row.deptId)} icon={<ModeEditOutlineOutlined />} />
+                    <Chip icon={<HighlightOffRounded fontSize='small' />} color='error' label="Delete" size='medium' disabled={loading} onClick={() => handledelete(params.row._id, params.row.deptId)} />
+                </Box>
+        },
+    ], [])
 
     return (
         <div>
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
-            <form action="" onSubmit={handleSubmit}>
-                <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-                    <TextField
-                        select
-                        fullWidth
-                        label="Select Department"
-                        size='small'
-                        name='department'
-                        type='text'
-                        variant='standard'
-                        onChange={handleGetSubDept}
-                        value={values.company}
-                        onBlur={handleBlur}
-                    >
-                        {
-                            dept && dept?.map((data) => (
-                                <MenuItem value={data.department}>{data.department}</MenuItem>
-                            ))
-                        }
-                    </TextField>
-                    {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
+
+            {/* Update sub-department form  */}
+
+            {editOpen && <form action="" onSubmit={handleSubmitForm}>
+                <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mt="2rem" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+                    <Typography variant="h4" color="textSecondary" fontWeight="bold">Upadet Sub-Department</Typography>
                     <TextField
                         fullWidth
-                        label="Add Sub-Department"
                         size='small'
                         name='subDept'
                         type='text'
                         variant='outlined'
                         placeholder='Enter Sub Department Name'
-                        value={values.subDept}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
+                        required
+                        value={data.subDept}
+                        onChange={handleEdit}
 
                     />
-                    {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
+
                     <TextField
                         fullWidth
-                        label="Add Rate"
+                        label="Rate"
                         size='small'
                         name='rate'
                         type='number'
                         variant='outlined'
-                        placeholder='Enter Rate'
-                        value={values.rate}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
+                        placeholder='Enter Sub Department Name'
+                        value={data.rate}
+                        onChange={handleEdit}
+                        required
 
                     />
-                    {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
                     <TextField
                         fullWidth
-                        label="Add Unit"
+                        label="Unit"
                         size='small'
                         name='unit'
-                        type='number'
+                        type='text'
                         variant='outlined'
-                        placeholder='Enter Unit'
-                        value={values.unit}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-
+                        placeholder='Enter Sub Department Name'
+                        value={data.unit}
+                        onChange={handleEdit}
+                        required
                     />
-                    {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
-                    <Tooltip title="Add Sub-Department">
-                        <Button variant="contained" color='primary' type='submit' >
-                            Add
-                        </Button>
-                    </Tooltip>
-                    <Stack sx={{
-                        '& .super-app-theme--header': {
-                            backgroundColor: "#3366ff",
-                        },
-                        display: "grid",
-                        height: "40vh",
-                        marginBottom: "2rem",
-                    }}
-                    >
-                        {subDept ? <DataGrid
-                            rows={subDept}
-                            key={row => row._id}
-                            columns={columns}
-                            getRowId={row => row._id}
-
-                            style={{
-                                backgroundColor: "rgb(0,0,0,0.6)",
-                                color: "white",
-                                marginBottom: "1rem",
-                                fontSize: "1rem", fontFamily: "Josefin Sans",
-                            }}
-                        /> : undefined}
+                    <Stack direction={"row"}>
+                        <Tooltip x title="Add Sub-Department">
+                            <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' >
+                                update
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Add Sub-Department">
+                            <Button variant="contained" color='error' onClick={() => seteditOpen(false)}>
+                                Cancle
+                            </Button>
+                        </Tooltip>
                     </Stack>
-
-                    {/* <TableContainer component={Paper}>
-                        <Table aria-label='a dense table' size='small'>
-                            <TableHead sx={{ backgroundColor:"lightskyblue" }} >
-                                <TableRow>
-                                    <TableCell align='center' ><b> Sub-Departments</b>  </TableCell>
-
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {
-                                    subDept && subDept?.map((data) => (
-                                        <TableRow key={data}>
-                                            <TableCell>{data.}</TableCell>
-                                        </TableRow>
-                                    ))
-                                }
-
-                            </TableBody>
-
-                        </Table>
-                    </TableContainer> */}
-                    {/* {subDept ? <DataGrid
-                        rows={subDept}
-                        key={row => row.data}
-                        sx={{ fontSize: "1rem", fontFamily: "sans-serif", backgroundColor: "skyblue" }}
-                        columns={columns}
-                        getRowId={row => row.data}
-
-                    ></DataGrid> : undefined} */}
-
                 </Stack>
-            </form>
+            </form>}
+
+            {/*Add New sub-department form  */}
+            {
+                !editOpen && <form action="" onSubmit={handleSubmit}>
+                    <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
+
+                        <TextField
+                            select
+                            fullWidth
+                            label="Select Department  for "
+                            size='small'
+                            name='department'
+                            type='text'
+                            variant='standard'
+                            onChange={handleGetSubDept}
+                            value={values.company}
+                            onBlur={handleBlur}
+                        >
+                            {
+                                dept && dept?.map((data) => (
+                                    <MenuItem value={data.department}>{data.department}</MenuItem>
+                                ))
+                            }
+                        </TextField>
+                        {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
+
+                        {open &&
+                            <>
+
+                                <TextField
+                                    id=""
+                                    label="Sub-Department"
+                                    size='small'
+                                    onChange={handleChange}
+                                    name='subDept'
+                                    placeholder='Enter Sub-department'
+                                    value={values.subDept}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
+                                <TextField
+                                    fullWidth
+                                    label="Add Rate"
+                                    size='small'
+                                    name='rate'
+                                    type='number'
+                                    variant='outlined'
+                                    placeholder='Enter Rate'
+                                    value={values.rate}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+
+                                />
+                                {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
+                                <TextField
+                                    fullWidth
+                                    label="Add Unit"
+                                    size='small'
+                                    name='unit'
+                                    variant='outlined'
+                                    placeholder='Enter Unit'
+                                    value={values.unit}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+
+                                />
+                                {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
+                                <Stack direction={"row"}>
+                                    <Tooltip x title="Add Sub-Department">
+                                        <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' >
+                                            Add
+                                        </Button>
+                                    </Tooltip>
+                                    <Tooltip title="Add Sub-Department">
+                                        <Button variant="contained" color='error' onClick={() => setOpen(false)}>
+                                            Cancle
+                                        </Button>
+                                    </Tooltip>
+                                </Stack>
+                            </>
+                        }
+                        {subDept &&
+                            <>
+                                {!open && <Stack sx={{
+                                    '& .super-app-theme--header': {
+                                        backgroundColor: "#3366ff",
+                                    },
+                                    display: "grid",
+                                    height: "40vh",
+
+                                }}
+                                >
+                                    <Button variant='contained' onClick={() => setOpen(true)} sx={{ width: "40%", height: "50%", justifySelf: "end", }}>Add New Department</Button>
+                                    <DataGrid
+                                        rows={subDept}
+                                        key={row => row._id}
+                                        columns={columns}
+                                        getRowId={row => row._id}
+
+                                        style={{
+                                            backgroundColor: "rgb(0,0,0,0.6)",
+                                            color: "white",
+
+                                            fontSize: "1rem", fontFamily: "Josefin Sans",
+                                        }}
+                                    />
+                                </Stack>}
+                            </>
+
+                        }
+
+                    </Stack>
+                </form>
+            }
+
+            {/*ToastContainer for display pop-up messages  */}
             <ToastContainer
                 position="top-center"
-                autoClose={3000}
+                autoClose={2000}
                 hideProgdatasBar={true}
                 newestOnTop={false}
                 closeButton={false}
@@ -221,8 +333,9 @@ const Subdepartment = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="colored" />
-        </div>
+                theme="colored"
+            />
+        </div >
     )
 }
 

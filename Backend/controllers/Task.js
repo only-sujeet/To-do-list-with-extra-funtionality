@@ -5,10 +5,10 @@ exports.addTask = async (req, res) => {
     try {
         console.log(req.body)
 
-        const { name, rate, unit, department, instruction, taskDependency, startDate, endDate } = req.body.values
+        const { name, department, instruction, taskDependency, startDate, endDate } = req.body.values
+        const { unit, rate } = req.body.subDeptDetails
 
-
-        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, status: "Created", checkList: req.body.val,company: req.admin.company, })
+        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, status: "Created", checkList: req.body.val, company: req.admin.company, })
         await task.save();
         res.status(200).json({
             success: true, message: "Successfully Created Task",
@@ -22,9 +22,9 @@ exports.addTask = async (req, res) => {
 
 exports.getTask = async (req, res) => {
     try {
-        
-       
-        const task =     await Task.find({company:req.admin.company, status:"Created"})
+
+
+        const task = await Task.find({ company: req.admin.company, status: "Created" })
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",
@@ -57,7 +57,7 @@ exports.assignTask = async (req, res) => {
     try {
         const { empId, taskId } = req.body
         const emp = await People.findById(empId)
-        const task = await Task.findById(taskId) 
+        const task = await Task.findById(taskId)
 
         task.status = "assign"
         await task.save();

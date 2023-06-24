@@ -24,7 +24,7 @@ export const addSubDept = yup.object({
     department: yup.string().required("Please Select Department"),
     subDept: yup.string().required("Please Enter Sub-Department"),
     rate: yup.number().required("Please Enter Rate"),
-    unit: yup.number().required("Please Enter Unit")
+    unit: yup.string().required("Please Enter Unit")
 })
 export const addprofile = yup.object({
     department: yup.string().required("Please Select Department"),

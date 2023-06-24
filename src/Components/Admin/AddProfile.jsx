@@ -69,7 +69,7 @@ const AddProfile = () => {
                     </Box>
                     <form>
                         <TextField
-                            sx={{ my: "2rem" }}
+                            
                             placeholder='Search Emloyees By Name & Department'
                             id=""
                             label=""
@@ -83,13 +83,13 @@ const AddProfile = () => {
                         <Grid container spacing={2}>
 
                             {!loading &&
-                                people <= 0 ? <Typography variant="h2" color="initial" m='20px auto'  >No Profile Added</Typography> : people?.map((data) => (
+                                people <= 0 ? <Typography variant="h2" color="initial" m='20px auto'  >Employee not found</Typography> : people?.map((data) => (
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
-                                        <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", }} elevation={3} variant="elevation"  >
+                                        <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", border:"1px solid black" , boxShadow:"2px 2px 6px" , margin:"2rem 0"}} elevation={3} variant="elevation"  >
                                             <CardMedia
 
-                                                style={{ cursor: "pointer", height: "180px", }}
+                                                style={{ cursor: "pointer",width:"220px" , height: "220px", margin:"20px auto" , padding:"10px",borderRadius: "110px" }}
                                                 image={`http://localhost:5000/Image/${data.Image}`}
                                             />
                                             <CardContent sx={{ maxHeight: 100 }}>

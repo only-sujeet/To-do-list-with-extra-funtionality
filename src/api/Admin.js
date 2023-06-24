@@ -1,10 +1,10 @@
 import axios from "axios"
 
-const url = "http://localhost:5000/api/admin"
+
 
 export const adminRegister = async (values) => {
     try {
-        const { data } = await axios.post(`${url}/register`, values)
+        const { data } = await axios.post(`/api/admin/register`, values)
         return data
     } catch (error) {
         if (error.response) {
@@ -24,28 +24,12 @@ export const adminLogin = async (values) => {
         }
     }
 }
-export const addCompany = async (values) => {
-    try {
-        const { data } = await axios.post('http://localhost:5000/api/admin/addCompany', values)
-        return data
-    } catch (error) {
-        if (error.response) {
-            return error.response.data
-        }
-    }
-}
 
-export const deleteCompany = async (id) => {
-    try {
-        const { data } = await axios.delete(`${url}/deleteCompany/${id}`)
-        return data
-    } catch (error) {
-        if (error.response) {
-            return error.response.data
-        }
-    }
-}
 
+
+// Maname Department & Sub-Department  Api 
+
+// Add new department 
 export const addDepartment = async (values) => {
     try {
         const { data } = await axios.post('/api/admin/addField', values)
@@ -57,8 +41,7 @@ export const addDepartment = async (values) => {
     }
 }
 
-
-
+// Get all Department 
 export const getDept = async (values) => {
     try {
         const data = await axios.get('api/admin/getDept', { company: values })
@@ -68,8 +51,7 @@ export const getDept = async (values) => {
     }
 }
 
-
-
+// Add new sub-department 
 export const addSubDepartment = async (values) => {
     try {
         const data = await axios.post('api/admin/addSubDept', values)
@@ -79,9 +61,7 @@ export const addSubDepartment = async (values) => {
     }
 }
 
-
-
-
+// Get all  sub-department
 export const getSubDept = async (values) => {
     try {
         const { data } = await axios.post('/api/admin/getSubDept', values)
@@ -92,7 +72,7 @@ export const getSubDept = async (values) => {
 }
 
 
-
+// Get single sub-department details 
 export const getSubDeptDetails = async (valuse) => {
     try {
         const { data } = await axios.post('/api/admin/getSubDeptDetail', valuse)
@@ -101,6 +81,38 @@ export const getSubDeptDetails = async (valuse) => {
         return error
     }
 }
+
+export const getSubDeptInfo = async (valuse) => {
+    try {
+        const { data } = await axios.post('/api/admin/getSubDeptinfo', valuse)
+        return data
+    } catch (error) {
+        return error
+    }
+}
+
+
+export const editSubDept = async (valuse) => {
+    try {
+        const { data } = await axios.put(`/api/admin/subDept/`, valuse)
+        return data
+    } catch (error) {
+        return error
+    }
+}
+
+
+// Delete sub-department 
+export const delSubDept = async (id, deptId) => {
+    try {
+        const { data } = await axios.post(`api/admin/subDept/${id}`, deptId)
+        return data
+    } catch (error) {
+        return error
+    }
+}
+
+
 
 
 export const addPeople = async (values) => {
@@ -122,7 +134,7 @@ export const addPeople = async (values) => {
 
 export const deletePeople = async (id) => {
     try {
-        const { data } = await axios.delete(`${url}/deletePeople/${id}`)
+        const { data } = await axios.delete(`/api/admin/deletePeople/${id}`)
         return data
     } catch (error) {
         if (error.response) {
@@ -133,7 +145,7 @@ export const deletePeople = async (id) => {
 }
 export const blockPeople = async (id) => {
     try {
-        const { data } = await axios.post(`${url}/blockPeople/${id}`)
+        const { data } = await axios.post(`/api/admin/blockPeople/${id}`)
         return data
     } catch (error) {
         if (error.response) {
@@ -144,7 +156,7 @@ export const blockPeople = async (id) => {
 }
 export const unBlockPeople = async (id) => {
     try {
-        const { data } = await axios.post(`${url}/unBlockPeople/${id}`)
+        const { data } = await axios.post(`/api/admin/unBlockPeople/${id}`)
         return data
     } catch (error) {
         if (error.response) {
@@ -154,10 +166,10 @@ export const unBlockPeople = async (id) => {
     }
 }
 
-export const createTask = async (values, val) => {
+export const createTask = async (values, val, subDeptDetails) => {
     try {
 
-        const { data } = await axios.post('/api/admin/addTask', { values, val })
+        const { data } = await axios.post('/api/admin/addTask', { values, val, subDeptDetails })
         return data
     } catch (error) {
         if (error.response) {

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
-import {  getTask } from '../../Redux/Action/Admin';
+import { getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,7 +39,7 @@ const AddTask = () => {
         setOpen(true);
     };
 
-   
+
 
     const handleAdd = () => {
         const abc = [...val, []]
@@ -74,17 +74,15 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
-            console.log(values)
-            console.log(subDeptDetails)
-            // const res = await createTask(values, val)
-            // if (res.success === true) {
-            //     toast.success(res.message)
-            //     resetForm({ values: "" })
-            //     dispatch(getTask())
-            // }
-            // if (res.success === false) {
-            //     toast.error(res.message)
-            // }
+            const res = await createTask(values, val, subDeptDetails)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: "" })
+                dispatch(getTask())
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
 
         }
     })
@@ -190,7 +188,7 @@ const AddTask = () => {
                                             label="Rate"
                                             name='rate'
                                             type="number"
-                                            value={subDeptDetails && subDeptDetails.rate }
+                                            value={subDeptDetails && subDeptDetails.rate}
                                             aria-readonly
                                             onChange={handleChange}
                                         />

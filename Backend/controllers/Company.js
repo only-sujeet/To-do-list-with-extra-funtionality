@@ -1,58 +1,11 @@
+const { deploymentmanager } = require("googleapis/build/src/apis/deploymentmanager");
 const Company = require("../Models/Admin/Company");
 const Admin = require("../Models/Admin/Login");
 const Department = require("../Models/Admin/dept");
 
-exports.addCompany = async (req, res) => {
-    try {
-        const { company } = req.body;
 
-        let comp = await Company.findOne({ company });
-        if (comp) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Company already exists....." });
-        }
-        comp = await Company.create({ company });
-        res.status(200).json({ success: true, message: "Successfully Added...." });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
-exports.GetCompany = async (req, res) => {
-    try {
-        const comp = await Company.find({});
-        if (comp < 0) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Company not found.." });
-        }
 
-        res.send(comp);
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
 
-exports.deleteCompany = async (req, res) => {
-    try {
-        const request = await Company.findById(req.params._id);
-        if (!request) {
-            return res
-                .status(400)
-                .json({ success: false, message: "Company Not Found...." });
-        }
-        const reject = await Company.deleteOne({ _id: req.params._id });
-        res.status(200).json({
-            success: true,
-            message: "Successfully Deleted Company....",
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
-    }
-};
 
 exports.addDept = async (req, res) => {
     try {
@@ -109,6 +62,8 @@ exports.DeleteDept = async (req, res) => {
     }
 };
 
+
+
 exports.addSubDept = async (req, res) => {
 
     try {
@@ -118,7 +73,8 @@ exports.addSubDept = async (req, res) => {
         const data = {
             subDept,
             unit,
-            rate
+            rate,
+            deptId: dept._id
         }
         let subDeptExits = false
         dept.subDepts.forEach((item) => {
@@ -135,7 +91,7 @@ exports.addSubDept = async (req, res) => {
         await dept.save();
 
         res.status(201)
-            .json({ success: true, message: "Sub-Department Added..." })
+            .json({ department, success: true, message: "Sub-Department Added..." })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -173,11 +129,32 @@ exports.getSubDeptDetail = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+exports.getSubDeptinfo = async (req, res) => {
+    try {
+        const { deptId, subDept } = req.body
+        if (!deptId || !subDept) {
+            return res
+                .status(400)
+                .json({ success: false, message: " Something went wrong " });
+        }
+
+        const dept = await Department.findById(deptId)
+        let indexNO = ""
+        dept.subDepts.forEach((item, index) => {
+            if (item.subDept.toString() === req.body.subDept.toString()) {
+                indexNO = index
+            }
+        })
+        res.send(dept.subDepts[indexNO])
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
 
 exports.editSubDept = async (req, res) => {
     try {
-        const { department, subDept, unit, rate } = req.body
-        const dept = await Department.findOne({ company: req.admin.company, department })
+        const { deptId, subDept, unit, rate, _id } = req.body
+        const dept = await Department.findById(deptId)
         const data = {
             subDept,
             unit,
@@ -186,11 +163,12 @@ exports.editSubDept = async (req, res) => {
         let subDeptexists = false
         let indexNO = ""
         dept.subDepts.forEach((item, index) => {
-            if (item._id.toString() === req.params.id.toString()) {
+            if (item._id.toString() === req.body._id.toString()) {
                 subDeptexists = true
                 indexNO = index
             }
         })
+
         if (subDeptexists) {
             dept.subDepts[indexNO].subDept = subDept
             dept.subDepts[indexNO].unit = unit
@@ -198,7 +176,7 @@ exports.editSubDept = async (req, res) => {
 
             dept.save();
             res.status(201)
-                .json({ success: false, message: "Sub-Department Updated..." })
+                .json({ dept, success: true, message: "Sub-Department Updated..." })
 
         } else {
             res.status(201)
@@ -213,8 +191,9 @@ exports.editSubDept = async (req, res) => {
 
 exports.deleteSubDept = async (req, res) => {
     try {
-        const { department } = req.body
-        const dept = await Department.findOne({ company: req.admin.company, department })
+        const { deptId } = req.body
+
+        const dept = await Department.findById(deptId)
 
         let subDeptexists = false
         let indexNO = ""
@@ -229,13 +208,12 @@ exports.deleteSubDept = async (req, res) => {
             dept.save();
 
             res.status(201)
-                .json({ dept, success: false, message: "Sub-Department Deleted..." })
+                .json({ department: dept.department, success: true, message: "Sub-Department Deleted..." })
 
         } else {
             res.status(201)
                 .json({ success: false, message: "Sub-Department Not Found" })
         }
-
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

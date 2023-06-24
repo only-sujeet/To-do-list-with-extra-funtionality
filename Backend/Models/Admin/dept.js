@@ -4,28 +4,32 @@ const { default: mongoose } = require("mongoose");
 const companySchema = mongoose.Schema({
     company: {
         type: String,
-        required:[true]
+        required: [true]
     },
 
-    department:{
+    department: {
         type: String,
-        required:[true]
+        required: [true]
     },
-    subDepts:[
+    subDepts: [
         {
-            subDept:{
-                type:String,
-                required:true,
+            subDept: {
+                type: String,
+                required: true,
             },
-            unit:{
-                type:String,
-                required:true,
+            deptId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Department",
             },
-            rate:{
-                type:String,
-                required:true,
+            unit: {
+                type: String,
+                required: true,
+            },
+            rate: {
+                type: String,
+                required: true,
             },
         }
     ]
-    })
+})
 module.exports = mongoose.model("Department", companySchema)
