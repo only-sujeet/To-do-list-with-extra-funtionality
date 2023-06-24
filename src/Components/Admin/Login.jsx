@@ -20,9 +20,11 @@ const layout = makeStyles(theme =>
     boxShadow: "3px 3px 6px",
     [theme.breakpoints.up('xs')]: {
       // backgroundColor: 'purple',
-      margin: "230px auto",
+      // margin: "230px auto",
+      borderRadius:"0px",
+      boxShadow:"0px 0px 0px",
       width: "80vw",
-      height: "45vh",
+      height: "100%",
     },
     [theme.breakpoints.up('sm')]: {
       // backgroundColor: 'red',
@@ -69,7 +71,7 @@ const layout = makeStyles(theme =>
   },
   head: {
     fontFamily: "Yrsa",
-    margin: "auto",
+    margin: "10px auto",
   }
 })
 )

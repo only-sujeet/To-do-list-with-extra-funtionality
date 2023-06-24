@@ -1,11 +1,10 @@
 import { AddTaskTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, FormControlLabel, Radio, Divider } from '@mui/material'
 import { useFormik } from 'formik';
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
-import {  getTask } from '../../Redux/Action/Admin';
+import { getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +24,24 @@ const AddTask = () => {
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
     const [subDeptDetails, setSubDeptDetails] = React.useState();
+    const [status, setStatus] = useState(false)
+    const [daysdata, setDaysdata] = useState({
+        number: "",
+        selection: ""
+    })
+
+    const handleday = (event) => {
+        setDaysdata({
+            ...daysdata, [event.target.name]: event.target.value
+        })
+    }
+
+    const submitDay = (event) => {
+        event.preventDefault();
+        // console.log(daysdata)
+    }
+
+
 
     const getDepartment = async () => {
         const { data } = await getDept()
@@ -39,7 +56,11 @@ const AddTask = () => {
         setOpen(true);
     };
 
-   
+    const handler = (status) => {
+        setStatus(status)
+    }
+
+
 
     const handleAdd = () => {
         const abc = [...val, []]
@@ -76,6 +97,8 @@ const AddTask = () => {
         onSubmit: async (values, { resetForm }) => {
             console.log(values)
             console.log(subDeptDetails)
+            console.log(val)
+            console.log(daysdata)
             // const res = await createTask(values, val)
             // if (res.success === true) {
             //     toast.success(res.message)
@@ -102,7 +125,7 @@ const AddTask = () => {
         data && setSubDeptDetails(data)
     }
 
-    console.log(values)
+    // console.log(values)
     // console.log(subDeptDetails)
     return (
         <div>
@@ -112,7 +135,7 @@ const AddTask = () => {
                 </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
-                PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
+                PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit}>
@@ -190,7 +213,7 @@ const AddTask = () => {
                                             label="Rate"
                                             name='rate'
                                             type="number"
-                                            value={subDeptDetails && subDeptDetails.rate }
+                                            value={subDeptDetails && subDeptDetails.rate}
                                             aria-readonly
                                             onChange={handleChange}
                                         />
@@ -231,44 +254,113 @@ const AddTask = () => {
                                 />
                                 {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
                             </Grid>
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="startDate"
-                                    label="Start Date"
-                                    name='startDate'
-                                    type="date"
-                                    InputLabelProps={{ shrink: true, }}
-                                    value={values.startDate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.startDate && touched.startDate ? <Typography variant="caption" color="error">{errors.startDate}</Typography> : null}
-                            </Grid>
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    variant='standard'
-                                    color='secondary'
-                                    id="endDate"
-                                    label="End Date"
-                                    name='endDate'
-                                    type="date"
-                                    InputLabelProps={{ shrink: true, }}
-                                    value={values.endDate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
-                            </Grid>
+                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <FormControl>
+                                    <Typography variant="body1" color="initial">Do You Want Enter Start Date and Ending Date :</Typography>
+                                    <RadioGroup row aria-label="dategroup" defaultValue="number" name='date group'>
 
+                                        <FormControlLabel value='date' label={<Typography variant="h4" color="initial">Yes</Typography>} control={<Radio onClick={(e) => { handler(true) }} />}></FormControlLabel>
+                                        <FormControlLabel value='number' label={<Typography variant="h4" color="initial">No</Typography>} control={<Radio onClick={(e) => { handler(false) }} />}></FormControlLabel>
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                            {status === true && <Grid container spacing={2} sx={{ margin: "0px 10px" }}  >
+                                <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <TextField
+                                        fullWidth
+                                        variant='standard'
+                                        color='secondary'
+                                        id="startDate"
+                                        label="Start Date"
+                                        name='startDate'
+                                        type="date"
+                                        InputLabelProps={{ shrink: true, }}
+                                        value={values.startDate}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors.startDate && touched.startDate ? <Typography variant="caption" color="error">{errors.startDate}</Typography> : null}
+                                </Grid>
+                                <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <TextField
+                                        fullWidth
+                                        variant='standard'
+                                        color='secondary'
+                                        id="endDate"
+                                        label="End Date"
+                                        name='endDate'
+                                        type="date"
+                                        InputLabelProps={{ shrink: true, }}
+                                        value={values.endDate}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
+                                </Grid>
+
+                            </Grid>
+                            }
+                            {status === false &&
+                                <form action="" style={{ marginRight: "20px" }} >
+                                    <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
+                                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                                            <TextField
+                                                fullWidth
+                                                required
+                                                variant='standard'
+                                                color='secondary'
+                                                id="number"
+                                                label="Number"
+                                                name='number'
+                                                type="number"
+
+                                                value={daysdata.number}
+                                                onChange={handleday}
+
+                                            />
+                                        </Grid>
+                                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                                            <FormControl variant='filled' fullWidth>
+                                                <InputLabel color='secondary'>Duration</InputLabel>
+                                                <Select
+                                                    required
+                                                    color='secondary'
+                                                    id='selection'
+                                                    label="Select Duration"
+                                                    name='selection'
+                                                    value={daysdata.selection}
+                                                    onChange={handleday}
+
+                                                >
+                                                    <MenuItem value="Minute">Minute</MenuItem>
+                                                    <MenuItem value="Hour">Hour</MenuItem>
+                                                    <MenuItem value="Day">Day</MenuItem>
+                                                    <MenuItem value="Month">Month</MenuItem>
+                                                    <MenuItem value="Year">Year</MenuItem>
+
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                                            <Typography variant="subtitle2" color="initial">Click Below Button to add Duration</Typography>
+                                            <Button variant="contained" color="secondary" type='submit' onClick={submitDay}>
+                                                Add
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            }
+                            {/* <Divider variant='middle' /> */}
+                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <Divider variant='middle'>
+                                    <Typography variant='caption'>Add Check List</Typography>
+                                </Divider>
+                            </Grid>
                             <Grid item lg={8} sm={8} xs={8} md={8}>
-                                <Typography variant="h5" color="initial">Add Check List</Typography>
+                            <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
                             </Grid>
                             <Grid item lg={4} sm={4} xs={4} md={4}>
-                                <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}>
+                                <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}  >
                                     Add Column
                                 </Button>
                             </Grid>

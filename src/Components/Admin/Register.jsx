@@ -10,6 +10,7 @@ import { register } from '../Validation/Admin'
 import { adminRegister } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -18,19 +19,20 @@ const Register = () => {
     password: "",
     company: "",
   }
-
+  const navigate = useNavigate()
   const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: register,
     onSubmit: async (values, { resetForm }) => {
-      const  res  = await adminRegister(values)
+      const res = await adminRegister(values)
       if (res.success === true) {
-            toast.success(res.message)
-            resetForm({ values: "" })
-        }
-        if (res.success === false) {
-            toast.error(res.message)
-        }
+        toast.success(res.message)
+        resetForm({ values: "" })
+        navigate("/login")
+      }
+      if (res.success === false) {
+        toast.error(res.message)
+      }
       // console.log(data)
     }
 
