@@ -3,17 +3,21 @@ const Task = require("../Models/Admin/Task")
 
 exports.addTask = async (req, res) => {
     try {
-        console.log(req.body)
+
 
         const { name, department, instruction, taskDependency, startDate, endDate } = req.body.values
         const { unit, rate } = req.body.subDeptDetails
+        const { number, selection } = req.body.daysdata
 
-        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, status: "Created", checkList: req.body.val, company: req.admin.company, })
+        const timeDuration = number + " " + selection
+
+        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, timeDuration, status: "Created", checkList: req.body.val, company: req.admin.company, })
         await task.save();
         res.status(200).json({
             success: true, message: "Successfully Created Task",
             task
         })
+
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -59,6 +63,47 @@ exports.assignTask = async (req, res) => {
         const emp = await People.findById(empId)
         const task = await Task.findById(taskId)
 
+        const findSecondWord = (sentence) => {
+            const words = sentence.match(/\b\w+\b/g);
+
+            if (words && words.length >= 2) {
+                return words[1];
+            }
+        };
+        const findFirstWord = (sentence) => {
+            const words = sentence.match(/\b\w+\b/g);
+            if (words && words.length >= 2) {
+                return words[0];
+            }
+        };
+        if (task.timeDuration) {
+            const durationNumber = findFirstWord(task.timeDuration)
+            const durationType = findSecondWord(task.timeDuration)
+
+            task.startDate = Date.now()
+            console.log(durationType, durationNumber)
+
+            if (durationType === "Minute") {
+                task.endDate = Date.now() + durationNumber * 60 * 1000
+            }
+            if (durationType === "Hour") {
+                task.endDate = Date.now() + durationNumber * 60 * 60 * 1000
+            }
+            if (durationType === "Day") {
+                task.endDate = Date.now() + durationNumber * 24 * 60 * 60 * 1000
+            }
+            if (durationType === "Month") {
+
+                const endDate = new Date(Date.now());
+                endDate.setMonth(endDate.getMonth() + Number(durationNumber));
+                task.endDate = endDate
+            }
+            if (durationType === "Year") {
+                const currentDate = new Date();
+                task.endDate = endDate = new Date(currentDate.getFullYear() + Number(durationNumber), currentDate.getMonth(), currentDate.getDate());
+
+            }
+        }
         task.status = "assign"
         await task.save();
 

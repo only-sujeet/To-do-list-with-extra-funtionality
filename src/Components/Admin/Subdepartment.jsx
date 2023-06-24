@@ -156,6 +156,7 @@ const Subdepartment = () => {
                     <Typography variant="h4" color="textSecondary" fontWeight="bold">Upadet Sub-Department</Typography>
                     <TextField
                         fullWidth
+                        label="Sub-Department"
                         size='small'
                         name='subDept'
                         type='text'

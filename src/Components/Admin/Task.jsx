@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import {  makeStyles, } from '@material-ui/core'
+import { makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
 import { Box, Stack, Tooltip, Zoom } from '@mui/material';
 import Header from '../Global/Header';
@@ -37,9 +37,10 @@ const Task = () => {
         { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
         { field: "department", headerName: "Department", width: 130, headerClassName: "header" },
         { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", },
-        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => {<Tooltip sx={{maxWidth:500,}}  title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip>} },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header" ,valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),},
-        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header",valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> } },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header" },
         { field: "status", headerName: "Status", width: 120, headerClassName: "header" },
         {
             headerName: "Action", headerClassName: "header",
@@ -83,7 +84,7 @@ const Task = () => {
                                 columns={columns}
                                 getRowId={row => row._id}
                                 options={options}
-                                 sx={{
+                                sx={{
                                     '& .header': {
                                         backgroundColor: "#3366ff",
                                     },

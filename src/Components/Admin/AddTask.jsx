@@ -95,19 +95,17 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm }) => {
-            console.log(values)
-            console.log(subDeptDetails)
-            console.log(val)
-            console.log(daysdata)
-            // const res = await createTask(values, val)
-            // if (res.success === true) {
-            //     toast.success(res.message)
-            //     resetForm({ values: "" })
-            //     dispatch(getTask())
-            // }
-            // if (res.success === false) {
-            //     toast.error(res.message)
-            // }
+
+            const res = await createTask(values, subDeptDetails, val, daysdata)
+            if (res.success === true) {
+                toast.success(res.message)
+                resetForm({ values: null })
+                setSubDeptDetails(null)
+                dispatch(getTask())
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
 
         }
     })
@@ -303,14 +301,18 @@ const AddTask = () => {
                             {status === false &&
                                 <form action="" style={{ marginRight: "20px" }} >
                                     <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
+                                        <Grid item lg={12} sm={12} xs={12} md={6}>
+                                            <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
+                                        </Grid>
                                         <Grid item lg={6} sm={12} xs={12} md={6}>
+
                                             <TextField
                                                 fullWidth
                                                 required
                                                 variant='standard'
                                                 color='secondary'
-                                                id="number"
-                                                label="Number"
+                                                id="Durationnumber"
+                                                label="Duration Number"
                                                 name='number'
                                                 type="number"
 
@@ -326,7 +328,7 @@ const AddTask = () => {
                                                     required
                                                     color='secondary'
                                                     id='selection'
-                                                    label="Select Duration"
+                                                    label="Select Duration Type"
                                                     name='selection'
                                                     value={daysdata.selection}
                                                     onChange={handleday}
@@ -357,7 +359,7 @@ const AddTask = () => {
                                 </Divider>
                             </Grid>
                             <Grid item lg={8} sm={8} xs={8} md={8}>
-                            <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
+                                <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
                             </Grid>
                             <Grid item lg={4} sm={4} xs={4} md={4}>
                                 <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}  >

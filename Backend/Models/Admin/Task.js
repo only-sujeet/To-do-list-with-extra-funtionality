@@ -28,11 +28,11 @@ const taskSchema = mongoose.Schema({
     },
     startDate: {
         type: Date,
-        required: [true, "Please enter staring date"]
+       
     },
     endDate: {
         type: Date,
-        required: [true, "Please enter ending date"]
+       
     },
     checkList: [],
     status: {
@@ -45,6 +45,10 @@ const taskSchema = mongoose.Schema({
     },
     document: {
         type: String,
+    },
+    timeDuration: {
+        type: String,
+        default: "--"
     },
     fileName: String,
     driveLink: String,

@@ -200,9 +200,9 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
-            <ToastContainer
+            {/* <ToastContainer
                 position="top-center"
-                autoClose={3000}
+                autoClose={1000}
                 hideProgressBar={true}
                 newestOnTop={false}
                 closeButton={false}
@@ -211,7 +211,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="colored" />
+                theme="colored" /> */}
         </div>
     )
 }
