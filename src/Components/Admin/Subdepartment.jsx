@@ -101,17 +101,11 @@ const Subdepartment = () => {
     // get sub-department single data
     const getSubDeptDetails = async (subDept, deptId) => {
         seteditOpen(true)
-        const { data } = await getSubDeptInfo({ subDept, deptId })
+        const  data  = await getSubDeptInfo({ subDept, deptId })
         data && setData(data)
-        if (data.success === true) {
-            toast.success(data.message)
-            getd(data.department)
-            setOpen(false)
-            // resetForm({ values: null })
-        }
         if (data.success === false) {
             toast.error(data.message)
-            
+            seteditOpen(false)
         }
     }
     // Edit sub-department function
@@ -164,7 +158,7 @@ const Subdepartment = () => {
 
             {editOpen && <form action="" onSubmit={handleSubmitForm}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mt="2rem" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
-                    <Typography variant="h4" color="textSecondary" fontWeight="bold">Upadet Sub-Department</Typography>
+                    <Typography variant="h4" color="textSecondary" fontWeight="bold">Update Sub-Department</Typography>
                     <TextField
                         fullWidth
                         label="Sub-Department"
@@ -207,7 +201,7 @@ const Subdepartment = () => {
                     <Stack direction={"row"}>
                         <Tooltip x title="Add Sub-Department">
                             <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' >
-                                update
+                                Update
                             </Button>
                         </Tooltip>
                         <Tooltip title="Add Sub-Department">
@@ -243,7 +237,7 @@ const Subdepartment = () => {
                             }
                         </TextField>
                         {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
-
+                        <Button variant='contained' onClick={() => setOpen(true)} size='small' sx={{ justifySelf: "end", }}>Add New Department</Button>
                         {open &&
                             <>
 
@@ -310,7 +304,7 @@ const Subdepartment = () => {
 
                                 }}
                                 >
-                                    <Button variant='contained' onClick={() => setOpen(true)} size='small'  sx={{  justifySelf: "end", }}>Add New Department</Button>
+
                                     <DataGrid
                                         rows={subDept}
                                         key={row => row._id}
