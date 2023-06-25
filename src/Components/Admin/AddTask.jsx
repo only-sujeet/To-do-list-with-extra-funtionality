@@ -195,7 +195,7 @@ const AddTask = () => {
                                             ))
                                         }
 
-                                    </Select>
+                                    </Select>   
                                 </FormControl>
                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid>
@@ -247,7 +247,7 @@ const AddTask = () => {
                                     name='instruction'
                                     type="text"
                                     value={values.instruction}
-                                    onChange={handleChange}
+                                    onChange={handleChange}   
                                     onBlur={handleBlur}
                                 />
                                 {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
