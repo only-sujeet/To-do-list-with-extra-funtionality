@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { makeStyles, } from '@material-ui/core'
 import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Stack, Tooltip, Zoom } from '@mui/material';
+import { Box, Stack, Tooltip, Zoom, Button, IconButton } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -10,6 +10,7 @@ import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
+import { CheckCircleOutlineTwoTone, ClearAll, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -45,7 +46,27 @@ const Task = () => {
         {
             headerName: "Action", headerClassName: "header",
             width: "135",
-            renderCell: (params) => <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />,
+            renderCell: (params) => {
+                return params.row.status === "Created" ? <Box display="flex" justifyContent="center" alignItems="center" >
+                    <Tooltip title="Approve" >
+                        <IconButton aria-label="approve"  >
+                            <CheckCircleOutlineTwoTone color='success' />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Reject">
+                        <IconButton aria-label="approve"  >
+                            <ClearTwoTone color='error' />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Edit">
+                        <IconButton aria-label="approve"  >
+                            <EditNoteTwoTone color='info' />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+                    :
+                    <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />
+            },
             sortable: false,
             filterable: false
         },
