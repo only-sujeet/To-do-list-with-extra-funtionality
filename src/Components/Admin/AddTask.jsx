@@ -195,7 +195,7 @@ const AddTask = () => {
                                             ))
                                         }
 
-                                    </Select>   
+                                    </Select>
                                 </FormControl>
                                 {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
                             </Grid>
@@ -247,7 +247,7 @@ const AddTask = () => {
                                     name='instruction'
                                     type="text"
                                     value={values.instruction}
-                                    onChange={handleChange}   
+                                    onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
                                 {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
@@ -299,58 +299,52 @@ const AddTask = () => {
                             </Grid>
                             }
                             {status === false &&
-                                <form action="" style={{ marginRight: "20px" }} >
-                                    <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
-                                        <Grid item lg={12} sm={12} xs={12} md={6}>
-                                            <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
-                                        </Grid>
-                                        <Grid item lg={6} sm={12} xs={12} md={6}>
 
-                                            <TextField
-                                                fullWidth
+                                <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
+                                    <Grid item lg={12} sm={12} xs={12} md={6}>
+                                        <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
+                                    </Grid>
+                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+
+                                        <TextField
+                                            fullWidth
+                                            required
+                                            variant='standard'
+                                            color='secondary'
+                                            id="Durationnumber"
+                                            label="Duration Number"
+                                            name='number'
+                                            type="number"
+
+                                            value={daysdata.number}
+                                            onChange={handleday}
+
+                                        />
+                                    </Grid>
+                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                        <FormControl variant='filled' fullWidth>
+                                            <InputLabel color='secondary'>Duration</InputLabel>
+                                            <Select
                                                 required
-                                                variant='standard'
                                                 color='secondary'
-                                                id="Durationnumber"
-                                                label="Duration Number"
-                                                name='number'
-                                                type="number"
-
-                                                value={daysdata.number}
+                                                id='selection'
+                                                label="Select Duration Type"
+                                                name='selection'
+                                                value={daysdata.selection}
                                                 onChange={handleday}
 
-                                            />
-                                        </Grid>
-                                        <Grid item lg={6} sm={12} xs={12} md={6}>
-                                            <FormControl variant='filled' fullWidth>
-                                                <InputLabel color='secondary'>Duration</InputLabel>
-                                                <Select
-                                                    required
-                                                    color='secondary'
-                                                    id='selection'
-                                                    label="Select Duration Type"
-                                                    name='selection'
-                                                    value={daysdata.selection}
-                                                    onChange={handleday}
+                                            >
+                                                <MenuItem value="Minute">Minute</MenuItem>
+                                                <MenuItem value="Hour">Hour</MenuItem>
+                                                <MenuItem value="Day">Day</MenuItem>
+                                                <MenuItem value="Month">Month</MenuItem>
+                                                <MenuItem value="Year">Year</MenuItem>
 
-                                                >
-                                                    <MenuItem value="Minute">Minute</MenuItem>
-                                                    <MenuItem value="Hour">Hour</MenuItem>
-                                                    <MenuItem value="Day">Day</MenuItem>
-                                                    <MenuItem value="Month">Month</MenuItem>
-                                                    <MenuItem value="Year">Year</MenuItem>
-
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item lg={6} sm={12} xs={12} md={6}>
-                                            <Typography variant="subtitle2" color="initial">Click Below Button to add Duration</Typography>
-                                            <Button variant="contained" color="secondary" type='submit' onClick={submitDay}>
-                                                Add
-                                            </Button>
-                                        </Grid>
+                                            </Select>
+                                        </FormControl>
                                     </Grid>
-                                </form>
+                                </Grid>
+
                             }
                             {/* <Divider variant='middle' /> */}
                             <Grid item lg={12} sm={12} xs={12} md={12}>
