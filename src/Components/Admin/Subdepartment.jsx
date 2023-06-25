@@ -88,6 +88,7 @@ const Subdepartment = () => {
         }
         if (data.success === false) {
             toast.error(data.message)
+            seteditOpen(false)
         }
     }
 
@@ -100,8 +101,18 @@ const Subdepartment = () => {
     // get sub-department single data
     const getSubDeptDetails = async (subDept, deptId) => {
         seteditOpen(true)
-        const data = await getSubDeptInfo({ subDept, deptId })
+        const { data } = await getSubDeptInfo({ subDept, deptId })
         data && setData(data)
+        if (data.success === true) {
+            toast.success(data.message)
+            getd(data.department)
+            setOpen(false)
+            // resetForm({ values: null })
+        }
+        if (data.success === false) {
+            toast.error(data.message)
+            
+        }
     }
     // Edit sub-department function
     const handleEdit = (e) => {
@@ -201,7 +212,7 @@ const Subdepartment = () => {
                         </Tooltip>
                         <Tooltip title="Add Sub-Department">
                             <Button variant="contained" color='error' onClick={() => seteditOpen(false)}>
-                                Cancle
+                                Cancel
                             </Button>
                         </Tooltip>
                     </Stack>
@@ -282,7 +293,7 @@ const Subdepartment = () => {
                                     </Tooltip>
                                     <Tooltip title="Add Sub-Department">
                                         <Button variant="contained" color='error' onClick={() => setOpen(false)}>
-                                            Cancle
+                                            Cancel
                                         </Button>
                                     </Tooltip>
                                 </Stack>
@@ -299,7 +310,7 @@ const Subdepartment = () => {
 
                                 }}
                                 >
-                                    <Button variant='contained' onClick={() => setOpen(true)} sx={{ width: "40%", height: "50%", justifySelf: "end", }}>Add New Department</Button>
+                                    <Button variant='contained' onClick={() => setOpen(true)} size='small'  sx={{  justifySelf: "end", }}>Add New Department</Button>
                                     <DataGrid
                                         rows={subDept}
                                         key={row => row._id}
