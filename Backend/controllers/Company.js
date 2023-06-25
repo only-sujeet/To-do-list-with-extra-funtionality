@@ -62,8 +62,6 @@ exports.DeleteDept = async (req, res) => {
     }
 };
 
-
-
 exports.addSubDept = async (req, res) => {
 
     try {
