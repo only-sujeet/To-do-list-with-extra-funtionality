@@ -13,7 +13,6 @@ import { useState } from 'react'
 
 const Subdepartment = () => {
 
-
     useEffect(() => {
         getDepartment();
     }, []);
@@ -101,7 +100,7 @@ const Subdepartment = () => {
     // get sub-department single data
     const getSubDeptDetails = async (subDept, deptId) => {
         seteditOpen(true)
-        const  data  = await getSubDeptInfo({ subDept, deptId })
+        const data = await getSubDeptInfo({ subDept, deptId })
         data && setData(data)
         if (data.success === false) {
             toast.error(data.message)
@@ -150,7 +149,7 @@ const Subdepartment = () => {
     ], [])
 
     return (
-        <div>
+        <div style={{ marginBottom: "2rem" }}>
             <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
 
 
@@ -221,7 +220,7 @@ const Subdepartment = () => {
                         <TextField
                             select
                             fullWidth
-                            label="Select Department  for "
+                            label="Select Sub-Department "
                             size='small'
                             name='department'
                             type='text'
@@ -237,7 +236,6 @@ const Subdepartment = () => {
                             }
                         </TextField>
                         {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
-                        <Button variant='contained' onClick={() => setOpen(true)} size='small' sx={{ justifySelf: "end", }}>Add New Department</Button>
                         {open &&
                             <>
 
@@ -295,30 +293,36 @@ const Subdepartment = () => {
                         }
                         {subDept &&
                             <>
-                                {!open && <Stack sx={{
-                                    '& .super-app-theme--header': {
-                                        backgroundColor: "#3366ff",
-                                    },
-                                    display: "grid",
-                                    height: "40vh",
 
-                                }}
-                                >
+                                {!open &&
+                                    <>
+                                        <Button variant='contained' onClick={() => setOpen(true)} size='small' sx={{ justifySelf: "end", }}>Add New Sub-Department</Button>
+                                        <Stack sx={{
+                                            '& .super-app-theme--header': {
+                                                backgroundColor: "#3366ff",
+                                            },
+                                            display: "grid",
+                                            height: "40vh",
 
-                                    <DataGrid
-                                        rows={subDept}
-                                        key={row => row._id}
-                                        columns={columns}
-                                        getRowId={row => row._id}
-
-                                        style={{
-                                            backgroundColor: "rgb(0,0,0,0.6)",
-                                            color: "white",
-
-                                            fontSize: "1rem", fontFamily: "Josefin Sans",
                                         }}
-                                    />
-                                </Stack>}
+                                        >
+
+                                            <DataGrid
+                                                rows={subDept}
+                                                key={row => row._id}
+                                                columns={columns}
+                                                getRowId={row => row._id}
+
+                                                style={{
+                                                    backgroundColor: "rgb(0,0,0,0.6)",
+                                                    color: "white",
+                                                    marginBottom: "2rem",
+                                                    fontSize: "1rem", fontFamily: "Josefin Sans",
+                                                }}
+                                            />
+                                        </Stack>
+                                    </>
+                                }
                             </>
 
                         }
