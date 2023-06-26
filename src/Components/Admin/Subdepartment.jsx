@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMemo } from 'react'
 import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { Box } from '@material-ui/core'
 import { useState } from 'react'
 
@@ -100,7 +100,7 @@ const Subdepartment = () => {
     // get sub-department single data
     const getSubDeptDetails = async (subDept, deptId) => {
         seteditOpen(true)
-        const data = await getSubDeptInfo({ subDept, deptId })
+        const  data  = await getSubDeptInfo({ subDept, deptId })
         data && setData(data)
         if (data.success === false) {
             toast.error(data.message)
@@ -307,21 +307,21 @@ const Subdepartment = () => {
                                         }}
                                         >
 
-                                            <DataGrid
-                                                rows={subDept}
-                                                key={row => row._id}
-                                                columns={columns}
-                                                getRowId={row => row._id}
+                                    <DataGrid
+                                        rows={subDept}
+                                        key={row => row._id}
+                                        columns={columns}
+                                        getRowId={row => row._id}
 
-                                                style={{
-                                                    backgroundColor: "rgb(0,0,0,0.6)",
-                                                    color: "white",
-                                                    marginBottom: "2rem",
-                                                    fontSize: "1rem", fontFamily: "Josefin Sans",
-                                                }}
-                                            />
-                                        </Stack>
-                                    </>
+                                        style={{
+                                            backgroundColor: "rgb(0,0,0,0.6)",
+                                            color: "white",
+
+                                            fontSize: "1rem", fontFamily: "Josefin Sans",
+                                        }}
+                                    />
+                                </Stack>
+                                </>
                                 }
                             </>
 
