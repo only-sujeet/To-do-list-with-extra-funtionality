@@ -19,6 +19,7 @@ import Submit from './Components/Employee/Submit';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import cookies from "js-cookie"
+import Barchart from './Barchart';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/emptask" element={<EmpTask />} />
           <Route path="/etask" element={<Tasks />} />
           <Route path="/submit" element={<Submit />} />
+          <Route path="/chart" element={<Barchart />} />
         </Routes>
       </div>
     </ThemeProvider>
