@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextField, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, TextField, Stack, Tooltip, Typography, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 import { } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
@@ -25,7 +25,26 @@ const AddDepartment = () => {
 
 
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Department", flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: "department", headerName: "Task Name", width: 150, headerClassName: 'super-app-theme--header' },
+        {
+            field: "subDepts", headerName: 'Sub-Department',
+            width: 180,
+            renderCell: (params) => (
+                <FormControl variant='filled' fullWidth>
+                    <InputLabel>Sub-Department</InputLabel>
+                    <Select
+                        id='Field'
+                        label="Depatment"
+                        name='department'>
+                        {
+                            params.row.subDepts <= 0 ? <MenuItem>No Sub-Department Added</MenuItem>  :  params.row.subDepts?.map((data) => (
+                                <MenuItem disabled value={data.subDept}>{data.subDept}</MenuItem>
+                            ))
+                        }
+                    </Select>
+                </FormControl>
+            ),
+        },
         {
             field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
             renderCell: (params) => <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
