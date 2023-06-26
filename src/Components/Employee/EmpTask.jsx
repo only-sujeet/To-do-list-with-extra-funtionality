@@ -1,9 +1,9 @@
 
 import React from 'react'
 import EmpHeader from './EmpHeader'
-import { Box, Stack,  Tooltip,  } from '@mui/material'
+import { Box, Stack, Tooltip, } from '@mui/material'
 import { useMemo } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import axios from 'axios'
 import Submit from './Submit'
@@ -28,7 +28,7 @@ const EmpTask = () => {
     { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
     { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
 
-    { field:"instruction",headerName: "Instruction", width: 250, headerClassName: "header", renderCell: (params) => {<Tooltip sx={{maxWidth:500,}}  title={<h1>{params.value}</h1>} >{params.value}</Tooltip>} },
+    { field: "instruction", headerName: "Instruction", width: 250, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={<h1>{params.value}</h1>} >{params.value}</Tooltip> } },
 
     {
       field: "startDate", headerName: "Start At", width: 150, headerClassName: "header",
@@ -61,11 +61,12 @@ const EmpTask = () => {
                 '& .header': {
                   backgroundColor: "#3366ff",
                 },
-                backgroundColor: "rgb(0,0,0,0.3)"
-
+                backgroundColor: "rgb(0,0,0,0.3)",
+                textTransform: "capitalize"
               }}
               columns={columns}
               getRowId={row => row._id}
+              slots={{ toolbar: GridToolbar }}
             >
 
             </DataGrid>

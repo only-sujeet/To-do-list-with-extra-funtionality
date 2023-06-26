@@ -7,7 +7,7 @@ import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin'
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, ClearAll, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
@@ -104,12 +104,13 @@ const Task = () => {
                                 key={row => row._id}
                                 columns={columns}
                                 getRowId={row => row._id}
-                                options={options}
+                               slots={{ toolbar:GridToolbar}}
                                 sx={{
                                     '& .header': {
                                         backgroundColor: "#3366ff",
                                     },
-                                    backgroundColor: "rgb(0,0,0,0.3)"
+                                    backgroundColor: "rgb(0,0,0,0.3)",
+                                    textTransform:"capitalize"
                                 }}
                             >
                             </DataGrid>

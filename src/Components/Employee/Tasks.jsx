@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getTask } from '../../Redux/Action/Admin'
 import { useMemo } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import { CheckCircleOutlineTwoTone } from '@mui/icons-material'
 import axios from 'axios'
@@ -42,8 +42,8 @@ const Tasks = () => {
         { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
         { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
         { field: "instruction", headerName: "Instruction", width: 250, headerClassName: "header" },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header",valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
-        { field: "endDate", headerName: "End At", width: 150, headerClassName: "header" ,valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),},
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "endDate", headerName: "End At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
         {
             headerName: "Action", headerClassName: "header",
@@ -65,22 +65,23 @@ const Tasks = () => {
             <Box sx={{ mt: "5rem", ml: "1rem", }} >
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
                 <Stack style={{
-                        display: "grid",
-                        width: "100%",
-                        height: "50vh",
+                    display: "grid",
+                    width: "100%",
+                    height: "50vh",
 
-                    }}>
+                }}>
                     {task ?
                         <DataGrid
                             rows={task}
                             key={row => row._id}
+                            slots={{ toolbar: GridToolbar }}
                             sx={{
                                 fontSize: "1rem", fontFamily: "sans-serif",
                                 '& .header': {
                                     backgroundColor: "#3366ff",
                                 },
-                                backgroundColor: "rgb(0,0,0,0.3)"
-
+                                backgroundColor: "rgb(0,0,0,0.3)",
+                                textTransform: "capitalize"
                             }}
                             columns={columns}
                             getRowId={row => row._id}

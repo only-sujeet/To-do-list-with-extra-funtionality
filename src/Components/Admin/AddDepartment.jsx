@@ -6,7 +6,7 @@ import { adddep } from '../Validation/Admin';
 import { addDepartment, getDept } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useMemo } from 'react';
 import { Delete } from '@mui/icons-material';
 
@@ -25,7 +25,7 @@ const AddDepartment = () => {
 
 
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Task Name", flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: "department", headerName: "Department", flex: 1, headerClassName: 'super-app-theme--header' },
         {
             field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
             renderCell: (params) => <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
@@ -104,12 +104,13 @@ const AddDepartment = () => {
                     columns={columns}
                     getRowId={row => row._id}
                     getRowSpacing={getRowSpacing}
+                    slots={{ toolbar: GridToolbar }}
                     style={{
                         backgroundColor: "rgb(0,0,0,0.6)",
                         color: "white",
                         fontSize: "1rem", fontFamily: "Josefin Sans",
                         marginBottom: "1rem",
-                        
+                        textTransform: "capitalize"
                     }}
                 /> : undefined}
             </Stack>
