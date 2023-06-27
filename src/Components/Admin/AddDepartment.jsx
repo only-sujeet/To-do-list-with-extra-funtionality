@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextField, Stack, Tooltip, Typography, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import { Button, TextField, Stack, Tooltip, Typography, FormControl, Select, MenuItem, InputLabel, Box } from '@mui/material';
 import { } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
@@ -28,7 +28,7 @@ const AddDepartment = () => {
         { field: "department", headerName: "Task Name", width: 150, headerClassName: 'super-app-theme--header' },
         {
             field: "subDepts", headerName: 'Sub-Department',
-            width: 180,
+            width: 200,
             renderCell: (params) => (
                 <FormControl variant='filled' fullWidth>
                     <InputLabel>Sub-Department</InputLabel>
@@ -37,7 +37,7 @@ const AddDepartment = () => {
                         label="Depatment"
                         name='department'>
                         {
-                            params.row.subDepts <= 0 ? <MenuItem>No Sub-Department Added</MenuItem>  :  params.row.subDepts?.map((data) => (
+                            params.row.subDepts <= 0 ? <MenuItem>No Sub-Department Added</MenuItem> : params.row.subDepts?.map((data) => (
                                 <MenuItem disabled value={data.subDept}>{data.subDept}</MenuItem>
                             ))
                         }
@@ -46,8 +46,11 @@ const AddDepartment = () => {
             ),
         },
         {
-            field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
-            renderCell: (params) => <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
+            field: "Action", headerName: "Action", width: 255, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <Box display="flex" alignItems="center" justifyContent="space-between" >
+                <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto", mr:"2px"}} ><Delete /></Button>
+                {/* <Button variant="contained" sx={{ display: "flex", margin: "auto" }} >Add Sub-Department</Button> */}
+            </Box>
         },
     ], [])
 
@@ -115,6 +118,7 @@ const AddDepartment = () => {
                 display: "grid",
                 height: "40vh",
                 marginBottom: "2rem",
+                width:"100%"
             }}
             >
                 {dept ? <DataGrid
@@ -122,12 +126,13 @@ const AddDepartment = () => {
                     key={row => row._id}
                     columns={columns}
                     getRowId={row => row._id}
-                    getRowSpacing={getRowSpacing}
+                    // getRowSpacing={getRowSpacing}    
                     slots={{ toolbar: GridToolbar }}
                     style={{
                         backgroundColor: "rgb(0,0,0,0.6)",
                         color: "white",
-                        fontSize: "1rem", fontFamily: "Josefin Sans",
+                        fontSize: "1rem", 
+                        fontFamily: "Josefin Sans",
                         marginBottom: "1rem",
                         textTransform: "capitalize"
                     }}

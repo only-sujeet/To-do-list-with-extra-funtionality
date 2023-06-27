@@ -100,7 +100,7 @@ const Subdepartment = () => {
     // get sub-department single data
     const getSubDeptDetails = async (subDept, deptId) => {
         seteditOpen(true)
-        const  data  = await getSubDeptInfo({ subDept, deptId })
+        const data = await getSubDeptInfo({ subDept, deptId })
         data && setData(data)
         if (data.success === false) {
             toast.error(data.message)
@@ -296,7 +296,10 @@ const Subdepartment = () => {
 
                                 {!open &&
                                     <>
-                                        <Button variant='contained' onClick={() => setOpen(true)} size='small' sx={{ justifySelf: "end", }}>Add New Sub-Department</Button>
+
+                                        <Box justifyContent="left !important" display="flex !important">  
+                                            <Button variant='contained' color='secondary' onClick={() => setOpen(true)} size='small' sx={{ maxWidth: 200, }}>Add New Sub-Department</Button>
+                                        </Box>
                                         <Stack sx={{
                                             '& .super-app-theme--header': {
                                                 backgroundColor: "#3366ff",
@@ -307,21 +310,21 @@ const Subdepartment = () => {
                                         }}
                                         >
 
-                                    <DataGrid
-                                        rows={subDept}
-                                        key={row => row._id}
-                                        columns={columns}
-                                        getRowId={row => row._id}
+                                            <DataGrid
+                                                rows={subDept}
+                                                key={row => row._id}
+                                                columns={columns}
+                                                getRowId={row => row._id}
 
-                                        style={{
-                                            backgroundColor: "rgb(0,0,0,0.6)",
-                                            color: "white",
+                                                style={{
+                                                    backgroundColor: "rgb(0,0,0,0.6)",
+                                                    color: "white",
 
-                                            fontSize: "1rem", fontFamily: "Josefin Sans",
-                                        }}
-                                    />
-                                </Stack>
-                                </>
+                                                    fontSize: "1rem", fontFamily: "Josefin Sans",
+                                                }}
+                                            />
+                                        </Stack>
+                                    </>
                                 }
                             </>
 
