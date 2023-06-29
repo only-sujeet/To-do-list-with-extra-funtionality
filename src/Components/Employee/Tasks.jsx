@@ -16,12 +16,9 @@ import dayjs from 'dayjs'
 const Tasks = () => {
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
-
     useEffect(() => {
         dispatch(getTask())
     }, [dispatch])
-
-
     const acceptTask = async (id) => {
         const { data } = await axios.get(`/api/emp/acceptTask/${id}`)
         if (data.success === true) {
@@ -32,45 +29,29 @@ const Tasks = () => {
             toast.error(data.message)
         }
     }
-
-
-
-    const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 150, headerClassName: "header" },
-        { field: "rate", headerName: "Rate", width: 100, headerClassName: "header" },
-        { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
-        { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
-        { field: "instruction", headerName: "Instruction", width: 250, headerClassName: "header" },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
-        { field: "endDate", headerName: "End At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+    const columns = useMemo((task) => [
+        { field:"name",headerName:"Task Name",width:150,headerClassName:"header"},
+        { field:"rate",headerName:"Rate",width:100,type:"number",headerClassName:"header"},
+        { field:"unit",headerName:"Unit",width:100,type:"number",headerClassName:"header"},
+        { field:"department",headerName:"Department",width:160,headerClassName:"header" },
+        { field:"taskDependency",headerName:"Dependency",width: 150,headerClassName:"header" },
+        { field:"instruction",headerName:"Instruction",width: 250, headerClassName: "header" },
+        { field: "startDate", headerName: "Start At", width: 150,type:"date" ,headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "endDate", headerName: "End At", width: 150,type:"date" ,headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
-        {
-            headerName: "Action", headerClassName: "header",
+        {headerName: "Action", headerClassName: "header",
             width: 150,
-            renderCell: (params) => <Tooltip title="Accept">
-
-                <IconButton aria-label="check" onClick={() => acceptTask(params.row._id)}>
-                    <CheckCircleOutlineTwoTone color='success' />
-                </IconButton>
-            </Tooltip>,
+            renderCell: (params) => <Tooltip title="Accept"><IconButton aria-label="check" onClick={() => acceptTask(params.row._id)}><CheckCircleOutlineTwoTone color='success' /></IconButton></Tooltip>,
             sortable: false,
-            filterable: false
-        },
-    ], [])
+            filterable: false},
+    ], []);
 
     return (
-        <div>
+        <>
             <EmpHeader />
-            <Box sx={{ mt: "5rem", ml: "1rem", }} >
+            <Box sx={{ mt:"5rem", ml:"1rem", }} >
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack style={{
-                    display: "grid",
-                    width: "100%",
-                    height: "50vh",
-
-                }}>
-                    {task ?
+                <Stack style={{display:"grid",width:"100%",height:"50vh",}}>{task ?
                         <DataGrid
                             rows={task}
                             key={row => row._id}
@@ -85,12 +66,7 @@ const Tasks = () => {
                             }}
                             columns={columns}
                             getRowId={row => row._id}
-                        >
-
-                        </DataGrid>
-                        : undefined
-
-                    }
+                        ></DataGrid>:undefined}
                 </Stack>
             </Box>
             <ToastContainer
@@ -105,7 +81,7 @@ const Tasks = () => {
                 draggable
                 pauseOnHover
                 theme="colored" />
-        </div>
+        </>
     )
 }
 

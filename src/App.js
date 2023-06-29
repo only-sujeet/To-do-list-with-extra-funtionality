@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import cookies from "js-cookie"
 import Barchart from './Barchart';
+import Login1 from './Components/Admin/Login1';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
       {/* <CssBaseline/> */}
       <div className="App">
         <Routes>
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<Login1 />} />
           {/* <Route path='/top' element={<AdminTopbar/>}  /> */}
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />

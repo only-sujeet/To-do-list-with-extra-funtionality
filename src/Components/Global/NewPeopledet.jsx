@@ -47,8 +47,8 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
 
                     <Card sx={{ display: "flex", width: "80%", margin: "20px auto" }}>
                         <CardMedia
-                            component="img"
-                            sx={{ width: { lg: 400, md: 300, sm: 350, xs: 0 }, height: "auto", }}
+                           component="img"
+                            sx={{ width: { lg: 400, md: 300, sm: 350, xs: 0 }, height: "auto", marginTop: '30',objectFit:"contain" }}
                             image={`http://localhost:5000/Image/${Image}`}
                             alt="Live from space album cover"
                         />

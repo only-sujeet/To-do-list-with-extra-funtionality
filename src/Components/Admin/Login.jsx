@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery } from '@material-ui/core';
+import { Container, InputAdornment, makeStyles, TextField, IconButton, Button, Typography, useTheme, useMediaQuery, Box } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { login } from '../Validation/Admin';
@@ -42,13 +42,14 @@ const layout = makeStyles(theme =>
 
     },
     [theme.breakpoints.up('lg')]: {
-      //  backgroundColor: 'yellow',
+       backgroundColor: 'yellow',
       width: "30vw",
-      height: "39vh",
+      // // height: "45vh",
       margin: "180px auto",
+      borderRadius:"10px"
     },
     [theme.breakpoints.up('xl')]: {
-      // backgroundColor: 'blue',
+      //  backgroundColor: 'blue',
 
     },
   },
@@ -87,9 +88,11 @@ const Login = () => {
   const classes = layout();
   const theme = useTheme();
   const showText = useMediaQuery(theme.breakpoints.up('xs'))
+  // to set type in password
   const [type, setType] = useState("password")
   const [visible, setVisible] = useState(false)
   const icon = (visible ? <Visibility /> : <VisibilityOff />)
+  // to display password
   const showClick = () => {
     if (visible === false) {
       setVisible(true)
@@ -100,21 +103,11 @@ const Login = () => {
       setType("password")
     }
   }
-
-
-
-
-
-
   const initialvalue = {
     email: "",
     password: ""
   }
-
-
-
   const dispatch = useDispatch()
-
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
@@ -134,12 +127,12 @@ const Login = () => {
   })
 
   return (
+    
     <>
-
       {showText &&
         <Container className={classes.const} >
-          <form onSubmit={handleSubmit}>
             <Typography variant="h2" className={classes.head} align="center" >Login</Typography>
+          <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
               className={classes.input}
