@@ -95,4 +95,21 @@ export const getTask = () => async (dispatch) => {
         })
     }
 }
+export const getAllTask = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getAllTaskRequest"
+        })
+        const { data } = await axios.get('/api/emp/getAllTask')
+
+        dispatch({
+            type: "getAllTaskSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "getAllTaskFailuer"
+        })
+    }
+}
 

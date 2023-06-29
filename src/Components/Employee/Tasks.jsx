@@ -3,7 +3,7 @@ import EmpHeader from './EmpHeader'
 import { Box, Stack, IconButton, Tooltip } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getTask } from '../../Redux/Action/Admin'
+import { getAllTask, getTask } from '../../Redux/Action/Admin'
 import { useMemo } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
@@ -15,21 +15,21 @@ import dayjs from 'dayjs'
 
 const Tasks = () => {
     const dispatch = useDispatch()
-    const { task } = useSelector(state => state.admin)
+    const { alltask } = useSelector(state => state.admin)
     useEffect(() => {
-        dispatch(getTask())
+        dispatch(getAllTask())
     }, [dispatch])
     const acceptTask = async (id) => {
         const { data } = await axios.get(`/api/emp/acceptTask/${id}`)
         if (data.success === true) {
             toast.success(data.message)
-            dispatch(getTask())
+            dispatch(getAllTask())
         }
         if (data.success === false) {
             toast.error(data.message)
         }
     }
-    const columns = useMemo((task) => [
+    const columns = useMemo((alltask) => [
         { field:"name",headerName:"Task Name",width:150,headerClassName:"header"},
         { field:"rate",headerName:"Rate",width:100,type:"number",headerClassName:"header"},
         { field:"unit",headerName:"Unit",width:100,type:"number",headerClassName:"header"},
@@ -51,9 +51,9 @@ const Tasks = () => {
             <EmpHeader />
             <Box sx={{ mt:"5rem", ml:"1rem", }} >
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack style={{display:"grid",width:"100%",height:"50vh",}}>{task ?
+                <Stack style={{display:"grid",width:"100%",height:"50vh",}}>{alltask ?
                         <DataGrid
-                            rows={task}
+                            rows={alltask}
                             key={row => row._id}
                             slots={{ toolbar: GridToolbar }}
                             sx={{

@@ -8,6 +8,11 @@ exports.addPeople = async (req, res) => {
         const object = JSON.parse(req.body.data)
         const { email, password, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = object
         const Image = (req.file) ? req.file.filename : null
+        //   for finding email
+        const findEmail = await People.findOne({ email })
+        if (findEmail) {
+            return res.status(400).json({ success: false, message: "Email already exists....." })
+        }
         const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image })
         await peo.save();
 
@@ -35,7 +40,7 @@ exports.addPeople = async (req, res) => {
 exports.getPeople = async (req, res) => {
     try {
 
-        const apiFeature = new ApiFeature(People.find(), req.query, req.admin.company ).search()
+        const apiFeature = new ApiFeature(People.find(), req.query, req.admin.company).search()
         const request = await apiFeature.query
         if (!request) {
             return res
@@ -45,7 +50,7 @@ exports.getPeople = async (req, res) => {
             res.status(200).json(request);
         }
 
-        
+
     } catch (error) {
         res.status(500).json({
             success: false,

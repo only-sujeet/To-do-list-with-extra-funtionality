@@ -9,20 +9,27 @@ import axios from 'axios'
 import Submit from './Submit'
 import Reject from './Reject'
 import dayjs from 'dayjs'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetAssignTask } from '../../Redux/Action/Employee'
 const EmpTask = () => {
+  const dispatch = useDispatch()
+  const {getAsignTask} = useSelector(state => state.emp)
+  // React.useEffect(() => {
+  //   getTask();
+  // }, []);
   React.useEffect(() => {
-    getTask();
-  }, []);
+    dispatch(GetAssignTask())
+  }, [dispatch]);
 
-  const [tasks, setTasks] = React.useState();
+  // const [tasks, setTasks] = React.useState();
 
-  const getTask = async () => {
-    const { data } = await axios.get(`/api/emp/getAssignedTask`)
-    data && setTasks(data.tasks)
-  }
+  // const getTask = async () => {
+  //   const { data } = await axios.get(`/api/emp/getAssignedTask`)
+  //   data && setTasks(data.tasks)
+  // }
 
 
-  const columns = useMemo(task => [
+  const columns = useMemo((getAsignTask) => [
     { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
     { field: "rate", headerName: "Rate", width: 100, headerClassName: "header" },
     { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
@@ -57,9 +64,9 @@ const EmpTask = () => {
         <Header title="Tasks" subtitle="Welcome to task page here Display your tasks" />
 
         <Stack style={{ display: "grid", width: "100%", height: "50vh", }}>
-          {tasks ?
+          {getAsignTask ?
             <DataGrid
-              rows={tasks}
+              rows={getAsignTask}
               key={row => row._id}
               sx={{
                 fontSize: "1rem", fontFamily: "sans-serif",

@@ -44,6 +44,24 @@ exports.getTask = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+exports.getAllTask = async (req, res) => {
+    try {
+
+
+        const task = await Task.find({ company: req.emp.company,   status: "Approved"  })
+        if (!task) {
+            res.status(400).json({
+                message: "Task Not Found",
+                success: false
+            })
+        }
+        else {
+            res.status(200).json(task)
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
 
 // get Employee by department
 

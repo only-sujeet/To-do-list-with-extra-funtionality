@@ -27,7 +27,7 @@ const AddDepartment = () => {
     const columns = useMemo(dept => [
         { field: "department", headerName: "Task Name", width: 150, headerClassName: 'super-app-theme--header' },
         {
-            field: "subDepts", headerName: 'Sub-Department',
+            field: "subDepts", headerName: 'Sub-Department',headerClassName: 'super-app-theme--header' ,
             width: 200,
             renderCell: (params) => (
                 <FormControl variant='filled' fullWidth>
@@ -38,7 +38,7 @@ const AddDepartment = () => {
                         name='department'>
                         {
                             params.row.subDepts <= 0 ? <MenuItem>No Sub-Department Added</MenuItem> : params.row.subDepts?.map((data) => (
-                                <MenuItem disabled value={data.subDept}>{data.subDept}</MenuItem>
+                                <MenuItem  value={data.subDept}>{data.subDept}</MenuItem>
                             ))
                         }
                     </Select>

@@ -79,5 +79,16 @@ export const adminReducer = createReducer(initialState, {
         state.loginError = action.payload
     },
 
-
+    //   For all task ti display Emp
+    getAllTaskRequest: (state,) => {
+        state.loading = true;
+    },
+    getAllTaskSuccess: (state, action) => {
+        state.loading = false;
+        state.alltask = action.payload
+    },
+    getAllTaskFailuer: (state, action) => {
+        state.loading = true;
+        state.alltaskerror = action.payload
+    },
 })
