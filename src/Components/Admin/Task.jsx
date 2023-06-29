@@ -11,6 +11,9 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, ClearAll, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
+import { ApproveTask } from '../../api/Admin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const usestyles = makeStyles(theme => ({
     content: {
@@ -21,7 +24,6 @@ const usestyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
 }))
 
-
 const Task = () => {
     const classes = usestyles();
     const dispatch = useDispatch()
@@ -30,8 +32,16 @@ const Task = () => {
         dispatch(getTask())
     }, [dispatch])
 
-
-
+    const handleApprove = async (id) => {
+        const res = await ApproveTask(id)
+        if (res.success === true) {
+            toast.success(res.message)
+            dispatch(getTask())
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
+    }
     const columns = useMemo(task => [
         { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
         { field: "rate", headerName: "Rate", width: 100, headerClassName: "header", },
@@ -49,7 +59,7 @@ const Task = () => {
             renderCell: (params) => {
                 return params.row.status === "Created" ? <Box display="flex" justifyContent="center" alignItems="center" >
                     <Tooltip title="Approve" >
-                        <IconButton aria-label="approve"  >
+                        <IconButton onClick={() => handleApprove(params.row._id)} aria-label="approve"  >
                             <CheckCircleOutlineTwoTone color='success' />
                         </IconButton>
                     </Tooltip>
@@ -104,13 +114,13 @@ const Task = () => {
                                 key={row => row._id}
                                 columns={columns}
                                 getRowId={row => row._id}
-                               slots={{ toolbar:GridToolbar}}
+                                slots={{ toolbar: GridToolbar }}
                                 sx={{
                                     '& .header': {
                                         backgroundColor: "#3366ff",
                                     },
                                     backgroundColor: "rgb(0,0,0,0.3)",
-                                    textTransform:"capitalize"
+                                    textTransform: "capitalize"
                                 }}
                             >
                             </DataGrid>
