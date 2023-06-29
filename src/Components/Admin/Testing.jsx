@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, TextField, Stack, Tooltip, Typography, Box } from '@mui/material';
+import { Button, TextField, Stack, Tooltip, Typography, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
@@ -27,22 +27,31 @@ const Testing = () => {
 
 
   const columns = useMemo(dept => [
-    { field: "department", headerName: "Task Name", flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: "subDepts", headerName: "sub-department", flex: 1, headerClassName: 'super-app-theme--header' ,type: "singleSelect", width: 120,  
-    editable: true,
-    renderCell: ({ value }) => (
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}
-      >
-        <div>{value.subDept}</div>
-        <ArrowDropDownCircleTwoTone />
-      </Box>
-    )   },
+    { field: "department", headerName: "Task Name",width:150, headerClassName: 'super-app-theme--header' },
+    {
+      field: "subDepts", headerName: 'Sub-Department',
+      width:180,
+      renderCell: (params) => (
+        <FormControl variant='filled' fullWidth>
+
+          <Select
+            id='Field'
+            label="Depatment"
+            name='department'
+            // value={params.row.subDepts.subDept}
+          >
+
+            {
+              params.row.subDepts && params.row.subDepts?.map((data) => (
+                <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+              ))
+            }
+
+
+          </Select>
+        </FormControl>
+      ),
+    },
     {
       field: "Action", headerName: "Action", width: 200, headerAlign: "center", headerClassName: 'super-app-theme--header',
       renderCell: (params) => <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto" }} ><Delete /></Button>
@@ -78,59 +87,59 @@ const Testing = () => {
   return (
     <div style={{ paddingBottom: "3rem" }}>
 
-    <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Department</Typography>
-    <form action="" onSubmit={handleSubmit}>
+      <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Department</Typography>
+      <form action="" onSubmit={handleSubmit}>
         <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
-            <TextField
+          <TextField
 
-                fullWidth
-                label="Add Department"
-                size='small'
-                name='department'
-                type='text'
-                variant='outlined'
-                placeholder='Enter Department Name'
-                value={values.department}
-                onBlur={handleBlur}
-                onChange={handleChange}
+            fullWidth
+            label="Add Department"
+            size='small'
+            name='department'
+            type='text'
+            variant='outlined'
+            placeholder='Enter Department Name'
+            value={values.department}
+            onBlur={handleBlur}
+            onChange={handleChange}
 
-            />
-            {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
-            <Tooltip title="Add Department">
-                <Button variant="contained" color='primary' type='submit' >
-                    Add
-                </Button>
-            </Tooltip>
+          />
+          {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+          <Tooltip title="Add Department">
+            <Button variant="contained" color='primary' type='submit' >
+              Add
+            </Button>
+          </Tooltip>
 
 
         </Stack>
-    </form>
-    <Stack sx={{
+      </form>
+      <Stack sx={{
         '& .super-app-theme--header': {
-            backgroundColor: "#33aaff",
+          backgroundColor: "#33aaff",
         },
         display: "grid",
         height: "40vh",
         marginBottom: "2rem",
-    }}
-    >
+      }}
+      >
         {dept ? <DataGrid
-            rows={dept}
-            key={row => row._id}
-            columns={columns}
-            getRowId={row => row._id}
-            getRowSpacing={getRowSpacing}
-            style={{
-                backgroundColor: "rgb(0,0,0,0.6)",
-                color: "white",
-                fontSize: "1rem", fontFamily: "Josefin Sans",
-                marginBottom: "1rem",
-                
-            }}
+          rows={dept}
+          key={row => row._id}
+          columns={columns}
+          getRowId={row => row._id}
+          getRowSpacing={getRowSpacing}
+          style={{
+            backgroundColor: "rgb(0,0,0,0.6)",
+            color: "white",
+            fontSize: "1rem", fontFamily: "Josefin Sans",
+            marginBottom: "1rem",
+
+          }}
         /> : undefined}
-    </Stack>
-    <ToastContainer
+      </Stack>
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={true}
@@ -142,7 +151,7 @@ const Testing = () => {
         draggable
         pauseOnHover
         theme="colored" />
-</div>
+    </div>
 
   )
 }
