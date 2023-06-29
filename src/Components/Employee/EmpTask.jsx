@@ -13,21 +13,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GetAssignTask } from '../../Redux/Action/Employee'
 const EmpTask = () => {
   const dispatch = useDispatch()
-  const {getAsignTask} = useSelector(state => state.emp)
-  // React.useEffect(() => {
-  //   getTask();
-  // }, []);
+  const { getAsignTask } = useSelector(state => state.emp)
+  //  for Get Assign Work
   React.useEffect(() => {
     dispatch(GetAssignTask())
   }, [dispatch]);
-
-  // const [tasks, setTasks] = React.useState();
-
-  // const getTask = async () => {
-  //   const { data } = await axios.get(`/api/emp/getAssignedTask`)
-  //   data && setTasks(data.tasks)
-  // }
-
 
   const columns = useMemo((getAsignTask) => [
     { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
@@ -45,15 +35,18 @@ const EmpTask = () => {
     { field: "endDate", headerName: "End At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
     { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
     {
+      field: "actions", type: "actions",
       headerName: "Action", headerClassName: "header",
       width: 150,
-      renderCell: (params) => <Box display="flex" alignItems="center" justifyContent="center">
+      renderCell: (params) => 
+          <Box display="flex" alignItems="center" justifyContent="center">
         <Submit checklist={params.row.checkList} id={params.row._id} />
         <Reject id={params.row._id} />
-      </Box>,
+      </Box>
+      ,
 
-      sortable: false,
-      filterable: false
+      // sortable: false,
+      // filterable: false
     },
   ], [])
 

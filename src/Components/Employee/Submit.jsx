@@ -35,7 +35,7 @@ const Submit = ({ id, checklist }) => {
         checkboxes: Yup.array().min(maximum, 'Please select All checkbox'),
 
     });
-    console.log(maximum)
+    // console.log(maximum)
 
     const initialValues = {
         checkboxes: [],

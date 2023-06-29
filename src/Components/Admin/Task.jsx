@@ -57,7 +57,7 @@ const Task = () => {
             headerName: "Action", headerClassName: "header",
             width: "135",
             renderCell: (params) => {
-                return params.row.status === "Created" ? <Box display="flex" justifyContent="center" alignItems="center" >
+                return (params.row.status === "Created" ? <Box display="flex" justifyContent="center" alignItems="center" >
                     <Tooltip title="Approve" >
                         <IconButton onClick={() => handleApprove(params.row._id)} aria-label="approve"  >
                             <CheckCircleOutlineTwoTone color='success' />
@@ -75,7 +75,7 @@ const Task = () => {
                     </Tooltip>
                 </Box>
                     :
-                    <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />
+                    <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />)
             },
             sortable: false,
             filterable: false
