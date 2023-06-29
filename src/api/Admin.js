@@ -25,8 +25,6 @@ export const adminLogin = async (values) => {
     }
 }
 
-
-
 // Maname Department & Sub-Department  Api 
 
 // Add new department 
@@ -70,7 +68,6 @@ export const getSubDept = async (values) => {
         return error
     }
 }
-
 
 // Get single sub-department details 
 export const getSubDeptDetails = async (valuse) => {
@@ -196,6 +193,20 @@ export const AssignTask = async (empId, taskId) => {
     try {
 
         const { data } = await axios.post('/api/admin/assignTask', { empId, taskId })
+        return data
+
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+
+export const ApproveTask = async (id) => {
+    try {
+
+        const { data } = await axios.get(`/api/admin/approveTask/${id}`,)
         return data
 
     } catch (error) {

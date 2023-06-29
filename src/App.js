@@ -21,6 +21,10 @@ import { useEffect } from 'react';
 import cookies from "js-cookie"
 import Barchart from './Barchart';
 import Login1 from './Components/Admin/Login1';
+import { Bar } from 'react-chartjs-2'
+import { UserData } from './data';
+import { useState } from 'react';
+import { chart } from 'chart.js/auto'
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -30,6 +34,17 @@ function App() {
   useEffect(() => {
     { loginData && cookies.set('Token', loginData.token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) }) }
   }, [loginData]);
+
+  const [userData, setuserData] = useState(
+    {
+      labels: UserData.map((data) => data.year),
+      datasets: [{
+        label: "userGain",
+        data: UserData.map((data) => data.userGain)
+
+      }]
+    }
+  );
 
   return (
 
@@ -53,7 +68,7 @@ function App() {
           <Route path="/emptask" element={<EmpTask />} />
           <Route path="/etask" element={<Tasks />} />
           <Route path="/submit" element={<Submit />} />
-          <Route path="/chart" element={<Barchart />} />
+          <Route path="/chart" element={<Barchart charData={userData} />} />
         </Routes>
       </div>
     </ThemeProvider>

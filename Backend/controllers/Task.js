@@ -1,6 +1,8 @@
 const People = require("../Models/Admin/People")
 const Task = require("../Models/Admin/Task")
 
+
+// this  is controller creates a new task 
 exports.addTask = async (req, res) => {
     try {
 
@@ -28,7 +30,7 @@ exports.getTask = async (req, res) => {
     try {
 
 
-        const task = await Task.find({ company: req.admin.company, status: "Created" })
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Created" }, { status: "Approved" }] })
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",
@@ -43,7 +45,6 @@ exports.getTask = async (req, res) => {
     }
 }
 
-
 // get Employee by department
 
 exports.getEmpByDept = async (req, res) => {
@@ -55,7 +56,6 @@ exports.getEmpByDept = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
-
 
 exports.assignTask = async (req, res) => {
     try {
@@ -116,5 +116,25 @@ exports.assignTask = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+exports.approveTask = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id)
+        if (!task) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Task not found..." })
+        }
+        task.status = "Approved"
+        task.save();
+        res.status(200).json({ success: true, message: "Task Approved..." })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
 }
