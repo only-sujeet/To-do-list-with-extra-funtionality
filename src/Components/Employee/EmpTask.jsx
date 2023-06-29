@@ -7,6 +7,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import axios from 'axios'
 import Submit from './Submit'
+import Reject from './Reject'
 import dayjs from 'dayjs'
 const EmpTask = () => {
   React.useEffect(() => {
@@ -39,7 +40,11 @@ const EmpTask = () => {
     {
       headerName: "Action", headerClassName: "header",
       width: 150,
-      renderCell: (params) => <Submit checklist={params.row.checkList} id={params.row._id} />,
+      renderCell: (params) => <Box display="flex" alignItems="center" justifyContent="center">
+        <Submit checklist={params.row.checkList} id={params.row._id} />
+        <Reject id={params.row._id} />
+      </Box>,
+
       sortable: false,
       filterable: false
     },
