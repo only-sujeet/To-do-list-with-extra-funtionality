@@ -133,7 +133,7 @@ const Subdepartment = () => {
         }
 
     }
-    console.log(data)
+    // console.log(data)
     const columns = useMemo(dept => [
         { field: "subDept", headerName: "Sub-Deptartment", width: 155, headerClassName: 'super-app-theme--header' },
         { field: "rate", headerName: "Rate", width: 140, headerClassName: 'super-app-theme--header' },
