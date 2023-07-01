@@ -57,17 +57,12 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     Assign
                 </Button>
             </Tooltip>
-            <Dialog open={open} onClose={handleClose}
-                PaperProps={{ sx: { position: "fixed", m: 0, top: 0, backgroundImage: 'radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)', } }} fullScreen>
-                <DialogTitle align='center'><Typography variant="h3" color="-moz-initial"><Typography variant="h2" fontWeight="bold" color="initial">Assign</Typography></Typography></DialogTitle>
+            <Dialog open={open} onClose={handleClose} maxWidth="md"
+                PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
+                <DialogTitle> <Typography variant="h6" color="initial">Assign</Typography></DialogTitle>
                 <DialogContent>
 
-                    <Card sx={{ display: "flex", width: "60%", margin: "20px auto" }}>
-                        <Box sx={{
-                            display: "flex", flexDirection:
-                                { lg: "column", sm: "row", xs: "row", md: "column" }
-                        }}>
-                            <CardContent sx={{ flex: "1 0 auto" }}>
+                   
                                 <Grid container spacing={2}>
                                     <Grid item lg={12} sm={12} xs={12} md={12}>
 
@@ -189,10 +184,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                     </Grid>
 
                                 </Grid>
-                            </CardContent>
-
-                        </Box>
-                    </Card>
+                          
                 </DialogContent>
                 <DialogActions>
 

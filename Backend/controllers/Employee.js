@@ -62,10 +62,7 @@ exports.empProfile = async (req, res) => {
 exports.getAssignedTask = async (req, res) => {
     try {
         const emp = await People.findById(req.emp._id).populate("tasks")
-        res.status(200).json({
-            success: true,
-            tasks: emp.tasks
-        })
+        res.status(200).json(emp.tasks)
     } catch (error) {
         res.status(500).json({ success: false, message: error });
     }

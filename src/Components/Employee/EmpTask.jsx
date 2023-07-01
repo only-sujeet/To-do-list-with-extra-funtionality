@@ -7,21 +7,19 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
 import axios from 'axios'
 import Submit from './Submit'
+import Reject from './Reject'
 import dayjs from 'dayjs'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetAssignTask } from '../../Redux/Action/Employee'
 const EmpTask = () => {
+  const dispatch = useDispatch()
+  const { getAsignTask } = useSelector(state => state.emp)
+  //  for Get Assign Work
   React.useEffect(() => {
-    getTask();
-  }, []);
+    dispatch(GetAssignTask())
+  }, [dispatch]);
 
-  const [tasks, setTasks] = React.useState();
-
-  const getTask = async () => {
-    const { data } = await axios.get(`/api/emp/getAssignedTask`)
-    data && setTasks(data.tasks)
-  }
-
-
-  const columns = useMemo(task => [
+  const columns = useMemo((getAsignTask) => [
     { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
     { field: "rate", headerName: "Rate", width: 100, headerClassName: "header" },
     { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
@@ -37,11 +35,18 @@ const EmpTask = () => {
     { field: "endDate", headerName: "End At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
     { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
     {
+      field: "actions", type: "actions",
       headerName: "Action", headerClassName: "header",
       width: 150,
-      renderCell: (params) => <Submit checklist={params.row.checkList} id={params.row._id} />,
-      sortable: false,
-      filterable: false
+      renderCell: (params) => 
+          <Box display="flex" alignItems="center" justifyContent="center">
+        <Submit checklist={params.row.checkList} id={params.row._id} />
+        <Reject id={params.row._id} />
+      </Box>
+      ,
+
+      // sortable: false,
+      // filterable: false
     },
   ], [])
 
@@ -52,9 +57,9 @@ const EmpTask = () => {
         <Header title="Tasks" subtitle="Welcome to task page here Display your tasks" />
 
         <Stack style={{ display: "grid", width: "100%", height: "50vh", }}>
-          {tasks ?
+          {getAsignTask ?
             <DataGrid
-              rows={tasks}
+              rows={getAsignTask}
               key={row => row._id}
               sx={{
                 fontSize: "1rem", fontFamily: "sans-serif",

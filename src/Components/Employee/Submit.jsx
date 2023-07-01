@@ -1,11 +1,12 @@
 
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Tooltip, Typography } from '@mui/material'
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Tooltip, Typography, IconButton } from '@mui/material'
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { PublishTwoTone } from '@mui/icons-material';
 
 const Submit = ({ id, checklist }) => {
 
@@ -34,13 +35,13 @@ const Submit = ({ id, checklist }) => {
         checkboxes: Yup.array().min(maximum, 'Please select All checkbox'),
 
     });
-    console.log(maximum)
+    // console.log(maximum)
 
     const initialValues = {
         checkboxes: [],
     };
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async () => {
         // e.preventDefault();
         let formData = new FormData();
         formData.append("file", file.data);
@@ -48,7 +49,9 @@ const Submit = ({ id, checklist }) => {
 
         if (res.success === true) {
             toast.success(res.message)
-            // setOpen(false)
+            // setTimeout(() => {
+                setOpen(false)
+            // }, 2000); 
         }
         if (res.success === false) {
             toast.error(res.message)
@@ -58,10 +61,10 @@ const Submit = ({ id, checklist }) => {
 
     return (
         <div>
-            <Tooltip title="Add People">
-                <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                    Submit
-                </Button>
+            <Tooltip title="Submit Task">
+               <IconButton aria-label="submit" onClick={handleClickOpen}>
+                 <PublishTwoTone color='success'/>
+               </IconButton>
 
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
