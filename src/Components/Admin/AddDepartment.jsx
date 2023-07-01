@@ -27,7 +27,7 @@ const AddDepartment = () => {
     const columns = useMemo(dept => [
         { field: "department", headerName: "Task Name", width: 150, headerClassName: 'super-app-theme--header' },
         {
-            field: "subDepts", headerName: 'Sub-Department',
+            field: "subDepts", headerName: 'Sub-Department', headerClassName: 'super-app-theme--header',
             width: 200,
             renderCell: (params) => (
                 <FormControl variant='filled' fullWidth>
@@ -38,17 +38,17 @@ const AddDepartment = () => {
                         name='department'>
                         {
                             params.row.subDepts <= 0 ? <MenuItem>No Sub-Department Added</MenuItem> : params.row.subDepts?.map((data) => (
-                                <MenuItem disabled value={data.subDept}>{data.subDept}</MenuItem>
+                                <MenuItem disabled sx={{ backgroundColor: "red" }} >{data.subDept}</MenuItem>
                             ))
                         }
                     </Select>
-                </FormControl>
+                </FormControl >
             ),
         },
         {
             field: "Action", headerName: "Action", width: 255, headerAlign: "center", headerClassName: 'super-app-theme--header',
             renderCell: (params) => <Box display="flex" alignItems="center" justifyContent="space-between" >
-                <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto", mr:"2px"}} ><Delete /></Button>
+                <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto", mr: "2px" }} ><Delete /></Button>
                 {/* <Button variant="contained" sx={{ display: "flex", margin: "auto" }} >Add Sub-Department</Button> */}
             </Box>
         },
@@ -118,7 +118,7 @@ const AddDepartment = () => {
                 display: "grid",
                 height: "40vh",
                 marginBottom: "2rem",
-                width:"100%"
+                width: "100%"
             }}
             >
                 {dept ? <DataGrid
@@ -131,7 +131,7 @@ const AddDepartment = () => {
                     style={{
                         backgroundColor: "rgb(0,0,0,0.6)",
                         color: "white",
-                        fontSize: "1rem", 
+                        fontSize: "1rem",
                         fontFamily: "Josefin Sans",
                         marginBottom: "1rem",
                         textTransform: "capitalize"

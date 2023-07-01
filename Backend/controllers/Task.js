@@ -25,7 +25,6 @@ exports.addTask = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
-
 exports.getTask = async (req, res) => {
     try {
 
@@ -44,9 +43,7 @@ exports.getTask = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
-
 // get Employee by department
-
 exports.getEmpByDept = async (req, res) => {
     try {
         const { department } = req.body
