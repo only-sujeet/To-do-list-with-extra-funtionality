@@ -1,42 +1,28 @@
-import { makeStyles, } from '@material-ui/core'
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, } from '@mui/material'
+
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, Toolbar, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { blockPeople, } from '../../api/Admin'
 import { getPeople } from '../../Redux/Action/Admin'
-import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
 import NewPeopledet from '../Global/NewPeopledet'
 import AddPeople from './AddPeople'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Topbar from '../Global/Topbar'
 
-const usestyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-
-    },
-    toolbar: theme.mixins.toolbar,
-    text: {
-        borderRadius: "20px",
-    }
-}))
-
-
+const drawerWidth = 240;
 
 const AddProfile = () => {
-    const classes = usestyles();
+   
     const dispatch = useDispatch();
     const { people, loading } = useSelector(state => state.admin)
-
 
     useEffect(() => {
         dispatch(getPeople())
 
     }, [dispatch])
-    console.log(people)
 
 
     const handleSearch = (e) => {
@@ -55,9 +41,12 @@ const AddProfile = () => {
     }
     return (
         <>
-            <AdminTopbar />
-            <div className={classes.content}>
-                <div className={classes.toolbar} />
+            <Topbar />
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Toolbar />
                 <Box m='15px'>
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Add Profile" subtitle="Welcome to Add Profile page" />
@@ -68,7 +57,7 @@ const AddProfile = () => {
                     </Box>
                     <form style={{ display: "flex", alignItems: "end", justifyContent: "end", }} >
                         <TextField
-                           sx={{"& .MuiOutlinedInput-root":{ borderRadius:"20px"}}}
+                            sx={{ "& .MuiOutlinedInput-root": { borderRadius: "20px" } }}
                             placeholder='Search Emloyees By Name & Department'
                             id=""
                             label=""
@@ -129,7 +118,7 @@ const AddProfile = () => {
                     draggable
                     pauseOnHover
                     theme="colored" />
-            </div>
+            </Box>
         </>
     )
 }

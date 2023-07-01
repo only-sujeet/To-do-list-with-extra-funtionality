@@ -1,28 +1,21 @@
-import { makeStyles } from '@material-ui/core'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import AdminTopbar from '../Global/AdminTopbar'
 import Header from '../Global/Header'
 import { getBlockPeople } from '../../Redux/Action/Admin'
 import NewPeopledet from '../Global/NewPeopledet'
 import { unBlockPeople } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Topbar from '../Global/Topbar'
 
-const usestyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
+const drawerWidth = 240;
 
-    },
-    toolbar: theme.mixins.toolbar,
-}))
 
 
 const BlockProfile = () => {
-    const classes = usestyles();
+   
     const dispatch = useDispatch();
     const { loading, blkpeople } = useSelector(state => state.admin)
 
@@ -30,7 +23,6 @@ const BlockProfile = () => {
         dispatch(getBlockPeople())
     }, [dispatch])
 
-    // console.log(blkpeople)
     const unblock = async (id) => {
         const res = await unBlockPeople(id)
         if (res.success === true) {
@@ -43,9 +35,12 @@ const BlockProfile = () => {
     }
     return (
         <>
-            <AdminTopbar />
-            <div className={classes.content}>
-                <div className={classes.toolbar} />
+            <Topbar />
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Toolbar />
                 <Box m='15px'>
                     <Box display='flex' justifyContent='space-between' alignItems='center'>
                         <Header title='Block Profile' subtitle='Welcome to Block Profile Page' />
@@ -55,7 +50,7 @@ const BlockProfile = () => {
                     <Grid container spacing={2}>
                         {
                             blkpeople <= 0 ?
-                            <Typography variant="h2" color="initial" m='20px auto'  >No Profile Blocked</Typography>: blkpeople?.map((data) => (
+                                <Typography variant="h2" color="initial" m='20px auto'  >No Profile Blocked</Typography> : blkpeople?.map((data) => (
 
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
@@ -97,7 +92,7 @@ const BlockProfile = () => {
                     draggable
                     pauseOnHover
                     theme="colored" />
-            </div>
+            </Box>
         </>
     )
 }

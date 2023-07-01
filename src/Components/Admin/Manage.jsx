@@ -1,7 +1,5 @@
 import React from 'react'
-import { makeStyles, } from '@material-ui/core'
-import AdminTopbar from '../Global/AdminTopbar';
-import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography, } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Toolbar, Typography, } from '@mui/material';
 import Header from '../Global/Header';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,20 +8,17 @@ import Subdepartment from './Subdepartment';
 import { getAdminProfile } from '../../Redux/Action/Admin';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import Topbar from '../Global/Topbar';
 
-const usestyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    toolbar: theme.mixins.toolbar,
-}))
+
+const drawerWidth = 240;
+
 
 const Manage = () => {
 
 
     const dispatch = useDispatch()
-    const classes = usestyles();
+   
     const [status, setStatus] = useState(2)
     const handler = (status) => {
         setStatus(status)
@@ -36,9 +31,12 @@ const Manage = () => {
 
     return (
         <>
-            <AdminTopbar />
-            <div className={classes.content}>
-                <div className={classes.toolbar} />
+            <Topbar />
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Toolbar />
                 <Box m="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Manage" subtitle="Welcome to Manage page" />
@@ -54,7 +52,7 @@ const Manage = () => {
 
                     </Box>
                     <Box m="40px auto" width={{ lg: "50%", sm: "100%", md: "60%", xs: "80%" }}>
-                      
+
                         {
                             status === 2 && <AddDepartment />
                         }
@@ -65,7 +63,7 @@ const Manage = () => {
 
                 </Box>
 
-            </div>
+            </Box>
         </>
     )
 }

@@ -11,7 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { AddchartTwoTone, AddTaskTwoTone, Close,  Menu, PeopleAltTwoTone } from '@mui/icons-material';
-import {  Divider, ListItemButton, ListItemIcon } from '@mui/material';
+import {  Divider, ListItemButton, ListItemIcon, Button } from '@mui/material';
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
@@ -101,9 +101,12 @@ const AdminTopbar = () => {
                     >
                         <Menu />
                     </IconButton>
-                    <Typography variant="h6" noWrap>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
                         INK
                     </Typography>
+                    <Button variant="text" color="inherit" >
+                      hello
+                    </Button>
                 </Toolbar>
             </AppBar>
 

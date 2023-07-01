@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react'
-import { makeStyles, } from '@material-ui/core'
-import AdminTopbar from '../Global/AdminTopbar';
-import { Box, Stack, Tooltip, Zoom, Button, IconButton } from '@mui/material';
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -10,22 +8,16 @@ import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
-import { CheckCircleOutlineTwoTone, ClearAll, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
+import { CheckCircleOutlineTwoTone,  ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Topbar from '../Global/Topbar';
+const drawerWidth = 240;
 
-const usestyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-
-    },
-    toolbar: theme.mixins.toolbar,
-}))
 
 const Task = () => {
-    const classes = usestyles();
+    
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
     useEffect(() => {
@@ -82,20 +74,16 @@ const Task = () => {
         },
     ], [])
 
-    const options = {
-        search: true,
-        download: true,
-        print: true,
-        viewColumns: true,
-        filter: true,
-        filterType: "dropdown",
-    };
+
     return (
 
         <>
-            <AdminTopbar />
-            <div className={classes.content}>
-                <div className={classes.toolbar} />
+            <Topbar />
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Toolbar />
                 <Box m="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Task" subtitle="Welcome to Task page" />
@@ -128,7 +116,21 @@ const Task = () => {
                         }
                     </Stack>
                 </Box>
-            </div >
+           </Box>
+            {/*ToastContainer for display pop-up messages  */}
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgdatasBar={true}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     )
 }

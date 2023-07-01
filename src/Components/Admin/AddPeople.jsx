@@ -113,7 +113,7 @@ const AddPeople = () => {
     })
 
 
-    console.log(errors)
+    // console.log(errors)
     return (
         <div>
             <Tooltip title="Add People">
