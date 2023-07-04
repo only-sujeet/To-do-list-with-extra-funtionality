@@ -1,35 +1,42 @@
 const mongoose = require("mongoose")
-const bcrypt  = require('bcrypt')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const crypto = require("crypto")
+
 const adminSchema = mongoose.Schema({
-    company:{
+    company: {
         type: String,
-        required :[true, "Company is required"]
+        required: [true, "Company is required"]
     },
 
-    email :{
+    email: {
         type: String,
-        required :[true, "Email is required"]
+        required: [true, "Email is required"]
     },
-   
-    password :{
-        type : String,
-        required : [true, "Password is required"]
+
+    password: {
+        type: String,
+        required: [true, "Password is required"]
     },
-    department:[
+    department: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"Department"
+            ref: "Department"
         }
-    ]
-    
+    ],
+
+
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+
+
 
 })
 
 
-adminSchema.pre('save', async function(next){
-    if(this.isModified('password')){
-        this.password = await bcrypt.hash(this.password , 10)
+adminSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10)
     }
     next();
 })
@@ -38,10 +45,17 @@ adminSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-
 adminSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
 }
 
-const Admin =  mongoose.model("Admin", adminSchema)
+adminSchema.methods.getResetPasswordToken = async function () {
+    const resetToken = crypto.randomBytes(20).toString('hex')
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+    this.resetPasswordExpires = Date.now() + 5 * 60 * 1000;
+    return resetToken
+}
+
+
+const Admin = mongoose.model("Admin", adminSchema)
 module.exports = Admin

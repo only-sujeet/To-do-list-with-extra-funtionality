@@ -1,5 +1,5 @@
 const express = require('express')
-const { adminRegister, adminLogin, myProfile, adminLogout } = require('../controllers/Admin')
+const { adminRegister, adminLogin, myProfile, adminLogout, forgotPassword, setPassword } = require('../controllers/Admin')
 const { addCompany, GetCompany, deleteCompany, delSubField, addDept, getDept, addSubDept, getSubDept, DeleteDept, editSubDept, deleteSubDept, getSubDeptDetail, getSubDeptinfo } = require('../controllers/Company')
 const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlockPeople } = require('../controllers/People')
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
@@ -31,6 +31,8 @@ const exupload = multer({ dest: 'uploads' });
 router.route("/register").post(adminRegister)
 router.route("/login").post(adminLogin)
 router.route("/logout").get(adminLogout)
+router.route("/forgotPassword").post(forgotPassword)
+router.route("/setPassword/:token").post(setPassword)
 
 
 
