@@ -11,6 +11,7 @@ import AddPeople from './AddPeople'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar'
+import AdminRoute from '../../Protected Route/AdminRoute'
 
 const drawerWidth = 240;
 
@@ -123,4 +124,4 @@ const AddProfile = () => {
     )
 }
 
-export default AddProfile
+export default AdminRoute(AddProfile)

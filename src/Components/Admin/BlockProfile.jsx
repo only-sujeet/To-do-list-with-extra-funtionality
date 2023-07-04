@@ -9,6 +9,7 @@ import { unBlockPeople } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar'
+import AdminRoute from '../../Protected Route/AdminRoute'
 
 const drawerWidth = 240;
 
@@ -97,4 +98,4 @@ const BlockProfile = () => {
     )
 }
 
-export default BlockProfile
+export default   AdminRoute(BlockProfile)

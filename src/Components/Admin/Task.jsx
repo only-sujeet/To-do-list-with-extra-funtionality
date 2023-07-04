@@ -8,16 +8,17 @@ import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
-import { CheckCircleOutlineTwoTone,  ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
+import { CheckCircleOutlineTwoTone, Circle, CircleTwoTone, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar';
+import AdminRoute from '../../Protected Route/AdminRoute';
 const drawerWidth = 240;
 
 
 const Task = () => {
-    
+
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
     useEffect(() => {
@@ -44,30 +45,57 @@ const Task = () => {
         { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header" },
-        { field: "status", headerName: "Status", width: 120, headerClassName: "header" },
+        {
+            field: "status", headerName: "Status", width: 120, headerClassName: "header", renderCell: params => {
+                if (params.row.status === "Created") {
+                    return <IconButton aria-label="Created" >
+                        <Circle color='error' />-
+                    </IconButton>
+                }
+                else if (params.row.status === "Approved") {
+                    return <IconButton aria-label="Approved" >
+                        <Circle color='warning' />
+                    </IconButton>
+                }
+                else if (params.row.status === "assign") {
+                    return <IconButton aria-label="Assigned" >
+                        <Circle color='success' />
+                    </IconButton>
+                }
+
+            }
+        },
         {
             headerName: "Action", headerClassName: "header",
             width: "135",
-            renderCell: (params) => {
-                return (params.row.status === "Created" ? <Box display="flex" justifyContent="center" alignItems="center" >
-                    <Tooltip title="Approve" >
-                        <IconButton onClick={() => handleApprove(params.row._id)} aria-label="approve"  >
-                            <CheckCircleOutlineTwoTone color='success' />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Reject">
-                        <IconButton aria-label="approve"  >
-                            <ClearTwoTone color='error' />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Edit">
-                        <IconButton aria-label="approve"  >
-                            <EditNoteTwoTone color='info' />
-                        </IconButton>
-                    </Tooltip>
-                </Box>
-                    :
-                    <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />)
+            renderCell: params => {
+                if (params.row.status === "Created") {
+
+                    return <Box display="flex" justifyContent="center" alignItems="center" >
+                        <Tooltip title="Approve" >
+                            <IconButton onClick={() => handleApprove(params.row._id)} aria-label="approve"  >
+                                <CheckCircleOutlineTwoTone color='success' />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Reject">
+                            <IconButton aria-label="approve"  >
+                                <ClearTwoTone color='error' />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit">
+                            <IconButton aria-label="approve"  >
+                                <EditNoteTwoTone color='info' />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+
+                }
+                else if (params.row.status === "Approved") {
+                    return <Assign name={params.row.name} startDate={params.row.startDate} endDate={params.row.endDate} unit={params.row.unit} taskDependency={params.row.taskDependency} id={params.row._id} instruction={params.row.instruction} rate={params.row.rate} department={params.row.department} />
+                }
+                else {
+                    return <Box></Box>
+                }
             },
             sortable: false,
             filterable: false
@@ -116,7 +144,7 @@ const Task = () => {
                         }
                     </Stack>
                 </Box>
-           </Box>
+            </Box>
             {/*ToastContainer for display pop-up messages  */}
             <ToastContainer
                 position="top-center"
@@ -135,4 +163,4 @@ const Task = () => {
     )
 }
 
-export default Task
+export default  AdminRoute(Task)

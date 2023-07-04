@@ -36,11 +36,7 @@ const AddTask = () => {
         })
     }
 
-    const submitDay = (event) => {
-        event.preventDefault();
-        // console.log(daysdata)
-    }
-
+   
 
 
     const getDepartment = async () => {

@@ -9,6 +9,7 @@ import { getAdminProfile } from '../../Redux/Action/Admin';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Topbar from '../Global/Topbar';
+import AdminRoute from '../../Protected Route/AdminRoute';
 
 
 const drawerWidth = 240;
@@ -68,4 +69,4 @@ const Manage = () => {
     )
 }
 
-export default Manage
+export default AdminRoute(Manage)

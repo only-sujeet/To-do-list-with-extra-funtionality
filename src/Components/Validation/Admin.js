@@ -71,6 +71,9 @@ export const addTasks = yup.object({
     taskDependency: yup.string().required("Please Enter Task Dependency"),
     startDate: yup.date().transform(parseDateString).min(new Date(), 'Please choose future date'),
     endDate: yup.date().transform(parseDateString).min(yup.ref("startDate"), "End date has to be more than start date"),
+    check: yup.array().of(yup.object().shape({
+        checklist: yup.string().required("Name required"),
+    }))
     // yup.date().required("Please Select Start Date").min(startdates,"sdfs").min(new Date(),'Please choose future date'),
     // endDate : yup.date().min(enddates,"Minimum date must be 2 days from Start Date").required("Please Select Ending Date") .min(yup.ref("startDate"),"End date has to be more than start date"),
     // QTY: yup.number().required("Please Enter Quantity"),

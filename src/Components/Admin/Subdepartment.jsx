@@ -10,7 +10,6 @@ import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-materia
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { Box } from '@material-ui/core'
 import { useState } from 'react'
-
 const Subdepartment = () => {
 
     useEffect(() => {
@@ -110,7 +109,6 @@ const Subdepartment = () => {
     // Edit sub-department function
     const handleEdit = (e) => {
         const { name, value } = e.target
-
         setData(
             {
                 ...data,

@@ -29,7 +29,7 @@ exports.getTask = async (req, res) => {
     try {
 
 
-        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Created" }, { status: "Approved" }] })
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Created" }, { status: "Approved" }, {status :"assign"}] })
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",

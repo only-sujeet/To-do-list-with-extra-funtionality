@@ -7,6 +7,7 @@ const router = express.Router()
 const multer = require('multer')
 const { addTask, getTask, getEmpByDept, assignTask, approveTask } = require('../controllers/Task')
 const { EmpLogin } = require('../controllers/Employee')
+const { bulkUpload, bulkUpdate } = require('../controllers/Upload')
 
 
 // for multer storage 
@@ -24,7 +25,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-
+const exupload = multer({ dest: 'uploads' });
 // Routes of Admin Register And Login 
 
 router.route("/register").post(adminRegister)
@@ -58,6 +59,8 @@ router.route("/getBlockPeople").get(getBlockPeople)
 
 
 router.route("/addTask").post(isAuthenticatedAdmin, addTask)
+router.route("/BulkUpload").post( exupload.single('file'), bulkUpload)
+// router.route("/bulkUpdate").post(isAuthenticatedAdmin, bulkUpdate)
 router.route("/getTask").get(isAuthenticatedAdmin, getTask)
 router.route("/approveTask/:id").get(isAuthenticatedAdmin, approveTask)
 

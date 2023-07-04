@@ -1,0 +1,380 @@
+import { AddTaskTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, FormControlLabel, Radio, Divider } from '@mui/material'
+import { useFormik } from 'formik';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
+import { getTask } from '../../Redux/Action/Admin';
+import { addTasks } from '../Validation/Admin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const EditTask = () => {
+    React.useEffect(() => {
+        getDepartment();
+    }, []);
+
+    const dispatch = useDispatch()
+
+    const [open, setOpen] = React.useState(false);
+    const [val, setVal] = useState([])
+    const [dept, setDept] = React.useState();
+    const [subDept, setSubDept] = React.useState();
+    const [subDeptDetails, setSubDeptDetails] = React.useState();
+    const [status, setStatus] = useState(false)
+    const [daysdata, setDaysdata] = useState({
+        number: "",
+        selection: ""
+    })
+
+    const handleday = (event) => {
+        setDaysdata({
+            ...daysdata, [event.target.name]: event.target.value
+        })
+    }
+
+   
+
+// for get dept
+    const getDepartment = async () => {
+        const { data } = await getDept()
+        data && setDept(data)
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        dispatch(getTask())
+    };
+   
+// for radio button
+    const handler = (status) => {
+        setStatus(status)
+    }
+
+
+// for add checklist
+    const handleAdd = () => {
+        const abc = [...val, []]
+        setVal(abc)
+    }
+// for on change of checklist
+    const handleChanges = (onChangeValue, i) => {
+        const inputdata = [...val]
+        inputdata[i] = onChangeValue.target.value
+        setVal(inputdata)
+    }
+// for delete of checklist
+    const handleDelete = (i) => {
+        const delval = [...val]
+        delval.splice(i, 1)
+        setVal(delval)
+    }
+
+
+
+    const initialvalue = {
+        name: "",
+        rate: "",
+        unit: "",
+        department: "",
+        instruction: "",
+        taskDependency: "",
+        startDate: "",
+        endDate: ""
+    }
+
+
+    const handleTwoFunc2 = async (e) => {
+        handleChange(e)
+        const data = await getSubDept({ department: e.target.value })
+        data && setSubDept(data)
+
+    }
+    const handleTwoFunc3 = async (e) => {
+        handleChange(e)
+        setSubDeptDetails(null)
+        const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
+        data && setSubDeptDetails(data)
+    }
+  return (
+    <div>
+   
+    <Dialog open="true" onClose={handleClose} maxWidth="md"
+        PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
+        <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>
+        <DialogContent>
+            <form action="" >
+                <Grid container spacing={2}>
+                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                        <TextField
+                            fullWidth
+                            variant='standard'
+                            color='secondary'
+                            id="name"
+                            label="Task Name"
+                            name='name'
+                            type="text"
+                            // value={values.name}
+                            // onChange={handleChange}
+                            // onBlur={handleBlur}
+
+                        />
+                        
+                    </Grid>
+
+                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                        <FormControl variant='filled' fullWidth>
+                            <InputLabel color='secondary'>Department</InputLabel>
+                            <Select
+                                color='secondary'
+                                id='department'
+                                label="Depatment"
+                                name='department'
+                                // value={values.department}
+                                onChange={handleTwoFunc2}
+                                // onBlur={handleBlur}
+                            >
+                                {
+                                    dept && dept?.map((data) => (
+                                        <MenuItem value={data.department}>{data.department}</MenuItem>
+                                    ))
+                                }
+
+                            </Select>
+                        </FormControl>
+                        
+                    </Grid>
+                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                        <FormControl variant='filled' fullWidth>
+                            <InputLabel color='secondary'>Task Dependency</InputLabel>
+                            <Select
+                                color='secondary'
+                                id='taskDependency'
+                                label="taskDependency"
+                                name='taskDependency'
+                                value={values.taskDependency}
+                                onChange={handleTwoFunc3}
+                                onBlur={handleBlur}
+                            >
+                                {
+                                    subDept && subDept?.map((data) => (
+                                        <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+                                    ))
+                                }
+
+                            </Select>
+                        </FormControl>
+                       
+                    </Grid>
+                    {
+                        subDeptDetails &&
+                        <>
+                            <Grid item lg={3} sm={12} xs={12} md={12}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="rate"
+                                    label="Rate"
+                                    name='rate'
+                                    type="number"
+                                    value={subDeptDetails && subDeptDetails.rate}
+                                    aria-readonly
+                                    onChange={handleChange}
+                                />
+                               
+                            </Grid>
+                            <Grid item lg={9} sm={12} xs={12} md={6}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="unit"
+                                    label="Unit"
+                                    name='unit'
+                                    type="text"
+                                    value={subDeptDetails && subDeptDetails.unit}
+                                    aria-readonly
+
+                                />
+                                
+                            </Grid>
+                        </>
+                    }
+
+                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows="3"
+                            variant='filled'
+                            color='secondary'
+                            id="instruction"
+                            label="Instruction"
+                            name='instruction'
+                            type="text"
+                        
+                        />
+                       
+                    </Grid>
+                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                        <FormControl>
+                            <Typography variant="body1" color="initial">Do You Want Enter Start Date and Ending Date :</Typography>
+                            <RadioGroup row aria-label="dategroup" defaultValue="number" name='date group'>
+
+                                <FormControlLabel value='date' label={<Typography variant="h4" color="initial">Yes</Typography>} control={<Radio onClick={(e) => { handler(true) }} />}></FormControlLabel>
+                                <FormControlLabel value='number' label={<Typography variant="h4" color="initial">No</Typography>} control={<Radio onClick={(e) => { handler(false) }} />}></FormControlLabel>
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    {status === true && <Grid container spacing={2} sx={{ margin: "0px 10px" }}  >
+                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                            <TextField
+                                fullWidth
+                                variant='standard'
+                                color='secondary'
+                                id="startDate"
+                                label="Start Date"
+                                name='startDate'
+                                type="date"
+                                InputLabelProps={{ shrink: true, }}
+                                
+                            />
+                           
+                        </Grid>
+                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                            <TextField
+                                fullWidth
+                                variant='standard'
+                                color='secondary'
+                                id="endDate"
+                                label="End Date"
+                                name='endDate'
+                                type="date"
+                                InputLabelProps={{ shrink: true, }}
+                               
+                            />
+                            
+                        </Grid>
+
+                    </Grid>
+                    }
+                    {status === false &&
+
+                        <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
+                            <Grid item lg={12} sm={12} xs={12} md={6}>
+                                <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+
+                                <TextField
+                                    fullWidth
+                                    required
+                                    variant='standard'
+                                    color='secondary'
+                                    id="Durationnumber"
+                                    label="Duration Number"
+                                    name='number'
+                                    type="number"
+
+                                    value={daysdata.number}
+                                    onChange={handleday}
+
+                                />
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <FormControl variant='filled' fullWidth>
+                                    <InputLabel color='secondary'>Duration</InputLabel>
+                                    <Select
+                                        required
+                                        color='secondary'
+                                        id='selection'
+                                        label="Select Duration Type"
+                                        name='selection'
+                                        value={daysdata.selection}
+                                        onChange={handleday}
+
+                                    >
+                                        <MenuItem value="Minute">Minute</MenuItem>
+                                        <MenuItem value="Hour">Hour</MenuItem>
+                                        <MenuItem value="Day">Day</MenuItem>
+                                        <MenuItem value="Month">Month</MenuItem>
+                                        <MenuItem value="Year">Year</MenuItem>
+
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+
+                    }
+                    {/* <Divider variant='middle' /> */}
+                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                        <Divider variant='middle'>
+                            <Typography variant='caption'>Add Check List</Typography>
+                        </Divider>
+                    </Grid>
+                    <Grid item lg={8} sm={8} xs={8} md={8}>
+                        <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
+                    </Grid>
+                    <Grid item lg={4} sm={4} xs={4} md={4}>
+                        <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}  >
+                            Add Column
+                        </Button>
+                    </Grid>
+                    {
+                        val.map((data, i) => {
+                            return (
+                                <Grid container spacing={2} sx={{ m: "0px 20px" }}  >
+                                    <Grid item lg={10} sm={10} xs={10} md={10} >
+                                        <TextField
+                                            size='small'
+                                            sx={{ mb: "3px" }}
+                                            fullWidth
+                                            name='chk'
+                                            label="Enter Check List Data"
+                                            value={data}
+                                            onChange={e => handleChanges(e, i)}
+
+                                        />
+                                    </Grid>
+                                    <Grid item lg={2} sm={2} xs={2} md={2}  >
+
+                                        <Button aria-label="icon" variant='contained' onClick={() => handleDelete(i)}>
+                                            <DeleteForeverTwoTone color='error' />
+                                        </Button>
+
+                                    </Grid>
+                                </Grid>
+                            )
+                        })
+                    }
+                    <Grid item lg={12} sm={12} xs={12} md={12}>
+                        <Button variant="contained" color='primary' type='submit' >
+                            Add
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </DialogContent>
+        <DialogActions>
+
+            <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+    </Dialog>
+    <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
+</div>
+  )
+}
+
+export default EditTask
