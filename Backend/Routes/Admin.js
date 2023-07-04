@@ -59,7 +59,7 @@ router.route("/getBlockPeople").get(getBlockPeople)
 
 
 router.route("/addTask").post(isAuthenticatedAdmin, addTask)
-router.route("/BulkUpload").post( exupload.single('file'), bulkUpload)
+router.route("/BulkUpload").post(exupload.single('file'), isAuthenticatedAdmin, bulkUpload)
 // router.route("/bulkUpdate").post(isAuthenticatedAdmin, bulkUpdate)
 router.route("/getTask").get(isAuthenticatedAdmin, getTask)
 router.route("/approveTask/:id").get(isAuthenticatedAdmin, approveTask)
