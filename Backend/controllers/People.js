@@ -5,8 +5,21 @@ const ApiFeature = require("../utils/apiFeature");
 // For add People
 exports.addPeople = async (req, res) => {
     try {
+        function generateRandomPassword(length) {
+            const characters = '01234ABCDEFGHIJKLMNOPQRSTUVWXYZ56789';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters[randomIndex];
+            }
+            return password;
+        }
+
+        // Example usage
+        const password = generateRandomPassword(10); // Generate a 10-character password
+
         const object = JSON.parse(req.body.data)
-        const { email, password, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = object
+        const { email, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = object
         const Image = (req.file) ? req.file.filename : null
         //   for finding email
         const findEmail = await People.findOne({ email })
@@ -16,7 +29,7 @@ exports.addPeople = async (req, res) => {
         const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image })
         await peo.save();
 
-        const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${peo.password} \n\n\n Thank You`
+        const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${password} \n\n\n Thank You`
 
         res.status(200).json({
             success: true,
