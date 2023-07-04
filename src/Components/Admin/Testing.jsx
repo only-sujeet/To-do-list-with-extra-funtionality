@@ -46,11 +46,7 @@ const Testing = () => {
     console.log(formData)
     console.log(selectedFile)
     try {
-      await axios.post('http://localhost:5000/api/admin/BulkUpload', formData ,{
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      await axios.post('http://localhost:5000/api/admin/BulkUpload', formData );
       alert('File uploaded and data stored successfully!');
     } catch (error) {
       console.error('Error uploading file:', error);

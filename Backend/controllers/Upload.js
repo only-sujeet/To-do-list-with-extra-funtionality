@@ -91,89 +91,15 @@ exports.uploadfile = async (req, res, next) => {
     // res.status(200).json({ response });
 
 }
-// exports.uploadfile = async (req, res, next) => {
-//     try {
-//         if (!req.file) {
-//             res.status(400).send("No file uploaded.");
-//             return;
-//         }
-//         const auth = authenticateGoogle();
-//         const response = await uploadToGoogleDrive(req.file, auth);
-//         deleteFile(req.file.path);
-//         res.status(200).json({ response });
-//     } catch (err) {
-//         console.log(err);
-//     }
-// }
-
+     
 // for excel bulk upload 
 exports.bulkUpload = async (req, res) => {
-    const workbook = xlsx.readFile(req.file.path);
+    const file = req.file
+    const workbook = xlsx.readFile(file.path);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
-    // const { name,
-    //     rate,
-    //     unit,
-    //     department,
-    //     taskDependency,
-    //     instruction,
-    //     startDate,
-    //     endDate,
-    //     timeDuration,
-    //     checkList, } = data
-    //     data.forEach( async (entry) => {
-    //     const newData = new Task({
-    //       name: entry[0],
-    //       rate: entry[1],
-    //       unit: entry[2],
-    //       department: entry[3],
-    //       taskDependency: entry[4],
-    //       instruction: entry[5],
-    //       startDate: entry[6],
-    //       endDate: entry[7],
-    //       timeDuration: entry[8],
-    //       checkList: entry[9],
-    //       status: entry[10],
-    //       company:  entry[11],
-    //     });
+    
 
-
-    //      newData.save((err) => {
-    //         if (err) {
-    //             console.error('Error saving data:', err);
-    //         }
-    //         else{
-
-    //             res.status(200).json({ message: 'Data uploaded and saved successfully' });
-    //         }
-
-
-    //     });
-    // });
-    // const newData = new Task({
-    //   name,
-    //   rate,
-    //   unit,
-    //   department,
-    //   taskDependency,
-    //   instruction,
-    //   startDate,
-    //   endDate,
-    //   timeDuration,
-    //   checkList,
-    //   company: req.admin.company,
-    //   status:"Created"});
-
-    //   await newData.save((err) => {
-    //     if (err) {
-    //       console.error('Error saving data:', err);
-    //       res.status(500).json({ error: 'Error saving data' });
-    //     } else {
-    //       res.status(200).json({ message: 'Data saved successfully' });
-    //     }
-    //   });
-    // const company = req.admin.company
-    // const status = "Created"
     await Task.insertMany(data, (error, docs) => {
             if (docs) {
                 res.status(200).json({ message: 'Data saved successfully' });

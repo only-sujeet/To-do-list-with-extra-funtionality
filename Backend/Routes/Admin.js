@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-const exupload = multer({ dest: 'uploads' });
+const exupload = multer({ dest: 'uploads/' });
 // Routes of Admin Register And Login 
 
 router.route("/register").post(adminRegister)
@@ -61,7 +61,7 @@ router.route("/getBlockPeople").get(getBlockPeople)
 
 
 router.route("/addTask").post(isAuthenticatedAdmin, addTask)
-router.route("/BulkUpload").post(exupload.single('file'), isAuthenticatedAdmin, bulkUpload)
+router.route("/BulkUpload").post(isAuthenticatedAdmin, exupload.single('file'), bulkUpload)
 // router.route("/bulkUpdate").post(isAuthenticatedAdmin, bulkUpdate)
 router.route("/getTask").get(isAuthenticatedAdmin, getTask)
 router.route("/approveTask/:id").get(isAuthenticatedAdmin, approveTask)
