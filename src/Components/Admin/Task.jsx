@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar } from '@mui/material';
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Fab, Chip } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar';
 import AdminRoute from '../../Protected Route/AdminRoute';
+import UploadExcel from './UploadExcel';
 const drawerWidth = 240;
 
 
@@ -42,25 +43,22 @@ const Task = () => {
         { field: "department", headerName: "Department", width: 130, headerClassName: "header" },
         { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", },
         { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> } },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
-        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
-        { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header" },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", },
+        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", },
+        { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------",},
         {
             field: "status", headerName: "Status", width: 120, headerClassName: "header", renderCell: params => {
                 if (params.row.status === "Created") {
-                    return <IconButton aria-label="Created" >
-                        <Circle color='error' />-
-                    </IconButton>
+                    return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='medium' />
                 }
                 else if (params.row.status === "Approved") {
-                    return <IconButton aria-label="Approved" >
-                        <Circle color='warning' />
-                    </IconButton>
+                    return <Chip icon={<Circle fontSize='small' color='warning' />} label={params.row.status} color='warning' variant='outlined' size='medium' />
+                   
+
+
                 }
                 else if (params.row.status === "assign") {
-                    return <IconButton aria-label="Assigned" >
-                        <Circle color='success' />
-                    </IconButton>
+                    return <Chip icon={<Circle fontSize='small' color='success' />} label={params.row.status} color='success' variant='outlined' size='medium' />
                 }
 
             }
@@ -115,7 +113,10 @@ const Task = () => {
                 <Box m="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Task" subtitle="Welcome to Task page" />
+                        <Box display="flex" justifyContent="center" alignItems="center">
                         <AddTask />
+                        <UploadExcel/>
+                        </Box>
                     </Box>
 
                     <Stack style={{
@@ -163,4 +164,4 @@ const Task = () => {
     )
 }
 
-export default  AdminRoute(Task)
+export default AdminRoute(Task)

@@ -6,9 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { Grid, TextField, Typography } from '@mui/material';
+import { Chip, Grid, TextField, Typography, IconButton, Fab } from '@mui/material';
 import { elements } from 'chart.js';
 import axios from 'axios';
+import { csvUpload } from '../../api/Admin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import { getTask } from '../../Redux/Action/Admin';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileArrowUp, faFileCsv, faFolderMinus } from '@fortawesome/free-solid-svg-icons';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -19,19 +26,18 @@ const requiredFields = ["Name", "Rate", "Unit", "Department", "TaskDependency", 
 const Testing = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState(null)
-
+  const dispatch = useDispatch()
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    dispatch(getTask())
   };
 
   const readUploadFile = (e) => {
-
     setSelectedFile(e.target.files[0]);
-
   }
 
   const removeFile = () => {
@@ -42,22 +48,25 @@ const Testing = () => {
   const uploadData = async () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
-    console.log(formData)
-    console.log(selectedFile)
-    try {
-      await axios.post('http://localhost:5000/api/admin/BulkUpload', formData );
-      alert('File uploaded and data stored successfully!');
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file.');
+
+    const res = await csvUpload(formData)
+    if (res.success === true) {
+      toast.success(res.message)
+      dispatch(getTask())
+      setSelectedFile(null)
+    }
+    if (res.success === false) {
+      toast.error(res.message)
     }
   };
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Slide in alert dialog
+      {/* <Chip icon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "10px" }} />} onClick={handleClickOpen} label="Uplaod Csv File" size='medium' color='info' /> */}
+      <Button variant="contained" color="info" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "10px" }} />} >
+        Upload File
       </Button>
+
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -65,11 +74,11 @@ const Testing = () => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
         maxWidth="md"
-        PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, } }}
+        PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, m: 0, top: 40, position: "fixed" } }}
       >
-        <DialogTitle> Bulk Upload Through Excel</DialogTitle>
+        <DialogTitle><Typography variant="h4" color="initial">Upload CSV File </Typography> </DialogTitle>
         <DialogContent>
-          <form action="">
+          <form action="" encType="multipart/form-data">
             <Grid container spacing={2} >
               <Grid item lg={12} sm={12} xs={12} md={12}>
                 <TextField
@@ -81,21 +90,22 @@ const Testing = () => {
                   type="file"
                   InputLabelProps={{ shrink: true, }}
                   onChange={readUploadFile}
-                  // accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/"
-                  // inputProps={{ accept: ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" }}
+                  inputProps={{ accept: ".csv" }}
 
                 />
               </Grid>
               <Grid item lg={12} sm={12} xs={12} md={12}>
-                <Typography variant="h5" color="info">{`Note : The headers in the Excel file should be as follows ! =>name, rate, unit, department, taskDependency, instruction, startDate, endDate,\n timeDuration, checkList, company, status="Created"`}</Typography>
+                <Typography variant="h5" color="crimson" >{`Note : The headers in the Excel file should be as follows ! =>Name, Rate, Unit, Department, TaskDependency, Instruction, StartDate, EndDate,\n TimeDuration, CheckList`}</Typography>
               </Grid>
               <Grid item lg={12} sm={12} xs={12} md={12}>
 
-                <Button variant="outlined" color="info" onClick={uploadData}>
-                  Upload data
+                <Button variant="contained" color="info" onClick={uploadData} sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFileArrowUp} style={{}} size='2xs' />} >
+                  Upload File
                 </Button>
-                <Button variant="outlined" color="info" onClick={removeFile}>
-                  Remove File
+
+
+                <Button variant="contained" color="error" onClick={removeFile} sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFolderMinus} />} >
+                  Upload File
                 </Button>
               </Grid>
             </Grid>
@@ -106,6 +116,18 @@ const Testing = () => {
           {/* <Button onClick={handleClose}>Agree</Button> */}
         </DialogActions>
       </Dialog>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </div>
   )
 }

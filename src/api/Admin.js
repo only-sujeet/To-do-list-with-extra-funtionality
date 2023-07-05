@@ -217,5 +217,20 @@ export const ApproveTask = async (id) => {
     }
 }
 
+export const csvUpload = async (values) => {
+    try {
+        const { data } = await axios.post(`/api/admin/BulkUpload`, values, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        return data
+        // console.log(data)
+    } catch (error) {
+        if (error.response) {
 
+            return error.response.data
+        }
+    }
+}
 

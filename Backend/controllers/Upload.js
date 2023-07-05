@@ -51,45 +51,49 @@ const deleteFile = (filePath) => {
 };
 
 exports.uploadfile = async (req, res, next) => {
-    const file = req.file
-    if (!file) {
-        res.status(400).send("No file uploaded.");
-        return;
-    }
-    const auth = authenticateGoogle();
-    const fileMetadata = {
-        name: file.originalname,
-        parents: ["1Fpplz4lMg7BbcG7dZXh8whLCpOfqyavI"], // Change it according to your desired parent folder id
-    };
-    const media = {
-        mimeType: file.mimetype,
-        body: fs.createReadStream(file.path),
-    };
-    const driveService = google.drive({ version: "v3", auth });
-
     try {
-        const response = await driveService.files.create({
-            requestBody: fileMetadata,
-            media: media,
-            fields: "id,webViewLink",
-        });
-
-        const files = new File({
+        const file = req.file
+        if (!file) {
+            res.status(400).send("No file uploaded.");
+            return;
+        }
+        const auth = authenticateGoogle();
+        const fileMetadata = {
             name: file.originalname,
-            driveLink: response.data.webViewLink
-        })
+            parents: ["1Fpplz4lMg7BbcG7dZXh8whLCpOfqyavI"], // Change it according to your desired parent folder id
+        };
+        const media = {
+            mimeType: file.mimetype,
+            body: fs.createReadStream(file.path),
+        };
+        const driveService = google.drive({ version: "v3", auth });
 
-        const savefile = await files.save();
+        try {
+            const response = await driveService.files.create({
+                requestBody: fileMetadata,
+                media: media,
+                fields: "id,webViewLink",
+            });
 
-        deleteFile(req.file.path);
-        res.status(200).json({ success: true, message: "Succefully Uploaded" });
+            const files = new File({
+                name: file.originalname,
+                driveLink: response.data.webViewLink
+            })
+
+            const savefile = await files.save();
+
+            deleteFile(req.file.path);
+            res.status(200).json({ success: true, message: "Succefully Uploaded" });
+
+        } catch (error) {
+            // console.error('Error uploading file:', error);
+            res.status(500).json({ success: false, message: "Failed to upload file", });
+        }
 
     } catch (error) {
-        console.error('Error uploading file:', error);
-        res.status(500).json({ error: 'Failed to upload file' });
+        res.status(500).json({ success: false, message: "Failed to upload file", });
     }
-    // const response = await uploadToGoogleDrive(req.file, auth);
-    // res.status(200).json({ response });
+
 
 }
 
@@ -103,26 +107,28 @@ exports.bulkUpload = async (req, res) => {
             csvtojson().fromFile(filePath).then(source => {
                 // Fetching the all data from each row
                 for (var i = 0; i < source.length; i++) {
-                    console.log(source[i]["name"])
+                    // console.log(source[i]["Name"])
                     var singleRow = {
-                        name: source[i]["name"],
-                        rate: source[i]["rate"],
-                        unit: source[i]["unit"],
-                        department: source[i]["department"],
-                        taskDependency: source[i]["taskDependency"],
-                        instruction: source[i]["instruction"],
-                        startDate: source[i]["startDate"],
-                        endDate: source[i]["endDate"],
-                        checkList: source[i]["checkList"],
+                        name: source[i]["Name"],
+                        rate: source[i]["Rate"],
+                        unit: source[i]["Unit"],
+                        department: source[i]["Department"],
+                        taskDependency: source[i]["TaskDependency"],
+                        instruction: source[i]["Instruction"],
+                        startDate: source[i]["StartDate"],
+                        endDate: source[i]["EndDate"],
+                        timeDuration: source[i]["TimeDuration"],
+                        // checkList: for( var j=0; j < source[i]["CheckList"]; j++){ console.log("source")  },
+                        checkList: source[i]["CheckList"],
                         status: "Created",
                         company: req.admin.company,
-                        timeDuration: source[i]["timeDuration"],
                     };
                     arrayToInsert.push(singleRow);
                 }
                 //inserting into the table student
                 Task.insertMany(arrayToInsert).then(function () {
                     // console.log("Successfully saved defult items to DB");
+                    deleteFile(req.file.path);
                     res.status(200).json({ success: true, message: "Successfully bulk Upload" })
                 }).catch(function (err) {
                     // console.log(err);
