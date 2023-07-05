@@ -1,6 +1,7 @@
 const File = require("../Models/Admin/File");
 const { google } = require('googleapis');
 
+const csvtojson = require('csvtojson');
 const xlsx = require('xlsx');
 const fs = require("fs");
 const Task = require("../Models/Admin/Task");
@@ -91,26 +92,59 @@ exports.uploadfile = async (req, res, next) => {
     // res.status(200).json({ response });
 
 }
-     
+
 // for excel bulk upload 
 exports.bulkUpload = async (req, res) => {
-    const file = req.file
-    const workbook = xlsx.readFile(file.path);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
-    
-
-    await Task.insertMany(data, (error, docs) => {
-            if (docs) {
-                res.status(200).json({ message: 'Data saved successfully' });
-            }
-            if (error) {
-                console.error('Error saving data:', err);
-                res.status(500).json({ error: 'Error saving data' });
-            }
-        })
-
+    importFile('uploads/' + req.file.filename);
+    function importFile(filePath){
+        //  Read Excel File to Json Data
+          var arrayToInsert = [];
+          csvtojson().fromFile(filePath).then(source => {
+        // Fetching the all data from each row
+          for (var i = 0; i < source.length; i++) {
+              console.log(source[i]["name"])
+              var singleRow = {
+                  name: source[i]["name"],
+                  rate: source[i]["rate"],
+                  unit: source[i]["unit"],
+                  department: source[i]["department"],
+                  taskDependency: source[i]["taskDependency"],
+                  instruction: source[i]["instruction"],
+                  startDate: source[i]["startDate"],
+                  endDate: source[i]["endDate"],
+                  standard: source[i]["standard"],
+                  standard: source[i]["standard"],
+                  standard: source[i]["standard"],
+              };
+              arrayToInsert.push(singleRow);
+          }
+           //inserting into the table student
+           Task.insertMany(arrayToInsert, (err, result) => {
+            if (err) console.log(err);
+                if(result){
+                    console.log("File imported successfully.");
+                    res.redirect('/')
+                }
+            });
+        });
+   }
 }
+// exports.bulkUpload = async (req, res) => {
+//     const file = req.file
+//     const workbook = xlsx.readFile(file.path);
+//     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+//     const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+
+
+//     await Task.insertMany(data).then(function () {
+//        res.status(200).json("Successfully saved defult items to DB");
+//       })
+//       .catch(function (err) {
+//         console.log(err);
+//         res.status(500).json({message:err})
+//       });
+
+// }
 
 exports.bulkUpdate = async (req, res, next) => {
     try {

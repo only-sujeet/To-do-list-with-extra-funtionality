@@ -25,7 +25,16 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-const exupload = multer({ dest: 'uploads/' });
+// for excel upload
+var excelStorage = multer.diskStorage({  
+    destination:(req,file,cb)=>{  
+         cb(null,'uploads');      // file added to the public folder of the root directory
+    },  
+    filename:(req,file,cb)=>{  
+         cb(null,file.originalname);  
+    }  
+});  
+const exupload = multer({ storage: excelStorage });
 // Routes of Admin Register And Login 
 
 router.route("/register").post(adminRegister)
