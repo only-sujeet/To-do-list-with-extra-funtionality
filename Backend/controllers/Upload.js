@@ -114,7 +114,7 @@ exports.bulkUpload = async (req, res) => {
                         startDate: source[i]["startDate"],
                         endDate: source[i]["endDate"],
                         checkList: source[i]["checkList"],
-                        status: source[i]["status"],
+                        status: "Created",
                         company: req.admin.company,
                         timeDuration: source[i]["timeDuration"],
                     };

@@ -1,5 +1,5 @@
-name,rate,unit,department,taskDependency,instruction,startDate,endDate,timeDuration,status,checkList
-video Editing ,100,Image,Graphic design,Festival Posts 2,hello hello,,,2 Month,Created,eewr
-video Editing ,100,Image,Graphic design,Festival Posts 2,hjhjsaasndk aksjdnkjas,,,2 Year,Created,wer
-Audio editing ,1000,Image,Graphic design,Festival Posts 2,kuch bhi ,,,30 Month,Created,wrew
-sujeet,200,image,Content Creator,Festival Posts,asasas,,,21 Hour,Created,dfads
+name,rate,unit,department,taskDependency,instruction,startDate,endDate,timeDuration,checkList
+video Editing ,100,Image,Graphic design,Festival Posts 2,hello hello,,,2 Month,eewr
+video Editing ,100,Image,Graphic design,Festival Posts 2,hjhjsaasndk aksjdnkjas,,,2 Year,wer
+Audio editing ,1000,Image,Graphic design,Festival Posts 2,kuch bhi ,,,30 Month,wrew
+sujeet,200,image,Content Creator,Festival Posts,asasas,,,21 Hour,dfads
