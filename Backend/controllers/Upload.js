@@ -95,39 +95,46 @@ exports.uploadfile = async (req, res, next) => {
 
 // for excel bulk upload 
 exports.bulkUpload = async (req, res) => {
-    importFile('uploads/' + req.file.filename);
-    function importFile(filePath){
-        //  Read Excel File to Json Data
-          var arrayToInsert = [];
-          csvtojson().fromFile(filePath).then(source => {
-        // Fetching the all data from each row
-          for (var i = 0; i < source.length; i++) {
-              console.log(source[i]["name"])
-              var singleRow = {
-                  name: source[i]["name"],
-                  rate: source[i]["rate"],
-                  unit: source[i]["unit"],
-                  department: source[i]["department"],
-                  taskDependency: source[i]["taskDependency"],
-                  instruction: source[i]["instruction"],
-                  startDate: source[i]["startDate"],
-                  endDate: source[i]["endDate"],
-                  standard: source[i]["standard"],
-                  standard: source[i]["standard"],
-                  standard: source[i]["standard"],
-              };
-              arrayToInsert.push(singleRow);
-          }
-           //inserting into the table student
-           Task.insertMany(arrayToInsert, (err, result) => {
-            if (err) console.log(err);
-                if(result){
-                    console.log("File imported successfully.");
-                    res.redirect('/')
+    try {
+        importFile('uploads/' + req.file.filename);
+        function importFile(filePath) {
+            //  Read Excel File to Json Data
+            var arrayToInsert = [];
+            csvtojson().fromFile(filePath).then(source => {
+                // Fetching the all data from each row
+                for (var i = 0; i < source.length; i++) {
+                    console.log(source[i]["name"])
+                    var singleRow = {
+                        name: source[i]["name"],
+                        rate: source[i]["rate"],
+                        unit: source[i]["unit"],
+                        department: source[i]["department"],
+                        taskDependency: source[i]["taskDependency"],
+                        instruction: source[i]["instruction"],
+                        startDate: source[i]["startDate"],
+                        endDate: source[i]["endDate"],
+                        checkList: source[i]["checkList"],
+                        status: source[i]["status"],
+                        company: req.admin.company,
+                        timeDuration: source[i]["timeDuration"],
+                    };
+                    arrayToInsert.push(singleRow);
                 }
+                //inserting into the table student
+                Task.insertMany(arrayToInsert).then(function () {
+                    // console.log("Successfully saved defult items to DB");
+                    res.status(200).json({ success: true, message: "Successfully bulk Upload" })
+                }).catch(function (err) {
+                    // console.log(err);
+                    res.status(400).json({ success: false, message: err })
+                });
             });
-        });
-   }
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error })
+    }
+
 }
 // exports.bulkUpload = async (req, res) => {
 //     const file = req.file

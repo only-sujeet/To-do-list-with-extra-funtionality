@@ -6,7 +6,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { read, utils } from "xlsx"
 import { Grid, TextField, Typography } from '@mui/material';
 import { elements } from 'chart.js';
 import axios from 'axios';
