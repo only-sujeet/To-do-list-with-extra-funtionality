@@ -38,7 +38,7 @@ const Manage = () => {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Box m="15px">
+                <Box mt="15px" mb="10px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Manage" subtitle="Welcome to Manage page" />
                     </Box>

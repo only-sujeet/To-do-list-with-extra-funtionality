@@ -49,7 +49,7 @@ const AddProfile = () => {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Box m='15px'>
+                <Box mt='10px' mb="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Add Employee" subtitle="Welcome to Add Employee page" />
                         <Box display='flex' m="10px">

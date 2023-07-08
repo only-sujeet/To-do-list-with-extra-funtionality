@@ -15,10 +15,10 @@ const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(1),
         [theme.breakpoints.down("sm")]: {
-            minWidth: 32,
+            minWidth: 35,
+            minHeight: 35,
             paddingLeft: 3,
             paddingRight: 3,
-            borderRadius:"10px",
             "& .MuiButton-startIcon": {
                 margin: 0
             }
@@ -41,8 +41,7 @@ const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-    const [type, setType] = useState("password")
-    const [visible, setVisible] = useState(false)
+    
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
 
@@ -56,18 +55,6 @@ const AddPeople = () => {
         handleChange(e)
         const data = await getSubDept({ department: e.target.value })
         data && setSubDept(data)
-    }
-
-    const icon = (visible ? <Visibility /> : <VisibilityOff />)
-    const showClick = () => {
-        if (visible === false) {
-            setVisible(true)
-            setType("text")
-        }
-        else {
-            setVisible(false)
-            setType("password")
-        }
     }
 
     const dispatch = useDispatch()
@@ -91,7 +78,22 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
-    const initialvalue = {}
+    const initialvalue = {
+        department:"",
+        subDept:"",
+        firstName:"",
+        middleName:"",
+        lastName:"",
+        email:"",
+        dob:"",
+        age:"",
+        mobileno:"",
+        altmobileno:"",
+        address1:"",
+        address2:"",
+        adharno:"",
+        panno:""
+    }
     const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
@@ -128,18 +130,16 @@ const AddPeople = () => {
     })
 
 
-    // console.log(errors)
+    
     return (
         <div>
             <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
                 startIcon={<PersonAdd />} className={classes.button}>
-                {/* <span className={classes.buttonText} > */}
                 <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
-
                     {hover ? ("Add Employee Menually") : (`Add Employee`)}
                 </Typography>
-                {/* </span> */}
             </Button>
+
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h6" color="initial" >Add Employee</Typography></DialogTitle>
@@ -169,7 +169,7 @@ const AddPeople = () => {
 
                                     </Select>
                                 </FormControl>
-                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                                {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
@@ -282,28 +282,7 @@ const AddPeople = () => {
                                 />
                                 {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
                             </Grid>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <TextField
-
-                                    fullWidth
-                                    id="password"
-
-                                    label="Password"
-                                    type={type}
-                                    value={values.password}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    placeholder='Enter Your Password'
-                                    variant='standard'
-                                    name='password'
-                                    InputProps={{
-                                        endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
-                                            {icon}
-                                        </IconButton> </InputAdornment>)
-                                    }}
-                                />
-                                {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
-                            </Grid>
+                            
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
                                     fullWidth

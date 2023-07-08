@@ -10,11 +10,32 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileCsv, faListCheck } from '@fortawesome/free-solid-svg-icons';
+import { makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+    button: {
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 35,
+            minHeight: 35,
+            paddingLeft: 7,
+            paddingRight: 7,
+            "& .MuiButton-startIcon": {
+                margin: 0
+            }
+        }
+    },
+    buttonText: {
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+            
+        }
+    }
+}));
 
 
 const AddTask = () => {
-
+    const classes = useStyles();
     React.useEffect(() => {
         getDepartment();
     }, []);
@@ -38,9 +59,6 @@ const AddTask = () => {
         })
     }
 
-   
-
-
     const getDepartment = async () => {
         const { data } = await getDept()
         data && setDept(data)
@@ -57,8 +75,6 @@ const AddTask = () => {
     const handler = (status) => {
         setStatus(status)
     }
-
-
 
     const handleAdd = () => {
         const abc = [...val, []]
@@ -123,11 +139,15 @@ const AddTask = () => {
 
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)}  onMouseOut={() => { setHover(false) }}
-              startIcon={<FontAwesomeIcon icon={faListCheck}  style={{marginLeft:"2px"}} />} 
-             >
-            {hover ? ("Add Task Menually"): (`Add Task`)}
+            <Tooltip title="Add Task" >
+
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
+                startIcon={<FontAwesomeIcon icon={faListCheck} style={{ marginLeft: "2px" }} />} className={classes.button}>
+                <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
+                    {hover ? ("Add Task Menually") : (`Add Task`)}
+                </Typography>
             </Button>
+            </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>

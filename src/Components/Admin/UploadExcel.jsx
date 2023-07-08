@@ -17,16 +17,35 @@ import { getTask } from '../../Redux/Action/Admin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileArrowUp, faFileCsv, faFolderMinus } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
-import { FileUploadOutlined, FileUploadSharp } from '@mui/icons-material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const useStyles = makeStyles(theme => ({
+    button: {
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 35,
+            minHeight: 35,
+            paddingLeft: 7,
+            paddingRight: 7,
+            "& .MuiButton-startIcon": {
+                margin: 0
+            }
+        }
+    },
+    buttonText: {
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+
+        }
+    }
+}));
 
 
 const UploadExcel = () => {
-
+    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState(null)
     const [hover, setHover] = React.useState(false)
@@ -66,11 +85,12 @@ const UploadExcel = () => {
 
     return (
         <div>
-           
-            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)}  onMouseOut={() => { setHover(false) }}
-              startIcon={<FontAwesomeIcon icon={faFileCsv} style={{marginLeft:"2px"}} />} 
-             >
-            {hover ? ("Bulk Task also Upload Here"): (` Upload Task File`)}
+
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
+                startIcon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "2px" }} />} className={classes.button}>
+                <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
+                    {hover ? ("Bulk Task also Upload Here") : (` Upload Task File`)}
+                </Typography>
             </Button>
 
             <Dialog
