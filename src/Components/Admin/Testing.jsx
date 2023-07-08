@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Container, IconButton, InputAdornment, TextField, Typography, Grid, Paper } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, TextField, Typography, Grid, Paper } from '@mui/material'
 import image from '../Images/login7.png'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from 'formik'
@@ -55,7 +55,7 @@ const Testing = () => {
   })
   return (
     <Grid container component='main' sx={{ height: "100vh" }}>
-      <Grid item xs={false} sm={4} md={8} sx={{
+      <Grid item xs={false} sm={6} md={8} sx={{
         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
@@ -63,7 +63,7 @@ const Testing = () => {
       }}>
 
       </Grid>
-      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={10} square >
+      <Grid item xs={12} sm={6} md={4} component={Paper} elevation={10} square >
         <Box
         maxWidth="sm"
         sx={{
@@ -94,7 +94,7 @@ const Testing = () => {
             />
             {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
             <TextField
-              sx={{ marginBottom: "15px" }}
+              sx={{ marginBottom: "10px" }}
               fullWidth
               id="password"
               size='small'
@@ -114,12 +114,19 @@ const Testing = () => {
                 </IconButton> </InputAdornment>)
               }}
             />
-            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}<br></br>
+            <Typography
+            // className={classes.title}
+            variant="caption"
+            noWrap
+           color="initial"
+            
+          >
+            If you Don't have Account ? <Typography variant="caption" color="textPrimary" to="/register" component={Link} sx={{textDecoration:"none", color:"blue"}}>Create a New Account</Typography> 
+          </Typography>
             <Box m="10px">
-              <Typography variant="caption"  component={Link} to="/register" noWrap color="textSecondry" style={{ textDecoration:"none", margimBottum:"5px"}} >Create a account</Typography>
-
-              
-              <Button variant="contained" type='submit' sx={{ borderRadius:"20px"}}  fullWidth>
+          
+              <Button variant="contained" type='submit' sx={{ borderRadius:"20px", mt:"10px"}}  fullWidth>
                 Sign In
               </Button>
             </Box>
