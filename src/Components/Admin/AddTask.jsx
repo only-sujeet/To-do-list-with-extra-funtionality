@@ -8,6 +8,8 @@ import { getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileCsv, faListCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -18,7 +20,7 @@ const AddTask = () => {
     }, []);
 
     const dispatch = useDispatch()
-
+    const [hover, setHover] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [val, setVal] = useState([])
     const [dept, setDept] = React.useState();
@@ -119,15 +121,13 @@ const AddTask = () => {
         data && setSubDeptDetails(data)
     }
 
-    // console.log(values)
-    // console.log(subDeptDetails)
     return (
         <div>
-            <Tooltip title="Add Task">
-                <IconButton aria-label="add People" onClick={handleClickOpen}>
-                    <AddTaskTwoTone color='primary' />
-                </IconButton>
-            </Tooltip>
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)}  onMouseOut={() => { setHover(false) }}
+              startIcon={<FontAwesomeIcon icon={faListCheck}  style={{marginLeft:"2px"}} />} 
+             >
+            {hover ? ("Add Task Menually"): (`Add Task`)}
+            </Button>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
                 <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>

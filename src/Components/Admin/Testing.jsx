@@ -1,124 +1,138 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { Chip, Grid, TextField, Typography, IconButton, Fab } from '@mui/material';
-import { elements } from 'chart.js';
-import axios from 'axios';
-import { csvUpload } from '../../api/Admin';
+import React from 'react'
+import { Box, Button, Container, IconButton, InputAdornment, TextField, Typography, Grid, Paper } from '@mui/material'
+import image from '../Images/login7.png'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux'
+import { login } from '../Validation/Admin';
+import { adminLogin } from '../../api/Admin';
+import { adminLog } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch } from 'react-redux';
-import { getTask } from '../../Redux/Action/Admin';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileArrowUp, faFileCsv, faFolderMinus } from '@fortawesome/free-solid-svg-icons';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const requiredFields = ["Name", "Rate", "Unit", "Department", "TaskDependency", "Instruction", "StartDate", "EndDate", "CheckList", "Status", "Company", "TimeDuration"]
+import { Link } from "react-router-dom";
 
 const Testing = () => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedFile, setSelectedFile] = React.useState(null)
+  const [type, setType] = React.useState("password")
+  const [visible, setVisible] = React.useState(false)
+  const icon = (visible ? <Visibility color='secondary' /> : <VisibilityOff color='secondary' />)
+  const showClick = () => {
+    if (visible === false) {
+      setVisible(true)
+      setType("text")
+    }
+    else {
+      setVisible(false)
+      setType("password")
+    }
+  }
+  const navigate = useNavigate()
+  const isAuthenticated = Cookies.get('Token')
+  isAuthenticated && navigate("/dashboard")
+
+  const initialvalue = {
+    email: "",
+    password: ""
+  }
   const dispatch = useDispatch()
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    dispatch(getTask())
-  };
-
-  const readUploadFile = (e) => {
-    setSelectedFile(e.target.files[0]);
-  }
-
-  const removeFile = () => {
-    setSelectedFile(null)
-    window.location.reload();
-  }
-
-  const uploadData = async () => {
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
-    const res = await csvUpload(formData)
-    if (res.success === true) {
-      toast.success(res.message)
-      dispatch(getTask())
-      setSelectedFile(null)
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialvalue,
+    validationSchema: login,
+    onSubmit: async (values, { resetForm }) => {
+      console.log(values)
+      const res = await adminLogin(values)
+      await dispatch(adminLog(values))
+      if (res.success === true) {
+        toast.success(res.message)
+        navigate("/dashboard")
+        resetForm({ values: "" })
+      }
+      if (res.success === false) {
+        toast.error(res.message)
+      }
     }
-    if (res.success === false) {
-      toast.error(res.message)
-    }
-  };
-
+  })
   return (
-    <div>
-      {/* <Chip icon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "10px" }} />} onClick={handleClickOpen} label="Uplaod Csv File" size='medium' color='info' /> */}
-      <Button variant="contained" color="info" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "10px" }} />} >
-        Upload File
-      </Button>
+    <Grid container component='main' sx={{ height: "100vh" }}>
+      <Grid item xs={false} sm={4} md={8} sx={{
+        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
 
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-        maxWidth="md"
-        PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, m: 0, top: 40, position: "fixed" } }}
-      >
-        <DialogTitle><Typography variant="h4" color="initial">Upload CSV File </Typography> </DialogTitle>
-        <DialogContent>
-          <form action="" encType="multipart/form-data">
-            <Grid container spacing={2} >
-              <Grid item lg={12} sm={12} xs={12} md={12}>
-                <TextField
-                  fullWidth
-                  variant='standard'
-                  color='secondary'
-                  label="Upload Excel file"
-                  name='file'
-                  type="file"
-                  InputLabelProps={{ shrink: true, }}
-                  onChange={readUploadFile}
-                  inputProps={{ accept: ".csv" }}
+      </Grid>
+      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={10} square >
+        <Box
+        maxWidth="sm"
+        sx={{
+          my: 8,
+          mx: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          // alignItems: 'center',
+        }}>
 
-                />
-              </Grid>
-              <Grid item lg={12} sm={12} xs={12} md={12}>
-                <Typography variant="h5" color="crimson" >{`Note : The headers in the Excel file should be as follows ! =>Name, Rate, Unit, Department, TaskDependency, Instruction, StartDate, EndDate,\n TimeDuration, CheckList`}</Typography>
-              </Grid>
-              <Grid item lg={12} sm={12} xs={12} md={12}>
+          <Typography variant="h6" color="initial" m="15px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
+          <Typography variant="h2" color="secondary" align="center" sx={{marginBottom:"10px"}}  >Sign In</Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              color='secondary'
+              sx={{ marginBottom: "15px", }}
+              size='small'
+              label="Email"
+              type='email'
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              InputLabelProps={{ shrink: true,}}
+              placeholder='Enter Your Email'
+              variant='standard'
+            />
+            {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
+            <TextField
+              sx={{ marginBottom: "15px" }}
+              fullWidth
+              id="password"
+              size='small'
+              label="Password"
+              type={type}
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              InputLabelProps={{ shrink: true,}}
+              color='secondary'
+              placeholder='Enter Your Password'
+              variant='standard'
+              name='password'
+              InputProps={{
+                endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
+                  {icon}
+                </IconButton> </InputAdornment>)
+              }}
+            />
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+            <Box m="10px">
+              <Typography variant="caption"  component={Link} to="/register" noWrap color="textSecondry" style={{ textDecoration:"none", margimBottum:"5px"}} >Create a account</Typography>
 
-                <Button variant="contained" color="info" onClick={uploadData} sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFileArrowUp} style={{}} size='2xs' />} >
-                  Upload File
-                </Button>
+              
+              <Button variant="contained" type='submit' sx={{ borderRadius:"20px"}}  fullWidth>
+                Sign In
+              </Button>
+            </Box>
 
-
-                <Button variant="contained" color="error" onClick={removeFile} sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFolderMinus} />} >
-                  Upload File
-                </Button>
-              </Grid>
-            </Grid>
           </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          {/* <Button onClick={handleClose}>Agree</Button> */}
-        </DialogActions>
-      </Dialog>
+        </Box>
+      </Grid>
+
+      {/* <Container maxWidth="xs" sx={{ backgroundColor: "transparent", height: { xs: "100%", sm: "35%", md: "60%", lg: "50%" }, m: "10% auto", }}>
+      </Container> */}
       <ToastContainer
         position="top-center"
-        autoClose={2000}
+        autoClose={3000}
         hideProgressBar={true}
         newestOnTop={false}
         closeButton={false}
@@ -128,7 +142,8 @@ const Testing = () => {
         draggable
         pauseOnHover
         theme="colored" />
-    </div>
+    </Grid>
+
   )
 }
 

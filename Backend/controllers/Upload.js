@@ -50,11 +50,11 @@ const deleteFile = (filePath) => {
     });
 };
 
-exports.uploadfile = async (req, res, next) => {
+exports.uploadfile = async (req, res,) => {
     try {
         const file = req.file
         if (!file) {
-            res.status(400).send("No file uploaded.");
+            res.status(500).json({ success: false, message: "Please selcet File first", });
             return;
         }
         const auth = authenticateGoogle();
@@ -100,6 +100,9 @@ exports.uploadfile = async (req, res, next) => {
 // for excel bulk upload 
 exports.bulkUpload = async (req, res) => {
     try {
+        if(!req.file){
+            res.status(500).json({ success: false, message: "Failed to upload file", });
+        }
         importFile('uploads/' + req.file.filename);
         function importFile(filePath) {
             //  Read Excel File to Json Data

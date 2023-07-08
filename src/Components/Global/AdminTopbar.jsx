@@ -10,8 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { AddchartTwoTone, AddTaskTwoTone, Close,  Menu, PeopleAltTwoTone } from '@mui/icons-material';
-import {  Divider, ListItemButton, ListItemIcon, Button } from '@mui/material';
+import { AddchartTwoTone, AddTaskTwoTone, Close, Menu, PeopleAltTwoTone } from '@mui/icons-material';
+import { Divider, ListItemButton, ListItemIcon, Button, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
-        
+
 
     },
     content: {
@@ -61,28 +61,48 @@ const useStyles = makeStyles(theme => ({
 
 const Item = ({ icon, title, to }) => {
     return (
-        <>
-            <List style={{ margin: '0px', padding: '0px' }} >
-                <ListItem style={{ margin:"0px", padding:"1px"}} >
-                    <ListItemButton>
-                        <ListItemIcon  style={{marginLeft:"2px", marginRight:"0px", padding:"0px"}} >
-                            {icon}
-                        </ListItemIcon>
-                        <ListItemText>
-                            <Typography  variant='body1'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  >{title}</Link></Typography>
-                            <Link to={to} />
-                        </ListItemText>
-                    </ListItemButton>
-                </ListItem>
-            </List>
-        </>
+        <ListItem button component={Link} to={to}>
+            {icon? <ListItemIcon>{icon}</ListItemIcon>: null}
+            <ListItemText primary={title} />
+        </ListItem>
     )
 }
+// const Item = ({ icon, title, to }) => {
+// return (
+//     <>
+//         {/* <List style={{ margin: '0px', padding: '0px' }} > */}
+//             <ListItem style={{ margin:"0px", padding:"1px"}} >
+//                 <ListItemButton>
+//                     {/* <ListItemIcon  style={{marginLeft:"2px", marginRight:"0px", padding:"0px"}} >
+//                         {icon}
+//                     </ListItemIcon> */}
+//                     <ListItemText>
+//                         <Typography  variant='body1'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  > {icon} {title}</Link></Typography>
+//                         <Link to={to} />
+//                     </ListItemText>
+//                 </ListItemButton>
+//             </ListItem>
+//         {/* </List> */}
+//     </>
+// )
+// }
+
+// const Item = ({ title, to, icon, selected, setSelected }) => {
+//     return (
+
+//         <Link to={to} >
+//             <MenuItem active={selected === title} onClick={() => setSelected(title)} icon={icon}>
+//                 <Typography>{title}</Typography>
+//             </MenuItem></Link>
+
+//     )
+// }
 
 const AdminTopbar = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [selected, setSelected] = React.useState("login")
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen)
     }
@@ -101,11 +121,11 @@ const AdminTopbar = () => {
                     >
                         <Menu />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         INK
                     </Typography>
                     <Button variant="text" color="inherit" >
-                      hello
+                        hello
                     </Button>
                 </Toolbar>
             </AppBar>
@@ -150,27 +170,34 @@ const AdminTopbar = () => {
                         </Accordion> */}
                         <Divider textAlign='center'><Typography variant='overline'>Profile</Typography>
                         </Divider>
-                        <Item
-                            title="Add Profile"
-                            to="/aprofile"
-                            icon={<PeopleAltTwoTone />}
-                        />
-                        <Item
-                            title="Block Profile"
-                            to="/block_profile"
-                            icon={<PeopleAltTwoTone />}
-                        />
+                        <List>
+
+                            <Item
+                                title="Add Profile"
+                                to="/aprofile"
+                                icon={<PeopleAltTwoTone />}
+                                
+                            />
+                            <Item
+                                title="Block Profile"
+                                to="/block_profile"
+                                icon={<PeopleAltTwoTone />}
+                               
+                            />
+                        </List>
                         <Divider variant='middle' />
 
                         <Item
                             icon={<AddchartTwoTone />}
                             title="Manage"
                             to='/manage'
+                          
                         />
                         <Item
                             icon={<AddTaskTwoTone />}
                             title="Task"
                             to='/task'
+                           
                         />
                     </Drawer>
                 </Hidden>
@@ -198,7 +225,7 @@ const AdminTopbar = () => {
                         />
                         <Divider variant='middle' />
 
-                        
+
 
                         {/* <Accordion elevation={0} disableGutters>
                             <AccordionSummary

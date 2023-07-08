@@ -16,14 +16,20 @@ import { useDispatch } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileArrowUp, faFileCsv, faFolderMinus } from '@fortawesome/free-solid-svg-icons';
+import { makeStyles } from '@material-ui/core';
+import { FileUploadOutlined, FileUploadSharp } from '@mui/icons-material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
+
 const UploadExcel = () => {
+
     const [open, setOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState(null)
+    const [hover, setHover] = React.useState(false)
     const dispatch = useDispatch()
     const handleClickOpen = () => {
         setOpen(true);
@@ -40,7 +46,7 @@ const UploadExcel = () => {
 
     const removeFile = () => {
         setSelectedFile(null)
-        window.location.reload();
+        // window.location.reload();
     }
 
     const uploadData = async () => {
@@ -60,9 +66,11 @@ const UploadExcel = () => {
 
     return (
         <div>
-            {/* <Chip icon={<FontAwesomeIcon icon={faFileCsv} style={{ marginLeft: "10px" }} />} onClick={handleClickOpen} label="Uplaod Csv File" size='medium' color='info' /> */}
-            <Button variant="contained" color="info" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFileCsv}  />} >
-                Upload File
+           
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)}  onMouseOut={() => { setHover(false) }}
+              startIcon={<FontAwesomeIcon icon={faFileCsv} style={{marginLeft:"2px"}} />} 
+             >
+            {hover ? ("Bulk Task also Upload Here"): (` Upload Task File`)}
             </Button>
 
             <Dialog
@@ -103,7 +111,7 @@ const UploadExcel = () => {
 
 
                                 <Button variant="contained" color="error" onClick={removeFile} sx={{ mr: 1, borderRadius: "20px" }} startIcon={<FontAwesomeIcon icon={faFolderMinus} />} >
-                                    Upload File
+                                    Remove File
                                 </Button>
                             </Grid>
                         </Grid>

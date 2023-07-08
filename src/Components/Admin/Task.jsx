@@ -37,23 +37,23 @@ const Task = () => {
         }
     }
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
-        { field: "rate", headerName: "Rate", width: 100, headerClassName: "header", },
-        { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
-        { field: "department", headerName: "Department", width: 130, headerClassName: "header" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", },
-        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> } },
-        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", },
-        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", },
-        { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------",},
+        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center" },
+        { field: "rate", headerName: "Rate", width: 100, headerClassName: "header", headerAlign: "center" },
+        { field: "unit", headerName: "Unit", width: 100, headerClassName: "header", headerAlign: "center" },
+        { field: "department", headerName: "Department", width: 130, headerClassName: "header", headerAlign: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center" },
+        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center" },
+        { field: "startDate", headerName: "Start At", width: 150, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center" },
+        { field: "endDate", headerName: "End At", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center" },
+        { field: "timeDuration", headerName: "Task-Duration", width: 120, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center" },
         {
-            field: "status", headerName: "Status", width: 120, headerClassName: "header", renderCell: params => {
+            field: "status", headerName: "Status", width: 120, headerClassName: "header", headerAlign: "center", renderCell: params => {
                 if (params.row.status === "Created") {
                     return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='medium' />
                 }
                 else if (params.row.status === "Approved") {
                     return <Chip icon={<Circle fontSize='small' color='warning' />} label={params.row.status} color='warning' variant='outlined' size='medium' />
-                   
+
 
 
                 }
@@ -64,7 +64,7 @@ const Task = () => {
             }
         },
         {
-            headerName: "Action", headerClassName: "header",
+            headerName: "Action", headerClassName: "header", headerAlign: "center",
             width: "135",
             renderCell: params => {
                 if (params.row.status === "Created") {
@@ -114,8 +114,8 @@ const Task = () => {
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Task" subtitle="Welcome to Task page" />
                         <Box display="flex" justifyContent="center" alignItems="center">
-                        <AddTask />
-                        <UploadExcel/>
+                            <AddTask />
+                            <UploadExcel />
                         </Box>
                     </Box>
 
@@ -136,8 +136,15 @@ const Task = () => {
                                     '& .header': {
                                         backgroundColor: "#3366ff",
                                     },
+                                    '.MuiDataGrid-columnSeparator': {
+                                        display: 'none',
+                                    },
+                                    '&.MuiDataGrid-root': {
+                                        border: 'none',
+                                    },
+                                   
                                     backgroundColor: "rgb(0,0,0,0.3)",
-                                    textTransform: "capitalize"
+                                    textTransform: "capitalize",
                                 }}
                             >
                             </DataGrid>

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem, InputAdornment } from '@mui/material';
-import { PeopleTwoTone, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem, InputAdornment, } from '@mui/material';
+import { PeopleTwoTone, PersonAdd, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
@@ -9,13 +9,35 @@ import { addPeople, getDept, getSubDept } from '../../api/Admin';
 import { getPeople } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    button: {
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 32,
+            paddingLeft: 3,
+            paddingRight: 3,
+            borderRadius:"10px",
+            "& .MuiButton-startIcon": {
+                margin: 0
+            }
+        }
+    },
+    buttonText: {
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+            // borderRadius:"50px"
+        }
+    }
+}));
+
 const AddPeople = () => {
-
-
+    const classes = useStyles();
     React.useEffect(() => {
         getDepartment();
     }, []);
-
+    const [hover, setHover] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
@@ -23,7 +45,6 @@ const AddPeople = () => {
     const [visible, setVisible] = useState(false)
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
-
 
     const getDepartment = async () => {
         const { data } = await getDept()
@@ -48,8 +69,6 @@ const AddPeople = () => {
             setType("password")
         }
     }
-
-
 
     const dispatch = useDispatch()
     const handleClickOpen = () => {
@@ -105,27 +124,25 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-
         }
-
-
-
     })
 
 
     // console.log(errors)
     return (
         <div>
-            <Tooltip title="Add People">
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
+                startIcon={<PersonAdd />} className={classes.button}>
+                {/* <span className={classes.buttonText} > */}
+                <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
 
-                <IconButton aria-label="add People" onClick={handleClickOpen}>
-                    <PeopleTwoTone color='primary' />
-                </IconButton>
-
-            </Tooltip>
+                    {hover ? ("Add Employee Menually") : (`Add Employee`)}
+                </Typography>
+                {/* </span> */}
+            </Button>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
-                <DialogTitle> <Typography variant="h6" color="initial">Add People</Typography></DialogTitle>
+                <DialogTitle> <Typography variant="h6" color="initial" >Add Employee</Typography></DialogTitle>
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
