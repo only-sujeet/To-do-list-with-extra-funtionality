@@ -20,15 +20,17 @@ const Register = () => {
     company: "",
   }
   const navigate = useNavigate()
-  const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+  const { errors, touched, values, handleBlur, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: initialvalue,
     validationSchema: register,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting}) => {
       const res = await adminRegister(values)
+      setSubmitting(false)
       if (res.success === true) {
         toast.success(res.message)
         resetForm({ values: "" })
         navigate("/login")
+      
       }
       if (res.success === false) {
         toast.error(res.message)
@@ -102,7 +104,7 @@ const Register = () => {
         {errors.company && touched.company ? <Typography variant="caption" color="error">{errors.company}</Typography> : null}
 
         <Box m="10px">
-          <Button type='submit' fullWidth variant="contained" color="primary"  >
+          <Button type='submit' fullWidth variant="contained" color="primary"  disabled={isSubmitting} >
             Register
           </Button>
         </Box>

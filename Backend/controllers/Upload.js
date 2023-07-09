@@ -101,7 +101,7 @@ exports.uploadfile = async (req, res,) => {
 exports.bulkUpload = async (req, res) => {
     try {
         if(!req.file){
-            res.status(500).json({ success: false, message: "Failed to upload file", });
+           return res.status(400).json({ success: false, message: "Failed to upload file", });
         }
         importFile('uploads/' + req.file.filename);
         function importFile(filePath) {
@@ -145,35 +145,5 @@ exports.bulkUpload = async (req, res) => {
     }
 
 }
-// exports.bulkUpload = async (req, res) => {
-//     const file = req.file
-//     const workbook = xlsx.readFile(file.path);
-//     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-//     const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
 
 
-//     await Task.insertMany(data).then(function () {
-//        res.status(200).json("Successfully saved defult items to DB");
-//       })
-//       .catch(function (err) {
-//         console.log(err);
-//         res.status(500).json({message:err})
-//       });
-
-// }
-
-exports.bulkUpdate = async (req, res, next) => {
-    try {
-        const task = req.body;
-        const promises = task.map(async (item) => {
-            const res = await Task.findByIdAndUpdate(item._id, { $set: { ...item } });
-            return res
-        })
-
-        Promise.all(promises).then(() => res.status(200).json({ success: true, message: "Successfully Updated" })).catch((error) => res.status(400).json({ success: false, message: error }))
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ success: false, message: error })
-    }
-}

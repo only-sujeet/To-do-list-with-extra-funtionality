@@ -64,10 +64,7 @@ const AddTask = () => {
         data && setDept(data)
     }
 
-    const handleClose = () => {
-        setOpen(false);
-        dispatch(getTask())
-    };
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -105,12 +102,13 @@ const AddTask = () => {
         startDate: "",
         endDate: ""
     }
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit,resetForm, isSubmitting} = useFormik({
         initialValues: initialvalue,
         validationSchema: addTasks,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm , setSubmitting }) => {
 
             const res = await createTask(values, subDeptDetails, val, daysdata)
+            setSubmitting(false)
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: null })
@@ -136,6 +134,15 @@ const AddTask = () => {
         const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
         data && setSubDeptDetails(data)
     }
+    const handleClose = () => {
+        setOpen(false);
+        dispatch(getTask())
+        resetForm();
+    };
+    const handleReset = () => {
+        resetForm();
+      }
+      
 
     return (
         <div>
@@ -404,8 +411,11 @@ const AddTask = () => {
                                 })
                             }
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button variant="contained" color='primary' type='submit' >
+                                <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting}>
                                     Add
+                                </Button>
+                                <Button variant="contained" color='secondary' type='button' onClick={handleReset} sx={{ml:1}} >
+                                    Reset
                                 </Button>
                             </Grid>
                         </Grid>

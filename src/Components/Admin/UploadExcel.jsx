@@ -71,7 +71,7 @@ const UploadExcel = () => {
     const uploadData = async () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
-
+// console.log(selectedFile)
         const res = await csvUpload(formData)
         if (res.success === true) {
             toast.success(res.message)

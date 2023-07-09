@@ -19,14 +19,14 @@ exports.addPeople = async (req, res) => {
         const password = generateRandomPassword(10); // Generate a 10-character password
 
         const object = JSON.parse(req.body.data)
-        const { email, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = object
+        const { email, department, subDept, firstName, middleName, lastName, age, dob, doj, adharno, panno, mobileno, altmobileno, address1, address2 } = object
         const Image = (req.file) ? req.file.filename : null
         //   for finding email
         const findEmail = await People.findOne({ email })
         if (findEmail) {
             return res.status(400).json({ success: false, message: "Email already exists....." })
         }
-        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image })
+        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob,doj, adharno, panno, mobileno, altmobileno, address1, address2, Image })
         await peo.save();
 
         const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${password} \n\n\n Thank You`

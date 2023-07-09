@@ -36,13 +36,14 @@ const Login1 = () => {
     password: ""
   }
   const dispatch = useDispatch()
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
-    onSubmit: async (values, { resetForm }) => {
-      console.log(values)
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      // console.log(values)
       const res = await adminLogin(values)
-      await dispatch(adminLog(values))
+      // await dispatch(adminLog(values))
+      setSubmitting(false)
       if (res.success === true) {
         toast.success(res.message)
         navigate("/dashboard")
@@ -56,99 +57,99 @@ const Login1 = () => {
 
   return (
     <Grid container component='main' sx={{ height: "100vh" }}>
-    <Grid item xs={false} sm={6} md={8} sx={{
-      backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }}>
-
-    </Grid>
-    <Grid item xs={12} sm={6} md={4} component={Paper} elevation={10} square >
-      <Box
-      maxWidth="sm"
-      sx={{
-        my: 8,
-        mx: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        // alignItems: 'center',
+      <Grid item xs={false} sm={6} md={8} sx={{
+        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}>
 
-        <Typography variant="h6" color="initial" m="15px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
-        <Typography variant="h2" color="secondary" align="center" sx={{marginBottom:"10px"}}  >Sign In</Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            color='secondary'
-            sx={{ marginBottom: "15px", }}
-            size='small'
-            label="Email"
-            type='email'
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            InputLabelProps={{ shrink: true,}}
-            placeholder='Enter Your Email'
-            variant='standard'
-          />
-          {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
-          <TextField
-            sx={{ marginBottom: "10px" }}
-            fullWidth
-            id="password"
-            size='small'
-            label="Password"
-            type={type}
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            InputLabelProps={{ shrink: true,}}
-            color='secondary'
-            placeholder='Enter Your Password'
-            variant='standard'
-            name='password'
-            InputProps={{
-              endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
-                {icon}
-              </IconButton> </InputAdornment>)
-            }}
-          />
-          {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}<br></br>
-          <Typography
-          // className={classes.title}
-          variant="caption"
-          noWrap
-         color="initial"
-          
-        >
-          If you Don't have Account ? <Typography variant="caption" color="textPrimary" to="/register" component={Link} sx={{textDecoration:"none", color:"blue"}}>Create a New Account</Typography> 
-        </Typography>
-          <Box m="10px">
-        
-            <Button variant="contained" type='submit' sx={{ borderRadius:"20px", mt:"10px"}}  fullWidth>
-              Sign In
-            </Button>
-          </Box>
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} component={Paper} elevation={10} square >
+        <Box
+          maxWidth="sm"
+          sx={{
+            my: 8,
+            mx: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'center',
+          }}>
 
-        </form>
-      </Box>
+          <Typography variant="h6" color="initial" m="15px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
+          <Typography variant="h2" color="secondary" align="center" sx={{ marginBottom: "10px" }}  >Sign In</Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              color='secondary'
+              sx={{ marginBottom: "15px", }}
+              size='small'
+              label="Email"
+              type='email'
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              InputLabelProps={{ shrink: true, }}
+              placeholder='Enter Your Email'
+              variant='standard'
+            />
+            {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
+            <TextField
+              sx={{ marginBottom: "10px" }}
+              fullWidth
+              id="password"
+              size='small'
+              label="Password"
+              type={type}
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              InputLabelProps={{ shrink: true, }}
+              color='secondary'
+              placeholder='Enter Your Password'
+              variant='standard'
+              name='password'
+              InputProps={{
+                endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
+                  {icon}
+                </IconButton> </InputAdornment>)
+              }}
+            />
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}<br></br>
+            <Typography
+              // className={classes.title}
+              variant="caption"
+              noWrap
+              color="initial"
+
+            >
+              If you Don't have Account ? <Typography variant="caption" color="textPrimary" to="/register" component={Link} sx={{ textDecoration: "none", color: "blue" }}>Create a New Account</Typography>
+            </Typography>
+            <Box m="10px">
+
+              <Button variant="contained" type='submit' sx={{ borderRadius: "20px", mt: "10px" }} disabled={isSubmitting} fullWidth>
+                Sign In
+              </Button>
+            </Box>
+
+          </form>
+        </Box>
+      </Grid>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </Grid>
-
-    <ToastContainer
-      position="top-center"
-      autoClose={3000}
-      hideProgressBar={true}
-      newestOnTop={false}
-      closeButton={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="colored" />
-  </Grid>
   )
 }
 

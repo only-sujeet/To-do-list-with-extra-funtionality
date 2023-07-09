@@ -64,11 +64,12 @@ const AddDepartment = () => {
 
     const initialvalues = {}
 
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit ,isSubmitting } = useFormik({
         initialValues: initialvalues,
         validationSchema: adddep,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             const res = await addDepartment(values)
+            setSubmitting(false)
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: "" })
@@ -77,7 +78,7 @@ const AddDepartment = () => {
             if (res.success === false) {
                 toast.error(res.message)
             }
-            console.log(values)
+            // console.log(values)
         }
     })
     return (
@@ -103,7 +104,7 @@ const AddDepartment = () => {
                     />
                     {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
                     <Tooltip title="Add Department">
-                        <Button variant="contained" color='primary' type='submit' >
+                        <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting}>
                             Add
                         </Button>
                     </Tooltip>

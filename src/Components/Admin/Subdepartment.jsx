@@ -57,12 +57,13 @@ const Subdepartment = () => {
     }
 
     // Sub-Department Add Fucntion 
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit, isSubmitting } = useFormik({
         initialValues: initialvalues,
         validationSchema: addSubDept,
-        onSubmit: async (values, { resetForm }) => {
-            console.log(values)
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
+            // console.log(values)
             const { data } = await addSubDepartment(values)
+            setSubmitting(false)
             if (data.success === true) {
                 toast.success(data.message)
                 getd(data.department)
@@ -277,7 +278,7 @@ const Subdepartment = () => {
                                 {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
                                 <Stack direction={"row"}>
                                     <Tooltip x title="Add Sub-Department">
-                                        <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' >
+                                        <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' disabled={isSubmitting} >
                                             Add
                                         </Button>
                                     </Tooltip>
@@ -295,7 +296,7 @@ const Subdepartment = () => {
                                 {!open &&
                                     <>
 
-                                        <Box justifyContent="left !important" display="flex !important">  
+                                        <Box justifyContent="left !important" display="flex !important">
                                             <Button variant='contained' color='secondary' onClick={() => setOpen(true)} size='small' sx={{ maxWidth: 200, }}>Add New Sub-Department</Button>
                                         </Box>
                                         <Stack sx={{

@@ -41,7 +41,7 @@ const AddPeople = () => {
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-    
+
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
 
@@ -61,10 +61,7 @@ const AddPeople = () => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-        dispatch(getPeople())
-    };
+
 
     const handleImage = (e) => {
         const file = e.target.files[0];
@@ -79,25 +76,26 @@ const AddPeople = () => {
     }
 
     const initialvalue = {
-        department:"",
-        subDept:"",
-        firstName:"",
-        middleName:"",
-        lastName:"",
-        email:"",
-        dob:"",
-        age:"",
-        mobileno:"",
-        altmobileno:"",
-        address1:"",
-        address2:"",
-        adharno:"",
-        panno:""
+        department: "",
+        subDept: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        email: "",
+        dob: "",
+        doj: "",
+        age: "",
+        mobileno: "",
+        altmobileno: "",
+        address1: "",
+        address2: "",
+        adharno: "",
+        panno: ""
     }
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit, resetForm, isSubmitting } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
                 if (file) {
 
@@ -106,7 +104,7 @@ const AddPeople = () => {
                     formdata.append('data', JSON.stringify(values))
 
                     const res = await addPeople(formdata)
-
+                    setSubmitting(false)
                     if (res.success === true) {
                         toast.success(res.message)
                         resetForm({ values: "" })
@@ -129,8 +127,17 @@ const AddPeople = () => {
         }
     })
 
+    const handleClose = () => {
+        setOpen(false);
+        dispatch(getPeople())
+        resetForm();
+    };
 
-    
+    const handleReset = () => {
+        resetForm();
+    }
+
+
     return (
         <div>
             <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
@@ -282,7 +289,25 @@ const AddPeople = () => {
                                 />
                                 {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
                             </Grid>
-                            
+
+                            <Grid item lg={12} sm={12} xs={12} md={12}>
+                                <TextField
+                                    fullWidth
+                                    variant='standard'
+                                    color='secondary'
+                                    id="doj"
+                                    label="Date of Joining"
+                                    placeholder='Enter Date of Joining'
+                                    name='doj'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.doj}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+
+                                />
+                                {errors.doj && touched.doj ? <Typography variant="caption" color="error">{errors.doj}</Typography> : null}
+                            </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
                                     fullWidth
@@ -324,6 +349,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="adharno"
                                     label="Adhar Card No."
+                                    placeholder='Enter Your Adhar Card No.'
                                     name='adharno'
                                     type="number"
                                     value={values.adharno}
@@ -339,6 +365,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="panno"
                                     label="Pan Card No."
+                                    placeholder='Enter Your Pan Card No.'
                                     name='panno'
                                     type="text"
                                     value={values.panno}
@@ -354,6 +381,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="mobileno"
                                     label="Mobile No."
+                                    placeholder='Enter Your Moblie No.'
                                     name='mobileno'
                                     type="number"
                                     value={values.mobileno}
@@ -369,6 +397,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="altmobileno"
                                     label="Alternate Mobile No"
+                                    placeholder='Enter Your Alternate Mobile No.'
                                     name='altmobileno'
                                     type="number"
                                     value={values.altmobileno}
@@ -384,6 +413,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="address1"
                                     label="Address 1"
+                                    placeholder='Enter Your Address'
                                     name='address1'
                                     type="text"
                                     value={values.address1}
@@ -399,7 +429,8 @@ const AddPeople = () => {
                                     color='secondary'
                                     variant='standard'
                                     id="address2"
-                                    label="Address 2"
+                                    label="Address 2 (Optional)"
+                                    placeholder='Enter Your Second Address'
                                     name='address2'
                                     type="text"
                                     value={values.address2}
@@ -410,8 +441,11 @@ const AddPeople = () => {
                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button variant="contained" color='primary' type='submit' >
+                                <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting} >
                                     Add
+                                </Button>
+                                <Button variant="contained" color='secondary' type='button' onClick={handleReset} sx={{ ml: 1 }} >
+                                    Reset
                                 </Button>
                             </Grid>
                         </Grid>

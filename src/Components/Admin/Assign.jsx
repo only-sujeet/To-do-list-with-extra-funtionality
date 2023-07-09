@@ -28,7 +28,6 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const assign = async (empId, taskId) => {
 
-        // const res = await axios.post('/api/admin/assignTask', { empId, taskId })
         const res = await AssignTask(empId, taskId)
         if (res.success === true) {
             toast.success(res.message)
