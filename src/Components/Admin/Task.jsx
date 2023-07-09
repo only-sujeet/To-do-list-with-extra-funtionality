@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Fab, Chip } from '@mui/material';
+import React, { useMemo,  } from 'react'
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar,  Chip } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -8,14 +8,14 @@ import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
-import { CheckCircleOutlineTwoTone, Circle, CircleTwoTone, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
+import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone,   EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar';
 import AdminRoute from '../../Protected Route/AdminRoute';
 import UploadExcel from './UploadExcel';
-import { blue, blueGrey, grey } from '@mui/material/colors';
+import { blue,  grey } from '@mui/material/colors';
 const drawerWidth = 240;
 
 
@@ -23,7 +23,6 @@ const Task = () => {
 
     const dispatch = useDispatch()
     const { task } = useSelector(state => state.admin)
-    const [pageSize, setPageSize] = useState(5)
     useEffect(() => {
         dispatch(getTask())
     }, [dispatch])
