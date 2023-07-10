@@ -75,6 +75,8 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
+   
+    
     const initialvalue = {
         department: "",
         subDept: "",
@@ -92,7 +94,7 @@ const AddPeople = () => {
         adharno: "",
         panno: ""
     }
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit, resetForm, isSubmitting } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit, resetForm, isSubmitting, setFieldValue } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -136,6 +138,29 @@ const AddPeople = () => {
     const handleReset = () => {
         resetForm();
     }
+
+    const calculateAge = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+    
+        if (
+          monthDifference < 0 ||
+          (monthDifference === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+    
+        return age;
+      };
+
+      const handleChangeAge = (event) => {
+        handleChange(event)
+        const age = calculateAge(event.target.value);
+        setFieldValue('age', age);
+      };
+
 
 
     return (
@@ -320,7 +345,7 @@ const AddPeople = () => {
                                     type="date"
                                     InputLabelProps={{ shrink: true, }}
                                     value={values.dob}
-                                    onChange={handleChange}
+                                    onChange={handleChangeAge}
                                     onBlur={handleBlur}
 
                                 />
@@ -335,7 +360,7 @@ const AddPeople = () => {
                                     label="Age"
                                     placeholder='Enter Age'
                                     name='age'
-                                    type="number"
+                                    type="text"
                                     value={values.age}
                                     onChange={handleChange}
                                     onBlur={handleBlur}

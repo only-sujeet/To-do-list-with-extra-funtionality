@@ -42,8 +42,9 @@ const Login1 = () => {
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       // console.log(values)
       const res = await adminLogin(values)
-      // await dispatch(adminLog(values))
+     await dispatch(adminLog(values))
       setSubmitting(false)
+     
       if (res.success === true) {
         toast.success(res.message)
         navigate("/dashboard")

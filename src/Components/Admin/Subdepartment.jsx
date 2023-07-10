@@ -10,6 +10,7 @@ import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-materia
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { Box } from '@material-ui/core'
 import { useState } from 'react'
+import { blue, grey } from '@mui/material/colors'
 const Subdepartment = () => {
 
     useEffect(() => {
@@ -134,22 +135,22 @@ const Subdepartment = () => {
     }
     // console.log(data)
     const columns = useMemo(dept => [
-        { field: "subDept", headerName: "Sub-Deptartment", width: 155, headerClassName: 'super-app-theme--header' },
-        { field: "rate", headerName: "Rate", width: 140, headerClassName: 'super-app-theme--header' },
-        { field: "unit", headerName: "Unit", width: 140, headerClassName: 'super-app-theme--header' },
+        { field: "subDept", headerName: "Sub-Deptartment", width: 160, headerClassName: "header", headerAlign: "center", align:"center", },
+        { field: "rate", headerName: "Rate", width: 140, headerClassName: "header", headerAlign: "center", align:"center", },
+        { field: "unit", headerName: "Unit", width: 140, headerClassName: "header", headerAlign: "center", align:"center", },
         {
-            field: "Action", headerName: "Action", width: 170, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            field: "Action", headerName: "Action", width: 180,  headerClassName: "header", headerAlign: "center", align:"center",
             renderCell: (params) =>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                    <Chip color='secondary' label="Edit" size='medium' onClick={() => getSubDeptDetails(params.row.subDept, params.row.deptId)} icon={<ModeEditOutlineOutlined />} />
-                    <Chip icon={<HighlightOffRounded fontSize='small' />} color='error' label="Delete" size='medium' disabled={loading} onClick={() => handledelete(params.row._id, params.row.deptId)} />
+                <Box display="flex" justifyContent="center" alignItems="center" >
+                    <Chip color='secondary' label="Edit" size='small' onClick={() => getSubDeptDetails(params.row.subDept, params.row.deptId)} icon={<ModeEditOutlineOutlined fontSize='small' />} sx={{ mr:1}} />
+                    <Chip   icon={<HighlightOffRounded fontSize='small' />} color='error' label="Delete" size='small' disabled={loading} onClick={() => handledelete(params.row._id, params.row.deptId)} />
                 </Box>
         },
     ], [])
 
     return (
         <div style={{ marginBottom: "2rem" }}>
-            <Typography variant="h2" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
+            <Typography variant="h3" color="textSecondary" fontWeight="bold">Manage Sub-Department</Typography>
 
 
             {/* Update sub-department form  */}
@@ -300,12 +301,8 @@ const Subdepartment = () => {
                                             <Button variant='contained' color='secondary' onClick={() => setOpen(true)} size='small' sx={{ maxWidth: 200, }}>Add New Sub-Department</Button>
                                         </Box>
                                         <Stack sx={{
-                                            '& .super-app-theme--header': {
-                                                backgroundColor: "#3366ff",
-                                            },
                                             display: "grid",
-                                            height: "40vh",
-
+                                            height: "35vh",
                                         }}
                                         >
 
@@ -314,12 +311,28 @@ const Subdepartment = () => {
                                                 key={row => row._id}
                                                 columns={columns}
                                                 getRowId={row => row._id}
-
-                                                style={{
-                                                    backgroundColor: "rgb(0,0,0,0.6)",
-                                                    color: "white",
-
-                                                    fontSize: "1rem", fontFamily: "Josefin Sans",
+                                                slots={{ toolbar: GridToolbar }}
+                                                getRowSpacing={0}
+                                                rowHeight={37}
+                                                rowSelection= "true"
+                                                rowSpacingType='margin'
+                                                scrollbarSize={1}
+                                                columnHeaderHeight={37}
+                                                sx={{
+                                                    '& .header': {
+                                                        backgroundColor: blue[700],
+                                                        
+                                                   },
+                                                   '.MuiDataGrid-columnSeparator': {
+                                                       display: 'none',
+                                                   },
+                                                   '&.MuiDataGrid-root': {
+                                                       border: 'none',
+                                                   },
+                                                  
+                                                   bgcolor: grey[300],
+                                                   textTransform: "capitalize",
+                                                   fontFamily:"Josefin Sans",
                                                 }}
                                             />
                                         </Stack>

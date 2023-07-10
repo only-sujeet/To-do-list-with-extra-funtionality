@@ -48,7 +48,7 @@ const Task = () => {
         { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center" , align:"center"},
         { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align:"center" },
         {
-            field: "status", headerName: "Status", width: 120, headerClassName: "header", headerAlign: "center", align:"center", renderCell: params => {
+            field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align:"center", renderCell: params => {
                 if (params.row.status === "Created") {
                     return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='small' />
                 }
@@ -66,7 +66,7 @@ const Task = () => {
         },
         {
             headerName: "Action", headerClassName: "header", headerAlign: "center", align:"center",
-            width: 100,
+            width: 122,
             renderCell: params => {
                 if (params.row.status === "Created") {
 

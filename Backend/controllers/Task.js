@@ -7,8 +7,8 @@ exports.addTask = async (req, res) => {
     try {
 
 
-        const { name, department, instruction, taskDependency, startDate, endDate } = req.body.values
-        const { unit, rate } = req.body.subDeptDetails
+        const { name, department, instruction, taskDependency, startDate, endDate , unit, rate  } = req.body.values
+        // const { unit, rate } = req.body.subDeptDetails
         const { number, selection } = req.body.daysdata
 
         const timeDuration = number + " " + selection
