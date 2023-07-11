@@ -40,7 +40,6 @@ const Login1 = () => {
     initialValues: initialvalue,
     validationSchema: login,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
-      // console.log(values)
       const res = await adminLogin(values)
      await dispatch(adminLog(values))
       setSubmitting(false)
@@ -58,15 +57,22 @@ const Login1 = () => {
 
   return (
     <Grid container component='main' sx={{ height: "100vh" }}>
-      <Grid item xs={false} sm={6} md={8} sx={{
+      <Grid item xs={false} sm={false} md={8} lg={8} height="100vh" 
+      sx={{
         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-      }}>
+        // backgroundAttachment:"fixed",
+        // width:{ lg:"100%",md:"80%",sm:"0%" },
+        // height:'100%'
+      }}
+      >
 
       </Grid>
-      <Grid item xs={12} sm={6} md={4} component={Paper} elevation={10} square >
+      <Grid item xs={12} sm={12} md={4} lg={4} component={Paper} elevation={10} square sx={{
+        backgroundColor:"whitesmoke"
+      }} >
         <Box
           maxWidth="sm"
           sx={{
@@ -77,7 +83,7 @@ const Login1 = () => {
             // alignItems: 'center',
           }}>
 
-          <Typography variant="h6" color="initial" m="15px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
+          <Typography variant="h6" color="initial" m="10px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
           <Typography variant="h2" color="secondary" align="center" sx={{ marginBottom: "10px" }}  >Sign In</Typography>
           <form onSubmit={handleSubmit}>
             <TextField
