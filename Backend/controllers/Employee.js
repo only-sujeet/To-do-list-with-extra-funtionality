@@ -99,7 +99,7 @@ exports.submitDoc = async (req, res) => {
         //     emp.tasks.splice(index, 1);
         //     emp.save();
         // }
-        // task.status = "submited"
+        // task.status = "submitted"
         // task.document = doc;
         // await task.save();
         const file = req.file
@@ -128,21 +128,16 @@ exports.submitDoc = async (req, res) => {
             const task = await Task.findById(req.params.id)
             task.fileName = file.originalname
             task.driveLink = response.data.webViewLink
-            task.status = "submited"
-           const savefile =  await task.save();
+            task.status = "submitted"
+            await task.save();
 
-            // const files = new File({
-            //     name: file.originalname,
-            //     driveLink: response.data.webViewLink
-            // })
 
-            // const savefile = await files.save();
 
             deleteFile(req.file.path);
             res.status(200).json({
                 success: true,
-                message: "Task Submited",
-    
+                message: "Task Submitted",
+
             })
 
         } catch (error) {
@@ -151,11 +146,23 @@ exports.submitDoc = async (req, res) => {
         }
 
 
-        
-
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
 }
 
 
+//  Employee reject task for some reasons 
+
+exports.rejectTask = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id)
+
+        console.log(req.body.rejectReason)
+        res.status(200).json({
+            success: true, message: "Task rejected.."
+        })
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}

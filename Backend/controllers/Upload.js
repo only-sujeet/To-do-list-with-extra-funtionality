@@ -9,35 +9,6 @@ const authenticateGoogle = () => {
     return auth;
 };
 
-// const uploadToGoogleDrive = async (file, auth) => {
-
-//     ()
-//     return response;
-// };
-// const uploadToGoogleDrive = async (file, auth) => {
-//     const fileMetadata = {
-//         name: file.originalname,
-//         parents: ["1Fpplz4lMg7BbcG7dZXh8whLCpOfqyavI"], // Change it according to your desired parent folder id
-//     };
-//     const media = {
-//         mimeType: file.mimetype,
-//         body: fs.createReadStream(file.path),
-//     };
-//     const driveService = google.drive({ version: "v3", auth });
-//     const response = await driveService.files.create({
-//         requestBody: fileMetadata,
-//         media: media,
-//         fields: "id,webViewLink",
-//     });
-
-//     const files = new File({
-//         name: file.originalname,
-//         driveLink:response.data.webViewLink
-//     })
-
-//     const savefile =  await files.save()
-//     return response;
-// };
 
 const deleteFile = (filePath) => {
     fs.unlink(filePath, () => {

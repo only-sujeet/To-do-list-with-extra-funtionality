@@ -1,7 +1,7 @@
 const express = require('express')
 const Multer = require("multer")
 const { isAuthenticatedEmp } = require('../middlewares/Auth')
-const { getAssignedTask, AcceptTask, submitDoc } = require('../controllers/Employee')
+const { getAssignedTask, AcceptTask, submitDoc, rejectTask } = require('../controllers/Employee')
 const { uploadfile } = require('../controllers/Upload')
 const { getAllTask } = require('../controllers/Task')
 const router = express.Router()
@@ -26,4 +26,5 @@ router.route("/submitDoc/:id").post( isAuthenticatedEmp,upload.single('file'), s
 router.route("/upload").post(upload.single('file'), uploadfile)
 
 router.route("/getAllTask").get(isAuthenticatedEmp, getAllTask)
+router.route("/rejectTask/:id").post(isAuthenticatedEmp, rejectTask)
 module.exports = router 

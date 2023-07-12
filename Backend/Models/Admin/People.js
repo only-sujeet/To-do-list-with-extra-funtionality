@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-
+const bcrypt = require("bcrypt")
 const peopleSchema = mongoose.Schema({
     firstName: {
         type: String,
@@ -79,6 +79,13 @@ const peopleSchema = mongoose.Schema({
     }]
 
 })
+
+// peopleSchema.pre('save', async function (next) {
+//     if (this.isModified("password")) {
+//         this.password = await bcrypt.hash(this.password, 100)
+//     }
+//     next();
+// })
 
 peopleSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)

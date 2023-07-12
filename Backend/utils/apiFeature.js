@@ -28,7 +28,7 @@ class ApiFeature {
                         $options: "i"
                     }
                 },
-                 {
+                {
                     department: {
                         $regex: this.queryStr.keyword,
                         $options: "i"
@@ -41,7 +41,7 @@ class ApiFeature {
             status: undefined
         }
 
-        this.query = this.query.find({ ...keyword, company: this.company })
+        this.query = this.query.find({ ...keyword, company: this.company, status: undefined })
         return this
     }
 }

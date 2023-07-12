@@ -38,7 +38,6 @@ adminSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-
 adminSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
 }

@@ -88,7 +88,7 @@ const AddPeople = () => {
 
                     if (res.success === true) {
                         toast.success(res.message)
-                        resetForm({ values: "" })
+                        //  resetForm({ values: "" })
                         setOpen(false)
                         dispatch(getPeople())
                     }
