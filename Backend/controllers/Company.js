@@ -66,13 +66,15 @@ exports.addSubDept = async (req, res) => {
 
     try {
 
-        const { department, subDept, unit, rate } = req.body
+        const { department, subDept, unit, rate, taskDependencyDept,taskDependencySubDept } = req.body
         const dept = await Department.findOne({ company: req.admin.company, department })
         const data = {
             subDept,
             unit,
             rate,
-            deptId: dept._id
+            deptId: dept._id,
+            taskDependencyDept,
+            taskDependencySubDept
         }
         let subDeptExits = false
         dept.subDepts.forEach((item) => {

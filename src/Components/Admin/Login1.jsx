@@ -1,8 +1,7 @@
 import React from 'react'
-import { Box, Button, Container, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
-import image from '../Images/login4.png'
-import back from '../Images/back4.jpg'
-import {  Visibility, VisibilityOff } from '@mui/icons-material'
+import { Box, Button, IconButton, InputAdornment, TextField, Typography, Grid, Paper } from '@mui/material'
+import image from '../Images/login7.png'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
@@ -12,6 +11,7 @@ import { adminLogin } from '../../api/Admin';
 import { adminLog } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 
 const Login1 = () => {
   const [type, setType] = React.useState("password")
@@ -36,13 +36,14 @@ const Login1 = () => {
     password: ""
   }
   const dispatch = useDispatch()
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: initialvalue,
     validationSchema: login,
-    onSubmit: async (values, { resetForm }) => {
-      console.log(values)
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       const res = await adminLogin(values)
-      await dispatch(adminLog(values))
+     await dispatch(adminLog(values))
+      setSubmitting(false)
+     
       if (res.success === true) {
         toast.success(res.message)
         navigate("/dashboard")
@@ -55,13 +56,40 @@ const Login1 = () => {
   })
 
   return (
-    <div style={{ backgroundImage:`url(${back})`, width:"100vw", backgroundRepeat:"no-repeat",backgroundSize:"cover",}}  >
-        <Container maxWidth="xs" sx={{ backgroundColor:"transparent" , height: { xs: "100%", sm: "35%", md: "60%", lg: "50%" }, m:"10% auto", }}>
-        <Typography variant="h6" color="initial" m="15px auto" align='center'><img src={image} alt="register" height="80px" width="80px" /></Typography>
-        <form onSubmit={handleSubmit}>
+    <Grid container   component='main' sx={{ height: "100vh" }}>
+      <Grid item xs={false} sm={false} md={8} lg={8} height="100vh" 
+      sx={{
+        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        // backgroundAttachment:"fixed",
+        // width:{ lg:"100%",md:"80%",sm:"0%" },
+        // height:'100%'
+      }}
+      >
+
+      </Grid>
+      <Grid item xs={12} sm={12} md={4} lg={4} component={Paper} elevation={10} square sx={{
+        backgroundColor:"whitesmoke"
+      }} >
+        <Box
+          maxWidth="sm"
+          sx={{
+            my: 8,
+            mx: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'center',
+          }}>
+
+          <Typography variant="h6" color="initial" m="10px auto" align='center'><img src={image} alt="register" height="100px" width="100px" /></Typography>
+          <Typography variant="h2" color="secondary" align="center" sx={{ marginBottom: "10px" }}  >Sign In</Typography>
+          <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              sx={{ marginBottom: "10px" }}
+              color='secondary'
+              sx={{ marginBottom: "15px", }}
               size='small'
               label="Email"
               type='email'
@@ -69,12 +97,13 @@ const Login1 = () => {
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              InputLabelProps={{ shrink: true, }}
               placeholder='Enter Your Email'
               variant='standard'
             />
             {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
             <TextField
-             sx={{ marginBottom: "10px" }}
+              sx={{ marginBottom: "10px" }}
               fullWidth
               id="password"
               size='small'
@@ -83,6 +112,8 @@ const Login1 = () => {
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
+              InputLabelProps={{ shrink: true, }}
+              color='secondary'
               placeholder='Enter Your Password'
               variant='standard'
               name='password'
@@ -92,28 +123,40 @@ const Login1 = () => {
                 </IconButton> </InputAdornment>)
               }}
             />
-            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+            {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}<br></br>
+            <Typography
+              // className={classes.title}
+              variant="caption"
+              noWrap
+              color="initial"
+
+            >
+              If you Don't have Account ? <Typography variant="caption" color="textPrimary" to="/register" component={Link} sx={{ textDecoration: "none", color: "blue" }}>Create a New Account</Typography>
+            </Typography>
             <Box m="10px">
-            <Button variant="contained" type='submit'  fullWidth>
-              Sign In
-            </Button>
+
+              <Button variant="contained" type='submit' sx={{ borderRadius: "20px", mt: "10px" }} disabled={isSubmitting} fullWidth>
+                Sign In
+              </Button>
             </Box>
 
           </form>
-        </Container>
-        <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeButton={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored" />
-    </div>
+        </Box>
+      </Grid>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
+    </Grid>
   )
 }
 

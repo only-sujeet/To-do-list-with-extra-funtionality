@@ -47,7 +47,11 @@ const peopleSchema = mongoose.Schema({
         required: true
     },
     dob: {
-        type: String,
+        type: Date,
+        required: true
+    },
+    doj: {
+        type: Date,
         required: true
     },
     adharno: {
@@ -90,6 +94,8 @@ const peopleSchema = mongoose.Schema({
 peopleSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
 }
+
+
 
 const People = mongoose.model("People", peopleSchema)
 module.exports = People

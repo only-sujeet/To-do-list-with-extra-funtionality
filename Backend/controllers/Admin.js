@@ -1,5 +1,8 @@
 const Company = require("../Models/Admin/Company");
 const Admin = require("../Models/Admin/Login");
+const { sendEmail } = require("../middlewares/sendEmail");
+const crypto = require("crypto")
+
 
 exports.adminRegister = async (req, res) => {
     try {
@@ -47,7 +50,10 @@ exports.adminLogin = async (req, res) => {
             httpOnly: true
         }
         const token = await admin.generateToken()
-        res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
+        res.status(200) .json({ success: true, message: "Login Success", token })
+        // res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
+        
+        // res.status(200).json({ success: true, message: "Login Success", token })
 
 
 
@@ -77,3 +83,88 @@ exports.adminLogout = async (req, res) => {
     }
 
 }
+
+exports.forgotPassword = async (req, res) => {
+
+    try {
+        const { email } = req.body
+        const admin = await Admin.findOne({ email })
+
+        if (!admin) {
+            return res
+                .status(404)
+                .json({ success: false, message: "!! Invalid username" })
+        }
+        const resetTOken = await admin.getResetPasswordToken()
+
+
+        const resetUrl = `${req.protocol}://${req.hostname}:3000/resetPassword/${resetTOken}`
+        const message = `reset your password by clicking on the link below: \n\n ${resetUrl}`
+        await admin.save()
+        try {
+            await sendEmail({
+                email: admin.email,
+                subject: "reset Password",
+                message
+            });
+
+            res.status(200).json({
+                success: true,
+                message: `Forgot password link sent to ${admin.email}........`,
+            })
+        } catch (error) {
+            admin.resetPasswordToken = undefined;
+            admin.resetpasswordExpire = undefined;
+            await admin.save()
+
+        }
+
+    } catch (error) {
+        res
+            .status(500)
+            .json({ success: false, Error: error.message })
+    }
+
+}
+
+
+
+exports.setPassword = async (req, res) => {
+
+    try {
+        const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex")
+        const admin = await Admin.findOne({
+            resetPasswordToken,
+            resetPasswordExpires: { $gt: Date.now() }
+        })
+        if (!admin) {
+            return res
+                .status(404)
+                .json({ success: false, message: "!!Token invalid has expired..." })
+        }
+        if (!req.body.password) {
+            return res
+                .status(404)
+                .json({ success: false, message: "!!Please enter password" })
+        }
+
+        admin.password = req.body.password
+        admin.resetPasswordToken = undefined;
+        admin.resetPasswordExpires = undefined;
+        await admin.save()
+
+        return res
+            .status(200)
+            .json({ success: true, message: "Password updated..." })
+
+    } catch (error) {
+        res
+            .status(500)
+            .json({ success: false, Error: error.message })
+    }
+
+}
+
+
+
+

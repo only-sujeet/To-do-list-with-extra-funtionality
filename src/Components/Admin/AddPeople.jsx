@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Grid, Typography, FormControl, InputLabel, Select, MenuItem, InputAdornment } from '@mui/material';
-import { PeopleTwoTone, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle,  Grid, Typography, FormControl, InputLabel, Select, MenuItem,  } from '@mui/material';
+import {  PersonAdd,} from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { addprofile } from '../Validation/Admin';
 import { useState } from 'react';
@@ -9,21 +9,41 @@ import { addPeople, getDept, getSubDept } from '../../api/Admin';
 import { getPeople } from '../../Redux/Action/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    button: {
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 35,
+            minHeight: 35,
+            paddingLeft: 3,
+            paddingRight: 3,
+            "& .MuiButton-startIcon": {
+                margin: 0
+            }
+        }
+    },
+    buttonText: {
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+            // borderRadius:"50px"
+        }
+    }
+}));
+
 const AddPeople = () => {
-
-
+    const classes = useStyles();
     React.useEffect(() => {
         getDepartment();
     }, []);
-
+    const [hover, setHover] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = useState();
     const [image, setImage] = useState()
-    const [type, setType] = useState("password")
-    const [visible, setVisible] = useState(false)
+
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
-
 
     const getDepartment = async () => {
         const { data } = await getDept()
@@ -37,28 +57,11 @@ const AddPeople = () => {
         data && setSubDept(data)
     }
 
-    const icon = (visible ? <Visibility /> : <VisibilityOff />)
-    const showClick = () => {
-        if (visible === false) {
-            setVisible(true)
-            setType("text")
-        }
-        else {
-            setVisible(false)
-            setType("password")
-        }
-    }
-
-
-
     const dispatch = useDispatch()
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-        dispatch(getPeople())
-    };
+
 
     const handleImage = (e) => {
         const file = e.target.files[0];
@@ -72,11 +75,29 @@ const AddPeople = () => {
         reader.readAsDataURL(file)
     }
 
-    const initialvalue = {}
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+   
+    
+    const initialvalue = {
+        department: "",
+        subDept: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        email: "",
+        dob: "",
+        doj: "",
+        age: "",
+        mobileno: "",
+        altmobileno: "",
+        address1: "",
+        address2: "",
+        adharno: "",
+        panno: ""
+    }
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit, resetForm, isSubmitting, setFieldValue } = useFormik({
         initialValues: initialvalue,
         validationSchema: addprofile,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
                 if (file) {
 
@@ -85,7 +106,7 @@ const AddPeople = () => {
                     formdata.append('data', JSON.stringify(values))
 
                     const res = await addPeople(formdata)
-
+                    setSubmitting(false)
                     if (res.success === true) {
                         toast.success(res.message)
                         //  resetForm({ values: "" })
@@ -105,27 +126,55 @@ const AddPeople = () => {
             } catch (error) {
                 console.log(error.message)
             }
-
         }
-
-
-
     })
 
+    const handleClose = () => {
+        setOpen(false);
+        dispatch(getPeople())
+        resetForm();
+    };
 
-    // console.log(errors)
+    const handleReset = () => {
+        resetForm();
+    }
+
+    const calculateAge = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+    
+        if (
+          monthDifference < 0 ||
+          (monthDifference === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+    
+        return age;
+      };
+
+      const handleChangeAge = (event) => {
+        handleChange(event)
+        const age = calculateAge(event.target.value);
+        setFieldValue('age', age);
+      };
+
+
+
     return (
         <div>
-            <Tooltip title="Add People">
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
+                startIcon={<PersonAdd />} className={classes.button}>
+                <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
+                    {hover ? ("Add Employee Menually") : (`Add Employee`)}
+                </Typography>
+            </Button>
 
-                <IconButton aria-label="add People" onClick={handleClickOpen}>
-                    <PeopleTwoTone color='primary' />
-                </IconButton>
-
-            </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
-                <DialogTitle> <Typography variant="h6" color="initial">Add People</Typography></DialogTitle>
+                <DialogTitle> <Typography variant="h6" color="initial" >Add Employee</Typography></DialogTitle>
                 <DialogContent>
                     <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
                         <Grid container spacing={2} >
@@ -152,7 +201,7 @@ const AddPeople = () => {
 
                                     </Select>
                                 </FormControl>
-                                {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                                {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <FormControl variant='filled' fullWidth>
@@ -265,27 +314,24 @@ const AddPeople = () => {
                                 />
                                 {errors.email && touched.email ? <Typography variant="caption" color="error">{errors.email}</Typography> : null}
                             </Grid>
+
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
-
                                     fullWidth
-                                    id="password"
-
-                                    label="Password"
-                                    type={type}
-                                    value={values.password}
+                                    variant='standard'
+                                    color='secondary'
+                                    id="doj"
+                                    label="Date of Joining"
+                                    placeholder='Enter Date of Joining'
+                                    name='doj'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.doj}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    placeholder='Enter Your Password'
-                                    variant='standard'
-                                    name='password'
-                                    InputProps={{
-                                        endAdornment: (<InputAdornment position="end"> <IconButton onClick={showClick}>
-                                            {icon}
-                                        </IconButton> </InputAdornment>)
-                                    }}
+
                                 />
-                                {errors.password && touched.password ? <Typography variant="caption" color="error">{errors.password}</Typography> : null}
+                                {errors.doj && touched.doj ? <Typography variant="caption" color="error">{errors.doj}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
@@ -299,7 +345,7 @@ const AddPeople = () => {
                                     type="date"
                                     InputLabelProps={{ shrink: true, }}
                                     value={values.dob}
-                                    onChange={handleChange}
+                                    onChange={handleChangeAge}
                                     onBlur={handleBlur}
 
                                 />
@@ -314,7 +360,7 @@ const AddPeople = () => {
                                     label="Age"
                                     placeholder='Enter Age'
                                     name='age'
-                                    type="number"
+                                    type="text"
                                     value={values.age}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -328,6 +374,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="adharno"
                                     label="Adhar Card No."
+                                    placeholder='Enter Your Adhar Card No.'
                                     name='adharno'
                                     type="number"
                                     value={values.adharno}
@@ -343,6 +390,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="panno"
                                     label="Pan Card No."
+                                    placeholder='Enter Your Pan Card No.'
                                     name='panno'
                                     type="text"
                                     value={values.panno}
@@ -358,6 +406,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="mobileno"
                                     label="Mobile No."
+                                    placeholder='Enter Your Moblie No.'
                                     name='mobileno'
                                     type="number"
                                     value={values.mobileno}
@@ -373,6 +422,7 @@ const AddPeople = () => {
                                     color='secondary'
                                     id="altmobileno"
                                     label="Alternate Mobile No"
+                                    placeholder='Enter Your Alternate Mobile No.'
                                     name='altmobileno'
                                     type="number"
                                     value={values.altmobileno}
@@ -388,6 +438,7 @@ const AddPeople = () => {
                                     variant='standard'
                                     id="address1"
                                     label="Address 1"
+                                    placeholder='Enter Your Address'
                                     name='address1'
                                     type="text"
                                     value={values.address1}
@@ -403,7 +454,8 @@ const AddPeople = () => {
                                     color='secondary'
                                     variant='standard'
                                     id="address2"
-                                    label="Address 2"
+                                    label="Address 2 (Optional)"
+                                    placeholder='Enter Your Second Address'
                                     name='address2'
                                     type="text"
                                     value={values.address2}
@@ -414,8 +466,11 @@ const AddPeople = () => {
                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button variant="contained" color='primary' type='submit' >
+                                <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting} >
                                     Add
+                                </Button>
+                                <Button variant="contained" color='secondary' type='button' onClick={handleReset} sx={{ ml: 1 }} >
+                                    Reset
                                 </Button>
                             </Grid>
                         </Grid>

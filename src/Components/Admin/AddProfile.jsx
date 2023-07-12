@@ -1,5 +1,5 @@
 
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, Toolbar, } from '@mui/material'
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, Toolbar, InputAdornment, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,8 @@ import AddPeople from './AddPeople'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar'
+import AdminRoute from '../../Protected Route/AdminRoute'
+import { SearchSharp } from '@mui/icons-material'
 
 const drawerWidth = 240;
 
@@ -47,24 +49,29 @@ const AddProfile = () => {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Box m='15px'>
+                <Box mt='10px' mb="15px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
-                        <Header title="Add Profile" subtitle="Welcome to Add Profile page" />
-                        <Box display='flex'>
+                        <Header title="Add Employee" subtitle="Welcome to Add Employee page" />
+                        <Box display='flex' m="10px">
 
                             <AddPeople />
                         </Box>
                     </Box>
-                    <form style={{ display: "flex", alignItems: "end", justifyContent: "end", }} >
+                    <form style={{ display: "flex", alignItems: "end", justifyContent: "end", marginRight:"10px" }} >
                         <TextField
-                            sx={{ "& .MuiOutlinedInput-root": { borderRadius: "20px" } }}
+                            sx={{ "& .MuiOutlinedInput-root": { borderRadius: "20px" , maxHeight:"34px" } }}
                             placeholder='Search Emloyees By Name & Department'
-                            id=""
-                            label=""
-                            fullWidth
+                           
                             onChange={handleSearch}
                             size='small'
                             type='search'
+                            InputProps={{
+                            startAdornment:(
+                              <InputAdornment position="start">
+                                <SearchSharp color='primary' fontSize='small'/>
+                              </InputAdornment>
+                            )
+                            }}
                         />
                     </form>
                     {loading ? <Typography variant="h1" m="2rem" align="center" color="initial">Loading...</Typography> :
@@ -123,4 +130,4 @@ const AddProfile = () => {
     )
 }
 
-export default AddProfile
+export default AdminRoute(AddProfile)

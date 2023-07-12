@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useMemo } from 'react';
 import { Delete } from '@mui/icons-material';
+import { blue, grey } from '@mui/material/colors';
 
 const AddDepartment = () => {
 
@@ -25,10 +26,10 @@ const AddDepartment = () => {
 
 
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Task Name", width: 150, headerClassName: 'super-app-theme--header' },
+        { field: "department", headerName: "Task Name", width: 173, headerClassName: "header", headerAlign: "center", align:"center" },
         {
-            field: "subDepts", headerName: 'Sub-Department',headerClassName: 'super-app-theme--header' ,
-            width: 200,
+            field: "subDepts", headerName: 'Sub-Department',headerClassName: "header", headerAlign: "center", align:"center",
+            width: 230,
             renderCell: (params) => (
                 <FormControl variant='filled' fullWidth>
                     <InputLabel>Sub-Department</InputLabel>
@@ -46,29 +47,23 @@ const AddDepartment = () => {
             ),
         },
         {
-            field: "Action", headerName: "Action", width: 255, headerAlign: "center", headerClassName: 'super-app-theme--header',
+            field: "Action", headerName: "Action", width: 220,  headerClassName: "header", headerAlign: "center", align:"center",
             renderCell: (params) => <Box display="flex" alignItems="center" justifyContent="space-between" >
-                <Button variant="contained" sx={{ color: "red", display: "flex", margin: "auto", mr: "2px" }} ><Delete /></Button>
-                {/* <Button variant="contained" sx={{ display: "flex", margin: "auto" }} >Add Sub-Department</Button> */}
+                <Button variant="contained" size='small' sx={{ color: "red", display: "flex", margin: "auto", mr: "2px" }} ><Delete fontSize='small' /></Button>
             </Box>
         },
     ], [])
 
 
-    const getRowSpacing = React.useCallback((params) => {
-        return {
-            top: params.isFirstVisible ? 0 : 5,
-            bottom: params.isLastVisible ? 0 : 5,
-        };
-    }, []);
 
-    const initialvalues = {}
+    const initialvalues = {department:""}
 
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit ,isSubmitting } = useFormik({
         initialValues: initialvalues,
         validationSchema: adddep,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             const res = await addDepartment(values)
+            setSubmitting(false)
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: "" })
@@ -77,13 +72,13 @@ const AddDepartment = () => {
             if (res.success === false) {
                 toast.error(res.message)
             }
-            console.log(values)
+            // console.log(values)
         }
     })
     return (
         <div style={{ paddingBottom: "3rem" }}>
 
-            <Typography variant="h2" color="textSecondary" fontWeight="bold">Mange Department</Typography>
+            <Typography variant="h3" color="textSecondary" fontWeight="bold">Mange Department</Typography>
             <form action="" onSubmit={handleSubmit}>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
@@ -101,9 +96,9 @@ const AddDepartment = () => {
                         onChange={handleChange}
 
                     />
-                    {errors.field && touched.field ? <Typography variant="caption" color="error">{errors.field}</Typography> : null}
+                    {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
                     <Tooltip title="Add Department">
-                        <Button variant="contained" color='primary' type='submit' >
+                        <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting}>
                             Add
                         </Button>
                     </Tooltip>
@@ -112,13 +107,10 @@ const AddDepartment = () => {
                 </Stack>
             </form>
             <Stack sx={{
-                '& .super-app-theme--header': {
-                    backgroundColor: "#33aaff",
-                },
+               
                 display: "grid",
-                height: "40vh",
-                marginBottom: "2rem",
-                width: "100%"
+                height: "32vh",
+               
             }}
             >
                 {dept ? <DataGrid
@@ -128,13 +120,27 @@ const AddDepartment = () => {
                     getRowId={row => row._id}
                     // getRowSpacing={getRowSpacing}    
                     slots={{ toolbar: GridToolbar }}
-                    style={{
-                        backgroundColor: "rgb(0,0,0,0.6)",
-                        color: "white",
-                        fontSize: "1rem",
-                        fontFamily: "Josefin Sans",
-                        marginBottom: "1rem",
-                        textTransform: "capitalize"
+                    getRowSpacing={0}
+                    rowHeight={37}
+                    rowSelection= "true"
+                    rowSpacingType='margin'
+                    scrollbarSize={1}
+                    columnHeaderHeight={37}
+                    sx={{
+                        '& .header': {
+                            backgroundColor: blue[700],
+                            
+                       },
+                       '.MuiDataGrid-columnSeparator': {
+                           display: 'none',
+                       },
+                       '&.MuiDataGrid-root': {
+                           border: 'none',
+                       },
+                      
+                       bgcolor: grey[300],
+                       textTransform: "capitalize",
+                       fontFamily:"Josefin Sans",
                     }}
                 /> : undefined}
             </Stack>

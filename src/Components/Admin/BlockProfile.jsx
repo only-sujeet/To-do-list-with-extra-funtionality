@@ -9,6 +9,7 @@ import { unBlockPeople } from '../../api/Admin'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar'
+import AdminRoute from '../../Protected Route/AdminRoute'
 
 const drawerWidth = 240;
 
@@ -41,7 +42,7 @@ const BlockProfile = () => {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Box m='15px'>
+                <Box mt='15px' mb="10px">
                     <Box display='flex' justifyContent='space-between' alignItems='center'>
                         <Header title='Block Profile' subtitle='Welcome to Block Profile Page' />
                     </Box>
@@ -97,4 +98,4 @@ const BlockProfile = () => {
     )
 }
 
-export default BlockProfile
+export default   AdminRoute(BlockProfile)

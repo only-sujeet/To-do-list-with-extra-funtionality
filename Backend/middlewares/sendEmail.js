@@ -13,7 +13,7 @@ exports.sendEmail = async (options) => {
     })
 
     const mailOption = {
-        from: 'fp9838948@gmail.com',
+        from: 'INK <fp9838948@gmail.com>',
         to: options.email,
         subject: options.subject,
         text: options.message,

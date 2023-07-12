@@ -28,7 +28,6 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const assign = async (empId, taskId) => {
 
-        // const res = await axios.post('/api/admin/assignTask', { empId, taskId })
         const res = await AssignTask(empId, taskId)
         if (res.success === true) {
             toast.success(res.message)
@@ -192,7 +191,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
-            {/* <ToastContainer
+            <ToastContainer
                 position="top-center"
                 autoClose={1000}
                 hideProgressBar={true}
@@ -203,7 +202,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="colored" /> */}
+                theme="colored" />
         </div>
     )
 }

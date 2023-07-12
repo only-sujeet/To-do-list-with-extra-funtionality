@@ -1,5 +1,5 @@
-import { AddTaskTwoTone, DeleteForeverTwoTone, } from '@mui/icons-material'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, FormControlLabel, Radio, Divider } from '@mui/material'
+import {  DeleteForeverTwoTone, } from '@mui/icons-material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle,  Tooltip, Typography, Grid, FormControl, InputLabel, Select, MenuItem, TextField, RadioGroup, FormControlLabel, Radio, Divider } from '@mui/material'
 import { useFormik } from 'formik';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
@@ -8,79 +8,91 @@ import { getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faListCheck } from '@fortawesome/free-solid-svg-icons';
+import { makeStyles } from '@material-ui/core';
+
+
+const useStyles = makeStyles(theme => ({
+  button: {
+      margin: theme.spacing(1),
+      [theme.breakpoints.down("sm")]: {
+          minWidth: 35,
+          minHeight: 35,
+          paddingLeft: 7,
+          paddingRight: 7,
+          "& .MuiButton-startIcon": {
+              margin: 0
+          }
+      }
+  },
+  buttonText: {
+      [theme.breakpoints.down("sm")]: {
+          display: "none",
+          
+      }
+  }
+}));
 
 
 
 const AddTask = () => {
-
+    const classes = useStyles();
     React.useEffect(() => {
         getDepartment();
     }, []);
-
+  
     const dispatch = useDispatch()
-
+    const [hover, setHover] = React.useState(false)
     const [open, setOpen] = React.useState(false);
     const [val, setVal] = useState([])
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
-    const [subDeptDetails, setSubDeptDetails] = React.useState();
     const [status, setStatus] = useState(false)
     const [daysdata, setDaysdata] = useState({
         number: "",
         selection: ""
     })
-
+  
     const handleday = (event) => {
         setDaysdata({
             ...daysdata, [event.target.name]: event.target.value
         })
     }
-
-    const submitDay = (event) => {
-        event.preventDefault();
-        // console.log(daysdata)
-    }
-
-
-
+  
     const getDepartment = async () => {
         const { data } = await getDept()
         data && setDept(data)
     }
-
-    const handleClose = () => {
-        setOpen(false);
-        dispatch(getTask())
-    };
+  
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
-
+  
     const handler = (status) => {
         setStatus(status)
     }
-
-
-
+  
     const handleAdd = () => {
         const abc = [...val, []]
         setVal(abc)
     }
-
+  
     const handleChanges = (onChangeValue, i) => {
         const inputdata = [...val]
         inputdata[i] = onChangeValue.target.value
         setVal(inputdata)
     }
-
+  
     const handleDelete = (i) => {
         const delval = [...val]
         delval.splice(i, 1)
         setVal(delval)
     }
-
-
-
+  
+  
+  
     const initialvalue = {
         name: "",
         rate: "",
@@ -91,328 +103,340 @@ const AddTask = () => {
         startDate: "",
         endDate: ""
     }
-    const { errors, touched, values, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { errors, touched, values, handleBlur, handleChange, handleSubmit,resetForm, isSubmitting, setFieldValue} = useFormik({
         initialValues: initialvalue,
         validationSchema: addTasks,
-        onSubmit: async (values, { resetForm }) => {
-
-            const res = await createTask(values, subDeptDetails, val, daysdata)
+        onSubmit: async (values, { resetForm , setSubmitting }) => {
+  // console.log(values,val, daysdata)
+            const res = await createTask(values, val, daysdata)
+            setSubmitting(false)
             if (res.success === true) {
                 toast.success(res.message)
-                resetForm({ values: null })
-                setSubDeptDetails(null)
+                resetForm({ values: null }) 
                 dispatch(getTask())
             }
             if (res.success === false) {
                 toast.error(res.message)
             }
-
+  
         }
     })
-
+  
     const handleTwoFunc2 = async (e) => {
         handleChange(e)
         const data = await getSubDept({ department: e.target.value })
         data && setSubDept(data)
-
+  
     }
     const handleTwoFunc3 = async (e) => {
-        handleChange(e)
-        setSubDeptDetails(null)
+        handleChange(e)   
         const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
-        data && setSubDeptDetails(data)
+        setFieldValue('rate', data.rate)
+        setFieldValue('unit', data.unit)
+        
     }
+    const handleClose = () => {
+        setOpen(false);
+        dispatch(getTask())
+        resetForm();
+    };
+    const handleReset = () => {
+        resetForm();
+      }
+       
 
-    // console.log(values)
-    // console.log(subDeptDetails)
     return (
         <div>
-            <Tooltip title="Add Task">
-                <IconButton aria-label="add People" onClick={handleClickOpen}>
-                    <AddTaskTwoTone color='primary' />
-                </IconButton>
-            </Tooltip>
-            <Dialog open={open} onClose={handleClose} maxWidth="md"
-                PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
-                <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>
-                <DialogContent>
-                    <form action="" onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
+        <Tooltip title="Add Task" >
+
+        <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
+            startIcon={<FontAwesomeIcon icon={faListCheck} style={{ marginLeft: "2px" }} />} className={classes.button}>
+            <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
+                {hover ? ("Add Task Menually") : (`Add Task`)}
+            </Typography>
+        </Button>
+        </Tooltip>
+        <Dialog open={open} onClose={handleClose} maxWidth="md"
+            PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "60%", xs: "100%" }, position: "fixed", m: 0, top: 40, } }} >
+            <DialogTitle> <Typography variant="h4" color="initial" fontWeight="bold" align='center'>Add Task</Typography></DialogTitle>
+            <DialogContent>
+                <form action="" onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='standard'
+                                color='secondary'
+                                id="name"
+                                label="Task Name"
+                                name='name'
+                                type="text"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+
+                            />
+                            {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
+                        </Grid>
+
+                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                            <FormControl variant='filled' fullWidth>
+                                <InputLabel color='secondary'>Department</InputLabel>
+                                <Select
+                                    color='secondary'
+                                    id='department'
+                                    label="Depatment"
+                                    name='department'
+                                    value={values.department}
+                                    onChange={handleTwoFunc2}
+                                    onBlur={handleBlur}
+                                >
+                                    {
+                                        dept && dept?.map((data) => (
+                                            <MenuItem value={data.department}>{data.department}</MenuItem>
+                                        ))
+                                    }
+
+                                </Select>
+                            </FormControl>
+                            {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
+                        </Grid>
+                        <Grid item lg={6} sm={12} xs={12} md={6}>
+                            <FormControl variant='filled' fullWidth>
+                                <InputLabel color='secondary'>Task Dependency</InputLabel>
+                                <Select
+                                    color='secondary'
+                                    id='taskDependency'
+                                    label="taskDependency"
+                                    name='taskDependency'
+                                    value={values.taskDependency}
+                                    onChange={handleTwoFunc3}
+                                    onBlur={handleBlur}
+                                >
+                                    {
+                                        subDept && subDept?.map((data) => (
+                                            <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+                                        ))
+                                    }
+
+                                </Select>
+                            </FormControl>
+                            {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
+                        </Grid>
+                       
+                                <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <TextField
+                                        fullWidth
+                                        variant='standard'
+                                        color='secondary'
+                                        id="rate"
+                                        label="Rate"
+                                        name='rate'
+                                        type="number"
+                                        value={values.rate}
+                                        aria-readonly
+                                        onChange={handleChange}
+                                    />
+                                    {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
+                                </Grid>
+                                <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <TextField
+                                        fullWidth
+                                        variant='standard'
+                                        color='secondary'
+                                        id="unit"
+                                        label="Unit"
+                                        name='unit'
+                                        type="text"
+                                        value={values.unit}
+                                        aria-readonly
+
+                                    />
+                                    {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
+                                </Grid>
+                           
+
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows="3"
+                                variant='filled'
+                                color='secondary'
+                                id="instruction"
+                                label="Instruction"
+                                name='instruction'
+                                type="text"
+                                value={values.instruction}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <FormControl>
+                                <Typography variant="body1" color="initial">Do You Want Enter Start Date and Ending Date :</Typography>
+                                <RadioGroup row aria-label="dategroup" defaultValue="number" name='date group'>
+
+                                    <FormControlLabel value='date' label={<Typography variant="h4" color="initial">Yes</Typography>} control={<Radio onClick={(e) => { handler(true) }} />}></FormControlLabel>
+                                    <FormControlLabel value='number' label={<Typography variant="h4" color="initial">No</Typography>} control={<Radio onClick={(e) => { handler(false) }} />}></FormControlLabel>
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
+                        {status === true && <Grid container spacing={2} sx={{ margin: "0px 10px" }}  >
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
                                 <TextField
                                     fullWidth
                                     variant='standard'
                                     color='secondary'
-                                    id="name"
-                                    label="Task Name"
-                                    name='name'
-                                    type="text"
-                                    value={values.name}
+                                    id="startDate"
+                                    label="Start Date"
+                                    name='startDate'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.startDate}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-
                                 />
-                                {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
-                            </Grid>
-
-                            <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <FormControl variant='filled' fullWidth>
-                                    <InputLabel color='secondary'>Department</InputLabel>
-                                    <Select
-                                        color='secondary'
-                                        id='department'
-                                        label="Depatment"
-                                        name='department'
-                                        value={values.department}
-                                        onChange={handleTwoFunc2}
-                                        onBlur={handleBlur}
-                                    >
-                                        {
-                                            dept && dept?.map((data) => (
-                                                <MenuItem value={data.department}>{data.department}</MenuItem>
-                                            ))
-                                        }
-
-                                    </Select>
-                                </FormControl>
-                                {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
+                                {errors.startDate && touched.startDate ? <Typography variant="caption" color="error">{errors.startDate}</Typography> : null}
                             </Grid>
                             <Grid item lg={6} sm={12} xs={12} md={6}>
-                                <FormControl variant='filled' fullWidth>
-                                    <InputLabel color='secondary'>Task Dependency</InputLabel>
-                                    <Select
-                                        color='secondary'
-                                        id='taskDependency'
-                                        label="taskDependency"
-                                        name='taskDependency'
-                                        value={values.taskDependency}
-                                        onChange={handleTwoFunc3}
-                                        onBlur={handleBlur}
-                                    >
-                                        {
-                                            subDept && subDept?.map((data) => (
-                                                <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
-                                            ))
-                                        }
-
-                                    </Select>
-                                </FormControl>
-                                {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
-                            </Grid>
-                            {
-                                subDeptDetails &&
-                                <>
-                                    <Grid item lg={3} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='standard'
-                                            color='secondary'
-                                            id="rate"
-                                            label="Rate"
-                                            name='rate'
-                                            type="number"
-                                            value={subDeptDetails && subDeptDetails.rate}
-                                            aria-readonly
-                                            onChange={handleChange}
-                                        />
-                                        {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
-                                    </Grid>
-                                    <Grid item lg={9} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='standard'
-                                            color='secondary'
-                                            id="unit"
-                                            label="Unit"
-                                            name='unit'
-                                            type="text"
-                                            value={subDeptDetails && subDeptDetails.unit}
-                                            aria-readonly
-
-                                        />
-                                        {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
-                                    </Grid>
-                                </>
-                            }
-
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <TextField
                                     fullWidth
-                                    multiline
-                                    rows="3"
-                                    variant='filled'
+                                    variant='standard'
                                     color='secondary'
-                                    id="instruction"
-                                    label="Instruction"
-                                    name='instruction'
-                                    type="text"
-                                    value={values.instruction}
+                                    id="endDate"
+                                    label="End Date"
+                                    name='endDate'
+                                    type="date"
+                                    InputLabelProps={{ shrink: true, }}
+                                    value={values.endDate}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
+                                {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
                             </Grid>
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <FormControl>
-                                    <Typography variant="body1" color="initial">Do You Want Enter Start Date and Ending Date :</Typography>
-                                    <RadioGroup row aria-label="dategroup" defaultValue="number" name='date group'>
 
-                                        <FormControlLabel value='date' label={<Typography variant="h4" color="initial">Yes</Typography>} control={<Radio onClick={(e) => { handler(true) }} />}></FormControlLabel>
-                                        <FormControlLabel value='number' label={<Typography variant="h4" color="initial">No</Typography>} control={<Radio onClick={(e) => { handler(false) }} />}></FormControlLabel>
-                                    </RadioGroup>
-                                </FormControl>
-                            </Grid>
-                            {status === true && <Grid container spacing={2} sx={{ margin: "0px 10px" }}  >
-                                <Grid item lg={6} sm={12} xs={12} md={6}>
-                                    <TextField
-                                        fullWidth
-                                        variant='standard'
-                                        color='secondary'
-                                        id="startDate"
-                                        label="Start Date"
-                                        name='startDate'
-                                        type="date"
-                                        InputLabelProps={{ shrink: true, }}
-                                        value={values.startDate}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    {errors.startDate && touched.startDate ? <Typography variant="caption" color="error">{errors.startDate}</Typography> : null}
+                        </Grid>
+                        }
+                        {status === false &&
+
+                            <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
+                                <Grid item lg={12} sm={12} xs={12} md={6}>
+                                    <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
                                 </Grid>
                                 <Grid item lg={6} sm={12} xs={12} md={6}>
+
                                     <TextField
                                         fullWidth
+                                        required
                                         variant='standard'
                                         color='secondary'
-                                        id="endDate"
-                                        label="End Date"
-                                        name='endDate'
-                                        type="date"
-                                        InputLabelProps={{ shrink: true, }}
-                                        value={values.endDate}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
+                                        id="Durationnumber"
+                                        label="Duration Number"
+                                        name='number'
+                                        type="number"
+
+                                        value={daysdata.number}
+                                        onChange={handleday}
+
                                     />
-                                    {errors.endDate && touched.endDate ? <Typography variant="caption" color="error">{errors.endDate}</Typography> : null}
                                 </Grid>
-
-                            </Grid>
-                            }
-                            {status === false &&
-
-                                <Grid container spacing={2} sx={{ margin: "0px 10px" }}>
-                                    <Grid item lg={12} sm={12} xs={12} md={6}>
-                                        <Typography variant="h5" color="textSecondary" fontWeight="bold">Time Duration</Typography>
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-
-                                        <TextField
-                                            fullWidth
+                                <Grid item lg={6} sm={12} xs={12} md={6}>
+                                    <FormControl variant='filled' fullWidth>
+                                        <InputLabel color='secondary'>Duration</InputLabel>
+                                        <Select
                                             required
-                                            variant='standard'
                                             color='secondary'
-                                            id="Durationnumber"
-                                            label="Duration Number"
-                                            name='number'
-                                            type="number"
-
-                                            value={daysdata.number}
+                                            id='selection'
+                                            label="Select Duration Type"
+                                            name='selection'
+                                            value={daysdata.selection}
                                             onChange={handleday}
 
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <FormControl variant='filled' fullWidth>
-                                            <InputLabel color='secondary'>Duration</InputLabel>
-                                            <Select
-                                                required
-                                                color='secondary'
-                                                id='selection'
-                                                label="Select Duration Type"
-                                                name='selection'
-                                                value={daysdata.selection}
-                                                onChange={handleday}
+                                        >
+                                            <MenuItem value="Minute">Minute</MenuItem>
+                                            <MenuItem value="Hour">Hour</MenuItem>
+                                            <MenuItem value="Day">Day</MenuItem>
+                                            <MenuItem value="Month">Month</MenuItem>
+                                            <MenuItem value="Year">Year</MenuItem>
 
-                                            >
-                                                <MenuItem value="Minute">Minute</MenuItem>
-                                                <MenuItem value="Hour">Hour</MenuItem>
-                                                <MenuItem value="Day">Day</MenuItem>
-                                                <MenuItem value="Month">Month</MenuItem>
-                                                <MenuItem value="Year">Year</MenuItem>
-
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
-
-                            }
-                            {/* <Divider variant='middle' /> */}
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Divider variant='middle'>
-                                    <Typography variant='caption'>Add Check List</Typography>
-                                </Divider>
                             </Grid>
-                            <Grid item lg={8} sm={8} xs={8} md={8}>
-                                <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
-                            </Grid>
-                            <Grid item lg={4} sm={4} xs={4} md={4}>
-                                <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}  >
-                                    Add Column
-                                </Button>
-                            </Grid>
-                            {
-                                val.map((data, i) => {
-                                    return (
-                                        <Grid container spacing={2} sx={{ m: "0px 20px" }}  >
-                                            <Grid item lg={10} sm={10} xs={10} md={10} >
-                                                <TextField
-                                                    size='small'
-                                                    sx={{ mb: "3px" }}
-                                                    fullWidth
-                                                    name='chk'
-                                                    label="Enter Check List Data"
-                                                    value={data}
-                                                    onChange={e => handleChanges(e, i)}
 
-                                                />
-                                            </Grid>
-                                            <Grid item lg={2} sm={2} xs={2} md={2}  >
-
-                                                <Button aria-label="icon" variant='contained' onClick={() => handleDelete(i)}>
-                                                    <DeleteForeverTwoTone color='error' />
-                                                </Button>
-
-                                            </Grid>
-                                        </Grid>
-                                    )
-                                })
-                            }
-                            <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Button variant="contained" color='primary' type='submit' >
-                                    Add
-                                </Button>
-                            </Grid>
+                        }
+                        {/* <Divider variant='middle' /> */}
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <Divider variant='middle'>
+                                <Typography variant='caption'>Add Check List</Typography>
+                            </Divider>
                         </Grid>
-                    </form>
-                </DialogContent>
-                <DialogActions>
+                        <Grid item lg={8} sm={8} xs={8} md={8}>
+                            <Typography variant="subtitle1" color="initial">Click right side  button to add Checklist field</Typography>
+                        </Grid>
+                        <Grid item lg={4} sm={4} xs={4} md={4}>
+                            <Button variant="contained" color="info" size='small' onClick={() => handleAdd()}  >
+                                Add Column
+                            </Button>
+                        </Grid>
+                        {
+                            val.map((data, i) => {
+                                return (
+                                    <Grid container spacing={2} sx={{ m: "0px 20px" }}  >
+                                        <Grid item lg={10} sm={10} xs={10} md={10} >
+                                            <TextField
+                                                size='small'
+                                                sx={{ mb: "3px" }}
+                                                fullWidth
+                                                name='chk'
+                                                label="Enter Check List Data"
+                                                value={data}
+                                                onChange={e => handleChanges(e, i)}
 
-                    <Button onClick={handleClose}>Close</Button>
-                </DialogActions>
-            </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={1000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
-        </div>
+                                            />
+                                        </Grid>
+                                        <Grid item lg={2} sm={2} xs={2} md={2}  >
+
+                                            <Button aria-label="icon" variant='contained' onClick={() => handleDelete(i)}>
+                                                <DeleteForeverTwoTone color='error' />
+                                            </Button>
+
+                                        </Grid>
+                                    </Grid>
+                                )
+                            })
+                        }
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <Button variant="contained" color='primary' type='submit'  disabled={isSubmitting}>
+                                Add
+                            </Button>
+                            <Button variant="contained" color='secondary' type='button' onClick={handleReset} sx={{ml:1}} >
+                                Reset
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </DialogContent>
+            <DialogActions>
+
+                <Button onClick={handleClose}>Close</Button>
+            </DialogActions>
+        </Dialog>
+        <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeButton={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored" />
+    </div>
     )
 }
 

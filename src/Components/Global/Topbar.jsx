@@ -12,7 +12,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { CssBaseline, Divider, Drawer,  ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { AddTaskTwoTone, AddchartTwoTone,  PeopleAltTwoTone } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 const drawerWidth = 240;
@@ -120,24 +120,14 @@ const Topbar = (props) => {
         </Menu>
     );
 
-    // for item
+   
+
     const Item = ({ icon, title, to }) => {
         return (
-            <>
-                <List style={{ margin: '0px', padding: '0px' }} >
-                    <ListItem style={{ margin: "0px", padding: "1px" }} >
-                        <ListItemButton>
-                            <ListItemIcon style={{ marginLeft: "2px", marginRight: "0px", padding: "0px" }} >
-                                {icon}
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Typography variant='body1'> <Link to={to} style={{ textDecoration: "none", fontFamily: "Yrsa" }}  >{title}</Link></Typography>
-                                <Link to={to} />
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-            </>
+            <ListItem button component={Link} to={to} color='blue' sx={{ color:"blueviolet"}}>
+                {icon? <ListItemIcon  >{icon}</ListItemIcon>: null}
+                <ListItemText primary={title}  />
+            </ListItem>
         )
     }
 
@@ -146,29 +136,33 @@ const Topbar = (props) => {
         <div>
             <Toolbar/>
             {/* <Divider /> */}
-            <Divider textAlign='center'><Typography variant='h4' >Profile</Typography>
+            <Divider textAlign='center'><Typography variant='h4' color="blue" >Employee</Typography>
             </Divider>
             <Item
-                title="Add Profile"
+                title="Add Employee"
                 to="/aprofile"
-                icon={<PeopleAltTwoTone />}
+                icon={<PeopleAltTwoTone color='secondary' />}
+                
             />
             <Item
-                title="Block Profile"
+                title="Block Employee"
                 to="/block_profile"
-                icon={<PeopleAltTwoTone />}
+                icon={<PeopleAltTwoTone color='secondary' />}
+              
             />
-            <Divider variant='middle' />
+            <Divider variant='middle' color='secondary' />
 
             <Item
-                icon={<AddchartTwoTone />}
+                icon={<AddchartTwoTone color='secondary' />}
                 title="Manage"
                 to='/manage'
+               
             />
             <Item
-                icon={<AddTaskTwoTone />}
+                icon={<AddTaskTwoTone color='secondary' />}
                 title="Task"
                 to='/task'
+                
             />
         </div>
     );

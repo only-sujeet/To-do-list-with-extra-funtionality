@@ -27,7 +27,7 @@ exports.EmpLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: "!! Invalid Email" })
         }
 
-        const isMatch = await People.find({ password })
+        const isMatch = await emp.comparePassword(password)
         if (!isMatch) {
             return res.status(400).json({ success: false, message: "!! Invalid Password" })
 
@@ -128,15 +128,15 @@ exports.submitDoc = async (req, res) => {
             const task = await Task.findById(req.params.id)
             task.fileName = file.originalname
             task.driveLink = response.data.webViewLink
-            task.status = "submitted"
-            await task.save();
+            task.status = "submited"
+            const savefile = await task.save();
 
 
 
             deleteFile(req.file.path);
             res.status(200).json({
                 success: true,
-                message: "Task Submitted",
+                message: "Task Submited",
 
             })
 
@@ -144,6 +144,8 @@ exports.submitDoc = async (req, res) => {
             console.error('Error uploading file:', error);
             res.status(500).json({ error: 'Failed to upload file' });
         }
+
+
 
 
     } catch (error) {
