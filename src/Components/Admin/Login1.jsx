@@ -56,7 +56,7 @@ const Login1 = () => {
   })
 
   return (
-    <Grid container component='main' sx={{ height: "100vh" }}>
+    <Grid container   component='main' sx={{ height: "100vh" }}>
       <Grid item xs={false} sm={false} md={8} lg={8} height="100vh" 
       sx={{
         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
