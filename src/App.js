@@ -25,6 +25,7 @@ import { UserData } from './data';
 import { useState } from 'react';
 import { chart } from 'chart.js/auto'
 import Topbar from './Components/Global/Topbar';
+import EditTask from './Components/Admin/EditTask';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
           <Route path="/header" element={<EmpHeader />} />
           <Route path="/emptask" element={<EmpTask />} />
           <Route path="/etask" element={<Tasks />} />
+          <Route path="/edittask/:_id" element={<EditTask />} />
           <Route path="/submit" element={<Submit />} />
           <Route path="/chart" element={<Barchart charData={userData} />} />
         </Routes>

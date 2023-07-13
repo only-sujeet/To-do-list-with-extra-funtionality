@@ -18,6 +18,10 @@ const taskSchema = mongoose.Schema({
         type: String,
         required: [true, "Please enter department"]
     },
+    subDepartment: {
+        type: String,
+        required: [true, "Please enter department"]
+    },
     taskDependency: {
         type: String,
         required: [true, "Please enter dependency"]

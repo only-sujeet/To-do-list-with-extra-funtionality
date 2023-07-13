@@ -112,7 +112,7 @@ const UploadExcel = () => {
                                 />
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
-                                <Typography variant="h5" color="crimson" >{`Note : The headers in the Excel file should be as follows ! =>Name, Rate, Unit, Department, TaskDependency, Instruction, StartDate, EndDate,\n TimeDuration, CheckList`}</Typography>
+                                <Typography variant="h5" color="crimson" >{`Note : The headers in the Excel file should be as follows ! =>Name, Rate, Unit, Department, Sub-Department, TaskDependency, Instruction, StartDate, EndDate,\n TimeDuration, CheckList`}</Typography>
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
 

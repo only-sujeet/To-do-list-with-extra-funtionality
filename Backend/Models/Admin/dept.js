@@ -29,13 +29,8 @@ const companySchema = mongoose.Schema({
                 type: String,
                 required: true,
             },
-            taskDependencyDept: {
-                type: String,
-                required: true,
-            },
             taskDependencySubDept: {
                 type: String,
-                required: true,
             },
         }
     ]

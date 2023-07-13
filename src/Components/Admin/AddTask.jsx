@@ -48,6 +48,7 @@ const AddTask = () => {
     const [val, setVal] = useState([])
     const [dept, setDept] = React.useState();
     const [subDept, setSubDept] = React.useState();
+    const [taskDepend, setTaskDepend] = React.useState();
     const [status, setStatus] = useState(false)
     const [daysdata, setDaysdata] = useState({
         number: "",
@@ -98,6 +99,7 @@ const AddTask = () => {
         rate: "",
         unit: "",
         department: "",
+        subDepartment:"",
         instruction: "",
         taskDependency: "",
         startDate: "",
@@ -107,33 +109,37 @@ const AddTask = () => {
         initialValues: initialvalue,
         validationSchema: addTasks,
         onSubmit: async (values, { resetForm , setSubmitting }) => {
-  // console.log(values,val, daysdata)
+            console.log(values)
             const res = await createTask(values, val, daysdata)
             setSubmitting(false)
             if (res.success === true) {
                 toast.success(res.message)
                 resetForm({ values: null }) 
                 dispatch(getTask())
+                setVal([])
+                setDaysdata({ number:"", selection:""})
             }
             if (res.success === false) {
                 toast.error(res.message)
             }
   
-        }
-    })
+         }
+    }
+    )
   
     const handleTwoFunc2 = async (e) => {
         handleChange(e)
         const data = await getSubDept({ department: e.target.value })
         data && setSubDept(data)
-  
+        data && setTaskDepend(data)
     }
+
     const handleTwoFunc3 = async (e) => {
         handleChange(e)   
         const data = await getSubDeptDetails({ department: values.department, subDept: e.target.value })
         setFieldValue('rate', data.rate)
         setFieldValue('unit', data.unit)
-        
+        setFieldValue('taskDependency', data.taskDependencySubDept)     
     }
     const handleClose = () => {
         setOpen(false);
@@ -142,6 +148,8 @@ const AddTask = () => {
     };
     const handleReset = () => {
         resetForm();
+        setVal([])
+        setDaysdata({ number:"", selection:""})
       }
        
 
@@ -174,6 +182,8 @@ const AddTask = () => {
                                 value={values.name}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                
+                                inputProps={{ style:{ textTransform:"capitalize"}}}
 
                             />
                             {errors.name && touched.name ? <Typography variant="caption" color="error">{errors.name}</Typography> : null}
@@ -203,13 +213,13 @@ const AddTask = () => {
                         </Grid>
                         <Grid item lg={6} sm={12} xs={12} md={6}>
                             <FormControl variant='filled' fullWidth>
-                                <InputLabel color='secondary'>Task Dependency</InputLabel>
+                                <InputLabel color='secondary'>Sub-Department</InputLabel>
                                 <Select
                                     color='secondary'
-                                    id='taskDependency'
-                                    label="taskDependency"
-                                    name='taskDependency'
-                                    value={values.taskDependency}
+                                    id='subDepartment'
+                                    label="subDepartment"
+                                    name='subDepartment'
+                                    value={values.subDepartment}
                                     onChange={handleTwoFunc3}
                                     onBlur={handleBlur}
                                 >
@@ -218,7 +228,27 @@ const AddTask = () => {
                                             <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
                                         ))
                                     }
-
+                                </Select>
+                            </FormControl>
+                            {errors.subDepartment && touched.subDepartment ? <Typography variant="caption" color="error">{errors.subDepartment}</Typography> : null}
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <FormControl variant='filled' fullWidth>
+                                <InputLabel color='secondary'>Task Dependency</InputLabel>
+                                <Select
+                                    color='secondary'
+                                    id='taskDependency'
+                                    label="taskDependency"
+                                    name='taskDependency'
+                                    value={values.taskDependency}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                >
+                                    {
+                                        taskDepend && taskDepend?.map((data) => (
+                                            <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+                                        ))
+                                    }
                                 </Select>
                             </FormControl>
                             {errors.taskDependency && touched.taskDependency ? <Typography variant="caption" color="error">{errors.taskDependency}</Typography> : null}
@@ -236,6 +266,8 @@ const AddTask = () => {
                                         value={values.rate}
                                         aria-readonly
                                         onChange={handleChange}
+                                        
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                     />
                                     {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
                                 </Grid>
@@ -270,6 +302,7 @@ const AddTask = () => {
                                 value={values.instruction}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
+                                inputProps={{ style:{ textTransform:"capitalize"}}}
                             />
                             {errors.instruction && touched.instruction ? <Typography variant="caption" color="error">{errors.instruction}</Typography> : null}
                         </Grid>
@@ -353,6 +386,7 @@ const AddTask = () => {
                                             name='selection'
                                             value={daysdata.selection}
                                             onChange={handleday}
+                                            inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                         >
                                             <MenuItem value="Minute">Minute</MenuItem>
@@ -393,13 +427,14 @@ const AddTask = () => {
                                                 name='chk'
                                                 label="Enter Check List Data"
                                                 value={data}
+                                                inputProps={{ style:{ textTransform:"capitalize"}}}
                                                 onChange={e => handleChanges(e, i)}
 
                                             />
                                         </Grid>
                                         <Grid item lg={2} sm={2} xs={2} md={2}  >
 
-                                            <Button aria-label="icon" variant='contained' onClick={() => handleDelete(i)}>
+                                            <Button aria-label="icon" variant='contained' size='small' onClick={() => handleDelete(i)}>
                                                 <DeleteForeverTwoTone color='error' />
                                             </Button>
 

@@ -1,5 +1,5 @@
-import React, { useMemo,  } from 'react'
-import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar,  Chip } from '@mui/material';
+import React, { useMemo, } from 'react'
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Chip } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
@@ -8,14 +8,15 @@ import { getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
-import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone,   EditNoteTwoTone } from '@mui/icons-material';
+import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar';
 import AdminRoute from '../../Protected Route/AdminRoute';
 import UploadExcel from './UploadExcel';
-import { blue,  grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
 const drawerWidth = 240;
 
 
@@ -38,17 +39,17 @@ const Task = () => {
         }
     }
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align:"center"},
-        { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align:"center" },
-        { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align:"center" },
-        { field: "department", headerName: "Department", width: 130, headerClassName: "header", headerAlign: "center", align:"center" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center" , align:"center"},
-        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align:"center" },
-        { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align:"center" },
-        { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center" , align:"center"},
-        { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align:"center" },
+        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "department", headerName: "Department", width: 130, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
+        { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
         {
-            field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align:"center", renderCell: params => {
+            field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center", renderCell: params => {
                 if (params.row.status === "Created") {
                     return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='small' />
                 }
@@ -65,7 +66,7 @@ const Task = () => {
             }
         },
         {
-            headerName: "Action", headerClassName: "header", headerAlign: "center", align:"center",
+            headerName: "Action", headerClassName: "header", headerAlign: "center", align: "center",
             width: 122,
             renderCell: params => {
                 if (params.row.status === "Created") {
@@ -82,9 +83,11 @@ const Task = () => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Edit">
-                            <IconButton aria-label="approve"  >
-                                <EditNoteTwoTone color='info' />
-                            </IconButton>
+                            <Link to={`/edittask/${params.row._id}`}>
+                                <IconButton aria-label="approve"  >
+                                    <EditNoteTwoTone color='info' />
+                                </IconButton>
+                            </Link>
                         </Tooltip>
                     </Box>
 
@@ -133,18 +136,18 @@ const Task = () => {
                                 columns={columns}
                                 getRowId={(row) => row._id}
                                 slots={{ toolbar: GridToolbar }}
-                               getRowSpacing={0}
-                               rowHeight={37}
-                               rowSelection= "true"
-                               rowSpacingType='margin'
-                               scrollbarSize={1}
-                               columnHeaderHeight={37}
-                            //    autoPageSize="true"
-                            //    autoHeight="true"
+                                getRowSpacing={0}
+                                rowHeight={37}
+                                rowSelection="true"
+                                rowSpacingType='margin'
+                                scrollbarSize={1}
+                                columnHeaderHeight={37}
+                                //    autoPageSize="true"
+                                //    autoHeight="true"
                                 sx={{
                                     '& .header': {
-                                         backgroundColor: blue[700],
-                                         
+                                        backgroundColor: blue[700],
+
                                     },
                                     '.MuiDataGrid-columnSeparator': {
                                         display: 'none',
@@ -152,12 +155,12 @@ const Task = () => {
                                     '&.MuiDataGrid-root': {
                                         border: 'none',
                                     },
-                                   
+
                                     bgcolor: grey[300],
                                     textTransform: "capitalize",
-                                    fontFamily:"Josefin Sans",
+                                    fontFamily: "Josefin Sans",
                                     // fontSize:""
-                                
+
                                 }}
                             >
                             </DataGrid>

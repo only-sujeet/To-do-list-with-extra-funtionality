@@ -91,17 +91,7 @@ exports.AcceptTask = async (req, res) => {
 }
 exports.submitDoc = async (req, res) => {
     try {
-        //const task = await Task.findById("648f162e0b096bfbb858b008")
-        // const doc = (req.file) ? req.file.filename : null
-        // const emp = await People.findById(req.emp._id)
-        // if (emp.tasks.includes(task._id)) {
-        //     const index = emp.tasks.indexOf(task._id)
-        //     emp.tasks.splice(index, 1);
-        //     emp.save();
-        // }
-        // task.status = "submitted"
-        // task.document = doc;
-        // await task.save();
+       
         const file = req.file
         if (!file) {
             res.status(400).send("No file uploaded.");

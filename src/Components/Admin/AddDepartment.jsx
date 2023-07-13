@@ -83,7 +83,6 @@ const AddDepartment = () => {
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
                     <TextField
-
                         fullWidth
                         label="Add Department"
                         size='small'
@@ -94,6 +93,7 @@ const AddDepartment = () => {
                         value={values.department}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        inputProps={{ style:{ textTransform:"capitalize"}}}
 
                     />
                     {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
@@ -117,8 +117,7 @@ const AddDepartment = () => {
                     rows={dept}
                     key={row => row._id}
                     columns={columns}
-                    getRowId={row => row._id}
-                    // getRowSpacing={getRowSpacing}    
+                    getRowId={row => row._id}   
                     slots={{ toolbar: GridToolbar }}
                     getRowSpacing={0}
                     rowHeight={37}
