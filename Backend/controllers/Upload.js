@@ -87,6 +87,7 @@ exports.bulkUpload = async (req, res) => {
                         rate: source[i]["Rate"],
                         unit: source[i]["Unit"],
                         department: source[i]["Department"],
+                        subDepartment: source[i]["Sub-Department"],
                         taskDependency: source[i]["TaskDependency"],
                         instruction: source[i]["Instruction"],
                         startDate: source[i]["StartDate"],

@@ -175,6 +175,18 @@ export const createTask = async (values,  val, daysdata) => {
         }
     }
 }
+export const getOneTask = async (id) => {
+    try {
+
+        const { data } = await axios.get(`/api/admin/getOneTask/${id}`)
+        return data
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
 
 export const getEmpByDept = async (values) => {
     try {

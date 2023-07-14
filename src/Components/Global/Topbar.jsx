@@ -158,12 +158,13 @@ const Topbar = (props) => {
                 to='/manage'
                
             />
+              <Divider textAlign='center'><Typography variant='h4' color="blue" >Task</Typography> </Divider>
             <Item
                 icon={<AddTaskTwoTone color='secondary' />}
                 title="Task"
-                to='/task'
-                
+                to='/task'   
             />
+            
         </div>
     );
 

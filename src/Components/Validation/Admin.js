@@ -24,7 +24,8 @@ export const addSubDept = yup.object({
     department: yup.string().required("Please Select Department"),
     subDept: yup.string().required("Please Enter Sub-Department"),
     rate: yup.number().required("Please Enter Rate"),
-    unit: yup.string().required("Please Enter Unit")
+    unit: yup.string().required("Please Enter Unit"),
+    taskDependencySubDept: yup.string().notOneOf([yup.ref('subDept')],'Task Dependency Sub Department and Sub Department should not be the same')
 })
 export const addprofile = yup.object({
     department: yup.string().required("Please Select Department"),
@@ -56,17 +57,15 @@ function parseDateString(value, originalValue) {
 export const addTasks = yup.object({
     name: yup.string().required("Please Enter Task Name"),
     department: yup.string().required("Please Select Department"),
+    subDepartment: yup.string().required("Please Select Sub-Department"),
     instruction: yup.string().required("Please Enter Instruction"),
-    // agency: yup.string().required("Please Select Company"),
+   
     taskDependency: yup.string().required("Please Enter Task Dependency"),
     startDate: yup.date().transform(parseDateString).min(new Date(), 'Please choose future date'),
     endDate: yup.date().transform(parseDateString).min(yup.ref("startDate"), "End date has to be more than start date"),
     check: yup.array().of(yup.object().shape({
         checklist: yup.string().required("Name required"),
     }))
-    // yup.date().required("Please Select Start Date").min(startdates,"sdfs").min(new Date(),'Please choose future date'),
-    // endDate : yup.date().min(enddates,"Minimum date must be 2 days from Start Date").required("Please Select Ending Date") .min(yup.ref("startDate"),"End date has to be more than start date"),
-    // QTY: yup.number().required("Please Enter Quantity"),
-    // amount:yup.number().required("Please Enter Ammount"),
+  
 
 })

@@ -7,13 +7,13 @@ exports.addTask = async (req, res) => {
     try {
 
 
-        const { name, department, instruction, taskDependency, startDate, endDate , unit, rate  } = req.body.values
+        const { name, department, instruction, taskDependency, startDate, endDate, unit, rate,subDepartment } = req.body.values
         // const { unit, rate } = req.body.subDeptDetails
         const { number, selection } = req.body.daysdata
 
         const timeDuration = number + " " + selection
 
-        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, timeDuration, status: "Created", checkList: req.body.val, company: req.admin.company, })
+        const task = new Task({ name, rate, unit, department, instruction, taskDependency, startDate, endDate, timeDuration, status: "Created", checkList: req.body.val, company: req.admin.company,subDepartment })
         await task.save();
         res.status(200).json({
             success: true, message: "Successfully Created Task",
@@ -25,11 +25,22 @@ exports.addTask = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+
+exports.getOneTask = async (req,res) => {
+  try {
+    const task =  await  Task.findById(req.params.id)
+    res.status(200).json(task)
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+
 exports.getTask = async (req, res) => {
     try {
 
 
-        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Created" }, { status: "Approved" }, {status :"assign"}] })
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Created" }, { status: "Approved" }, { status: "assign" }] })
         if (!task) {
             res.status(400).json({
                 message: "Task Not Found",
@@ -44,23 +55,23 @@ exports.getTask = async (req, res) => {
     }
 }
 exports.getAllTask = async (req, res) => {
-    try {
+        try {
 
 
-        const task = await Task.find({ company: req.emp.company,   status: "Approved"  })
-        if (!task) {
-            res.status(400).json({
-                message: "Task Not Found",
-                success: false
-            })
+            const task = await Task.find({ company: req.emp.company, status: "Approved", department: req.emp.department })
+            if (!task) {
+                res.status(400).json({
+                    message: "Task Not Found",
+                    success: false
+                })
+            }
+            else {
+                res.status(200).json(task)
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
         }
-        else {
-            res.status(200).json(task)
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
     }
-}
 
 // get Employee by department
 exports.getEmpByDept = async (req, res) => {

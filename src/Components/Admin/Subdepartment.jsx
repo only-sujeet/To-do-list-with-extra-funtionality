@@ -1,4 +1,4 @@
-import { Button, Chip, MenuItem, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import { Button, Chip, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { addSubDept } from '../Validation/Admin'
@@ -25,16 +25,14 @@ const Subdepartment = () => {
         subDept: ""
     });
     const [dept, setDept] = useState();
-
     const [subDept, setSubDept] = useState();
-
     const [loading, setloading] = useState(false);
-
     const [open, setOpen] = useState(false)
-
     const [editOpen, seteditOpen] = useState();
-
-
+    const [status, setStatus] = useState(false)
+    const handler = (status) => {
+        setStatus(status)
+    }
 
     // get department function
     const getDepartment = async () => {
@@ -54,7 +52,8 @@ const Subdepartment = () => {
         department: "",
         subDept: "",
         rate: "",
-        unit: ""
+        unit: "",
+        taskDependencySubDept:""
     }
 
     // Sub-Department Add Fucntion 
@@ -135,15 +134,16 @@ const Subdepartment = () => {
     }
     // console.log(data)
     const columns = useMemo(dept => [
-        { field: "subDept", headerName: "Sub-Deptartment", width: 160, headerClassName: "header", headerAlign: "center", align:"center", },
-        { field: "rate", headerName: "Rate", width: 140, headerClassName: "header", headerAlign: "center", align:"center", },
-        { field: "unit", headerName: "Unit", width: 140, headerClassName: "header", headerAlign: "center", align:"center", },
+        { field: "subDept", headerName: "Sub-Deptartment", width: 160, headerClassName: "header", headerAlign: "center", align: "center", },
+        { field: "rate", headerName: "Rate", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
+        { field: "unit", headerName: "Unit", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
+        { field: "taskDependencySubDept", headerName: "Task Dependency Sub-Department", width: 184, headerClassName: "header", headerAlign: "center", align: "center", },
         {
-            field: "Action", headerName: "Action", width: 180,  headerClassName: "header", headerAlign: "center", align:"center",
+            field: "Action", headerName: "Action", width: 180, headerClassName: "header", headerAlign: "center", align: "center",
             renderCell: (params) =>
                 <Box display="flex" justifyContent="center" alignItems="center" >
-                    <Chip color='secondary' label="Edit" size='small' onClick={() => getSubDeptDetails(params.row.subDept, params.row.deptId)} icon={<ModeEditOutlineOutlined fontSize='small' />} sx={{ mr:1}} />
-                    <Chip   icon={<HighlightOffRounded fontSize='small' />} color='error' label="Delete" size='small' disabled={loading} onClick={() => handledelete(params.row._id, params.row.deptId)} />
+                    <Chip color='secondary' label="Edit" size='small' onClick={() => getSubDeptDetails(params.row.subDept, params.row.deptId)} icon={<ModeEditOutlineOutlined fontSize='small' />} sx={{ mr: 1 }} />
+                    <Chip icon={<HighlightOffRounded fontSize='small' />} color='error' label="Delete" size='small' disabled={loading} onClick={() => handledelete(params.row._id, params.row.deptId)} />
                 </Box>
         },
     ], [])
@@ -155,7 +155,7 @@ const Subdepartment = () => {
 
             {/* Update sub-department form  */}
 
-            {editOpen && <form action="" onSubmit={handleSubmitForm}>
+            {editOpen && <form action="" onSubmit={handleSubmitForm} autoComplete='on'>
                 <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mt="2rem" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
                     <Typography variant="h4" color="textSecondary" fontWeight="bold">Update Sub-Department</Typography>
                     <TextField
@@ -214,13 +214,13 @@ const Subdepartment = () => {
 
             {/*Add New sub-department form  */}
             {
-                !editOpen && <form action="" onSubmit={handleSubmit}>
+                !editOpen && <form action="" onSubmit={handleSubmit} autoComplete='on'>
                     <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }}>
 
                         <TextField
                             select
                             fullWidth
-                            label="Select Sub-Department "
+                            label="Select Department "
                             size='small'
                             name='department'
                             type='text'
@@ -248,6 +248,7 @@ const Subdepartment = () => {
                                     placeholder='Enter Sub-department'
                                     value={values.subDept}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
                                 <TextField
@@ -261,6 +262,7 @@ const Subdepartment = () => {
                                     value={values.rate}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                 />
                                 {errors.rate && touched.rate ? <Typography variant="caption" color="error">{errors.rate}</Typography> : null}
@@ -274,17 +276,50 @@ const Subdepartment = () => {
                                     value={values.unit}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                 />
                                 {errors.unit && touched.unit ? <Typography variant="caption" color="error">{errors.unit}</Typography> : null}
+                                <FormControl>
+                                    <Typography variant="body1" color="initial">Do You Want Task Dependency :</Typography>
+                                    <RadioGroup row aria-label="dategroup" defaultValue="number" name='date group'>
+
+                                        <FormControlLabel value='date' label={<Typography variant="h4" color="initial">Yes</Typography>} control={<Radio onClick={(e) => { handler(true) }} />}></FormControlLabel>
+                                        <FormControlLabel value='number' label={<Typography variant="h4" color="initial">No</Typography>} control={<Radio onClick={(e) => { handler(false) }} />}></FormControlLabel>
+                                    </RadioGroup>
+                                </FormControl>
+                                {
+                                    status === true && <Stack direction={{ xs: 'column', sm: 'column', md: "column", lg: "column" }} mb="10px" spacing={{ xs: 1, sm: 2, md: 4, lg: 2 }} >
+                                        <TextField
+                                            select
+                                            fullWidth
+                                            label="Task Dependency Sub-Department "
+                                            size='small'
+                                            name='taskDependencySubDept'
+                                            type='text'
+                                            variant='standard'
+                                            onChange={handleChange}
+                                            value={values.taskDependencySubDept}
+                                            onBlur={handleBlur}
+                                        >
+                                            {
+                                                subDept && subDept?.map((data) => (
+                                                    <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
+                                                ))
+                                            }
+                                        </TextField>
+                                        {errors.taskDependencySubDept && touched.taskDependencySubDept ? <Typography variant="caption" color="error">{errors.taskDependencySubDept}</Typography> : null}
+                                    </Stack>
+                                }
+
                                 <Stack direction={"row"}>
                                     <Tooltip x title="Add Sub-Department">
-                                        <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' disabled={isSubmitting} >
+                                        <Button sx={{ mx: "1rem" }} variant="contained" color='primary' type='submit' size='small' disabled={isSubmitting} >
                                             Add
                                         </Button>
                                     </Tooltip>
                                     <Tooltip title="Add Sub-Department">
-                                        <Button variant="contained" color='error' onClick={() => setOpen(false)}>
+                                        <Button variant="contained" color='error' size='false' onClick={() => setOpen(false)}>
                                             Cancel
                                         </Button>
                                     </Tooltip>
@@ -296,7 +331,6 @@ const Subdepartment = () => {
 
                                 {!open &&
                                     <>
-
                                         <Box justifyContent="left !important" display="flex !important">
                                             <Button variant='contained' color='secondary' onClick={() => setOpen(true)} size='small' sx={{ maxWidth: 200, }}>Add New Sub-Department</Button>
                                         </Box>
@@ -314,25 +348,25 @@ const Subdepartment = () => {
                                                 slots={{ toolbar: GridToolbar }}
                                                 getRowSpacing={0}
                                                 rowHeight={37}
-                                                rowSelection= "true"
+                                                rowSelection="true"
                                                 rowSpacingType='margin'
                                                 scrollbarSize={1}
                                                 columnHeaderHeight={37}
                                                 sx={{
                                                     '& .header': {
                                                         backgroundColor: blue[700],
-                                                        
-                                                   },
-                                                   '.MuiDataGrid-columnSeparator': {
-                                                       display: 'none',
-                                                   },
-                                                   '&.MuiDataGrid-root': {
-                                                       border: 'none',
-                                                   },
-                                                  
-                                                   bgcolor: grey[300],
-                                                   textTransform: "capitalize",
-                                                   fontFamily:"Josefin Sans",
+
+                                                    },
+                                                    '.MuiDataGrid-columnSeparator': {
+                                                        display: 'none',
+                                                    },
+                                                    '&.MuiDataGrid-root': {
+                                                        border: 'none',
+                                                    },
+
+                                                    bgcolor: grey[300],
+                                                    textTransform: "capitalize",
+                                                    fontFamily: "Josefin Sans",
                                                 }}
                                             />
                                         </Stack>

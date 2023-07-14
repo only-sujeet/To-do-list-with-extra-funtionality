@@ -238,7 +238,8 @@ const AddPeople = () => {
                                     label="Upload Photo"
                                     name=''
                                     type="file"
-                                    InputLabelProps={{ shrink: true, }}
+                                    InputLabelProps={{ shrink: true,  }}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                     onChange={handleImage}
 
@@ -260,6 +261,7 @@ const AddPeople = () => {
                                     value={values.firstName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.firstName && touched.firstName ? <Typography variant="caption" color="error">{errors.firstName}</Typography> : null}
                             </Grid>
@@ -277,6 +279,7 @@ const AddPeople = () => {
                                     value={values.middleName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.middleName && touched.middleName ? <Typography variant="caption" color="error">{errors.middleName}</Typography> : null}
                             </Grid>
@@ -293,6 +296,7 @@ const AddPeople = () => {
                                     value={values.lastName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.lastName && touched.lastName ? <Typography variant="caption" color="error">{errors.lastName}</Typography> : null}
                             </Grid>
@@ -412,6 +416,7 @@ const AddPeople = () => {
                                     value={values.mobileno}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.mobileno && touched.mobileno ? <Typography variant="caption" color="error">{errors.mobileno}</Typography> : null}
                             </Grid>
@@ -428,6 +433,7 @@ const AddPeople = () => {
                                     value={values.altmobileno}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
                                 />
                                 {errors.altmobileno && touched.altmobileno ? <Typography variant="caption" color="error">{errors.altmobileno}</Typography> : null}
                             </Grid>
@@ -444,6 +450,7 @@ const AddPeople = () => {
                                     value={values.address1}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                 />
                                 {errors.address1 && touched.address1 ? <Typography variant="caption" color="error">{errors.address1}</Typography> : null}
@@ -461,6 +468,7 @@ const AddPeople = () => {
                                     value={values.address2}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    inputProps={{ style:{ textTransform:"capitalize"}}}
 
                                 />
                                 {errors.address2 && touched.address2 ? <Typography variant="caption" color="error">{errors.address2}</Typography> : null}
