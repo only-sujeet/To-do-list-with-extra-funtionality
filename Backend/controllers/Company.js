@@ -170,9 +170,9 @@ exports.editSubDept = async (req, res) => {
         })
 
         if (subDeptexists) {
-            dept.subDepts[indexNO].subDept = subDept
-            dept.subDepts[indexNO].unit = unit
-            dept.subDepts[indexNO].rate = rate
+            // dept.subDepts[indexNO].subDept = subDept
+            // dept.subDepts[indexNO].unit = unit
+            // dept.subDepts[indexNO].rate = rate
 
             dept.save();
             res.status(201)
