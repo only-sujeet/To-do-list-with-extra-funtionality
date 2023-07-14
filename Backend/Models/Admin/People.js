@@ -22,10 +22,7 @@ const peopleSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
+   
     company: {
         type: String,
         required: true
@@ -68,7 +65,7 @@ const peopleSchema = mongoose.Schema({
     },
     address2: {
         type: String,
-        required: true
+       
     },
     Image: {
         type: String,

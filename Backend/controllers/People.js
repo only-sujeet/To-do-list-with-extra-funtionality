@@ -6,16 +6,16 @@ const ApiFeature = require("../utils/apiFeature");
 exports.addPeople = async (req, res) => {
     try {
 
-        console.log(req.body)
+        // console.log(req.body)
         const object = JSON.parse(req.body.data)
-        const { email, password, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = req.body
+        const { email, password, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = object
         const Image = (req.file) ? req.file.filename : null
         //   for finding email
         const findEmail = await People.findOne({ email })
         if (findEmail) {
             return res.status(400).json({ success: false, message: "Email already exists....." })
         }
-        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image: "ldsahkh" })
+        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image })
         await peo.save();
 
         const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${password} \n\n\n Thank You`
