@@ -4,6 +4,16 @@ const { sendEmail } = require("../middlewares/sendEmail");
 const crypto = require("crypto")
 
 
+exports.testkaro = async (req, res) => {
+    try {
+        console.log(req.body)
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
 exports.adminRegister = async (req, res) => {
     try {
         const { company, email, password } = req.body
@@ -50,9 +60,9 @@ exports.adminLogin = async (req, res) => {
             httpOnly: true
         }
         const token = await admin.generateToken()
-        res.status(200) .json({ success: true, message: "Login Success", token })
-        // res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
-        
+        // res.status(200).json({ success: true, message: "Login Success", token })
+        res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
+
         // res.status(200).json({ success: true, message: "Login Success", token })
 
 

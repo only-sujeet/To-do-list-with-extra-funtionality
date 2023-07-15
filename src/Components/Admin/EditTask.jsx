@@ -60,6 +60,7 @@ const EditTask = () => {
     const [taskDepend, setTaskDepend] = React.useState();
     const [status, setStatus] = useState(false)
     const { _id } = useParams()
+    
     const [daysdata, setDaysdata] = useState({
         number: "",
         selection: ""
@@ -67,6 +68,9 @@ const EditTask = () => {
 
     React.useEffect(() => {
         getDepartment();
+
+    }, []);
+    React.useEffect(() => {
         getTask()
     }, []);
 
@@ -240,10 +244,12 @@ const EditTask = () => {
                                         id='subDepartment'
                                         label="subDepartment"
                                         name='subDepartment'
-                                        value={datas.subDepartment}
+                                        value={datas.taskDependency}
                                         onChange={handleTwoFunc3}
                                         onBlur={handleBlur}
+                                      
                                     >
+                                        {console.log(datas.taskDependency)}
                                         {
                                             subDept && subDept?.map((data) => (
                                                 <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
@@ -264,7 +270,7 @@ const EditTask = () => {
                                         value={datas.taskDependency}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                    >
+                                         >
                                         {
                                             taskDepend && taskDepend?.map((data) => (
                                                 <MenuItem value={data.subDept}>{data.subDept}</MenuItem>

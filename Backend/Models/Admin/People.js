@@ -84,12 +84,14 @@ const peopleSchema = mongoose.Schema({
 
 })
 
-// peopleSchema.pre('save', async function (next) {
-//     if (this.isModified("password")) {
-//         this.password = await bcrypt.hash(this.password, 100)
-//     }
-//     next();
-// })
+peopleSchema.pre('save', async function (next) {
+
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+    
+    next();
+})
 
 peopleSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)

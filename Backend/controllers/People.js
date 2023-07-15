@@ -6,19 +6,35 @@ const ApiFeature = require("../utils/apiFeature");
 exports.addPeople = async (req, res) => {
     try {
 
-        console.log(req.body)
+        // Define the length of the password
+        const length = 8; // You can adjust the length as needed
+        // Function to generate a random password
+        function generatePassword(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let password = '';
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters.charAt(randomIndex);
+            }
+            return password;
+        }
+        // Generate a random password
+
+        const password = generatePassword(length);
         const object = JSON.parse(req.body.data)
-        const { email, password, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2 } = req.body
+        const { department, subDept, firstName, middleName, lastName, email, dob, doj, age, mobileno, altmobileno, address1, address2, adharno, panno, } = object
+
         const Image = (req.file) ? req.file.filename : null
         //   for finding email
         const findEmail = await People.findOne({ email })
         if (findEmail) {
             return res.status(400).json({ success: false, message: "Email already exists....." })
         }
-        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, panno, mobileno, altmobileno, address1, address2, Image: "ldsahkh" })
+        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, doj, panno, mobileno, altmobileno, address1, address2, Image })
         await peo.save();
 
-        const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Your Username: ${peo.email}\n Your Password ${password} \n\n\n Thank You`
+        const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Welcome to INK Management System \n\n Your Username: ${peo.email}\n Your Password: ${password} \n\n\n Thank You`
 
         res.status(200).json({
             peo,
@@ -28,7 +44,7 @@ exports.addPeople = async (req, res) => {
 
         await sendEmail({
             email: peo.email,
-            subject: req.admin.company,
+            subject: "Profile created...",
             message
         });
     } catch (error) {

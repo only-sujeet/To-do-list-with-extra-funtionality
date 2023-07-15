@@ -42,7 +42,7 @@ export const addDepartment = async (values) => {
 // Get all Department 
 export const getDept = async (values) => {
     try {
-        const data = await axios.get('api/admin/getDept', { company: values })
+        const data = await axios.get('../api/admin/getDept', { company: values })
         return data
     } catch (error) {
         return error
@@ -218,7 +218,7 @@ export const AssignTask = async (empId, taskId) => {
 export const ApproveTask = async (id) => {
     try {
 
-        const { data } = await axios.get(`/api/admin/approveTask/${id}`,)
+        const { data } = await axios.get(`/api/admin/task/${id}`,)
         return data
 
     } catch (error) {
