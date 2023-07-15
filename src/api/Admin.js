@@ -163,10 +163,10 @@ export const unBlockPeople = async (id) => {
     }
 }
 
-export const createTask = async (values,  val, daysdata) => {
+export const createTask = async (values, val, daysdata) => {
     try {
 
-        const { data } = await axios.post('/api/admin/addTask', { values,  val, daysdata })
+        const { data } = await axios.post('/api/admin/addTask', { values, val, daysdata })
         return data
     } catch (error) {
         if (error.response) {
@@ -219,6 +219,20 @@ export const ApproveTask = async (id) => {
     try {
 
         const { data } = await axios.get(`/api/admin/task/${id}`,)
+        return data
+
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+
+export const delTask = async (id) => {
+    try {
+
+        const { data } = await axios.delete(`/api/admin/task/${id}`,)
         return data
 
     } catch (error) {

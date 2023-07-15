@@ -9,7 +9,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
-import { ApproveTask } from '../../api/Admin';
+import { ApproveTask, delTask } from '../../api/Admin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar';
@@ -38,6 +38,19 @@ const Task = () => {
             toast.error(res.message)
         }
     }
+
+    const handleDelete = async (id) => {
+        const res = await delTask(id)
+        if (res.success === true) {
+            toast.success(res.message)
+            dispatch(getTask())
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
+    }
+
+
     const columns = useMemo(task => [
         { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
@@ -78,7 +91,7 @@ const Task = () => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Reject">
-                            <IconButton aria-label="approve"  >
+                            <IconButton onClick={() => handleDelete(params.row._id)} aria-label="approve"  >
                                 <ClearTwoTone color='error' />
                             </IconButton>
                         </Tooltip>
