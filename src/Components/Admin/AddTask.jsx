@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { createTask, getDept, getSubDept, getSubDeptDetails } from '../../api/Admin';
 import { getTask } from '../../Redux/Action/Admin';
 import { addTasks } from '../Validation/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faListCheck } from '@fortawesome/free-solid-svg-icons';
@@ -459,18 +459,6 @@ const AddTask = () => {
                 <Button onClick={handleClose}>Close</Button>
             </DialogActions>
         </Dialog>
-        <ToastContainer
-            position="top-center"
-            autoClose={1000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeButton={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored" />
     </div>
     )
 }

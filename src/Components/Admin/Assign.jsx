@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, Box, CardContent, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid,  TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { AddHomeTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone } from '@mui/icons-material';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import dateFormat from 'dateformat';
 import 'react-toastify/dist/ReactToastify.css';
@@ -191,18 +191,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={1000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
+          
         </div>
     )
 }

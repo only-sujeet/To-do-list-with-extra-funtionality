@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Slide , Grid, TextField, Typography,Button,Dialog,DialogActions,DialogContent,DialogTitle,} from '@mui/material';
 import { csvUpload } from '../../api/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../Redux/Action/Admin';
@@ -133,18 +133,6 @@ const UploadExcel = () => {
                     {/* <Button onClick={handleClose}>Agree</Button> */}
                 </DialogActions>
             </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
         </div>
     )
 }

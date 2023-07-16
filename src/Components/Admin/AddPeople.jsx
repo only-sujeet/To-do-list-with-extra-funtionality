@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPeople, getDept, getSubDept } from '../../api/Admin';
 import { getPeople } from '../../Redux/Action/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core';
 
@@ -194,14 +194,11 @@ const AddPeople = () => {
                                         onChange={handleGetSubDept}
                                         onBlur={handleBlur}
                                     >
-
                                         {
                                             dept && dept?.map((data) => (
                                                 <MenuItem value={data.department}>{data.department}</MenuItem>
                                             ))
                                         }
-
-
                                     </Select>
                                 </FormControl>
                                 {errors.department && touched.department ? <Typography variant="caption" color="error">{errors.department}</Typography> : null}
@@ -225,7 +222,6 @@ const AddPeople = () => {
                                             ))
                                             : <MenuItem >Please First Select Department</MenuItem>
                                         }
-
                                     </Select>
                                 </FormControl>
                                 {errors.subDept && touched.subDept ? <Typography variant="caption" color="error">{errors.subDept}</Typography> : null}
@@ -551,18 +547,6 @@ const AddPeople = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
         </div>
     )
 }

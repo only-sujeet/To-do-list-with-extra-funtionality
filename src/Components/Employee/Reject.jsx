@@ -1,5 +1,5 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Tooltip, Typography, IconButton } from '@mui/material'
-import { ErrorMessage, Field, FieldArray, Form, Formik, useFormik } from 'formik';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,  Grid, TextField, Tooltip, Typography, IconButton } from '@mui/material'
+import {  useFormik } from 'formik';
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -71,18 +71,7 @@ const Reject = ({ id }) => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
+           
         </div>
     )
 }

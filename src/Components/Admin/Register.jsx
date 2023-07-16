@@ -8,9 +8,9 @@ import { BusinessTwoTone, EmailTwoTone, PasswordTwoTone } from '@mui/icons-mater
 import { useFormik } from 'formik'
 import { register } from '../Validation/Admin'
 import { adminRegister } from '../../api/Admin'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -131,18 +131,6 @@ const Register = () => {
               </Button>
             </Box>
           </form>
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeButton={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored" />
         </Box>
       </Grid>
     </Grid>

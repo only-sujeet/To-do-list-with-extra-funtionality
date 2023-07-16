@@ -6,9 +6,8 @@ import Header from '../Global/Header'
 import { getBlockPeople } from '../../Redux/Action/Admin'
 import NewPeopledet from '../Global/NewPeopledet'
 import { unBlockPeople } from '../../api/Admin'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Topbar from '../Global/Topbar'
 import AdminRoute from '../../Protected Route/AdminRoute'
 import AdminTopbar from '../Global/AdminTopbar'
 
@@ -82,18 +81,7 @@ const BlockProfile = () => {
 
                     </Grid>
                 }
-                <ToastContainer
-                    position="top-center"
-                    autoClose={3000}
-                    hideProgressBar={true}
-                    newestOnTop={false}
-                    closeButton={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored" />
+               
             </Box>
         </>
     )

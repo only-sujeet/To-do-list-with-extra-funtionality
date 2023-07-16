@@ -1,5 +1,5 @@
 
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip, TextField, Toolbar, InputAdornment, Divider, Avatar, } from '@mui/material'
+import { Box, Grid,  Typography,  Button,  TextField, Toolbar, InputAdornment, Divider, Avatar, } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,9 +8,8 @@ import { getPeople } from '../../Redux/Action/Admin'
 import Header from '../Global/Header'
 import NewPeopledet from '../Global/NewPeopledet'
 import AddPeople from './AddPeople'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Topbar from '../Global/Topbar'
 import AdminRoute from '../../Protected Route/AdminRoute'
 import { AlternateEmail, Block, DateRangeTwoTone, Phone, SearchSharp } from '@mui/icons-material'
 import { blue, grey, red } from '@mui/material/colors'
@@ -19,33 +18,6 @@ import AdminTopbar from '../Global/AdminTopbar'
 import dayjs from 'dayjs'
 
 const drawerWidth = 240;
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-        }),
-    }),
-);
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
-}));
-
 
 const useStyles = makeStyles({
     main: {
@@ -189,7 +161,7 @@ const AddProfile = () => {
                                             </Box>
                                             <Divider variant='fullWidth' />
                                             <Box className={classes.Action}>
-                                            <NewPeopledet Image={data.Image} com={data.company} dept={data.department} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
+                                            <NewPeopledet Image={data.Image} com={data.company} dept={data.department} subDept={data.subDept} acNo={data.acNo} upiId={data.upiId} ifscCode={data.ifscCode} doj={data.doj} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} adharno={data.adharno} panno={data.panno}/>
 
                                                 <Button variant="contained" size='small' sx={{ color: grey[700], borderRadius: "25px", bgcolor: red['A700'] }} startIcon={<Block fontSize='small' />} onClick={() => blockpeople(data._id)}>
                                                     Block
@@ -204,18 +176,7 @@ const AddProfile = () => {
                 
                 </Box>
 
-                <ToastContainer
-                    position="top-center"
-                    autoClose={3000}
-                    hideProgressBar={true}
-                    newestOnTop={false}
-                    closeButton={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored" />
+               
             </Box>
         </>
     )

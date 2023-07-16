@@ -10,9 +10,8 @@ import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask, delTask } from '../../api/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Topbar from '../Global/Topbar';
 import AdminRoute from '../../Protected Route/AdminRoute';
 import UploadExcel from './UploadExcel';
 import { blue, grey } from '@mui/material/colors';
@@ -213,20 +212,7 @@ const Task = () => {
                     </Stack>
                 </Box>
             </Box>
-            {/*ToastContainer for display pop-up messages  */}
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgdatasBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
+
         </>
     )
 }

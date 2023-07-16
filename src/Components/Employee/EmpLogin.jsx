@@ -8,7 +8,7 @@ import { useState } from 'react'
 import image from '../Images/login4.png'
 import { Elogin } from '../../api/Employye'
 
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 
@@ -108,18 +108,7 @@ const EmpLogin = () => {
           </Button>
         </Box>
       </form>
-      <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeButton={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored" />
+      
     </Container >
   )
 }

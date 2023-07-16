@@ -27,6 +27,7 @@ import { chart } from 'chart.js/auto'
 import Topbar from './Components/Global/Topbar';
 import EditTask from './Components/Admin/EditTask';
 import AdminTopbar from './Components/Global/AdminTopbar';
+import { ToastContainer } from 'react-toastify';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login1 />} />
-          <Route path='/top' element={<AdminTopbar/>}  />
+          <Route path='/top' element={<AdminTopbar />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />
           <Route path="/block_profile" element={<BlockProfile />} />
@@ -74,6 +75,18 @@ function App() {
           <Route path="/chart" element={<Barchart charData={userData} />} />
         </Routes>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </ThemeProvider>
   );
 }

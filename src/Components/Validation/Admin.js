@@ -45,7 +45,7 @@ export const addprofile = yup.object({
     panno: yup.string().min(10, ['Pan No is not valid']).max(10, ['Pan No is not valid']).notRequired("Please Enter Pan No").matches(/^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}?$/, "Please Enter Proper Pan No. "),
     acNo: yup.number().min(10000000000,["Acconunt No should Not Valid"]).max(9999999999999999,["Acconunt No should Not Valid"]).required("Account Number is Required"),
     ifscCode:yup.string().min(11, ['IFSC Code is not valid']).max(11, ['IFSC Code is not valid']).required("Please Enter IFSC Code").matches(/^[A-Za-z]{4}0[A-Z0-9a-z]{6}$/, "Please Enter Proper IFSC Code"),
-    upiId:yup.string().matches(/^[a-zA-Z0-9\\.\\-]{2,256}\\@[a-zA-Z][a-zA-Z]{2,64}$/, "Please Enter Proper Upi id").required("Please Enter Upi id"),
+    upiId:yup.string().matches(/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/, 'Invalid UPI ID').required("Please Enter Upi id"),
 })
 
 

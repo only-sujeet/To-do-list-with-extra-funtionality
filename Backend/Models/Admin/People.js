@@ -82,7 +82,7 @@ const peopleSchema = mongoose.Schema({
         required:true
     },
     ifscCode:{
-        type:Number,
+        type:String,
         required:true,                  
     },
     upiId:{
