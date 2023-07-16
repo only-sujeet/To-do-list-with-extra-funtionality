@@ -82,12 +82,12 @@ const Task = () => {
 
 
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "name", headerName: "Task Name", width: 180, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "department", headerName: "Department", width: 130, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
+        { field: "department", headerName: "Department", width: 140, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 170, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "instruction", headerName: "Instruction", width: 210, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
         { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
         { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
         { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
@@ -109,7 +109,7 @@ const Task = () => {
             }
         },
         {
-            headerName: "Action", headerClassName: "header", headerAlign: "center", align: "center",
+            headerName: "Actions", headerClassName: "header", headerAlign: "center", align: "center",
             width: 122,
             renderCell: params => {
                 if (params.row.status === "Created") {

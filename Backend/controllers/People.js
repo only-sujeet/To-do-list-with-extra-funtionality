@@ -23,7 +23,7 @@ exports.addPeople = async (req, res) => {
 
         const password = generatePassword(length);
         const object = JSON.parse(req.body.data)
-        const { department, subDept, firstName, middleName, lastName, email, dob, doj, age, mobileno, altmobileno, address1, address2, adharno, panno, } = object
+        const { department, subDept, firstName, middleName, lastName, email, dob, doj, age, mobileno, altmobileno, address1, address2, adharno, panno, acNo, ifscCode, upiId } = object
 
         const Image = (req.file) ? req.file.filename : null
         //   for finding email
@@ -31,7 +31,7 @@ exports.addPeople = async (req, res) => {
         if (findEmail) {
             return res.status(400).json({ success: false, message: "Email already exists....." })
         }
-        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, doj, panno, mobileno, altmobileno, address1, address2, Image })
+        const peo = new People({ email, password, company: req.admin.company, department, subDept, firstName, middleName, lastName, age, dob, adharno, doj, panno, mobileno, altmobileno, address1, address2, Image, acNo, ifscCode, upiId })
         await peo.save();
 
         const message = `Dear ${peo.firstName} ${peo.middleName} ${peo.lastName}\n\n Welcome to INK Management System \n\n Your Username: ${peo.email}\n Your Password: ${password} \n\n\n Thank You`

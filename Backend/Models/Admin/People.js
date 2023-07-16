@@ -57,7 +57,6 @@ const peopleSchema = mongoose.Schema({
     },
     panno: {
         type: String,
-        required: true
     },
     address1: {
         type: String,
@@ -77,7 +76,19 @@ const peopleSchema = mongoose.Schema({
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Task"
-    }]
+    }],
+    acNo:{
+        type:Number,
+        required:true
+    },
+    ifscCode:{
+        type:Number,
+        required:true,                  
+    },
+    upiId:{
+        type:String,
+        required:true,
+    }
 
 })
 
