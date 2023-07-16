@@ -26,6 +26,7 @@ import { useState } from 'react';
 import { chart } from 'chart.js/auto'
 import Topbar from './Components/Global/Topbar';
 import EditTask from './Components/Admin/EditTask';
+import AdminTopbar from './Components/Global/AdminTopbar';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
@@ -56,7 +57,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login1 />} />
-          <Route path='/top' element={<Topbar/>}  />
+          <Route path='/top' element={<AdminTopbar/>}  />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />
           <Route path="/block_profile" element={<BlockProfile />} />

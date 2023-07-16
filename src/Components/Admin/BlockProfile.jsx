@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from '../Global/Topbar'
 import AdminRoute from '../../Protected Route/AdminRoute'
+import AdminTopbar from '../Global/AdminTopbar'
 
 const drawerWidth = 240;
 
@@ -36,7 +37,7 @@ const BlockProfile = () => {
     }
     return (
         <>
-            <Topbar />
+            <AdminTopbar />
             <Box
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}

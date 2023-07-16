@@ -137,7 +137,7 @@ const Subdepartment = () => {
         { field: "subDept", headerName: "Sub-Deptartment", width: 160, headerClassName: "header", headerAlign: "center", align: "center", },
         { field: "rate", headerName: "Rate", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
         { field: "unit", headerName: "Unit", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
-        { field: "taskDependencySubDept", headerName: "Task Dependency Sub-Department", width: 184, headerClassName: "header", headerAlign: "center", align: "center", },
+        { field: "taskDependencySubDept", headerName: "Task Dependency ", width: 184, headerClassName: "header", headerAlign: "center", align: "center", },
         {
             field: "Action", headerName: "Action", width: 180, headerClassName: "header", headerAlign: "center", align: "center",
             renderCell: (params) =>

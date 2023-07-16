@@ -26,7 +26,7 @@ const AddDepartment = () => {
 
 
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Task Name", width: 173, headerClassName: "header", headerAlign: "center", align:"center" },
+        { field: "department", headerName: "Task Name", width: 173, headerClassName: "header", headerAlign: "center", align:"center", resizable:true },
         {
             field: "subDepts", headerName: 'Sub-Department',headerClassName: "header", headerAlign: "center", align:"center",
             width: 230,

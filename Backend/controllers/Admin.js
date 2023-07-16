@@ -60,8 +60,8 @@ exports.adminLogin = async (req, res) => {
             httpOnly: true
         }
         const token = await admin.generateToken()
-        // res.status(200).json({ success: true, message: "Login Success", token })
-        res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
+     res.status(200).json({ success: true, message: "Login Success", token })
+        // res.status(200).cookie("Token", token, option).json({ success: true, message: "Login Success", token })
 
         // res.status(200).json({ success: true, message: "Login Success", token })
 
