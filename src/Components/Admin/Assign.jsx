@@ -3,12 +3,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, 
 import { AddHomeTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone } from '@mui/icons-material';
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import dateFormat from 'dateformat';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { getTask } from '../../Redux/Action/Admin';
 import { useDispatch } from 'react-redux';
 import { AssignTask } from '../../api/Admin';
+import dayjs from 'dayjs';
 
 const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
 
@@ -135,7 +134,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             fullWidth
                                             variant='filled'
                                             label="Start Date"
-                                            value={dateFormat(startDate, "mmmm dS, yyyy")}
+                                            value={dayjs(startDate).format('DD/MM/YYYY')}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
                                             InputProps={{
@@ -148,8 +147,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                                             fullWidth
                                             variant='filled'
                                             label="End Date"
-                                            // value={endDate}
-                                            value={dateFormat(endDate, "mmmm dS, yyyy")}
+                                            value={dayjs(endDate).format('DD/MM/YYYY')}
                                             size="small"
                                             InputLabelProps={{ style: { fontSize: 20 } }}
                                             InputProps={{

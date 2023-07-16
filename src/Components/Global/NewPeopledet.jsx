@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment, Avatar } from '@mui/material';
-import dateFormat from 'dateformat';
-import { AccountBalanceTwoTone, AddHomeTwoTone, AddIcCallTwoTone, AlternateEmailTwoTone, ApartmentTwoTone, CalendarMonthTwoTone, CallTwoTone, CreditCard, CreditCardOutlined, DateRangeTwoTone, DialpadTwoTone, DomainTwoTone, HouseTwoTone, NfcTwoTone, PeopleOutlineTwoTone, PeopleTwoTone, Person3TwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid,  Box,  TextField, InputAdornment, Avatar } from '@mui/material';
+import { AccountBalanceTwoTone,  AddIcCallTwoTone, AlternateEmailTwoTone, ApartmentTwoTone, CalendarMonthTwoTone, CallTwoTone, CreditCard, CreditCardOutlined, DateRangeTwoTone,  DomainTwoTone, HouseTwoTone,  PeopleTwoTone, Person3TwoTone,  } from '@mui/icons-material';
 import { deletePeople } from '../../api/Admin';
 import { useDispatch } from 'react-redux';
 import { getPeople } from '../../Redux/Action/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core';
 import dayjs from 'dayjs';

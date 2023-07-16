@@ -1,5 +1,5 @@
+
 import *   as  yup from 'yup'
-import { parse, isDate } from "date-fns"
 
 export const login = yup.object({
     email: yup.string().email().matches(/^(?!.*@[^,]*,)/).required("Please Enter Email.."),
@@ -48,24 +48,14 @@ export const addprofile = yup.object({
     upiId:yup.string().matches(/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/, 'Invalid UPI ID').required("Please Enter Upi id"),
 })
 
-
-function parseDateString(value, originalValue) {
-    const parsedDate = isDate(originalValue)
-        ? originalValue
-        : parse(originalValue, "yyyy-MM-dd", new Date());
-
-    return parsedDate;
-}
-
 export const addTasks = yup.object({
     name: yup.string().required("Please Enter Task Name"),
     department: yup.string().required("Please Select Department"),
     subDepartment: yup.string().required("Please Select Sub-Department"),
     instruction: yup.string().required("Please Enter Instruction"),
-   
     taskDependency: yup.string().required("Please Enter Task Dependency"),
-    startDate: yup.date().transform(parseDateString).min(new Date(), 'Please choose future date'),
-    endDate: yup.date().transform(parseDateString).min(yup.ref("startDate"), "End date has to be more than start date"),
+    startDate: yup.date().min(new Date(), 'Please choose future date'),
+    endDate: yup.date().min(yup.ref("startDate"), "End date has to be more than start date"),
     check: yup.array().of(yup.object().shape({
         checklist: yup.string().required("Name required"),
     }))
