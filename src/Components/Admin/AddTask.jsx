@@ -160,7 +160,7 @@ const AddTask = () => {
         <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
             startIcon={<FontAwesomeIcon icon={faListCheck} style={{ marginLeft: "2px" }} />} className={classes.button}>
             <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
-                {hover ? ("Add Task Menually") : (`Add Task`)}
+                {hover ? ("Add Task Manually") : (`Add Task`)}
             </Typography>
         </Button>
         </Tooltip>

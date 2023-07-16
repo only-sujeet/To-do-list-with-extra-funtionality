@@ -171,7 +171,7 @@ const AddPeople = () => {
             <Button variant="contained" color="secondary" onClick={handleClickOpen} size='small' sx={{ mr: 1, borderRadius: "20px" }} onMouseOver={() => setHover(true)} onMouseOut={() => { setHover(false) }}
                 startIcon={<PersonAdd />} className={classes.button}>
                 <Typography variant="h6" color="whitesmoke" className={classes.buttonText} >
-                    {hover ? ("Add Employee Menually") : (`Add Employee`)}
+                    {hover ? ("Add Employee Manually") : (`Add Employee`)}
                 </Typography>
             </Button>
 
