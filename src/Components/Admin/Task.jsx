@@ -183,19 +183,7 @@ const Task = () => {
                 </Box>
             </Box>
             {/*ToastContainer for display pop-up messages  */}
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgdatasBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
+           
         </>
     )
 }

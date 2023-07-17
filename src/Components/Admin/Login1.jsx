@@ -29,6 +29,8 @@ const Login1 = () => {
   }
   const navigate = useNavigate()
   const isAuthenticated = Cookies.get('Token')
+
+  console.log(isAuthenticated)
   isAuthenticated && navigate("/dashboard")
 
   const initialvalue = {
@@ -41,9 +43,9 @@ const Login1 = () => {
     validationSchema: login,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       const res = await adminLogin(values)
-     await dispatch(adminLog(values))
+      await dispatch(adminLog(values))
       setSubmitting(false)
-     
+
       if (res.success === true) {
         toast.success(res.message)
         navigate("/dashboard")
@@ -56,22 +58,22 @@ const Login1 = () => {
   })
 
   return (
-    <Grid container   component='main' sx={{ height: "100vh" }}>
-      <Grid item xs={false} sm={false} md={8} lg={8} height="100vh" 
-      sx={{
-        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        // backgroundAttachment:"fixed",
-        // width:{ lg:"100%",md:"80%",sm:"0%" },
-        // height:'100%'
-      }}
+    <Grid container component='main' sx={{ height: "100vh" }}>
+      <Grid item xs={false} sm={false} md={8} lg={8} height="100vh"
+        sx={{
+          backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          // backgroundAttachment:"fixed",
+          // width:{ lg:"100%",md:"80%",sm:"0%" },
+          // height:'100%'
+        }}
       >
 
       </Grid>
       <Grid item xs={12} sm={12} md={4} lg={4} component={Paper} elevation={10} square sx={{
-        backgroundColor:"whitesmoke"
+        backgroundColor: "whitesmoke"
       }} >
         <Box
           maxWidth="sm"

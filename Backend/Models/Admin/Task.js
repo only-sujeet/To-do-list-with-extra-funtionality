@@ -32,11 +32,11 @@ const taskSchema = mongoose.Schema({
     },
     startDate: {
         type: Date,
-       
+
     },
     endDate: {
         type: Date,
-       
+
     },
     checkList: [],
     status: {
@@ -55,7 +55,13 @@ const taskSchema = mongoose.Schema({
         default: "--"
     },
     fileName: String,
+
     driveLink: String,
+
+    reminders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reminder"
+    }]
 
 })
 const Task = mongoose.model("Task", taskSchema)

@@ -26,12 +26,13 @@ import { useState } from 'react';
 import { chart } from 'chart.js/auto'
 import Topbar from './Components/Global/Topbar';
 import EditTask from './Components/Admin/EditTask';
+import { ToastContainer } from 'react-toastify';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
 function App() {
 
   const { loginData } = useSelector(s => s.admin)
-
+  console.log(loginData)
   useEffect(() => {
     { loginData && cookies.set('Token', loginData.token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) }) }
   }, [loginData]);
@@ -56,7 +57,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login1 />} />
-          <Route path='/top' element={<Topbar/>}  />
+          <Route path='/top' element={<Topbar />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />
           <Route path="/block_profile" element={<BlockProfile />} />
@@ -72,6 +73,19 @@ function App() {
           <Route path="/submit" element={<Submit />} />
           <Route path="/chart" element={<Barchart charData={userData} />} />
         </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgdatasBar={true}
+          newestOnTop={false}
+          closeButton={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     </ThemeProvider>
   );

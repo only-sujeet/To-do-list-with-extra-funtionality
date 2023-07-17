@@ -27,10 +27,9 @@ exports.EmpLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: "!! Invalid Email" })
         }
 
-        const isMatch = await emp.comparePassword(password)
+        const isMatch = await emp.matchPassword(password)
         if (!isMatch) {
             return res.status(400).json({ success: false, message: "!! Invalid Password" })
-
         }
         const option = {
             expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
@@ -38,7 +37,6 @@ exports.EmpLogin = async (req, res) => {
         }
         const token = await emp.generateToken()
         res.status(200).cookie("EmpToken", token, option).json({ success: true, message: "Login Success", token })
-
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -91,7 +89,7 @@ exports.AcceptTask = async (req, res) => {
 }
 exports.submitDoc = async (req, res) => {
     try {
-       
+
         const file = req.file
         if (!file) {
             res.status(400).send("No file uploaded.");

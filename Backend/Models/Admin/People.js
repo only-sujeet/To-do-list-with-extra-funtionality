@@ -18,11 +18,15 @@ const peopleSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     age: {
         type: String,
         required: true
     },
-   
+
     company: {
         type: String,
         required: true
@@ -65,7 +69,7 @@ const peopleSchema = mongoose.Schema({
     },
     address2: {
         type: String,
-       
+
     },
     Image: {
         type: String,
@@ -83,12 +87,17 @@ const peopleSchema = mongoose.Schema({
 
 peopleSchema.pre('save', async function (next) {
 
-    if (this.isModified("password")) {
+    if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 10)
     }
-    
     next();
 })
+
+peopleSchema.methods.matchPassword = async function (password) {
+
+    return await bcrypt.compare(password, this.password);
+
+}
 
 peopleSchema.methods.generateToken = async function () {
     return jwt.sign({ _id: this._id }, process.env.SECRET_KEY)
