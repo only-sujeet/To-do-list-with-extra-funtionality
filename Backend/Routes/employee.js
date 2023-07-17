@@ -22,7 +22,7 @@ const upload = Multer({
 
 router.route("/getAssignedTask").get(isAuthenticatedEmp, getAssignedTask)
 router.route("/acceptTask/:id").get(isAuthenticatedEmp, AcceptTask)
-router.route("/submitDoc/:id").post( isAuthenticatedEmp,upload.single('file'), submitDoc)
+router.route("/submitDoc/:_id").post( isAuthenticatedEmp,upload.single('file'), submitDoc)
 router.route("/upload").post(upload.single('file'), uploadfile)
 
 router.route("/getAllTask").get(isAuthenticatedEmp, getAllTask)

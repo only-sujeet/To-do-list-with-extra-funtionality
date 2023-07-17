@@ -10,6 +10,7 @@ import Reject from './Reject'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAssignTask } from '../../Redux/Action/Employee'
+import { blue, grey } from '@mui/material/colors'
 const EmpTask = () => {
   const dispatch = useDispatch()
   const { getAsignTask } = useSelector(state => state.emp)
@@ -19,29 +20,37 @@ const EmpTask = () => {
   }, [dispatch]);
 
   const columns = useMemo((getAsignTask) => [
-    { field: "name", headerName: "Task Name", width: 120, headerClassName: "header" },
-    { field: "rate", headerName: "Rate", width: 100, headerClassName: "header" },
-    { field: "unit", headerName: "Unit", width: 100, headerClassName: "header" },
-    { field: "department", headerName: "Department", width: 160, headerClassName: "header" },
-    { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header" },
+    { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align: "center" },
+    { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+    { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+    { field: "department", headerName: "Department", width: 115, headerClassName: "header", headerAlign: "center", align: "center" },
+    { field: "subDepartment", headerName: "Sub-Department", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+    { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
 
-    { field: "instruction", headerName: "Instruction", width: 250, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={<h1>{params.value}</h1>} >{params.value}</Tooltip> } },
+    { field: "instruction", headerName: "Instruction", width: 220, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={<h1>{params.value}</h1>} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
 
     {
-      field: "startDate", headerName: "Start At", width: 150, headerClassName: "header",
-      valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),
+      field: "startDate", headerName: "Start At", width: 100, headerClassName: "header",
+      valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), headerAlign: "center", align: "center"
     },
-    { field: "endDate", headerName: "End At", width: 150, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
-    { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
+    { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), headerAlign: "center", align: "center" },
+    { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
+    { field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center" },
     {
       field: "actions", type: "actions",
-      headerName: "Action", headerClassName: "header",
-      width: 150,
-      renderCell: (params) => 
-          <Box display="flex" alignItems="center" justifyContent="center">
-        <Submit checklist={params.row.checkList} id={params.row._id} />
-        <Reject id={params.row._id} />
-      </Box>
+      headerName: "Action", headerClassName: "header", headerAlign: "center", align: "center",
+      width: 122,
+      renderCell: (params) => {
+        if (params.row.status === "assign") {
+          return <Box display="flex" alignItems="center" justifyContent="center">
+            <Submit checklist={params.row.checkList} id={params.row._id} />
+            <Reject id={params.row._id} />
+          </Box>
+
+        } else {
+          return <Box></Box>
+        }
+      }
       ,
 
       // sortable: false,
@@ -55,22 +64,39 @@ const EmpTask = () => {
       <Box sx={{ mt: "5rem", ml: "1rem", }} >
         <Header title="Tasks" subtitle="Welcome to task page here Display your tasks" />
 
-        <Stack style={{ display: "grid", width: "100%", height: "50vh", }}>
+        <Stack style={{ display: "grid", height: "50vh", }}>
           {getAsignTask ?
             <DataGrid
               rows={getAsignTask}
               key={row => row._id}
-              sx={{
-                fontSize: "1rem", fontFamily: "sans-serif",
-                '& .header': {
-                  backgroundColor: "#3366ff",
-                },
-                backgroundColor: "rgb(0,0,0,0.3)",
-                textTransform: "capitalize"
-              }}
               columns={columns}
               getRowId={row => row._id}
               slots={{ toolbar: GridToolbar }}
+              getRowSpacing={0}
+              rowHeight={37}
+              rowSelection="true"
+              rowSpacingType='margin'
+              scrollbarSize={1}
+              columnHeaderHeight={37}
+
+              sx={{
+                '& .header': {
+                  backgroundColor: blue[700],
+
+                },
+                '.MuiDataGrid-columnSeparator': {
+                  display: 'none',
+                },
+                '&.MuiDataGrid-root': {
+                  border: 'none',
+                },
+
+                bgcolor: grey[300],
+                textTransform: "capitalize",
+                fontFamily: "Josefin Sans",
+                margin:"auto auto"
+              }}
+
             >
 
             </DataGrid>

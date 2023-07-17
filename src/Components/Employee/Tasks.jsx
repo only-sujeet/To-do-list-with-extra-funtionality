@@ -12,6 +12,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs'
+import { blue, grey } from '@mui/material/colors'
 
 const Tasks = () => {
     const dispatch = useDispatch()
@@ -31,13 +32,14 @@ const Tasks = () => {
     }
     const columns = useMemo((alltask) => [
         { field:"name",headerName:"Task Name",width:150,headerClassName:"header"},
-        { field:"rate",headerName:"Rate",width:100,type:"number",headerClassName:"header"},
-        { field:"unit",headerName:"Unit",width:100,type:"number",headerClassName:"header"},
+        { field:"rate",headerName:"Rate",width:80,type:"number",headerClassName:"header"},
+        { field:"unit",headerName:"Unit",width:80,type:"number",headerClassName:"header"},
         { field:"department",headerName:"Department",width:160,headerClassName:"header" },
         { field:"taskDependency",headerName:"Dependency",width: 150,headerClassName:"header" },
         { field:"instruction",headerName:"Instruction",width: 250, headerClassName: "header" },
         { field: "startDate", headerName: "Start At", width: 150,type:"date" ,headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
         { field: "endDate", headerName: "End At", width: 150,type:"date" ,headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), },
+        { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
         { field: "status", headerName: "Status", width: 150, headerClassName: "header" },
         {headerName: "Action", headerClassName: "header",
             width: 150,
@@ -51,36 +53,40 @@ const Tasks = () => {
             <EmpHeader />
             <Box sx={{ mt:"5rem", ml:"1rem", }} >
                 <Header title="Tasks" subtitle="Welcome to tasks page here All tasks show" />
-                <Stack style={{display:"grid",width:"100%",height:"50vh",}}>{alltask ?
+                <Stack style={{display:"grid",height:"50vh",}}>{alltask ?
                         <DataGrid
                             rows={alltask}
                             key={row => row._id}
-                            slots={{ toolbar: GridToolbar }}
-                            sx={{
-                                fontSize: "1rem", fontFamily: "sans-serif",
-                                '& .header': {
-                                    backgroundColor: "#3366ff",
-                                },
-                                backgroundColor: "rgb(0,0,0,0.3)",
-                                textTransform: "capitalize"
-                            }}
                             columns={columns}
                             getRowId={row => row._id}
+                            slots={{ toolbar: GridToolbar }}
+                            getRowSpacing={0}
+                            rowHeight={37}
+                            rowSelection="true"
+                            rowSpacingType='margin'
+                            scrollbarSize={1}
+                            columnHeaderHeight={37}
+                            
+                            sx={{
+                                '& .header': {
+                                    backgroundColor: blue[700],
+
+                                },
+                                '.MuiDataGrid-columnSeparator': {
+                                    display: 'none',
+                                },
+                                '&.MuiDataGrid-root': {
+                                    border: 'none',
+                                },
+
+                                bgcolor: grey[300],
+                                textTransform: "capitalize",
+                                fontFamily: "Josefin Sans",
+                            }}
                         ></DataGrid>:undefined}
                 </Stack>
             </Box>
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgdatasBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
+           
         </>
     )
 }

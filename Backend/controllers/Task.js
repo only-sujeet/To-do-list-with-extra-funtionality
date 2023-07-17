@@ -249,7 +249,7 @@ setInterval(() => {
             }
         });
 
-        console.log(reminderList)
+        // console.log(reminderList)
     }
     setReminder()
 }, 1000)

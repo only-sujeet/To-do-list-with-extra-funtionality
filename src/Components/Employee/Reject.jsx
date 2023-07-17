@@ -61,7 +61,7 @@ const Reject = ({ id }) => {
                             </Grid>
                             <Grid item lg={12} sm={12} xs={12} md={12}>
                                 <Button variant="contained" color='primary' type='submit' >
-                                    Add
+                                    Send
                                 </Button>
                             </Grid>
                         </Grid>
