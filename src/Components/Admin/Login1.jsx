@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { login } from '../Validation/Admin';
 import { adminLogin } from '../../api/Admin';
 import { adminLog } from '../../Redux/Action/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 
@@ -58,6 +58,7 @@ const Login1 = () => {
   })
 
   return (
+<<<<<<< HEAD
     <Grid container component='main' sx={{ height: "100vh" }}>
       <Grid item xs={false} sm={false} md={8} lg={8} height="100vh"
         sx={{
@@ -69,6 +70,16 @@ const Login1 = () => {
           // width:{ lg:"100%",md:"80%",sm:"0%" },
           // height:'100%'
         }}
+=======
+    <Grid container  component='main' sx={{ height: "100vh" }}>
+      <Grid item xs={false} sm={false} md={8} lg={8} height="100vh" 
+      sx={{
+        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+>>>>>>> bbde6b9c12c405a919f88c2769aee17382f6d1d3
       >
 
       </Grid>
@@ -146,18 +157,7 @@ const Login1 = () => {
         </Box>
       </Grid>
 
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored" />
+  
     </Grid>
   )
 }

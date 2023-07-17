@@ -35,7 +35,8 @@ const theme = createTheme({
         },
         body1:{
             fontFamily: ["Yrsa", "serif"].join(","),
-            fontWeight:"bolder"
+            fontWeight:"bolder",
+            fontSize:20
         },
         overline:{
             fontFamily: ["Yrsa", "serif"].join(","),

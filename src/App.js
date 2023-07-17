@@ -26,6 +26,10 @@ import { useState } from 'react';
 import { chart } from 'chart.js/auto'
 import Topbar from './Components/Global/Topbar';
 import EditTask from './Components/Admin/EditTask';
+<<<<<<< HEAD
+=======
+import AdminTopbar from './Components/Global/AdminTopbar';
+>>>>>>> bbde6b9c12c405a919f88c2769aee17382f6d1d3
 import { ToastContainer } from 'react-toastify';
 // import AdminTopbar from './Components/Global/AdminTopbar';
 
@@ -57,7 +61,11 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/login' element={<Login1 />} />
+<<<<<<< HEAD
           <Route path='/top' element={<Topbar />} />
+=======
+          <Route path='/top' element={<AdminTopbar />} />
+>>>>>>> bbde6b9c12c405a919f88c2769aee17382f6d1d3
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />
           <Route path="/block_profile" element={<BlockProfile />} />
@@ -87,6 +95,18 @@ function App() {
           theme="colored"
         />
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored" />
     </ThemeProvider>
   );
 }

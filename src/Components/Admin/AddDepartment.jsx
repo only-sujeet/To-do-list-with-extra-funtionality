@@ -4,7 +4,7 @@ import { } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { adddep } from '../Validation/Admin';
 import { addDepartment, getDept } from '../../api/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useMemo } from 'react';
@@ -26,7 +26,7 @@ const AddDepartment = () => {
 
 
     const columns = useMemo(dept => [
-        { field: "department", headerName: "Task Name", width: 173, headerClassName: "header", headerAlign: "center", align:"center" },
+        { field: "department", headerName: "Task Name", width: 173, headerClassName: "header", headerAlign: "center", align:"center", resizable:true },
         {
             field: "subDepts", headerName: 'Sub-Department',headerClassName: "header", headerAlign: "center", align:"center",
             width: 230,
@@ -143,18 +143,6 @@ const AddDepartment = () => {
                     }}
                 /> : undefined}
             </Stack>
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
         </div>
     )
 }

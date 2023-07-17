@@ -134,7 +134,7 @@ const Topbar = (props) => {
     // for drawer
     const drawer = (
         <div>
-            <Toolbar/>
+            {/* <Toolbar/> */}
             {/* <Divider /> */}
             <Divider textAlign='center'><Typography variant='h4' color="blue" >Employee</Typography>
             </Divider>

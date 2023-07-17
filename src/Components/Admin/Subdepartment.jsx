@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { addSubDept } from '../Validation/Admin'
 import { addSubDepartment, delSubDept, editSubDept, getDept, getSubDept, getSubDeptInfo, } from '../../api/Admin'
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMemo } from 'react'
 import { HighlightOffRounded, ModeEditOutlineOutlined } from '@mui/icons-material'
@@ -137,7 +137,7 @@ const Subdepartment = () => {
         { field: "subDept", headerName: "Sub-Deptartment", width: 160, headerClassName: "header", headerAlign: "center", align: "center", },
         { field: "rate", headerName: "Rate", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
         { field: "unit", headerName: "Unit", width: 40, headerClassName: "header", headerAlign: "center", align: "center", },
-        { field: "taskDependencySubDept", headerName: "Task Dependency Sub-Department", width: 184, headerClassName: "header", headerAlign: "center", align: "center", },
+        { field: "taskDependencySubDept", headerName: "Task Dependency ", width: 184, headerClassName: "header", headerAlign: "center", align: "center", },
         {
             field: "Action", headerName: "Action", width: 180, headerClassName: "header", headerAlign: "center", align: "center",
             renderCell: (params) =>
@@ -380,20 +380,6 @@ const Subdepartment = () => {
                 </form>
             }
 
-            {/*ToastContainer for display pop-up messages  */}
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgdatasBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
         </div >
     )
 }

@@ -1,18 +1,26 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, Card, CardMedia, Box, CardContent, TextField, InputAdornment } from '@mui/material';
-import dateFormat from 'dateformat';
-import { AddHomeTwoTone, AlternateEmailTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone, SignpostTwoTone, TtyTwoTone } from '@mui/icons-material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid,  Box,  TextField, InputAdornment, Avatar } from '@mui/material';
+import { AccountBalanceTwoTone,  AddIcCallTwoTone, AlternateEmailTwoTone, ApartmentTwoTone, CalendarMonthTwoTone, CallTwoTone, CreditCard, CreditCardOutlined, DateRangeTwoTone,  DomainTwoTone, HouseTwoTone,  PeopleTwoTone, Person3TwoTone,  } from '@mui/icons-material';
 import { deletePeople } from '../../api/Admin';
 import { useDispatch } from 'react-redux';
 import { getPeople } from '../../Redux/Action/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { makeStyles } from '@material-ui/core';
+import dayjs from 'dayjs';
 
+const useStyles = makeStyles({
+    main: {
+        backgroundColor: "#f0f0f0",
+        borderRadius: "15px",
+        boxShadow: "3px 3px",
+    },
+})
 
-const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, dob, mobileno, altmobileno, Image, address1, address2, id }) => {
+const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, dob, mobileno, altmobileno, Image, address1, address2, id,doj,adharno,panno,acNo,ifscCode,upiId,subDept}) => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
-
+    const classes = useStyles()
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -41,189 +49,318 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
                 </Button>
             </Tooltip>
             <Dialog open={open} onClose={handleClose}
-                PaperProps={{ sx: { position: "fixed", m: 0, top: 0, backgroundImage: 'radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%)', } }} fullScreen>
+                PaperProps={{ sx: { position: "fixed", m: 0, top: 0,  } }} fullScreen>
                 <DialogTitle align='center'><Typography variant="h3" color="-moz-initial"><Typography variant="h2" fontWeight="bold" color="initial">Details</Typography></Typography></DialogTitle>
                 <DialogContent>
+                    
+                    <Box className={classes.main} sx={{
+                        width: { lg: "80%", md: "90%", sm: "100%", xs: "100%" }, margin: { lg: "20px auto", md: "20px auto", sm: "0px", xs: "0px" }, padding: { lg: "20px", md: "20px", sm: "10px", xs: "10px" }
+                    }}>
+                        <Grid container spacing={2}>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <Avatar sx={{ height: { lg: 250, md: 250, sm: 250, xs: 130 }, width: { lg: 310, md: 300, sm: 230, xs: 250 }, m: "10px auto" }} variant='rounded' alt='image' src={`http://localhost:5000/Image/${Image}`} />
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Name"
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    sx={{ mb: "8px" }}
+                                    value={`${firstName} ${middleName} ${lastName}`}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <PeopleTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                    <Card sx={{ display: "flex", width: "80%", margin: "20px auto" }}>
-                        <CardMedia
-                           component="img"
-                            sx={{ width: { lg: 400, md: 300, sm: 350, xs: 0 }, height: "auto", marginTop: '30',objectFit:"contain" }}
-                            image={`http://localhost:5000/Image/${Image}`}
-                            alt="Live from space album cover"
-                        />
-                        <Box sx={{
-                            display: "flex", flexDirection:
-                                { lg: "column", sm: "row", xs: "row", md: "column" }
-                        }}>
-                            <CardContent sx={{ flex: "1 0 auto" }}>
-                                <Grid container spacing={2}>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Date Of Birth"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={dayjs(dob).format('DD/MM/YYYY')}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <CalendarMonthTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Company"
-                                            value={com}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <AddHomeTwoTone color='secondary' /></InputAdornment>)
-                                            }}
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Age"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={age}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <CalendarMonthTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Adhar Card No."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={adharno}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <Person3TwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Pan Card No."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={panno}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <Person3TwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Company"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={com}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <ApartmentTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Department"
-                                            value={dept}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <NfcTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="First Name"
-                                            value={firstName}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Middle Name"
-                                            value={middleName}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={4} sm={12} xs={12} md={4}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Last Name"
-                                            value={lastName}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Age"
-                                            value={age}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <DialpadTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Date of Birth"
-                                            value={dateFormat(dob, "mmmm dS, yyyy")}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <CalendarMonthTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Email"
-                                            value={email}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <AlternateEmailTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Mobile No."
-                                            value={mobileno}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <TtyTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={6} sm={12} xs={12} md={6}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Alternate Mobile No."
-                                            value={altmobileno}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <TtyTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Department"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={dept}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <DomainTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Sub-Department"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={subDept}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <DomainTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Address 1"
-                                            value={address1}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <SignpostTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Date Of Joining"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    type='date'
+                                    value={dayjs(doj).format('DD/MM/YYYY')}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <DateRangeTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Address 2"
-                                            value={address2}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <SignpostTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
+                                />
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Email Id"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={email}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <AlternateEmailTwoTone color='secondary' /></InputAdornment>)
+                                    }}
 
-                        </Box>
-                    </Card>
+                                />
+
+                            </Grid>
+                            <Grid item lg={6} sm={6} xs={12} md={6}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Mobile No."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={mobileno}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <CallTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={6} sm={6} xs={12} md={6}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Alternate Mobile No."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={altmobileno}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <AddIcCallTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Address"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={address1}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <HouseTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={6} sm={12} xs={12} md={6}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Alternate Address"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={address2}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <HouseTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Account No."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={acNo}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <AccountBalanceTwoTone color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="Ifsc NO."
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={ifscCode}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <CreditCard color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={4} sm={4} xs={12} md={4}>
+                                <TextField
+                                    id="name"
+                                    fullWidth
+                                    color='secondary'
+                                    label="UPI ID"
+                                    sx={{ mb: "8px" }}
+                                    inputProps={{ style: { fontSize: 16 } }}
+                                    InputLabelProps={{ style: { fontSize: 20 } }}
+                                    autoFocus
+                                    value={upiId}
+                                    variant='standard'
+                                    size='small'
+                                    InputProps={{
+                                        startAdornment: (<InputAdornment position="start"> <CreditCardOutlined color='secondary' /></InputAdornment>)
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Tooltip title="Delete Profile" color='error' variant='contained' >
@@ -234,18 +371,6 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
-            <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar={true}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored" />
         </div>
     )
 }

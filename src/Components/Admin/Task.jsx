@@ -10,14 +10,43 @@ import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask, delTask } from '../../api/Admin';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Topbar from '../Global/Topbar';
 import AdminRoute from '../../Protected Route/AdminRoute';
 import UploadExcel from './UploadExcel';
 import { blue, grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
+import AdminTopbar from '../Global/AdminTopbar';
+import { styled } from '@material-ui/core';
+
 const drawerWidth = 240;
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-start',
+}));
+
 
 
 const Task = () => {
@@ -52,12 +81,12 @@ const Task = () => {
 
 
     const columns = useMemo(task => [
-        { field: "name", headerName: "Task Name", width: 120, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "name", headerName: "Task Name", width: 180, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "department", headerName: "Department", width: 130, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
-        { field: "instruction", headerName: "Instruction", width: 120, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
+        { field: "department", headerName: "Department", width: 140, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 170, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "instruction", headerName: "Instruction", width: 210, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
         { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
         { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
         { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
@@ -79,7 +108,7 @@ const Task = () => {
             }
         },
         {
-            headerName: "Action", headerClassName: "header", headerAlign: "center", align: "center",
+            headerName: "Actions", headerClassName: "header", headerAlign: "center", align: "center",
             width: 122,
             renderCell: params => {
                 if (params.row.status === "Created") {
@@ -121,13 +150,14 @@ const Task = () => {
     return (
 
         <>
-            <Topbar />
-            <Box
-                component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            <AdminTopbar />
+            <Box 
+             component="main"
+             sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Box mt="15px" mb="10px">
+                {/* <DrawerHeader/> */}
+                <Box mt="10px" mb="10px">
                     <Box display='flex' justifyContent='space-between' alignItems="center"  >
                         <Header title="Task" subtitle="Welcome to Task page" />
                         <Box display="flex" justifyContent="center" alignItems="center">
@@ -182,8 +212,6 @@ const Task = () => {
                     </Stack>
                 </Box>
             </Box>
-            {/*ToastContainer for display pop-up messages  */}
-           
         </>
     )
 }

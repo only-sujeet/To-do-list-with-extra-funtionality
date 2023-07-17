@@ -1,25 +1,44 @@
-import { makeStyles } from '@material-ui/core'
+import {  styled } from '@material-ui/core'
 import React from 'react'
 import AdminTopbar from '../Global/AdminTopbar'
 import { getAdminProfile } from '../../Redux/Action/Admin'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import AdminRoute from '../../Protected Route/AdminRoute'
-import Topbar from '../Global/Topbar'
-import { Box, Toolbar } from '@mui/material'
+import { Toolbar, Typography } from '@mui/material'
 
 const drawerWidth = 240;
-
-const usestyles = makeStyles(theme => ({
-  content: {
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
     flexGrow: 1,
+    marginTop:"100px",
     padding: theme.spacing(3),
-  },
-  toolbar: theme.mixins.toolbar,
-}))
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
 
 const Dashboard = () => {
-  const classes = usestyles();
+ 
 
   const dispatch = useDispatch()
 
@@ -28,14 +47,12 @@ const Dashboard = () => {
   }, [dispatch]);
   return (
     <>
-      <Topbar/>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
+      <AdminTopbar/>
+      <Main>
         <Toolbar/>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sed ea laborum nam nesciunt reprehenderit laboriosam cupiditate, quasi, dignissimos delectus ex quod eum quae optio temporibus nobis. Nisi explicabo eligendi totam tempora, maxime, molestias error earum nesciunt tenetur nobis animi provident, enim nulla quisquam? Voluptatum recusandae dicta animi laboriosam aut quibusdam impedit assumenda voluptatibus distinctio quo, iure ab natus a nisi qui excepturi at culpa unde alias.
-        </Box>
+        <DrawerHeader/>
+        <Typography variant="h4" color="initial">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem consequuntur illum ab voluptatibus facilis accusantium corrupti magni expedita incidunt cupiditate saepe dicta ipsa numquam, mollitia quos quod sequi quasi dolores neque nulla aliquam. Magni, iusto aperiam non animi temporibus ab autem culpa nobis commodi dolore rem, ipsa labore! Nam vel optio soluta doloribus molestias expedita qui, unde tempore explicabo sint consequuntur, aperiam non omnis enim? Quas, sunt nemo atque illo sequi molestias voluptatem aspernatur, doloremque tempora error officia.</Typography>
+      </Main>
     </>
   )
 }
