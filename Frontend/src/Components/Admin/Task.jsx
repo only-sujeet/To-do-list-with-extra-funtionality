@@ -1,62 +1,36 @@
-import React, { useMemo, } from 'react'
-import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Chip } from '@mui/material';
+import React, { useMemo, useState, } from 'react'
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Chip, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTask } from '../../Redux/Action/Admin'
+import { getCompletedTask, getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
 import { ApproveTask, delTask } from '../../api/Admin';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminRoute from '../../Protected Route/AdminRoute';
 import UploadExcel from './UploadExcel';
 import { blue, grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 import AdminTopbar from '../Global/AdminTopbar';
-import { styled } from '@material-ui/core';
 
 const drawerWidth = 240;
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  }),
-);
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-start',
-}));
-
-
 
 const Task = () => {
-
+    const [status, setStatus] = useState(1)
     const dispatch = useDispatch()
-    const { task } = useSelector(state => state.admin)
+    const { task, completedtask } = useSelector(state => state.admin)
     useEffect(() => {
         dispatch(getTask())
+        dispatch(getCompletedTask())
     }, [dispatch])
+    console.log(completedtask)
 
+    // for approve task
     const handleApprove = async (id) => {
         const res = await ApproveTask(id)
         if (res.success === true) {
@@ -68,6 +42,7 @@ const Task = () => {
         }
     }
 
+    // for delete task
     const handleDelete = async (id) => {
         const res = await delTask(id)
         if (res.success === true) {
@@ -80,6 +55,11 @@ const Task = () => {
     }
 
 
+    const handleChange = (status) => {
+        setStatus(status)
+    }
+
+    // for task Column
     const columns = useMemo(task => [
         { field: "name", headerName: "Task Name", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
         { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
@@ -147,14 +127,15 @@ const Task = () => {
         },
     ], [])
 
+    // for completed task columns
 
     return (
 
         <>
             <AdminTopbar />
-            <Box 
-             component="main"
-             sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
                 {/* <DrawerHeader/> */}
@@ -167,50 +148,84 @@ const Task = () => {
                         </Box>
                     </Box>
 
-                    <Stack style={{
-                        display: "grid",
-                        // width: "100%",
-                        height: "65vh",
-
-                    }}>
-                        {task ?
-                            < DataGrid
-                                rows={task}
-                                // key={row => row._id}
-                                columns={columns}
-                                getRowId={(row) => row._id}
-                                slots={{ toolbar: GridToolbar }}
-                                getRowSpacing={0}
-                                rowHeight={37}
-                                rowSelection="true"
-                                rowSpacingType='margin'
-                                scrollbarSize={1}
-                                columnHeaderHeight={37}
-                                //    autoPageSize="true"
-                                //    autoHeight="true"
-                                sx={{
-                                    '& .header': {
-                                        backgroundColor: blue[700],
-
-                                    },
-                                    '.MuiDataGrid-columnSeparator': {
-                                        display: 'none',
-                                    },
-                                    '&.MuiDataGrid-root': {
-                                        border: 'none',
-                                    },
-
-                                    bgcolor: grey[300],
-                                    textTransform: "capitalize",
-                                    fontFamily: "Josefin Sans",
-                                    // fontSize:""
-
-                                }}
+                    <Box display='flex' justifyContent='flex-end' alignItems='center' >
+                        <FormControl sx={{ m: 1, minWidth: 120, }} size="small">
+                            <InputLabel id="demo-select-small-label"></InputLabel>
+                            <Select
+                                size='small'
+                                sx={{ borderRadius: "30px" }}
+                                color='secondary'
+                                variant='outlined'
+                                defaultValue={1}
+                                onChange={(e) => { handleChange(e.target.value) }}
                             >
-                            </DataGrid>
-                            : undefined
-                        }
-                    </Stack>
+                                <MenuItem value={1}>Task</MenuItem>
+                                <MenuItem value={2}>Completed Task</MenuItem>
+                                <MenuItem value={3}>Reject Task</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    {
+                        status === 1 &&
+                        <Stack style={{
+                            display: "grid",
+                            // width: "100%",
+                            height: "60vh",
+
+                        }}>
+                            {task ?
+                                < DataGrid
+                                    rows={task}
+                                    // key={row => row._id}
+                                    columns={columns}
+                                    getRowId={(row) => row._id}
+                                    slots={{ toolbar: GridToolbar }}
+                                    getRowSpacing={0}
+                                    rowHeight={37}
+                                    rowSelection="true"
+                                    rowSpacingType='margin'
+                                    scrollbarSize={1}
+                                    columnHeaderHeight={37}
+                                    //    autoPageSize="true"
+                                    //    autoHeight="true"
+                                    sx={{
+                                        '& .header': {
+                                            backgroundColor: blue[700],
+
+                                        },
+                                        '.MuiDataGrid-columnSeparator': {
+                                            display: 'none',
+                                        },
+                                        '&.MuiDataGrid-root': {
+                                            border: 'none',
+                                        },
+
+                                        bgcolor: grey[300],
+                                        textTransform: "capitalize",
+                                        fontFamily: "Josefin Sans",
+                                        // fontSize:""
+
+                                    }}
+                                >
+                                </DataGrid>
+                                : undefined
+                            }
+                        </Stack>
+                    }
+                    {
+                        status === 2 && <Stack style={{
+                            display: "grid",
+                            height: "60vh",
+
+                        }}> <Typography variant='h1'>Completed Task</Typography>  </Stack>
+                    }
+                    {
+                        status === 3 && <Stack style={{
+                            display: "grid",
+                            height: "60vh",
+
+                        }}> <Typography variant='h1'>Rejected  Task</Typography>  </Stack>
+                    }
                 </Box>
             </Box>
         </>

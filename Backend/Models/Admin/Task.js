@@ -52,7 +52,10 @@ const taskSchema = mongoose.Schema({
     },
     timeDuration: {
         type: String,
-        default: "--"
+        default: "----"
+    },
+    reason: {
+        type: String,
     },
     fileName: String,
 

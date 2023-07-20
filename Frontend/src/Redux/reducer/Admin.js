@@ -79,7 +79,7 @@ export const adminReducer = createReducer(initialState, {
         state.loginError = action.payload
     },
 
-    //   For all task ti display Emp
+    //   For all task  display Emp
     getAllTaskRequest: (state,) => {
         state.loading = true;
     },
@@ -91,4 +91,29 @@ export const adminReducer = createReducer(initialState, {
         state.loading = true;
         state.alltaskerror = action.payload
     },
+    // fot get completed and submited task
+    getCompletedTaskRequest: (state,) => {
+        state.loading = true;
+    },
+    getCompletedTaskSuccess: (state, action) => {
+        state.loading = false;
+        state.completedtask = action.payload
+    },
+    getCompletedTaskFailuer: (state, action) => {
+        state.loading = true;
+        state.completedtaskerror = action.payload
+    },
+    // for get all rejected task by employee
+    getRejectedTaskRequest: (state,) => {
+        state.loading = true;
+    },
+    getRejectedTaskSuccess: (state, action) => {
+        state.loading = false;
+        state.rejectedtask = action.payload
+    },
+    getRejectedTaskFailuer: (state, action) => {
+        state.loading = true;
+        state.rejectedtaskerror = action.payload
+    },
+
 })

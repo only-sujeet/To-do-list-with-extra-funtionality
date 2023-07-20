@@ -5,7 +5,7 @@ const { addPeople, getPeople, deletePeople, blockPeople, getBlockPeople, unBlock
 const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const router = express.Router()
 const multer = require('multer')
-const { addTask, getTask, getEmpByDept, assignTask, approveTask, getOneTask, deleteTask } = require('../controllers/Task')
+const { addTask, getTask, getEmpByDept, assignTask, approveTask, getOneTask, deleteTask, completedTask, RejectedTask } = require('../controllers/Task')
 const { EmpLogin } = require('../controllers/Employee')
 const { bulkUpload, } = require('../controllers/Upload')
 
@@ -69,11 +69,13 @@ router.route("/blockPeople/:id").post(blockPeople)
 router.route("/unBlockPeople/:id").post(unBlockPeople)
 router.route("/getBlockPeople").get(getBlockPeople)
 
-
+// Routes of Task
 router.route("/addTask").post(isAuthenticatedAdmin, addTask)
 router.route("/getOneTask/:id").get(isAuthenticatedAdmin, getOneTask)
 router.route("/BulkUpload").post(isAuthenticatedAdmin, exupload.single('file'), bulkUpload)
 router.route("/getTask").get(isAuthenticatedAdmin, getTask)
+router.route("/getCompletedTask").get(isAuthenticatedAdmin, completedTask)
+router.route("/getRjectedTask").get(isAuthenticatedAdmin, RejectedTask)
 router.route("/task/:id").get(isAuthenticatedAdmin, approveTask).delete(isAuthenticatedAdmin, deleteTask)
 
 

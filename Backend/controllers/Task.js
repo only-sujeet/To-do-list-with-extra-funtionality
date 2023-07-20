@@ -27,6 +27,7 @@ exports.addTask = async (req, res) => {
     }
 }
 
+// for get one task
 exports.getOneTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
@@ -36,7 +37,7 @@ exports.getOneTask = async (req, res) => {
     }
 }
 
-
+// for get all Task where task  status in created approve and assign
 exports.getTask = async (req, res) => {
     try {
 
@@ -54,7 +55,45 @@ exports.getTask = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
+
 }
+// for get all completed task
+exports.completedTask = async (req, res) => {
+    try {
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Submitted" }, { status: "Completed" }] })
+        if (!task) {
+            res.status(400).json({
+                message: "Task Not Found",
+                success: false
+            })
+        }
+        else {
+            res.status(200).json(task)
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+// for get rejected task by employee
+exports.RejectedTask = async (req, res) => {
+    try {
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Rejected" },] })
+        if (!task) {
+            res.status(400).json({
+                message: "Task Not Found",
+                success: false
+            })
+        }
+        else {
+            res.status(200).json(task)
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+
 exports.getAllTask = async (req, res) => {
     try {
 
