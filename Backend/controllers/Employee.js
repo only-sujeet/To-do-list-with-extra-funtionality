@@ -268,7 +268,9 @@ exports.rejectTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
 
-        console.log(req.body.rejectReason)
+        task.reason = req.body.reason
+        task.status = "rejected"
+        await task.save()
         res.status(200).json({
             success: true, message: "Task rejected.."
         })

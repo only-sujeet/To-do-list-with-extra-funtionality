@@ -1,5 +1,5 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,  Grid, TextField, Tooltip, Typography, IconButton } from '@mui/material'
-import {  useFormik } from 'formik';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography, IconButton } from '@mui/material'
+import { useFormik } from 'formik';
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { reject } from '../Validation/Employee';
 import { DoDisturbOnTwoTone } from '@mui/icons-material';
+import { rejectTask } from '../../api/Employye';
 
 
 const Reject = ({ id }) => {
@@ -24,17 +25,23 @@ const Reject = ({ id }) => {
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialvalue,
         validationSchema: reject,
-        onSubmit: (values) => {
-            console.log(values)
-            console.log(id)
+        onSubmit: async (values) => {
+            const res = await rejectTask(id, values)
+            if (res.success === true) {
+                toast.success(res.message)
+                setOpen(false);
+            }
+            if (res.success === false) {
+                toast.error(res.message)
+            }
         }
     })
     return (
         <div>
             <Tooltip title="Reject Task">
-               <IconButton aria-label="reject" onClick={handleClickOpen}>
-                 <DoDisturbOnTwoTone color='error' fontSize='medium' />
-               </IconButton>
+                <IconButton aria-label="reject" onClick={handleClickOpen}>
+                    <DoDisturbOnTwoTone color='error' fontSize='medium' />
+                </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={handleClose} maxWidth="md"
                 PaperProps={{ sx: { width: { lg: "40%", sm: "90%", md: "80%", xs: "80%" }, position: "fixed", m: 0, top: 40, } }} >
@@ -71,7 +78,7 @@ const Reject = ({ id }) => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-           
+
         </div>
     )
 }

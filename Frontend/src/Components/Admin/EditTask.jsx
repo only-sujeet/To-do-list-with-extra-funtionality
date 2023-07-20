@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListCheck } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
@@ -60,7 +60,7 @@ const EditTask = () => {
     const [taskDepend, setTaskDepend] = React.useState();
     const [status, setStatus] = useState(false)
     const { _id } = useParams()
-    
+
     const [daysdata, setDaysdata] = useState({
         number: "",
         selection: ""
@@ -175,10 +175,14 @@ const EditTask = () => {
         setFieldValue('unit', data.unit)
         setFieldValue('taskDependency', data.taskDependencySubDept)
     }
+    const navigate = useNavigate()
     const handleClose = () => {
+        navigate("../")
         setOpen(false);
         dispatch(getTask())
         resetForm();
+
+
     };
     const handleReset = () => {
         resetForm();
@@ -247,7 +251,7 @@ const EditTask = () => {
                                         value={datas.taskDependency}
                                         onChange={handleTwoFunc3}
                                         onBlur={handleBlur}
-                                      
+
                                     >
                                         {console.log(datas.taskDependency)}
                                         {
@@ -270,7 +274,7 @@ const EditTask = () => {
                                         value={datas.taskDependency}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                         >
+                                    >
                                         {
                                             taskDepend && taskDepend?.map((data) => (
                                                 <MenuItem value={data.subDept}>{data.subDept}</MenuItem>
@@ -486,7 +490,7 @@ const EditTask = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-           
+
         </div>
     )
 }
