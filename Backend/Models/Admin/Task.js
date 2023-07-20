@@ -64,7 +64,11 @@ const taskSchema = mongoose.Schema({
     reminders: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Reminder"
-    }]
+    }],
+    
+
+
+    reason: String
 
 })
 const Task = mongoose.model("Task", taskSchema)

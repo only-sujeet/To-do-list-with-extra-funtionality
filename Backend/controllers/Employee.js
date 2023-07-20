@@ -265,10 +265,10 @@ exports.submitDoc = async (req, res) => {
 exports.rejectTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
-        task.status = "Rejected"
+
         task.reason = req.body.reason
-        await task.save();
-        // console.log(req.body.rejectReason)
+        task.status = "rejected"
+        await task.save()
         res.status(200).json({
             success: true, message: "Task rejected.."
         })

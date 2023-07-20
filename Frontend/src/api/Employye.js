@@ -26,3 +26,14 @@ export const submitDoc = async (id, valuse) => {
 }
 
 
+export const rejectTask = async (id, valuse) => {
+    try {
+
+        const { data } = await axios.post(`/api/emp/rejectTask/${id}`, valuse)
+        return data
+    } catch (error) {
+        if (error.response) {
+            return error.response.data
+        }
+    }
+}

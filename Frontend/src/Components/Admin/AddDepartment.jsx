@@ -32,7 +32,7 @@ const AddDepartment = () => {
             width: 230,
             renderCell: (params) => (
                 <FormControl variant='filled' fullWidth>
-                    <InputLabel>Sub-Department</InputLabel>
+                    <InputLabel>Sub-Department </InputLabel>
                     <Select
                         id='Field'
                         label="Depatment"

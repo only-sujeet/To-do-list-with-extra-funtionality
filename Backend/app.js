@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express();
-require('dotenv').config({ path: 'config.env' })
+require('dotenv').config({ path: 'config/config.env' })
 const bodyparser = require("body-parser");
 const connectDB = require("./Config/database");
 const cookieParser = require('cookie-parser')
