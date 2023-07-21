@@ -1,7 +1,7 @@
 
 import React from 'react'
 import EmpHeader from './EmpHeader'
-import { Box, Stack, Tooltip, } from '@mui/material'
+import { Box, Chip, Stack, Tooltip, } from '@mui/material'
 import { useMemo } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import Header from '../Global/Header'
@@ -11,6 +11,7 @@ import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAssignTask } from '../../Redux/Action/Employee'
 import { blue, grey } from '@mui/material/colors'
+import { Circle } from '@mui/icons-material'
 const EmpTask = () => {
   const dispatch = useDispatch()
   const { getAsignTask } = useSelector(state => state.emp)
@@ -35,7 +36,23 @@ const EmpTask = () => {
     },
     { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'), headerAlign: "center", align: "center" },
     { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
-    { field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center" },
+    {
+      field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center",
+      renderCell: params => {
+        if (params.row.status === "assign") {
+          return <Chip icon={<Circle fontSize='small' color='success' />} label={params.row.status} color='error' variant='outlined' size='small' />
+        }
+        else if (params.row.status === "Remarked") {
+          return <Chip icon={<Circle fontSize='small' color='warning' />} label={params.row.status} color='warning' variant='outlined' size='small' />
+        }
+        else if (params.row.status === "Rejected") {
+          return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='small' />
+        }
+
+      },
+      sortable: false,
+      // filterable: false
+    },
     {
       field: "actions", type: "actions",
       headerName: "Action", headerClassName: "header", headerAlign: "center", align: "center",
@@ -47,14 +64,16 @@ const EmpTask = () => {
             <Reject id={params.row._id} />
           </Box>
 
-        } else {
-          return <Box></Box>
+        } else if(params.row.status === "Remarked") {
+          return <Box>
+            <Submit checklist={params.row.checkList} id={params.row._id} />
+          </Box>
         }
       }
       ,
 
-      // sortable: false,
-      // filterable: false
+      sortable: false,
+      filterable: false
     },
   ], [])
 
@@ -94,7 +113,7 @@ const EmpTask = () => {
                 bgcolor: grey[300],
                 textTransform: "capitalize",
                 fontFamily: "Josefin Sans",
-                margin:"auto auto"
+                margin: "auto auto"
               }}
 
             >

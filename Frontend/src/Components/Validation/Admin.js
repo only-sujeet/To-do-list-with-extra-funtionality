@@ -62,3 +62,8 @@ export const addTasks = yup.object({
   
 
 })
+
+
+export const remarks = yup.object({
+    remarks:yup.string().required("Please Enter Remerk For Rejecting Task")
+})

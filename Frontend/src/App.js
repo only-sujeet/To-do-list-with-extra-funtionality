@@ -32,7 +32,7 @@ import { ToastContainer } from 'react-toastify';
 function App() {
 
   const { loginData } = useSelector(s => s.admin)
-  console.log(loginData)
+  // console.log(loginData)
   useEffect(() => {
     { loginData && cookies.set('Token', loginData.token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) }) }
   }, [loginData]);

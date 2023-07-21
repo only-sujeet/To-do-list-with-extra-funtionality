@@ -1,7 +1,5 @@
 import axios from "axios"
 
-
-
 export const adminRegister = async (values) => {
     try {
         const { data } = await axios.post(`/api/admin/register`, values)
@@ -98,7 +96,6 @@ export const editSubDept = async (valuse) => {
     }
 }
 
-
 // Delete sub-department 
 export const delSubDept = async (id, deptId) => {
     try {
@@ -108,9 +105,6 @@ export const delSubDept = async (id, deptId) => {
         return error
     }
 }
-
-
-
 
 export const addPeople = async (values) => {
     try {
@@ -260,3 +254,29 @@ export const csvUpload = async (values) => {
     }
 }
 
+export const setComplete = async (id) => {
+    try {
+
+        const { data } = await axios.post(`/api/admin/completeTask/${id}`,)
+        return data
+
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}
+export const remark = async (id,values) => {
+    try {
+
+        const { data } = await axios.post(`/api/admin/remarks/${id}`,values)
+        return data
+
+    } catch (error) {
+        if (error.response) {
+
+            return error.response.data
+        }
+    }
+}

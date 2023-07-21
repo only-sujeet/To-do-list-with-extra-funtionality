@@ -27,6 +27,7 @@ exports.addTask = async (req, res) => {
     }
 }
 
+// for get one task
 exports.getOneTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
@@ -36,7 +37,7 @@ exports.getOneTask = async (req, res) => {
     }
 }
 
-
+// for get all Task where task  status in created approve and assign
 exports.getTask = async (req, res) => {
     try {
 
@@ -54,7 +55,45 @@ exports.getTask = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
+
 }
+// for get all completed task
+exports.completedTask = async (req, res) => {
+    try {
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "submitted" }, { status: "Completed" }] })
+        if (!task) {
+            res.status(400).json({
+                message: "Task Not Found",
+                success: false
+            })
+        }
+        else {
+            res.status(200).json(task)
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+// for get rejected task by employee
+exports.RejectedTask = async (req, res) => {
+    try {
+        const task = await Task.find({ company: req.admin.company, $or: [{ status: "Rejected" },] })
+        if (!task) {
+            res.status(400).json({
+                message: "Task Not Found",
+                success: false
+            })
+        }
+        else {
+            res.status(200).json(task)
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+
 exports.getAllTask = async (req, res) => {
     try {
 
@@ -112,7 +151,7 @@ exports.assignTask = async (req, res) => {
             const durationType = findSecondWord(task.timeDuration)
 
             task.startDate = Date.now()
-            console.log(durationType, durationNumber)
+            // console.log(durationType, durationNumber)
 
             if (durationType === "Minute") {
                 task.endDate = Date.now() + durationNumber * 60 * 1000
@@ -225,35 +264,47 @@ exports.assignTask = async (req, res) => {
     }
 }
 
-setInterval(() => {
-    const setReminder = async () => {
-        const reminderList = await Reminder.find({})
-        reminderList.forEach(reminder => {
-            if (reminder.isRemind === false) {
-                const value = new Date(reminder.remindAt) - Date.now()
-                if (value < 0) {
-                    const f = async () => {
-                        const value = await Reminder.findById(reminder._id)
-                        value.isRemind = true
-                        await value.save()
-                        console.log(value)
-                        await sendEmail({
-                            email: "sanjeevgaund2002@gmail.com",
-                            subject: "Profile created...",
-                            message: reminder.remindMessage
-                        });
+// for set task status completed
+exports.setCompleted = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id)
+        if (!task) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Task not found..." })
+        }
+        task.status = "Completed"
+        task.save();
+        res.status(200).json({ success: true, message: "Task Completed..." })
 
-                    }
-                    f();
-                }
-            }
-        });
-
-        // console.log(reminderList)
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
-    setReminder()
-}, 1000)
+}
 
+exports.remark = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id)
+        if (!task) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Task Not Found..." })
+        }
+        task.status = "Remarked"
+        task.remark = req.body.remarks
+        task.save();
+        res.status(200).json({ success: true, message: "Task Remarked..." })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
 
 
 
@@ -296,3 +347,32 @@ exports.deleteTask = async (req, res) => {
         })
     }
 }
+
+setInterval(() => {
+    const setReminder = async () => {
+        const reminderList = await Reminder.find({})
+        reminderList.forEach(reminder => {
+            if (reminder.isRemind === false) {
+                const value = new Date(reminder.remindAt) - Date.now()
+                if (value < 0) {
+                    const f = async () => {
+                        const value = await Reminder.findById(reminder._id)
+                        value.isRemind = true
+                        await value.save()
+                        // console.log(value)
+                        await sendEmail({
+                            email: "sanjeevgaund2002@gmail.com",
+                            subject: "Profile created...",
+                            message: reminder.remindMessage
+                        });
+
+                    }
+                    f();
+                }
+            }
+        });
+
+        // console.log(reminderList)
+    }
+    setReminder()
+}, 1000)

@@ -115,4 +115,40 @@ export const getAllTask = () => async (dispatch) => {
         })
     }
 }
+export const getRejectedTask = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getRejectedTaskRequest"
+        })
+        const { data } = await axios.get('/api/admin/getRjectedTask')
+
+        dispatch({
+            type: "getRejectedTaskSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "getRejectedTaskFailuer"
+        })
+    }
+}
+export const getCompletedTask = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getCompletedTaskRequest"
+        })
+        const { data } = await axios.get('/api/admin/getCompletedTask')
+
+        dispatch({
+            type: "getCompletedTaskSuccess",
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: "getCompletedTaskFailuer"
+        })
+    }
+}
+
+
 

@@ -14,6 +14,7 @@ exports.isAuthenticatedAdmin = async (req, res, next) => {
         }
 
         const decode = jwt.verify(Token, process.env.SECRET_KEY)
+        // console.log(process.env.SECRET_KEY)
         req.admin = await Admin.findById(decode._id)
         next();
       
