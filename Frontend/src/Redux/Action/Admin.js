@@ -1,12 +1,15 @@
 import axios from "axios"
+import cookie from "js-cookie"
 
+const headers = cookie.get('Token')
+console.log(headers)
 
 export const adminLog = (values) => async (dispatch) => {
     try {
         dispatch({
             type: "adminLoginRequest"
         })
-        const { data } = await axios.post('http://localhost:5000/api/admin/login', values)
+        const { data } = await axios.post('/api/admin/login', values)
 
         dispatch({
             type: "adminLoginSuccess",
@@ -83,7 +86,7 @@ export const getTask = () => async (dispatch) => {
         dispatch({
             type: "getTaskRequest"
         })
-        const { data } = await axios.get('/api/admin/getTask')
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getTask',{headers})
 
         dispatch({
             type: "getTaskSuccess",
@@ -100,8 +103,8 @@ export const getAllTask = () => async (dispatch) => {
         dispatch({
             type: "getAllTaskRequest"
         })
-        const { data } = await axios.get('/api/emp/getAllTask')
-
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/emp/getAllTask',{headers})
+       
         dispatch({
             type: "getAllTaskSuccess",
             payload: data

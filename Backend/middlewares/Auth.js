@@ -10,7 +10,7 @@ exports.isAuthenticatedAdmin = async (req, res, next) => {
 
             return res
                 .status(401)
-                .json({ success: false, message: " Please login first.." })
+                .json({ success: false, message: " Please login first..." })
         }
 
         const decode = jwt.verify(Token, process.env.SECRET_KEY)

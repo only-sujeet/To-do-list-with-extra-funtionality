@@ -177,7 +177,6 @@ const EditTask = () => {
     }
     const navigate = useNavigate()
     const handleClose = () => {
-        navigate("../")
         setOpen(false);
         dispatch(getTask())
         resetForm();
