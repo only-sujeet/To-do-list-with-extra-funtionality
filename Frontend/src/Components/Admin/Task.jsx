@@ -1,15 +1,15 @@
 import React, { useMemo, useState, } from 'react'
-import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Chip, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
+import { Box, Stack, Tooltip, Zoom, IconButton, Toolbar, Chip, FormControl, InputLabel, Select, MenuItem,  Button,  } from '@mui/material';
 import Header from '../Global/Header';
 import AddTask from './AddTask';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCompletedTask, getTask } from '../../Redux/Action/Admin'
+import { getCompletedTask, getRejectedTask, getTask } from '../../Redux/Action/Admin'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Assign from './Assign';
 import dayjs from 'dayjs';
 import { CheckCircleOutlineTwoTone, Circle, ClearTwoTone, EditNoteTwoTone } from '@mui/icons-material';
-import { ApproveTask, delTask } from '../../api/Admin';
+import { ApproveTask, delTask, setComplete } from '../../api/Admin';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminRoute from '../../Protected Route/AdminRoute';
@@ -17,18 +17,26 @@ import UploadExcel from './UploadExcel';
 import { blue, grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 import AdminTopbar from '../Global/AdminTopbar';
+import Remark from './Remark';
 
 const drawerWidth = 240;
 
+
+
+
 const Task = () => {
-    const [status, setStatus] = useState(1)
+    
+    
+    
+    const [status, setStatus] = useState(2)
     const dispatch = useDispatch()
-    const { task, completedtask } = useSelector(state => state.admin)
+    const { task, completedtask, rejectedtask } = useSelector(state => state.admin)
     useEffect(() => {
         dispatch(getTask())
         dispatch(getCompletedTask())
+        dispatch(getRejectedTask())
     }, [dispatch])
-    console.log(completedtask)
+    // console.log(completedtask)
 
     // for approve task
     const handleApprove = async (id) => {
@@ -36,6 +44,19 @@ const Task = () => {
         if (res.success === true) {
             toast.success(res.message)
             dispatch(getTask())
+        }
+        if (res.success === false) {
+            toast.error(res.message)
+        }
+    }
+    // for complete task
+    const handleComplete = async (id) => {
+        const res = await setComplete(id)
+        if (res.success === true) {
+            toast.success(res.message)
+            dispatch(getTask())
+            dispatch(getCompletedTask())
+
         }
         if (res.success === false) {
             toast.error(res.message)
@@ -58,6 +79,7 @@ const Task = () => {
     const handleChange = (status) => {
         setStatus(status)
     }
+
 
     // for task Column
     const columns = useMemo(task => [
@@ -126,8 +148,87 @@ const Task = () => {
             filterable: false
         },
     ], [])
-
     // for completed task columns
+    const completeTaskComlumns = useMemo(completedtask => [
+        { field: "name", headerName: "Task Name", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "department", headerName: "Department", width: 115, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "subDepartment", headerName: "Sub-Department", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        {
+            field: "driveLink", headerName: "Document", width: 150, headerClassName: "header", headerAlign: "center", align: "center", renderCell: params => {
+                return <Button variant="text" color="secondary" href={params.row.driveLink} target='_blank' size="large">
+                    View
+                </Button>
+            }
+        },
+        { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
+        {
+            field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center",
+            renderCell: params => {
+                if (params.row.status === "submitted") {
+                    return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='small' />
+                }
+                else if (params.row.status === "Completed") {
+                    return <Chip icon={<Circle fontSize='small' color='success' />} label={params.row.status} color='success' variant='outlined' size='small' />
+                }
+
+            }
+        },
+        {
+            headerName: "Actions", headerClassName: "header", headerAlign: "center", align: "center",
+            width: 122,
+            renderCell: params => {
+                if (params.row.status === "submitted") {
+
+                    return <Box display="flex" justifyContent="center" alignItems="center"  >
+                        <Tooltip title="Completed"  >
+                            <IconButton onClick={() => handleComplete(params.row._id)} aria-label="approve"  >
+                                <CheckCircleOutlineTwoTone color='success' />
+                            </IconButton>
+                        </Tooltip>
+                       <Remark id={params.row._id}/>
+                    </Box>
+                }
+            }
+
+        }
+    ], [])
+    // for rejected task
+    const rejectedTaskComlumns = useMemo(rejectedtask => [
+        { field: "name", headerName: "Task Name", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "rate", headerName: "Rate", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "unit", headerName: "Unit", width: 80, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "department", headerName: "Department", width: 115, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "subDepartment", headerName: "Sub-Department", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "taskDependency", headerName: "Dependency", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "reason", headerName: "Reason", width: 150, headerClassName: "header", headerAlign: "center", align: "center" },
+        { field: "instruction", headerName: "Instruction", width: 185, headerClassName: "header", renderCell: (params) => { <Tooltip sx={{ maxWidth: 500, }} title={params.value} TransitionComponent={Zoom} >{params.value}</Tooltip> }, headerAlign: "center", align: "center" },
+        { field: "startDate", headerName: "Start At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "endDate", headerName: "End At", width: 100, headerClassName: "header", valueFormatter: (params) => params.value ? dayjs(params.value).format('DD/MM/YYYY') : "------", headerAlign: "center", align: "center" },
+        { field: "timeDuration", headerName: "Task-Duration", width: 110, headerClassName: "header", valueFormatter: (params) => params.value ? (params.value) : "------", headerAlign: "center", align: "center" },
+        {
+            field: "status", headerName: "Status", width: 130, headerClassName: "header", headerAlign: "center", align: "center",
+            // renderCell: params => {
+            //     if (params.row.status === "Created") {
+            //         return <Chip icon={<Circle fontSize='small' color='error' />} label={params.row.status} color='error' variant='outlined' size='small' />
+            //     }
+            //     else if (params.row.status === "Approved") {
+            //         return <Chip icon={<Circle fontSize='small' color='warning' />} label={params.row.status} color='warning' variant='outlined' size='small' />
+
+
+
+            //     }
+            //     else if (params.row.status === "assign") {
+            //         return <Chip icon={<Circle fontSize='small' color='success' />} label={params.row.status} color='success' variant='outlined' size='small' />
+            //     }
+
+            // }
+        }
+    ], [])
 
     return (
 
@@ -217,14 +318,86 @@ const Task = () => {
                             display: "grid",
                             height: "60vh",
 
-                        }}> <Typography variant='h1'>Completed Task</Typography>  </Stack>
+                        }}> {completedtask ?
+                            < DataGrid
+                                rows={completedtask}
+                                key={row => row._id}
+                                columns={completeTaskComlumns}
+                                getRowId={(row) => row._id}
+                                slots={{ toolbar: GridToolbar }}
+                                getRowSpacing={0}
+                                rowHeight={37}
+                                rowSelection="true"
+                                rowSpacingType='margin'
+                                scrollbarSize={1}
+                                columnHeaderHeight={37}
+                                //    autoPageSize="true"
+                                //    autoHeight="true"
+                                sx={{
+                                    '& .header': {
+                                        backgroundColor: blue[700],
+
+                                    },
+                                    '.MuiDataGrid-columnSeparator': {
+                                        display: 'none',
+                                    },
+                                    '&.MuiDataGrid-root': {
+                                        border: 'none',
+                                    },
+
+                                    bgcolor: grey[300],
+                                    textTransform: "capitalize",
+                                    fontFamily: "Josefin Sans",
+                                    // fontSize:""
+
+                                }}
+                            >
+                            </DataGrid>
+                            : undefined
+                            }  </Stack>
                     }
                     {
                         status === 3 && <Stack style={{
                             display: "grid",
                             height: "60vh",
 
-                        }}> <Typography variant='h1'>Rejected  Task</Typography>  </Stack>
+                        }}> {rejectedtask ?
+                            < DataGrid
+                                rows={rejectedtask}
+                                // key={row => row._id}
+                                columns={rejectedTaskComlumns}
+                                getRowId={(row) => row._id}
+                                slots={{ toolbar: GridToolbar }}
+                                getRowSpacing={0}
+                                rowHeight={37}
+                                rowSelection="true"
+                                rowSpacingType='margin'
+                                scrollbarSize={1}
+                                columnHeaderHeight={37}
+                                //    autoPageSize="true"
+                                //    autoHeight="true"
+                                sx={{
+                                    '& .header': {
+                                        backgroundColor: blue[700],
+
+                                    },
+                                    '.MuiDataGrid-columnSeparator': {
+                                        display: 'none',
+                                    },
+                                    '&.MuiDataGrid-root': {
+                                        border: 'none',
+                                    },
+
+                                    bgcolor: grey[300],
+                                    textTransform: "capitalize",
+                                    fontFamily: "Josefin Sans",
+                                    // fontSize:""
+
+                                }}
+                            >
+                            </DataGrid>
+                            : undefined
+                            }  </Stack>
                     }
                 </Box>
             </Box>

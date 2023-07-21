@@ -54,8 +54,12 @@ const taskSchema = mongoose.Schema({
         type: String,
         default: "----"
     },
+
     reason: {
         type: String,
+    },
+    remark: {
+        type: String
     },
     fileName: String,
 
@@ -65,7 +69,7 @@ const taskSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Reminder"
     }],
-    
+
 
 
     reason: String

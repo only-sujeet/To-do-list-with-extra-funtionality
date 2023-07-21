@@ -95,7 +95,7 @@ exports.AcceptTask = async (req, res) => {
             const durationType = findSecondWord(task.timeDuration)
 
             task.startDate = Date.now()
-            console.log(durationType, durationNumber)
+            // console.log(durationType, durationNumber)
 
             if (durationType === "Minute") {
                 task.endDate = Date.now() + durationNumber * 60 * 1000
@@ -249,7 +249,7 @@ exports.submitDoc = async (req, res) => {
             })
 
         } catch (error) {
-            console.error('Error uploading file:', error);
+            // console.error('Error uploading file:', error);
             res.status(500).json({ error: 'Failed to upload file' });
         }
 
