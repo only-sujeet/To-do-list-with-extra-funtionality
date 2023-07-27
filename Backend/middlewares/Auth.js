@@ -6,6 +6,7 @@ exports.isAuthenticatedAdmin = async (req, res, next) => {
     try {
 
         const Token = req.header("Token")
+
         if (!Token) {
 
             return res
@@ -28,7 +29,7 @@ exports.isAuthenticatedAdmin = async (req, res, next) => {
 exports.isAuthenticatedEmp = async (req, res, next) => {
     try {
 
-        const { EmpToken } = req.cookies;
+        const EmpToken = req.header("EmpToken")
         if (!EmpToken) {
             return res
                 .status(401)

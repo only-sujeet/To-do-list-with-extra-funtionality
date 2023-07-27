@@ -1,8 +1,15 @@
 import axios from "axios"
+import cookie from "js-cookie"
+const Token = cookie.get('Token')
 
 export const adminRegister = async (values) => {
     try {
-        const { data } = await axios.post(`/api/admin/register`, values)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/register`, values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -13,7 +20,12 @@ export const adminRegister = async (values) => {
 }
 export const adminLogin = async (values) => {
     try {
-        const { data } = await axios.post(`/api/admin/login`, values)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/login`, values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -28,7 +40,12 @@ export const adminLogin = async (values) => {
 // Add new department 
 export const addDepartment = async (values) => {
     try {
-        const { data } = await axios.post('/api/admin/addField', values)
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/addField', values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -38,9 +55,14 @@ export const addDepartment = async (values) => {
 }
 
 // Get all Department 
-export const getDept = async (values) => {
+export const getDept = async () => {
     try {
-        const data = await axios.get('../api/admin/getDept', { company: values })
+        const data = await axios.get('https://ink-q1i6.onrender.com/api/admin/getDept',{
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -50,7 +72,12 @@ export const getDept = async (values) => {
 // Add new sub-department 
 export const addSubDepartment = async (values) => {
     try {
-        const data = await axios.post('api/admin/addSubDept', values)
+        const data = await axios.post('https://ink-q1i6.onrender.com/api/admin/addSubDept', values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -60,7 +87,12 @@ export const addSubDepartment = async (values) => {
 // Get all  sub-department
 export const getSubDept = async (values) => {
     try {
-        const { data } = await axios.post('/api/admin/getSubDept', values)
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/getSubDept', values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -70,7 +102,12 @@ export const getSubDept = async (values) => {
 // Get single sub-department details 
 export const getSubDeptDetails = async (valuse) => {
     try {
-        const { data } = await axios.post('/api/admin/getSubDeptDetail', valuse)
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/getSubDeptDetail', valuse, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -79,7 +116,12 @@ export const getSubDeptDetails = async (valuse) => {
 
 export const getSubDeptInfo = async (valuse) => {
     try {
-        const { data } = await axios.post('/api/admin/getSubDeptinfo', valuse)
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/getSubDeptinfo', valuse, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -89,7 +131,12 @@ export const getSubDeptInfo = async (valuse) => {
 
 export const editSubDept = async (valuse) => {
     try {
-        const { data } = await axios.put(`/api/admin/subDept/`, valuse)
+        const { data } = await axios.put(`https://ink-q1i6.onrender.com/api/admin/subDept/`, valuse, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -99,7 +146,12 @@ export const editSubDept = async (valuse) => {
 // Delete sub-department 
 export const delSubDept = async (id, deptId) => {
     try {
-        const { data } = await axios.post(`api/admin/subDept/${id}`, deptId)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/subDept/${id}`, deptId, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         return error
@@ -108,9 +160,11 @@ export const delSubDept = async (id, deptId) => {
 
 export const addPeople = async (values) => {
     try {
-        const { data } = await axios.post(`/api/admin/addPeople`, values, {
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/addPeople`, values, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                Token
+
             }
         })
         return data
@@ -125,7 +179,12 @@ export const addPeople = async (values) => {
 
 export const deletePeople = async (id) => {
     try {
-        const { data } = await axios.delete(`/api/admin/deletePeople/${id}`)
+        const { data } = await axios.delete(`https://ink-q1i6.onrender.com/api/admin/deletePeople/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -136,7 +195,12 @@ export const deletePeople = async (id) => {
 }
 export const blockPeople = async (id) => {
     try {
-        const { data } = await axios.post(`/api/admin/blockPeople/${id}`)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/blockPeople/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -147,7 +211,12 @@ export const blockPeople = async (id) => {
 }
 export const unBlockPeople = async (id) => {
     try {
-        const { data } = await axios.post(`/api/admin/unBlockPeople/${id}`)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/unBlockPeople/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -160,7 +229,12 @@ export const unBlockPeople = async (id) => {
 export const createTask = async (values, val, daysdata) => {
     try {
 
-        const { data } = await axios.post('/api/admin/addTask', { values, val, daysdata })
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/addTask', { values, val, daysdata }, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -172,7 +246,12 @@ export const createTask = async (values, val, daysdata) => {
 export const getOneTask = async (id) => {
     try {
 
-        const { data } = await axios.get(`/api/admin/getOneTask/${id}`)
+        const { data } = await axios.get(`https://ink-q1i6.onrender.com/api/admin/getOneTask/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
     } catch (error) {
         if (error.response) {
@@ -185,7 +264,12 @@ export const getOneTask = async (id) => {
 export const getEmpByDept = async (values) => {
     try {
 
-        const { data } = await axios.post('/api/admin/getEmpByDept', { department: values })
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/getEmpByDept', { department: values }, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {
@@ -198,7 +282,12 @@ export const getEmpByDept = async (values) => {
 export const AssignTask = async (empId, taskId) => {
     try {
 
-        const { data } = await axios.post('/api/admin/assignTask', { empId, taskId })
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/assignTask', { empId, taskId }, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {
@@ -212,7 +301,12 @@ export const AssignTask = async (empId, taskId) => {
 export const ApproveTask = async (id) => {
     try {
 
-        const { data } = await axios.get(`/api/admin/task/${id}`,)
+        const { data } = await axios.get(`https://ink-q1i6.onrender.com/api/admin/task/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {
@@ -226,7 +320,12 @@ export const ApproveTask = async (id) => {
 export const delTask = async (id) => {
     try {
 
-        const { data } = await axios.delete(`/api/admin/task/${id}`,)
+        const { data } = await axios.delete(`https://ink-q1i6.onrender.com/api/admin/task/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {
@@ -239,9 +338,10 @@ export const delTask = async (id) => {
 
 export const csvUpload = async (values) => {
     try {
-        const { data } = await axios.post(`/api/admin/BulkUpload`, values, {
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/BulkUpload`, values, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                Token
             }
         })
         return data
@@ -257,7 +357,12 @@ export const csvUpload = async (values) => {
 export const setComplete = async (id) => {
     try {
 
-        const { data } = await axios.post(`/api/admin/completeTask/${id}`,)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/completeTask/${id}`, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {
@@ -267,10 +372,15 @@ export const setComplete = async (id) => {
         }
     }
 }
-export const remark = async (id,values) => {
+export const remark = async (id, values) => {
     try {
 
-        const { data } = await axios.post(`/api/admin/remarks/${id}`,values)
+        const { data } = await axios.post(`https://ink-q1i6.onrender.com/api/admin/remarks/${id}`, values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
         return data
 
     } catch (error) {

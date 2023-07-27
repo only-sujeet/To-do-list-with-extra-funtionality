@@ -58,6 +58,7 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login1 />} />
           <Route path='/top' element={<Topbar />} />
+          <Route path='/' element={<Dashboard />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/aprofile' element={<AddProfile />} />
           <Route path="/block_profile" element={<BlockProfile />} />
