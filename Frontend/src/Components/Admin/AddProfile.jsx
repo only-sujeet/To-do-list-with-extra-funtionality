@@ -119,27 +119,7 @@ const AddProfile = () => {
                                 people <= 0 ? <Typography variant="h2" color="initial" m='20px auto'  >Employee not Added</Typography> : people?.map((data) => (
                                     <Grid item lg={3} sm={6} xs={12} md={6}>
 
-                                        {/* <Card sx={{ maxWidth: 300, backgroundColor: "#8AAAE5", borderRadius: "10px", border: "1px solid black", boxShadow: "2px 2px 6px", margin: "2rem 0" }} elevation={3} variant="elevation"  >
-                                            <CardMedia
-                                                sx={{ width: 300, }}
-                                                style={{ cursor: "pointer", height: "220px", width: "100%", objectFit: "contain" }}
-                                                image={`http://localhost:5000/Image/${data.Image}`}
-                                            />
-                                            <CardContent sx={{ maxHeight: 100 }}>
-                                                <Typography variant="h5" textTransform='capitalize'   >{data.firstName} {data.middleName} {data.lastName}</Typography>
-                                                <Typography variant="h5"  >Company : {data.company}</Typography>
-                                                <Typography variant="h5" >Department : {data.department}</Typography>
-                                            </CardContent>
-                                            <CardActions>
-                                                <NewPeopledet Image={data.Image} com={data.company} dept={data.department} dob={data.dob} firstName={data.firstName} lastName={data.lastName} middleName={data.middleName} age={data.age} email={data.email} mobileno={data.mobileno} altmobileno={data.altmobileno} address1={data.address1} address2={data.address2} id={data._id} />
-
-                                                <Tooltip title="Block Profile" >
-                                                    <Button aria-label="block" color='warning' onClick={() => blockpeople(data._id)}>
-                                                        Block
-                                                    </Button>
-                                                </Tooltip>
-                                            </CardActions>
-                                        </Card> */}
+                                      
                                         <Box className={classes.main}  >
                                             <Grid container className={classes.imageBox}>
 
