@@ -1,15 +1,18 @@
 import axios from "axios"
 import cookie from "js-cookie"
-
-const headers = cookie.get('Token')
-console.log(headers)
+const Token = cookie.get('Token')
 
 export const adminLog = (values) => async (dispatch) => {
     try {
         dispatch({
             type: "adminLoginRequest"
         })
-        const { data } = await axios.post('/api/admin/login', values)
+        const { data } = await axios.post('https://ink-q1i6.onrender.com/api/admin/login', values, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "adminLoginSuccess",
@@ -28,7 +31,12 @@ export const getAdminProfile = (values) => async (dispatch) => {
         dispatch({
             type: "adminProfileRequest"
         })
-        const { data } = await axios.get('api/admin/myProfile')
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/myProfile', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "adminProfileSuccess",
@@ -49,9 +57,14 @@ export const getPeople = (keyword) => async (dispatch) => {
         dispatch({
             type: "getPeopleRequest"
         })
-        const routeWithKey = `api/admin/getPeople?keyword=${keyword}`
-        const routeWithoutKey = `api/admin/getPeople`
-        const { data } = await axios.get(keyword ? routeWithKey : routeWithoutKey)
+        const routeWithKey = `https://ink-q1i6.onrender.com/api/admin/getPeople?keyword=${keyword}`
+        const routeWithoutKey = `https://ink-q1i6.onrender.com/api/admin/getPeople`
+        const { data } = await axios.get(keyword ? routeWithKey : routeWithoutKey, {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "getPeopleSuccess",
@@ -69,7 +82,12 @@ export const getBlockPeople = () => async (dispatch) => {
         dispatch({
             type: "getBlkPeopleRequest"
         })
-        const { data } = await axios.get('http://localhost:5000/api/admin/getBlockPeople')
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getBlockPeople', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "getBlkPeopleSuccess",
@@ -86,7 +104,12 @@ export const getTask = () => async (dispatch) => {
         dispatch({
             type: "getTaskRequest"
         })
-        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getTask',{headers})
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getTask', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "getTaskSuccess",
@@ -103,8 +126,13 @@ export const getAllTask = () => async (dispatch) => {
         dispatch({
             type: "getAllTaskRequest"
         })
-        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/emp/getAllTask',{headers})
-       
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/emp/getAllTask', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
+
         dispatch({
             type: "getAllTaskSuccess",
             payload: data
@@ -120,7 +148,12 @@ export const getRejectedTask = () => async (dispatch) => {
         dispatch({
             type: "getRejectedTaskRequest"
         })
-        const { data } = await axios.get('/api/admin/getRjectedTask')
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getRjectedTask', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "getRejectedTaskSuccess",
@@ -137,7 +170,12 @@ export const getCompletedTask = () => async (dispatch) => {
         dispatch({
             type: "getCompletedTaskRequest"
         })
-        const { data } = await axios.get('/api/admin/getCompletedTask')
+        const { data } = await axios.get('https://ink-q1i6.onrender.com/api/admin/getCompletedTask', {
+            headers: {
+                Token,
+                Accept: 'application/json',
+            },
+        })
 
         dispatch({
             type: "getCompletedTaskSuccess",

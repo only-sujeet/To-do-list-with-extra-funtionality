@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid,  TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Tooltip, Grid, TextField, InputAdornment, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { AddHomeTwoTone, CalendarMonthTwoTone, DialpadTwoTone, NfcTwoTone, PeopleOutlineTwoTone } from '@mui/icons-material';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { getTask } from '../../Redux/Action/Admin';
 import { useDispatch } from 'react-redux';
-import { AssignTask } from '../../api/Admin';
+import { AssignTask, getEmpByDept } from '../../api/Admin';
 import dayjs from 'dayjs';
 
 const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endDate, id, department }) => {
@@ -17,7 +17,8 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
 
     const dispatch = useDispatch();
     const getEmp = async (dept) => {
-        const { data } = await axios.post('/api/admin/getEmpByDept', { department: dept })
+        const  data  = await getEmpByDept(dept)
+          
         data && setEmp(data)
     }
 
@@ -60,128 +61,128 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                 <DialogTitle> <Typography variant="h6" color="initial">Assign</Typography></DialogTitle>
                 <DialogContent>
 
-                   
-                                <Grid container spacing={2}>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
 
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Task Name"
-                                            value={name}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <AddHomeTwoTone color='secondary' /></InputAdornment>)
-                                            }}
+                    <Grid container spacing={2}>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
 
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Rate"
-                                            value={rate}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <NfcTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Unit"
-                                            value={unit}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Task Dependency"
-                                            value={taskDependency}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Instruction"
-                                            value={instruction}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <CalendarMonthTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="Start Date"
-                                            value={dayjs(startDate).format('DD/MM/YYYY')}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        <TextField
-                                            fullWidth
-                                            variant='filled'
-                                            label="End Date"
-                                            value={dayjs(endDate).format('DD/MM/YYYY')}
-                                            size="small"
-                                            InputLabelProps={{ style: { fontSize: 20 } }}
-                                            InputProps={{
-                                                startAdornment: (<InputAdornment position="start"> <DialpadTwoTone color='secondary' /></InputAdornment>)
-                                            }}
-                                        />
-                                    </Grid>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Task Name"
+                                value={name}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <AddHomeTwoTone color='secondary' /></InputAdornment>)
+                                }}
 
-                                    <Grid item lg={12} sm={12} xs={12} md={12}>
-                                        {emp ? undefined : <Button fullWidth variant='contained' onClick={() => getEmp(department)} color="primary">Here Click Show Employee According To Task Department</Button>}
-                                        {emp ? <FormControl variant='filled' fullWidth>
-                                            <InputLabel color='secondary'>Employee</InputLabel>
-                                            <Select
-                                                color='secondary'
-                                                id='Field'
-                                                label="Employee"
-                                                name='employee'
-                                                onChange={handleEmp}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Rate"
+                                value={rate}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <NfcTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Unit"
+                                value={unit}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Task Dependency"
+                                value={taskDependency}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Instruction"
+                                value={instruction}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <CalendarMonthTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="Start Date"
+                                value={dayjs(startDate).format('DD/MM/YYYY')}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <PeopleOutlineTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            <TextField
+                                fullWidth
+                                variant='filled'
+                                label="End Date"
+                                value={dayjs(endDate).format('DD/MM/YYYY')}
+                                size="small"
+                                InputLabelProps={{ style: { fontSize: 20 } }}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start"> <DialpadTwoTone color='secondary' /></InputAdornment>)
+                                }}
+                            />
+                        </Grid>
 
-                                            >
-                                                {
-                                                    emp && emp?.map((data) => (
-                                                        <MenuItem value={data._id}>{data.firstName} {data.middleName} {data.lastName}</MenuItem>
-                                                    ))
-                                                }
-                                            </Select>
-                                        </FormControl> : undefined}
+                        <Grid item lg={12} sm={12} xs={12} md={12}>
+                            {emp ? undefined : <Button fullWidth variant='contained' onClick={() => getEmp(department)} color="primary">Here Click Show Employee According To Task Department</Button>}
+                            {emp ? <FormControl variant='filled' fullWidth>
+                                <InputLabel color='secondary'>Employee</InputLabel>
+                                <Select
+                                    color='secondary'
+                                    id='Field'
+                                    label="Employee"
+                                    name='employee'
+                                    onChange={handleEmp}
 
-                                        {empId ? <Button fullWidth sx={{ mt: "1rem" }} onClick={() => assign(empId, id)} variant='contained' color="primary">Assign Task</Button> : undefined}
+                                >
+                                    {
+                                        emp && emp?.map((data) => (
+                                            <MenuItem value={data._id}>{data.firstName} {data.middleName} {data.lastName}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl> : undefined}
 
-                                    </Grid>
+                            {empId ? <Button fullWidth sx={{ mt: "1rem" }} onClick={() => assign(empId, id)} variant='contained' color="primary">Assign Task</Button> : undefined}
 
-                                </Grid>
-                          
+                        </Grid>
+
+                    </Grid>
+
                 </DialogContent>
                 <DialogActions>
 
@@ -189,7 +190,7 @@ const Assign = ({ name, rate, unit, taskDependency, instruction, startDate, endD
                     <Button onClick={handleClose} color="secondary" variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
-          
+
         </div>
     )
 }

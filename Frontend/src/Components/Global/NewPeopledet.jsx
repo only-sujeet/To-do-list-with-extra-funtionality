@@ -58,7 +58,7 @@ const NewPeopledet = ({ com, dept, firstName, lastName, middleName, age, email, 
                     }}>
                         <Grid container spacing={2}>
                             <Grid item lg={4} sm={4} xs={12} md={4}>
-                                <Avatar sx={{ height: { lg: 250, md: 250, sm: 250, xs: 130 }, width: { lg: 310, md: 300, sm: 230, xs: 250 }, m: "10px auto" }} variant='rounded' alt='image' src={`http://localhost:5000/Image/${Image}`} />
+                                <Avatar sx={{ height: { lg: 250, md: 250, sm: 250, xs: 130 }, width: { lg: 310, md: 300, sm: 230, xs: 250 }, m: "10px auto" }} variant='rounded' alt='image' src={`https://ink-q1i6.onrender.com/Image/${Image}`} />
                             </Grid>
                             <Grid item lg={4} sm={4} xs={12} md={4}>
                                 <TextField

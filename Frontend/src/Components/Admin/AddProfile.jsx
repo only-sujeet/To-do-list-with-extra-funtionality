@@ -124,7 +124,7 @@ const AddProfile = () => {
                                             <Grid container className={classes.imageBox}>
 
                                                 <Grid item lg={5} sm={5} xs={5} md={5}>
-                                                    <Avatar className={classes.avatar} sx={{ height: { lg: 120, md: 95, sm: 100, xs: 90 }, width: { lg: 120, md: 95, sm: 100, xs: 90 }, mr: "15px" }} variant='rounded' alt='image' src={`http://localhost:5000/Image/${data.Image}`} />
+                                                    <Avatar className={classes.avatar} sx={{ height: { lg: 120, md: 95, sm: 100, xs: 90 }, width: { lg: 120, md: 95, sm: 100, xs: 90 }, mr: "15px" }} variant='rounded' alt='image' src={`https://ink-q1i6.onrender.com/Image/${data.Image}`} />
                                                 </Grid>
                                                 <Grid item lg={7} sm={7} xs={7} md={7} mt="10px" >
                                                     <Typography variant="h3" color="initial" component='div' fontWeight='bold'>{data.firstName} {data.middleName} {data.lastName}</Typography>
